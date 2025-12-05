@@ -1,0 +1,130 @@
+// Footer Component - LifeCherry
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="bg-white border-t border-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand */}
+          <div className="md:col-span-2">
+            <Link to="/" className="flex items-center gap-2 mb-4">
+              <span className="text-3xl">🍒</span>
+              <span className="text-2xl font-bold text-cherry">LifeCherry</span>
+            </Link>
+            <p className="text-text-secondary max-w-md mb-6">
+              A platform where users can create, store, and share meaningful life lessons, 
+              personal growth insights, and wisdom they have gathered over time.
+            </p>
+            <div className="flex gap-4">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-colors"
+              >
+                <FaFacebookF size={18} />
+              </a>
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-colors"
+              >
+                <FaXTwitter size={18} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-colors"
+              >
+                <FaInstagram size={18} />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-colors"
+              >
+                <FaLinkedinIn size={18} />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="font-semibold text-text-primary mb-4">Quick Links</h3>
+            <ul className="space-y-3">
+              <li>
+                <Link to="/" className="text-text-secondary hover:text-cherry transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/public-lessons" className="text-text-secondary hover:text-cherry transition-colors">
+                  Public Lessons
+                </Link>
+              </li>
+              <li>
+                <Link to="/pricing" className="text-text-secondary hover:text-cherry transition-colors">
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard" className="text-text-secondary hover:text-cherry transition-colors">
+                  Dashboard
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="font-semibold text-text-primary mb-4">Contact Us</h3>
+            <ul className="space-y-3 text-text-secondary">
+              <li>
+                <span className="block">Email:</span>
+                <a href="mailto:support@lifecherry.com" className="hover:text-cherry transition-colors">
+                  support@lifecherry.com
+                </a>
+              </li>
+              <li>
+                <span className="block">Phone:</span>
+                <a href="tel:+8801234567890" className="hover:text-cherry transition-colors">
+                  +880 1234-567890
+                </a>
+              </li>
+              <li>
+                <span className="block">Address:</span>
+                <span>Dhaka, Bangladesh</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-text-muted text-sm">
+            © {currentYear} LifeCherry. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            <Link to="/terms" className="text-text-muted text-sm hover:text-cherry transition-colors">
+              Terms & Conditions
+            </Link>
+            <Link to="/privacy" className="text-text-muted text-sm hover:text-cherry transition-colors">
+              Privacy Policy
+            </Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

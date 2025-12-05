@@ -1,6 +1,133 @@
+/* Google Fonts - Baloo 2 for friendly typography */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap');
+
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: false;
+}
+
+/* LifeCherry Theme - Cherry Blossom */
+@theme {
+  /* Primary Cherry Colors */
+  --color-cherry: #E63946;
+  --color-cherry-light: #F4A3A8;
+  --color-cherry-dark: #C62F3B;
+  --color-cherry-50: #FFF8F8;
+  --color-cherry-100: #FFEAEA;
+  --color-cherry-200: #F4A3A8;
+  --color-cherry-300: #E8787F;
+  --color-cherry-400: #E63946;
+  --color-cherry-500: #D62839;
+  --color-cherry-600: #B91C2C;
+  --color-cherry-700: #991B1B;
+  
+  /* Accent */
+  --color-accent: #B76E79;
+  
+  /* Backgrounds */
+  --color-bg: #FFF8F8;
+  --color-surface: #FFFFFF;
+  
+  /* Text */
+  --color-text: #1D1D1D;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  
+  /* Border */
+  --color-border: #F3F4F6;
+  
+  /* Status */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #E63946;
+}
 
 * {
-  font-family: "Baloo 2", sans-serif;
+  font-family: "Baloo 2", cursive, sans-serif;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cherry-50);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-cherry-200);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cherry);
+}
+
+/* macOS-style capsule button */
+.btn-capsule {
+  @apply px-6 py-2.5 font-medium rounded-full shadow-md transition-all duration-200;
+  background: linear-gradient(to bottom, #E63946, #C62F3B);
+  color: white;
+}
+
+.btn-capsule:hover {
+  @apply shadow-lg;
+  background: linear-gradient(to bottom, #E84854, #E63946);
+}
+
+.btn-capsule:active {
+  @apply shadow-inner;
+}
+
+/* Ghost button */
+.btn-ghost-capsule {
+  @apply px-6 py-2.5 font-medium rounded-full border border-gray-200 shadow-sm transition-all duration-200;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  color: #374151;
+}
+
+.btn-ghost-capsule:hover {
+  @apply bg-white shadow-md;
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  @apply rounded-2xl shadow-lg p-6;
+}
+
+/* Premium badge gradient */
+.badge-premium {
+  background: linear-gradient(to right, #F59E0B, #EAB308);
+  @apply text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm;
+}
+
+/* Text color utilities */
+.text-cherry {
+  color: #E63946;
+}
+
+.bg-cherry {
+  background-color: #E63946;
+}
+
+.border-cherry {
+  border-color: #E63946;
+}
+
+.hover\:text-cherry:hover {
+  color: #E63946;
+}
+
+.hover\:bg-cherry:hover {
+  background-color: #E63946;
 }
