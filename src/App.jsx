@@ -6,6 +6,8 @@ import MainLayout from './layouts/MainLayout';
 
 // Pages
 import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Loading from './components/shared/Loading';
 
 // Create router
@@ -18,9 +20,15 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />
       },
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'register',
+        element: <Register />
+      },
       // TODO: Add more routes
-      // { path: 'login', element: <Login /> },
-      // { path: 'register', element: <Register /> },
       // { path: 'public-lessons', element: <PublicLessons /> },
       // { path: 'lessons/:id', element: <LessonDetails /> },
       // { path: 'pricing', element: <Pricing /> },
