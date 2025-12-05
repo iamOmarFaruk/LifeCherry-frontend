@@ -8,6 +8,8 @@ const MainLayout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
+      {/* Spacer for fixed navbar */}
+      <div className="h-16"></div>
       <main className="flex-grow">
         <Outlet />
       </main>

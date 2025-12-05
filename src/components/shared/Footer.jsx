@@ -15,7 +15,7 @@ const Footer = () => {
           <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <span className="text-3xl">🍒</span>
-              <span className="text-2xl font-bold text-cherry">LifeCherry</span>
+              <span className="text-2xl font-bold text-text-primary">LifeCherry</span>
             </Link>
             <p className="text-text-secondary max-w-md mb-6">
               A platform where users can create, store, and share meaningful life lessons, 

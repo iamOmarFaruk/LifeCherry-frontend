@@ -30,8 +30,9 @@
   
   /* Text */
   --color-text: #1D1D1D;
-  --color-text-secondary: #6B7280;
-  --color-text-muted: #9CA3AF;
+  --color-text-primary: #1D1D1D;
+  --color-text-secondary: #374151;
+  --color-text-muted: #6B7280;
   
   /* Border */
   --color-border: #F3F4F6;

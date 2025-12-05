@@ -1,5 +1,5 @@
 // Navbar Component - LifeCherry
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { FiChevronDown, FiLogOut, FiUser, FiGrid } from 'react-icons/fi';
@@ -15,6 +15,29 @@ const dummyUser = {
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  
+  // Handle scroll behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show navbar when scrolling up or at top
+      if (currentScrollY < lastScrollY || currentScrollY < 100) {
+        setIsVisible(true);
+      } else {
+        // Hide navbar when scrolling down
+        setIsVisible(false);
+        setIsDropdownOpen(false); // Close dropdown when hiding
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
   
   // TODO: Replace with actual auth state
   const user = dummyUser; // Set to null to test logged-out state
@@ -30,16 +53,16 @@ const Navbar = () => {
   ];
 
   const activeClass = "text-cherry font-semibold";
-  const inactiveClass = "text-text-secondary hover:text-cherry transition-colors";
+  const inactiveClass = "text-text-primary hover:text-cherry transition-colors";
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
+    <nav className={`bg-white/95 backdrop-blur-md border-b border-border fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <span className="text-2xl">🍒</span>
-            <span className="text-xl font-bold text-cherry">LifeCherry</span>
+            <span className="text-xl font-bold text-text-primary">LifeCherry</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -64,19 +87,14 @@ const Navbar = () => {
               </NavLink>
             ))}
 
-            {user && !user.isPremium && (
+            {/* Pricing - show for all logged-in users */}
+            {user && (
               <NavLink
                 to="/pricing"
                 className={({ isActive }) => isActive ? activeClass : inactiveClass}
               >
                 Pricing
               </NavLink>
-            )}
-
-            {user && user.isPremium && (
-              <span className="badge-premium flex items-center gap-1">
-                ⭐ Premium
-              </span>
             )}
           </div>
 
@@ -95,13 +113,19 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center gap-2 p-1 rounded-full hover:bg-cherry-50 transition-colors"
+                  className="flex items-center gap-3 px-3 py-1.5 rounded-full bg-gray-50 hover:bg-cherry-50 transition-colors border border-gray-200 shadow-sm"
                 >
                   <img
                     src={user.photoURL}
                     alt={user.name}
-                    className="w-9 h-9 rounded-full object-cover border-2 border-cherry-200"
+                    className="w-8 h-8 rounded-full object-cover border-2 border-cherry-200"
                   />
+                  <div className="flex flex-col items-start">
+                    <span className="text-sm font-medium text-text-primary leading-tight">{user.name.split(' ')[0]}</span>
+                    <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.isPremium ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                      {user.isPremium ? 'Premium' : 'Starter'}
+                    </span>
+                  </div>
                   <FiChevronDown className={`text-text-secondary transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -193,7 +217,7 @@ const Navbar = () => {
                 </NavLink>
               ))}
 
-              {user && !user.isPremium && (
+              {user && (
                 <NavLink
                   to="/pricing"
                   onClick={() => setIsMenuOpen(false)}
@@ -234,9 +258,9 @@ const Navbar = () => {
                     />
                     <div>
                       <p className="font-semibold text-text-primary">{user.name}</p>
-                      {user.isPremium && (
-                        <span className="badge-premium text-xs">⭐ Premium</span>
-                      )}
+                      <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.isPremium ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                        {user.isPremium ? 'Premium' : 'Starter'}
+                      </span>
                     </div>
                   </div>
                   
