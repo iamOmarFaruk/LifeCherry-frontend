@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FiArrowRight, FiBookOpen, FiHeart, FiUsers, FiStar } from 'react-icons/fi';
 import { getFeaturedLessons, getMostSavedLessons } from '../data/lessons';
 import { users } from '../data/users';
+import HeroSlider from '../components/home/HeroSlider';
 
 const Home = () => {
   const featuredLessons = getFeaturedLessons();
@@ -14,30 +15,8 @@ const Home = () => {
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-cherry-50 via-white to-secondary/20 py-20 lg:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-cherry mb-6">
-              Share Your <span className="text-cherry">Life Lessons</span>, 
-              <br />Inspire Others
-            </h1>
-            <p className="text-lg md:text-xl text-text-secondary mb-8">
-              A platform where wisdom meets community. Create, store, and share meaningful 
-              life lessons that help others grow and learn from your experiences.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/register" className="btn-capsule text-lg px-8 py-3 inline-flex items-center justify-center gap-2">
-                Get Started Free
-                <FiArrowRight />
-              </Link>
-              <Link to="/public-lessons" className="btn-ghost-capsule text-lg px-8 py-3 inline-flex items-center justify-center">
-                Browse Lessons
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Slider Section */}
+      <HeroSlider />
 
       {/* Featured Lessons Section */}
       <section className="py-16 bg-white">
