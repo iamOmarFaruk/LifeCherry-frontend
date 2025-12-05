@@ -5,6 +5,7 @@ import { FiArrowRight, FiBookOpen, FiHeart, FiUsers, FiStar } from 'react-icons/
 import { getFeaturedLessons, getMostSavedLessons } from '../data/lessons';
 import { users } from '../data/users';
 import HeroSlider from '../components/home/HeroSlider';
+import PageLoader from '../components/shared/PageLoader';
 
 const Home = () => {
   const featuredLessons = getFeaturedLessons();
@@ -14,7 +15,7 @@ const Home = () => {
   const topContributors = users.slice(0, 5);
 
   return (
-    <div>
+    <PageLoader>
       {/* Hero Slider Section */}
       <HeroSlider />
 
@@ -233,7 +234,7 @@ const Home = () => {
           </Link>
         </div>
       </section>
-    </div>
+    </PageLoader>
   );
 };
 

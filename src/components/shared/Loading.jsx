@@ -14,7 +14,6 @@ const Loading = () => {
         <div />
         <div />
       </div>
-      <p className="loading-text">Loading...</p>
     </StyledWrapper>
   );
 };

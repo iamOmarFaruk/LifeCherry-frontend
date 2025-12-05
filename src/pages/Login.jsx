@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
+import PageLoader from '../components/shared/PageLoader';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +31,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-cherry-50 via-white to-cherry-100">
+    <PageLoader>
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-cherry-50 via-white to-cherry-100">
       <div className="w-full max-w-md">
         {/* Logo & Header */}
         <div className="text-center mb-8">
@@ -153,7 +155,8 @@ const Login = () => {
           <Link to="/privacy" className="text-cherry hover:underline">Privacy Policy</Link>
         </p>
       </div>
-    </div>
+      </div>
+    </PageLoader>
   );
 };
 
