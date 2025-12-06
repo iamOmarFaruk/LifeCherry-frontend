@@ -7,6 +7,7 @@ import {
   HiOutlinePlusCircle,
   HiOutlineEye,
   HiOutlineArrowTrendingUp,
+  HiOutlineArrowTrendingDown,
   HiOutlineCalendarDays,
   HiOutlineSparkles,
   HiOutlineChartBar,
@@ -90,66 +91,86 @@ const DashboardHome = () => {
           </Link>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        {/* Stats Cards - Professional Design */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {/* Total Lessons */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-12 h-12 bg-cherry-50 rounded-xl flex items-center justify-center">
-                <HiOutlineBookOpen className="w-6 h-6 text-cherry" />
+          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-text-muted mb-1">Total Lessons</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalLessons}</h3>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                    <HiOutlineArrowTrendingUp className="w-4 h-4" />
+                    12%
+                  </span>
+                  <span className="text-sm text-text-muted">vs last month</span>
+                </div>
               </div>
-              <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
-                <HiOutlineArrowTrendingUp className="w-3 h-3" />
-                +12%
-              </span>
+              <div className="w-11 h-11 bg-cherry-50 rounded-xl flex items-center justify-center group-hover:bg-cherry group-hover:scale-110 transition-all duration-300">
+                <HiOutlineBookOpen className="w-5 h-5 text-cherry group-hover:text-white transition-colors" />
+              </div>
             </div>
-            <h3 className="text-2xl lg:text-3xl font-bold text-text">{totalLessons}</h3>
-            <p className="text-sm text-text-secondary">Total Lessons</p>
           </div>
 
           {/* Total Favorites */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-12 h-12 bg-pink-50 rounded-xl flex items-center justify-center">
-                <HiOutlineBookmark className="w-6 h-6 text-pink-500" />
+          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-text-muted mb-1">Saved Favorites</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalFavorites}</h3>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                    <HiOutlineArrowTrendingUp className="w-4 h-4" />
+                    8%
+                  </span>
+                  <span className="text-sm text-text-muted">vs last month</span>
+                </div>
               </div>
-              <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
-                <HiOutlineArrowTrendingUp className="w-3 h-3" />
-                +8%
-              </span>
+              <div className="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center group-hover:bg-amber-500 group-hover:scale-110 transition-all duration-300">
+                <HiOutlineBookmark className="w-5 h-5 text-amber-500 group-hover:text-white transition-colors" />
+              </div>
             </div>
-            <h3 className="text-2xl lg:text-3xl font-bold text-text">{totalFavorites}</h3>
-            <p className="text-sm text-text-secondary">Saved Favorites</p>
           </div>
 
           {/* Total Likes */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center">
-                <HiOutlineHeart className="w-6 h-6 text-red-500" />
+          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-text-muted mb-1">Total Likes</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalLikes.toLocaleString()}</h3>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                    <HiOutlineArrowTrendingUp className="w-4 h-4" />
+                    24%
+                  </span>
+                  <span className="text-sm text-text-muted">vs last month</span>
+                </div>
               </div>
-              <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
-                <HiOutlineArrowTrendingUp className="w-3 h-3" />
-                +24%
-              </span>
+              <div className="w-11 h-11 bg-rose-50 rounded-xl flex items-center justify-center group-hover:bg-rose-500 group-hover:scale-110 transition-all duration-300">
+                <HiOutlineHeart className="w-5 h-5 text-rose-500 group-hover:text-white transition-colors" />
+              </div>
             </div>
-            <h3 className="text-2xl lg:text-3xl font-bold text-text">{totalLikes.toLocaleString()}</h3>
-            <p className="text-sm text-text-secondary">Total Likes</p>
           </div>
 
           {/* Total Views */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
-                <HiOutlineEye className="w-6 h-6 text-blue-500" />
+          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-text-muted mb-1">Total Views</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalViews.toLocaleString()}</h3>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">
+                    <HiOutlineArrowTrendingDown className="w-4 h-4" />
+                    5%
+                  </span>
+                  <span className="text-sm text-text-muted">vs last month</span>
+                </div>
               </div>
-              <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
-                <HiOutlineArrowTrendingUp className="w-3 h-3" />
-                +18%
-              </span>
+              <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+                <HiOutlineEye className="w-5 h-5 text-blue-500 group-hover:text-white transition-colors" />
+              </div>
             </div>
-            <h3 className="text-2xl lg:text-3xl font-bold text-text">{totalViews.toLocaleString()}</h3>
-            <p className="text-sm text-text-secondary">Total Views</p>
           </div>
         </div>
 
