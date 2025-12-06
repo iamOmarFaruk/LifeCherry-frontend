@@ -68,7 +68,7 @@ const DashboardLayout = () => {
   );
 
   return (
-    <div className="min-h-screen bg-bg flex">
+    <div className="min-h-screen bg-bg">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div 
@@ -77,15 +77,16 @@ const DashboardLayout = () => {
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar - Fixed on desktop */}
       <aside className={`
-        fixed lg:static inset-y-0 left-0 z-50
+        fixed inset-y-0 left-0 z-50
         w-64 bg-white border-r border-border
         transform transition-transform duration-300 ease-in-out
+        flex flex-col h-screen
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Logo Section */}
-        <div className="p-5 border-b border-border">
+        <div className="p-5 border-b border-border flex-shrink-0">
           <NavLink to="/" className="flex items-center gap-2">
             <span className="text-2xl">🍒</span>
             <span className="text-lg font-bold text-text">LifeCherry</span>
@@ -93,7 +94,7 @@ const DashboardLayout = () => {
         </div>
 
         {/* User Info */}
-        <div className="p-4 border-b border-border">
+        <div className="p-4 border-b border-border flex-shrink-0">
           <div className="flex items-center gap-3">
             <img 
               src={dummyUser.photoURL} 
@@ -122,15 +123,15 @@ const DashboardLayout = () => {
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="p-3 space-y-1">
+        {/* Navigation - Scrollable area */}
+        <nav className="p-3 space-y-1 flex-1 overflow-y-auto">
           {menuItems.map((item) => (
             <NavItem key={item.path} item={item} />
           ))}
         </nav>
 
-        {/* Back to Home */}
-        <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-border">
+        {/* Back to Home - Always visible at bottom */}
+        <div className="p-3 border-t border-border bg-white flex-shrink-0">
           <NavLink
             to="/"
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-cherry-50 hover:text-cherry transition-all duration-200 text-sm"
@@ -141,8 +142,8 @@ const DashboardLayout = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen">
+      {/* Main Content - Add left margin on desktop to account for fixed sidebar */}
+      <div className="flex-1 flex flex-col min-h-screen lg:ml-64">
         {/* Top Bar (Mobile) */}
         <header className="lg:hidden bg-white border-b border-border p-4 flex items-center justify-between sticky top-0 z-30">
           <button 
