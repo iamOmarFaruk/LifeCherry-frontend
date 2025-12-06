@@ -18,6 +18,7 @@ import NotFound from './pages/NotFound';
 import Loading from './components/shared/Loading';
 
 // Dashboard Pages
+import DashboardHome from './pages/dashboard/DashboardHome';
 import AddLesson from './pages/dashboard/AddLesson';
 import MyLessons from './pages/dashboard/MyLessons';
 import MyFavorites from './pages/dashboard/MyFavorites';
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: <DashboardLayout />,
     children: [
+      {
+        index: true,
+        element: <DashboardHome />
+      },
       {
         path: 'add-lesson',
         element: <AddLesson />
