@@ -44,6 +44,8 @@ const Navbar = () => {
       }
     : null;
 
+  const avatarUrl = user?.photoURL || `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(user?.name || 'User')}`;
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -114,23 +116,16 @@ const Navbar = () => {
 
           {/* Auth Buttons / User Menu */}
           <div className="hidden md:flex items-center gap-4">
-            {(!user && !authLoading) ? (
-              <>
-                <Link to="/login" className="btn-ghost-capsule text-sm">
-                  Login
-                </Link>
-                <Link to="/register" className="btn-capsule text-sm">
-                  Sign Up
-                </Link>
-              </>
-            ) : (
+            {authLoading ? (
+              <div className="w-10 h-10 rounded-full bg-gray-100 border border-border animate-pulse" aria-label="Loading user" />
+            ) : user ? (
               <div className="relative">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center gap-3 px-3 py-1.5 rounded-full bg-gray-50 hover:bg-cherry-50 transition-colors border border-gray-200 shadow-sm"
                 >
                   <img
-                    src={user.photoURL}
+                    src={avatarUrl}
                     alt={user.name}
                     className="w-8 h-8 rounded-full object-cover border-2 border-cherry-200"
                   />
@@ -181,6 +176,15 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
+            ) : (
+              <>
+                <Link to="/login" className="btn-ghost-capsule text-sm">
+                  Login
+                </Link>
+                <Link to="/register" className="btn-capsule text-sm">
+                  Sign Up
+                </Link>
+              </>
             )}
           </div>
 
@@ -241,28 +245,19 @@ const Navbar = () => {
 
               <hr className="my-2 border-border" />
 
-              {(!user && !authLoading) ? (
-                <div className="flex flex-col gap-2 px-4">
-                  <Link
-                    to="/login"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="btn-ghost-capsule text-center"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="btn-capsule text-center"
-                  >
-                    Sign Up
-                  </Link>
+              {authLoading ? (
+                <div className="flex items-center gap-3 px-4 py-2">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 border border-border animate-pulse" aria-label="Loading user" />
+                  <div className="space-y-1">
+                    <div className="h-2.5 w-24 bg-gray-100 rounded-full animate-pulse" />
+                    <div className="h-2 w-16 bg-gray-100 rounded-full animate-pulse" />
+                  </div>
                 </div>
-              ) : (
+              ) : user ? (
                 <>
                   <div className="flex items-center gap-3 px-4 py-2">
                     <img
-                      src={user.photoURL}
+                      src={avatarUrl}
                       alt={user.name}
                       className="w-10 h-10 rounded-full object-cover border-2 border-cherry-200"
                     />
@@ -297,6 +292,23 @@ const Navbar = () => {
                     Log Out
                   </button>
                 </>
+              ) : (
+                <div className="flex flex-col gap-2 px-4">
+                  <Link
+                    to="/login"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="btn-ghost-capsule text-center"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="btn-capsule text-center"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
               )}
             </div>
           </div>

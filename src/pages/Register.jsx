@@ -1,5 +1,5 @@
 // Register Page - LifeCherry
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiImage, FiCheck, FiX } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
@@ -14,7 +14,7 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const redirectTo = location.state?.from || '/';
-  const { register, loginWithGoogle } = useAuth();
+  const { register, loginWithGoogle, firebaseUser, authLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -22,6 +22,13 @@ const Register = () => {
     photoURL: '',
     password: ''
   });
+
+  // If already authenticated, bounce away from register page
+  useEffect(() => {
+    if (!authLoading && firebaseUser) {
+      navigate(redirectTo, { replace: true });
+    }
+  }, [authLoading, firebaseUser, navigate, redirectTo]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

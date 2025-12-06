@@ -1,5 +1,5 @@
 // Login Page - LifeCherry
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
@@ -14,12 +14,19 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const redirectTo = location.state?.from || '/';
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, firebaseUser, authLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+
+  // If already authenticated, bounce away from login page
+  useEffect(() => {
+    if (!authLoading && firebaseUser) {
+      navigate(redirectTo, { replace: true });
+    }
+  }, [authLoading, firebaseUser, navigate, redirectTo]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
