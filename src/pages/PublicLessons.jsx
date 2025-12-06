@@ -171,7 +171,7 @@ const PublicLessons = () => {
                     <select
                       value={selectedCategory}
                       onChange={(e) => handleFilterChange(setSelectedCategory)(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white"
+                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white cursor-pointer"
                     >
                       <option value="">All Categories</option>
                       {categories.map(cat => (
@@ -188,7 +188,7 @@ const PublicLessons = () => {
                     <select
                       value={selectedTone}
                       onChange={(e) => handleFilterChange(setSelectedTone)(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white"
+                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white cursor-pointer"
                     >
                       <option value="">All Tones</option>
                       {emotionalTones.map(tone => (
@@ -205,7 +205,7 @@ const PublicLessons = () => {
                     <select
                       value={selectedAccessLevel}
                       onChange={(e) => handleFilterChange(setSelectedAccessLevel)(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white"
+                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white cursor-pointer"
                     >
                       <option value="">All Levels</option>
                       <option value="free">Free</option>
@@ -221,7 +221,7 @@ const PublicLessons = () => {
                     <select
                       value={sortBy}
                       onChange={(e) => handleFilterChange(setSortBy)(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white"
+                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white cursor-pointer"
                     >
                       <option value="newest">Newest First</option>
                       <option value="mostSaved">Most Saved</option>
