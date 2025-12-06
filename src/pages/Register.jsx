@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiImage, FiCheck, FiX } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
 import PageLoader from '../components/shared/PageLoader';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const Register = () => {
+  useDocumentTitle('Create Account');
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',

@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import { FiSearch, FiFilter, FiLock, FiHeart, FiBookmark, FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
 import { lessons, categories, emotionalTones } from '../data/lessons';
 import PageLoader from '../components/shared/PageLoader';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const LESSONS_PER_PAGE = 9;
 
 const PublicLessons = () => {
+  useDocumentTitle('Public Lessons');
   // Filter & Search State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');

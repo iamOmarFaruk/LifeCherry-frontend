@@ -26,33 +26,33 @@ const Footer = () => {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-all duration-200 [&>svg]:hover:text-white"
+                className="group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
               >
-                <FaFacebookF size={18} />
+                <FaFacebookF size={18} className="text-cherry group-hover:!text-white transition-colors" />
               </a>
               <a
                 href="https://x.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-all duration-200 [&>svg]:hover:text-white"
+                className="group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
               >
-                <FaXTwitter size={18} />
+                <FaXTwitter size={18} className="text-cherry group-hover:!text-white transition-colors" />
               </a>
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-all duration-200 [&>svg]:hover:text-white"
+                className="group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
               >
-                <FaInstagram size={18} />
+                <FaInstagram size={18} className="text-cherry group-hover:!text-white transition-colors" />
               </a>
               <a
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-all duration-200 [&>svg]:hover:text-white"
+                className="group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
               >
-                <FaLinkedinIn size={18} />
+                <FaLinkedinIn size={18} className="text-cherry group-hover:!text-white transition-colors" />
               </a>
             </div>
           </div>

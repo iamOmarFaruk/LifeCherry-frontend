@@ -30,6 +30,7 @@ import {
 import { lessons } from '../data/lessons';
 import { getCommentsByLesson } from '../data/comments';
 import PageLoader from '../components/shared/PageLoader';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const LessonDetails = () => {
   const { id } = useParams();
@@ -37,6 +38,9 @@ const LessonDetails = () => {
   
   // Find the lesson
   const lesson = lessons.find(l => l._id === id);
+  
+  // Dynamic page title based on lesson
+  useDocumentTitle(lesson ? lesson.title : 'Lesson Not Found');
   
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);

@@ -6,8 +6,10 @@ import { getFeaturedLessons, getMostSavedLessons } from '../data/lessons';
 import { users } from '../data/users';
 import HeroSlider from '../components/home/HeroSlider';
 import PageLoader from '../components/shared/PageLoader';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const Home = () => {
+  useDocumentTitle('Home');
   const featuredLessons = getFeaturedLessons();
   const mostSavedLessons = getMostSavedLessons(6);
 
