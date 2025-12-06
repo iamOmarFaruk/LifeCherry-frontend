@@ -13,6 +13,7 @@ import LessonDetails from './pages/LessonDetails';
 import Pricing from './pages/Pricing';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
+import NotFound from './pages/NotFound';
 import Loading from './components/shared/Loading';
 
 // Create router
@@ -56,8 +57,11 @@ const router = createBrowserRouter([
       // TODO: Add more routes (dashboard, etc.)
     ]
   },
-  // 404 Route (without navbar/footer)
-  // { path: '*', element: <NotFound /> }
+  // 404 Route (without navbar/footer as per requirements)
+  {
+    path: '*',
+    element: <NotFound />
+  }
 ]);
 
 function App() {
