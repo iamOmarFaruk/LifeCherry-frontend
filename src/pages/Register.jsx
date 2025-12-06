@@ -1,13 +1,20 @@
 // Register Page - LifeCherry
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiImage, FiCheck, FiX } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import { useMutation } from '@tanstack/react-query';
+import useAuth from '../hooks/useAuth';
+import toast from 'react-hot-toast';
 
 const Register = () => {
   useDocumentTitle('Create Account');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo = location.state?.from || '/';
+  const { register, loginWithGoogle } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -15,7 +22,6 @@ const Register = () => {
     photoURL: '',
     password: ''
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,15 +29,31 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    // TODO: Implement register logic
-    console.log('Register:', formData);
-    setTimeout(() => setIsLoading(false), 1500);
+    registerMutation.mutate(formData);
   };
 
+  const registerMutation = useMutation({
+    mutationFn: (payload) => register(payload),
+    onSuccess: () => {
+      navigate(redirectTo, { replace: true });
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Failed to create account');
+    },
+  });
+
+  const googleMutation = useMutation({
+    mutationFn: () => loginWithGoogle(),
+    onSuccess: () => {
+      navigate(redirectTo, { replace: true });
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Google sign-in failed');
+    },
+  });
+
   const handleGoogleLogin = () => {
-    // TODO: Implement Google login
-    console.log('Google login clicked');
+    googleMutation.mutate();
   };
 
   // Password validation
@@ -196,10 +218,10 @@ const Register = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isLoading || !isPasswordValid}
+              disabled={registerMutation.isPending || !isPasswordValid}
               className="w-full btn-capsule py-3 text-lg font-semibold disabled:opacity-70 disabled:cursor-not-allowed mt-2"
             >
-              {isLoading ? (
+              {registerMutation.isPending ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
