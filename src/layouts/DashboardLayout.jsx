@@ -1,0 +1,170 @@
+// Dashboard Layout - LifeCherry
+import React, { useState } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
+import { 
+  HiOutlineHome, 
+  HiOutlinePlusCircle, 
+  HiOutlineBookOpen, 
+  HiOutlineHeart,
+  HiOutlineUser,
+  HiOutlineBars3,
+  HiOutlineXMark,
+  HiOutlineCog6Tooth,
+  HiOutlineUsers,
+  HiOutlineFlag,
+  HiOutlineDocumentText
+} from 'react-icons/hi2';
+
+const DashboardLayout = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  // Dummy user for UI development (will be replaced with real auth)
+  const dummyUser = {
+    name: 'Omar Faruk',
+    email: 'omar@example.com',
+    photoURL: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
+    isPremium: true,
+    role: 'user' // 'user' or 'admin'
+  };
+
+  const isAdmin = dummyUser.role === 'admin';
+
+  // User menu items
+  const userMenuItems = [
+    { name: 'Dashboard', path: '/dashboard', icon: HiOutlineHome, end: true },
+    { name: 'Add Lesson', path: '/dashboard/add-lesson', icon: HiOutlinePlusCircle },
+    { name: 'My Lessons', path: '/dashboard/my-lessons', icon: HiOutlineBookOpen },
+    { name: 'My Favorites', path: '/dashboard/my-favorites', icon: HiOutlineHeart },
+    { name: 'Profile', path: '/dashboard/profile', icon: HiOutlineUser },
+  ];
+
+  // Admin menu items
+  const adminMenuItems = [
+    { name: 'Admin Dashboard', path: '/dashboard/admin', icon: HiOutlineCog6Tooth, end: true },
+    { name: 'Manage Users', path: '/dashboard/admin/manage-users', icon: HiOutlineUsers },
+    { name: 'Manage Lessons', path: '/dashboard/admin/manage-lessons', icon: HiOutlineDocumentText },
+    { name: 'Reported Lessons', path: '/dashboard/admin/reported-lessons', icon: HiOutlineFlag },
+    { name: 'Admin Profile', path: '/dashboard/admin/profile', icon: HiOutlineUser },
+  ];
+
+  const menuItems = isAdmin ? adminMenuItems : userMenuItems;
+
+  const NavItem = ({ item }) => (
+    <NavLink
+      to={item.path}
+      end={item.end}
+      onClick={() => setSidebarOpen(false)}
+      className={({ isActive }) =>
+        `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+          isActive
+            ? 'bg-cherry text-white shadow-lg shadow-cherry/20'
+            : 'text-text-secondary hover:bg-cherry-50 hover:text-cherry'
+        }`
+      }
+    >
+      <item.icon className="w-5 h-5" />
+      <span className="font-medium">{item.name}</span>
+    </NavLink>
+  );
+
+  return (
+    <div className="min-h-screen bg-bg flex">
+      {/* Mobile sidebar overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed lg:static inset-y-0 left-0 z-50
+        w-72 bg-white border-r border-border
+        transform transition-transform duration-300 ease-in-out
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        {/* Logo Section */}
+        <div className="p-6 border-b border-border">
+          <NavLink to="/" className="flex items-center gap-2">
+            <span className="text-3xl">🍒</span>
+            <span className="text-xl font-bold text-text">LifeCherry</span>
+          </NavLink>
+        </div>
+
+        {/* User Info */}
+        <div className="p-6 border-b border-border">
+          <div className="flex items-center gap-3">
+            <img 
+              src={dummyUser.photoURL} 
+              alt={dummyUser.name}
+              className="w-12 h-12 rounded-full object-cover border-2 border-cherry-100"
+            />
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-text truncate">{dummyUser.name}</h3>
+              <div className="flex items-center gap-2">
+                {dummyUser.isPremium ? (
+                  <span className="text-xs bg-gradient-to-r from-amber-400 to-amber-500 text-white px-2 py-0.5 rounded-full font-medium">
+                    ⭐ Premium
+                  </span>
+                ) : (
+                  <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-medium">
+                    Starter
+                  </span>
+                )}
+                {isAdmin && (
+                  <span className="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full font-medium">
+                    Admin
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav className="p-4 space-y-1">
+          {menuItems.map((item) => (
+            <NavItem key={item.path} item={item} />
+          ))}
+        </nav>
+
+        {/* Back to Home */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
+          <NavLink
+            to="/"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl text-text-secondary hover:bg-cherry-50 hover:text-cherry transition-all duration-200"
+          >
+            <HiOutlineHome className="w-5 h-5" />
+            <span className="font-medium">Back to Home</span>
+          </NavLink>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-h-screen">
+        {/* Top Bar (Mobile) */}
+        <header className="lg:hidden bg-white border-b border-border p-4 flex items-center justify-between sticky top-0 z-30">
+          <button 
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <HiOutlineBars3 className="w-6 h-6 text-text" />
+          </button>
+          <NavLink to="/" className="flex items-center gap-2">
+            <span className="text-2xl">🍒</span>
+            <span className="text-lg font-bold text-text">LifeCherry</span>
+          </NavLink>
+          <div className="w-10" /> {/* Spacer for centering */}
+        </header>
+
+        {/* Page Content */}
+        <main className="flex-1 p-4 lg:p-8">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardLayout;

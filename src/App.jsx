@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 
 // Layouts
 import MainLayout from './layouts/MainLayout';
+import DashboardLayout from './layouts/DashboardLayout';
 
 // Pages
 import Home from './pages/Home';
@@ -15,6 +16,9 @@ import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
 import NotFound from './pages/NotFound';
 import Loading from './components/shared/Loading';
+
+// Dashboard Pages
+import AddLesson from './pages/dashboard/AddLesson';
 
 // Create router
 const router = createBrowserRouter([
@@ -55,6 +59,18 @@ const router = createBrowserRouter([
         element: <PaymentCancel />
       },
       // TODO: Add more routes (dashboard, etc.)
+    ]
+  },
+  // Dashboard Routes (with sidebar layout)
+  {
+    path: '/dashboard',
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: 'add-lesson',
+        element: <AddLesson />
+      },
+      // TODO: Add more dashboard routes
     ]
   },
   // 404 Route (without navbar/footer as per requirements)

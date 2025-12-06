@@ -47,6 +47,22 @@
   font-family: "Baloo 2", cursive, sans-serif;
 }
 
+/* Global cursor pointer for all buttons */
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+.btn {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"]:disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled {
+  cursor: not-allowed;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
