@@ -20,6 +20,7 @@ import Loading from './components/shared/Loading';
 // Dashboard Pages
 import AddLesson from './pages/dashboard/AddLesson';
 import MyLessons from './pages/dashboard/MyLessons';
+import MyFavorites from './pages/dashboard/MyFavorites';
 
 // Create router
 const router = createBrowserRouter([
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: 'my-lessons',
         element: <MyLessons />
+      },
+      {
+        path: 'my-favorites',
+        element: <MyFavorites />
       },
       // TODO: Add more dashboard routes
     ]

@@ -55,7 +55,7 @@ const DashboardLayout = () => {
       end={item.end}
       onClick={() => setSidebarOpen(false)}
       className={({ isActive }) =>
-        `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+        `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm ${
           isActive
             ? 'bg-cherry text-white shadow-lg shadow-cherry/20'
             : 'text-text-secondary hover:bg-cherry-50 hover:text-cherry'
@@ -80,40 +80,40 @@ const DashboardLayout = () => {
       {/* Sidebar */}
       <aside className={`
         fixed lg:static inset-y-0 left-0 z-50
-        w-72 bg-white border-r border-border
+        w-64 bg-white border-r border-border
         transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Logo Section */}
-        <div className="p-6 border-b border-border">
+        <div className="p-5 border-b border-border">
           <NavLink to="/" className="flex items-center gap-2">
-            <span className="text-3xl">🍒</span>
-            <span className="text-xl font-bold text-text">LifeCherry</span>
+            <span className="text-2xl">🍒</span>
+            <span className="text-lg font-bold text-text">LifeCherry</span>
           </NavLink>
         </div>
 
         {/* User Info */}
-        <div className="p-6 border-b border-border">
+        <div className="p-4 border-b border-border">
           <div className="flex items-center gap-3">
             <img 
               src={dummyUser.photoURL} 
               alt={dummyUser.name}
-              className="w-12 h-12 rounded-full object-cover border-2 border-cherry-100"
+              className="w-10 h-10 rounded-full object-cover border-2 border-cherry-100"
             />
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-text truncate">{dummyUser.name}</h3>
-              <div className="flex items-center gap-2">
+              <h3 className="font-semibold text-text truncate text-sm">{dummyUser.name}</h3>
+              <div className="flex items-center gap-1.5">
                 {dummyUser.isPremium ? (
-                  <span className="text-xs bg-gradient-to-r from-amber-400 to-amber-500 text-white px-2 py-0.5 rounded-full font-medium">
+                  <span className="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-white px-1.5 py-0.5 rounded-full font-medium">
                     ⭐ Premium
                   </span>
                 ) : (
-                  <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-medium">
+                  <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full font-medium">
                     Starter
                   </span>
                 )}
                 {isAdmin && (
-                  <span className="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full font-medium">
+                  <span className="text-[10px] bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded-full font-medium">
                     Admin
                   </span>
                 )}
@@ -123,17 +123,17 @@ const DashboardLayout = () => {
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-1">
+        <nav className="p-3 space-y-1">
           {menuItems.map((item) => (
             <NavItem key={item.path} item={item} />
           ))}
         </nav>
 
         {/* Back to Home */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
+        <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-border">
           <NavLink
             to="/"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-text-secondary hover:bg-cherry-50 hover:text-cherry transition-all duration-200"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-cherry-50 hover:text-cherry transition-all duration-200 text-sm"
           >
             <HiOutlineHome className="w-5 h-5" />
             <span className="font-medium">Back to Home</span>

@@ -20,7 +20,9 @@ import {
   HiOutlineInformationCircle,
   HiOutlineExclamationTriangle,
   HiOutlineChevronLeft,
-  HiOutlineChevronRight
+  HiOutlineChevronRight,
+  HiOutlineListBullet,
+  HiOutlineSquares2X2
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import PageLoader from '../../components/shared/PageLoader';
@@ -49,6 +51,18 @@ const MyLessons = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [lessonsData, setLessonsData] = useState(userLessons);
   const [showFilters, setShowFilters] = useState(false);
+  
+  // View mode state with localStorage persistence
+  const [viewMode, setViewMode] = useState(() => {
+    const saved = localStorage.getItem('myLessonsViewMode');
+    return saved || 'list'; // Default to list view
+  });
+
+  // Save view mode to localStorage
+  const handleViewModeChange = (mode) => {
+    setViewMode(mode);
+    localStorage.setItem('myLessonsViewMode', mode);
+  };
   
   // Modal states
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -100,13 +114,13 @@ const MyLessons = () => {
     currentPage * ITEMS_PER_PAGE
   );
 
-  // Format date
+  // Format date - compact single line format
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
+    const date = new Date(dateString);
+    const month = date.toLocaleDateString('en-US', { month: 'short' });
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month} ${day}, ${year}`;
   };
 
   // Handle visibility toggle
@@ -306,6 +320,32 @@ const MyLessons = () => {
 
             {/* Filter Toggles */}
             <div className="flex gap-3">
+              {/* View Mode Toggle */}
+              <div className="hidden sm:flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+                <button
+                  onClick={() => handleViewModeChange('list')}
+                  className={`p-3 transition-all duration-200 cursor-pointer ${
+                    viewMode === 'list'
+                      ? 'bg-cherry text-white'
+                      : 'bg-white text-text-secondary hover:bg-gray-50'
+                  }`}
+                  title="List View"
+                >
+                  <HiOutlineListBullet className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleViewModeChange('grid')}
+                  className={`p-3 transition-all duration-200 cursor-pointer ${
+                    viewMode === 'grid'
+                      ? 'bg-cherry text-white'
+                      : 'bg-white text-text-secondary hover:bg-gray-50'
+                  }`}
+                  title="Grid View"
+                >
+                  <HiOutlineSquares2X2 className="w-5 h-5" />
+                </button>
+              </div>
+
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className={`inline-flex items-center gap-2 px-4 py-3 border-2 rounded-xl font-medium transition-all duration-200 cursor-pointer ${
@@ -395,7 +435,110 @@ const MyLessons = () => {
             </div>
           ) : (
             <>
-              {/* Desktop Table */}
+              {/* Grid View */}
+              {viewMode === 'grid' && (
+                <div className="p-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {paginatedLessons.map((lesson) => (
+                      <div 
+                        key={lesson._id} 
+                        className="bg-white rounded-xl border border-border hover:shadow-lg transition-all duration-300 overflow-hidden group"
+                      >
+                        {/* Image */}
+                        <div className="relative h-40 overflow-hidden">
+                          {lesson.image ? (
+                            <img 
+                              src={lesson.image} 
+                              alt={lesson.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-cherry-50 to-cherry-100 flex items-center justify-center">
+                              <HiOutlineBookOpen className="w-12 h-12 text-cherry" />
+                            </div>
+                          )}
+                          {/* Visibility & Access Badges */}
+                          <div className="absolute top-2 left-2 flex gap-1">
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${
+                              lesson.visibility === 'public' 
+                                ? 'bg-green-100 text-green-600' 
+                                : 'bg-gray-700 text-white'
+                            }`}>
+                              {lesson.visibility === 'public' ? (
+                                <HiOutlineGlobeAlt className="w-3 h-3" />
+                              ) : (
+                                <HiOutlineLockClosed className="w-3 h-3" />
+                              )}
+                              {lesson.visibility}
+                            </span>
+                          </div>
+                          {lesson.accessLevel === 'premium' && (
+                            <div className="absolute top-2 right-2 px-2 py-1 bg-amber-400 text-white text-xs font-medium rounded-full flex items-center gap-1">
+                              <HiOutlineStar className="w-3 h-3" />
+                              Premium
+                            </div>
+                          )}
+                          {/* Category Badge */}
+                          <div className="absolute bottom-2 left-2">
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/90 backdrop-blur-sm text-cherry">
+                              {lesson.category}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-4">
+                          <h3 className="font-semibold text-text mb-1 line-clamp-1 group-hover:text-cherry transition-colors">
+                            {lesson.title}
+                          </h3>
+                          <p className="text-sm text-text-muted mb-2">{lesson.emotionalTone}</p>
+
+                          {/* Stats */}
+                          <div className="flex items-center gap-3 text-sm text-text-muted mb-3">
+                            <span className="flex items-center gap-1">
+                              <HiOutlineHeart className="w-4 h-4 text-red-400" />
+                              {lesson.likesCount}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <HiOutlineBookmark className="w-4 h-4 text-amber-400" />
+                              {lesson.favoritesCount}
+                            </span>
+                            <span className="text-xs">{formatDate(lesson.createdAt)}</span>
+                          </div>
+
+                          {/* Actions */}
+                          <div className="flex items-center gap-2">
+                            <Link
+                              to={`/lessons/${lesson._id}`}
+                              className="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-all duration-200 cursor-pointer text-sm"
+                            >
+                              <HiOutlineEye className="w-4 h-4" />
+                              View
+                            </Link>
+                            <button
+                              onClick={() => openEditModal(lesson)}
+                              className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-all duration-200 cursor-pointer"
+                              title="Edit"
+                            >
+                              <HiOutlinePencilSquare className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => openDeleteModal(lesson)}
+                              className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                              title="Delete"
+                            >
+                              <HiOutlineTrash className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* List View - Desktop Table */}
+              {viewMode === 'list' && (
               <div className="hidden lg:block overflow-x-auto">
                 <table className="w-full">
                   <thead className="bg-gray-50 border-b border-border">
@@ -439,7 +582,7 @@ const MyLessons = () => {
 
                         {/* Category */}
                         <td className="px-6 py-4">
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-cherry-50 text-cherry">
+                          <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium bg-cherry-50 text-cherry whitespace-nowrap">
                             {lesson.category}
                           </span>
                         </td>
@@ -519,7 +662,7 @@ const MyLessons = () => {
 
                         {/* Created Date */}
                         <td className="px-6 py-4">
-                          <span className="text-sm text-text-muted">
+                          <span className="text-sm text-text-muted whitespace-nowrap">
                             {formatDate(lesson.createdAt)}
                           </span>
                         </td>
@@ -555,6 +698,7 @@ const MyLessons = () => {
                   </tbody>
                 </table>
               </div>
+              )}
 
               {/* Mobile Cards */}
               <div className="lg:hidden divide-y divide-border">
