@@ -1,12 +1,16 @@
 // Pricing Page - LifeCherry
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiCheck, FiX, FiStar, FiZap, FiShield, FiAward, FiTrendingUp, FiUnlock, FiBookOpen, FiHeart, FiChevronDown } from 'react-icons/fi';
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import useAuth from '../hooks/useAuth';
+import toast from 'react-hot-toast';
 
 const Pricing = () => {
   useDocumentTitle('Pricing - Upgrade to Premium');
+  const navigate = useNavigate();
+  const { firebaseUser, userProfile, authLoading, profileLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -34,18 +38,29 @@ const Pricing = () => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  // TODO: Replace with actual auth context
-  const user = {
-    name: "Sarah Johnson",
-    email: "sarah@example.com",
-    isPremium: false // Set to true to test premium state
-  };
+  const user = firebaseUser
+    ? {
+        name: userProfile?.name || firebaseUser.displayName || 'User',
+        email: firebaseUser.email,
+        isPremium: !!userProfile?.isPremium,
+      }
+    : null;
 
   const handleUpgrade = async () => {
+    if (!firebaseUser) {
+      navigate('/login', { state: { from: '/pricing' } });
+      toast.error('Please sign in to upgrade');
+      return;
+    }
     setIsLoading(true);
-    // TODO: Call backend /create-checkout-session
-    console.log('Initiating Stripe checkout...');
-    setTimeout(() => setIsLoading(false), 2000);
+    try {
+      // TODO: Call backend /create-checkout-session and redirect to Stripe
+      toast('Checkout integration coming soon');
+    } catch (error) {
+      toast.error(error.message || 'Failed to start checkout');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Feature comparison data
@@ -133,6 +148,10 @@ const Pricing = () => {
   ];
 
   // If user is already premium, show different UI
+  if (authLoading || profileLoading) {
+    return <PageLoader />;
+  }
+
   if (user?.isPremium) {
     return (
       <PageLoader>

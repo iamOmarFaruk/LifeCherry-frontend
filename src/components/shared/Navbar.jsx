@@ -1,18 +1,14 @@
 // Navbar Component - LifeCherry
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { FiChevronDown, FiLogOut, FiUser, FiGrid } from 'react-icons/fi';
-
-// Dummy user for testing (will be replaced with auth context)
-const dummyUser = {
-  name: "Sarah Johnson",
-  email: "sarah@example.com",
-  photoURL: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
-  isPremium: true
-};
+import toast from 'react-hot-toast';
+import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const { firebaseUser, userProfile, authLoading, profileLoading, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -38,9 +34,27 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
-  
-  // TODO: Replace with actual auth state
-  const user = dummyUser; // Set to null to test logged-out state
+
+  const user = firebaseUser
+    ? {
+        name: userProfile?.name || firebaseUser.displayName || 'User',
+        email: firebaseUser.email,
+        photoURL: userProfile?.photoURL || firebaseUser.photoURL,
+        isPremium: !!userProfile?.isPremium,
+      }
+    : null;
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success('Logged out');
+      setIsDropdownOpen(false);
+      setIsMenuOpen(false);
+      navigate('/');
+    } catch (error) {
+      toast.error(error.message || 'Failed to log out');
+    }
+  };
 
   const navLinks = [
     { path: '/', label: 'Home' },
@@ -100,7 +114,7 @@ const Navbar = () => {
 
           {/* Auth Buttons / User Menu */}
           <div className="hidden md:flex items-center gap-4">
-            {!user ? (
+            {(!user && !authLoading) ? (
               <>
                 <Link to="/login" className="btn-ghost-capsule text-sm">
                   Login
@@ -158,11 +172,7 @@ const Navbar = () => {
                     <hr className="my-2 border-border" />
                     
                     <button
-                      onClick={() => {
-                        setIsDropdownOpen(false);
-                        // TODO: Implement logout
-                        console.log('Logout clicked');
-                      }}
+                      onClick={handleLogout}
                       className="flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 transition-colors w-full"
                     >
                       <FiLogOut size={18} />
@@ -231,7 +241,7 @@ const Navbar = () => {
 
               <hr className="my-2 border-border" />
 
-              {!user ? (
+              {(!user && !authLoading) ? (
                 <div className="flex flex-col gap-2 px-4">
                   <Link
                     to="/login"
@@ -281,10 +291,7 @@ const Navbar = () => {
                   </NavLink>
                   
                   <button
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      console.log('Logout clicked');
-                    }}
+                    onClick={handleLogout}
                     className="px-4 py-2.5 text-red-500 hover:bg-red-50 rounded-lg text-left"
                   >
                     Log Out
