@@ -12,6 +12,7 @@ const PublicLessons = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedTone, setSelectedTone] = useState('');
+  const [selectedAccessLevel, setSelectedAccessLevel] = useState('');
   const [sortBy, setSortBy] = useState('newest');
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
@@ -46,6 +47,11 @@ const PublicLessons = () => {
       result = result.filter(lesson => lesson.emotionalTone === selectedTone);
     }
 
+    // Filter by access level
+    if (selectedAccessLevel) {
+      result = result.filter(lesson => lesson.accessLevel === selectedAccessLevel);
+    }
+
     // Sort
     if (sortBy === 'newest') {
       result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -54,7 +60,7 @@ const PublicLessons = () => {
     }
 
     return result;
-  }, [publicLessons, searchQuery, selectedCategory, selectedTone, sortBy]);
+  }, [publicLessons, searchQuery, selectedCategory, selectedTone, selectedAccessLevel, sortBy]);
 
   // Pagination
   const totalPages = Math.ceil(filteredLessons.length / LESSONS_PER_PAGE);
@@ -74,12 +80,13 @@ const PublicLessons = () => {
     setSearchQuery('');
     setSelectedCategory('');
     setSelectedTone('');
+    setSelectedAccessLevel('');
     setSortBy('newest');
     setCurrentPage(1);
   };
 
   // Check if any filter is active
-  const hasActiveFilters = searchQuery || selectedCategory || selectedTone || sortBy !== 'newest';
+  const hasActiveFilters = searchQuery || selectedCategory || selectedTone || selectedAccessLevel || sortBy !== 'newest';
 
   // Format date
   const formatDate = (dateString) => {
@@ -93,13 +100,27 @@ const PublicLessons = () => {
   return (
     <PageLoader>
       <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white">
-        {/* Header Section */}
-        <div className="bg-white border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-text-cherry mb-2">
+        {/* Hero Header Section with Background Image */}
+        <div 
+          className="relative bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1920&h=400&fit=crop&crop=center')`,
+          }}
+        >
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50"></div>
+          
+          {/* Content */}
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+            <nav className="flex items-center gap-2 text-sm text-white/70 mb-4">
+              <a href="/" className="hover:text-white transition-colors">Home</a>
+              <span>/</span>
+              <span className="text-white">Public Lessons</span>
+            </nav>
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">
               Public Lessons
             </h1>
-            <p className="text-text-secondary text-lg">
+            <p className="text-white/80 text-lg md:text-xl max-w-2xl">
               Discover wisdom shared by our community. Learn from real experiences.
             </p>
           </div>
@@ -122,7 +143,7 @@ const PublicLessons = () => {
               </div>
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all cursor-pointer ${
                   showFilters || hasActiveFilters
                     ? 'bg-cherry text-white border-cherry'
                     : 'bg-white text-text-secondary border-gray-200 hover:border-cherry'
@@ -139,7 +160,7 @@ const PublicLessons = () => {
             {/* Filter Options */}
             {showFilters && (
               <div className="pt-4 border-t border-gray-100">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                   {/* Category Filter */}
                   <div>
                     <label className="block text-sm font-medium text-text-secondary mb-2">
@@ -171,6 +192,22 @@ const PublicLessons = () => {
                       {emotionalTones.map(tone => (
                         <option key={tone} value={tone}>{tone}</option>
                       ))}
+                    </select>
+                  </div>
+
+                  {/* Access Level Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-text-secondary mb-2">
+                      Access Level
+                    </label>
+                    <select
+                      value={selectedAccessLevel}
+                      onChange={(e) => handleFilterChange(setSelectedAccessLevel)(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white"
+                    >
+                      <option value="">All Levels</option>
+                      <option value="free">Free</option>
+                      <option value="premium">Premium</option>
                     </select>
                   </div>
 
@@ -333,7 +370,7 @@ const PublicLessons = () => {
                       {!isPremiumLocked && (
                         <Link
                           to={`/lessons/${lesson._id}`}
-                          className="mt-4 block w-full text-center py-3 bg-cherry-50 text-cherry font-medium rounded-xl hover:bg-cherry hover:text-white transition-all"
+                          className="mt-4 block w-full text-center py-3 bg-cherry-50 text-cherry font-medium rounded-xl hover:bg-cherry hover:!text-white transition-all cursor-pointer"
                         >
                           See Details
                         </Link>
@@ -374,7 +411,7 @@ const PublicLessons = () => {
                 className={`p-3 rounded-xl transition-all ${
                   currentPage === 1
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    : 'bg-white text-text-secondary hover:bg-cherry hover:text-white shadow-sm'
+                    : 'bg-white text-text-secondary hover:bg-cherry hover:text-white shadow-sm cursor-pointer'
                 }`}
               >
                 <FiChevronLeft className="w-5 h-5" />
@@ -394,10 +431,10 @@ const PublicLessons = () => {
                       <button
                         key={pageNum}
                         onClick={() => setCurrentPage(pageNum)}
-                        className={`w-10 h-10 rounded-xl font-medium transition-all ${
+                        className={`w-10 h-10 rounded-xl font-medium transition-all cursor-pointer ${
                           currentPage === pageNum
                             ? 'bg-cherry text-white'
-                            : 'bg-white text-text-secondary hover:bg-cherry-50 shadow-sm'
+                            : 'bg-white text-text-secondary hover:bg-cherry hover:text-white shadow-sm'
                         }`}
                       >
                         {pageNum}
@@ -424,7 +461,7 @@ const PublicLessons = () => {
                 className={`p-3 rounded-xl transition-all ${
                   currentPage === totalPages
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    : 'bg-white text-text-secondary hover:bg-cherry hover:text-white shadow-sm'
+                    : 'bg-white text-text-secondary hover:bg-cherry hover:text-white shadow-sm cursor-pointer'
                 }`}
               >
                 <FiChevronRight className="w-5 h-5" />

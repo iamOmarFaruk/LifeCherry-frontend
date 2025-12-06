@@ -26,7 +26,7 @@ const Footer = () => {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-colors"
+                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-all duration-200 [&>svg]:hover:text-white"
               >
                 <FaFacebookF size={18} />
               </a>
@@ -34,7 +34,7 @@ const Footer = () => {
                 href="https://x.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-colors"
+                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-all duration-200 [&>svg]:hover:text-white"
               >
                 <FaXTwitter size={18} />
               </a>
@@ -42,7 +42,7 @@ const Footer = () => {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-colors"
+                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-all duration-200 [&>svg]:hover:text-white"
               >
                 <FaInstagram size={18} />
               </a>
@@ -50,7 +50,7 @@ const Footer = () => {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-colors"
+                className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center text-cherry hover:bg-cherry hover:text-white transition-all duration-200 [&>svg]:hover:text-white"
               >
                 <FaLinkedinIn size={18} />
               </a>
