@@ -24,6 +24,13 @@ import MyLessons from './pages/dashboard/MyLessons';
 import MyFavorites from './pages/dashboard/MyFavorites';
 import Profile from './pages/dashboard/Profile';
 
+// Admin Dashboard Pages
+import AdminDashboardHome from './pages/dashboard/admin/AdminDashboardHome';
+import ManageUsers from './pages/dashboard/admin/ManageUsers';
+import ManageLessons from './pages/dashboard/admin/ManageLessons';
+import ReportedLessons from './pages/dashboard/admin/ReportedLessons';
+import AdminProfile from './pages/dashboard/admin/AdminProfile';
+
 // Create router
 const router = createBrowserRouter([
   {
@@ -90,7 +97,27 @@ const router = createBrowserRouter([
         path: 'profile',
         element: <Profile />
       },
-      // TODO: Add more dashboard routes
+      // Admin Dashboard Routes
+      {
+        path: 'admin',
+        element: <AdminDashboardHome />
+      },
+      {
+        path: 'admin/manage-users',
+        element: <ManageUsers />
+      },
+      {
+        path: 'admin/manage-lessons',
+        element: <ManageLessons />
+      },
+      {
+        path: 'admin/reported-lessons',
+        element: <ReportedLessons />
+      },
+      {
+        path: 'admin/profile',
+        element: <AdminProfile />
+      }
     ]
   },
   // 404 Route (without navbar/footer as per requirements)

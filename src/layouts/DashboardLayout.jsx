@@ -19,12 +19,13 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
   // Dummy user for UI development (will be replaced with real auth)
+  // Currently logged in as Admin for development
   const dummyUser = {
     name: 'Omar Faruk',
     email: 'omar@example.com',
     photoURL: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
     isPremium: true,
-    role: 'user' // 'user' or 'admin'
+    role: 'admin' // 'user' or 'admin' - Set to 'admin' for Admin access
   };
 
   const isAdmin = dummyUser.role === 'admin';
@@ -103,19 +104,18 @@ const DashboardLayout = () => {
             />
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-text truncate text-sm">{dummyUser.name}</h3>
-              <div className="flex items-center gap-1.5">
-                {dummyUser.isPremium ? (
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {isAdmin ? (
+                  <span className="text-[10px] bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5">
+                    🛡️ Admin
+                  </span>
+                ) : dummyUser.isPremium ? (
                   <span className="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-white px-1.5 py-0.5 rounded-full font-medium">
                     ⭐ Premium
                   </span>
                 ) : (
                   <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full font-medium">
                     Starter
-                  </span>
-                )}
-                {isAdmin && (
-                  <span className="text-[10px] bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded-full font-medium">
-                    Admin
                   </span>
                 )}
               </div>
