@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import PublicLessons from './pages/PublicLessons';
+import LessonDetails from './pages/LessonDetails';
 import Loading from './components/shared/Loading';
 
 // Create router
@@ -33,8 +34,11 @@ const router = createBrowserRouter([
         path: 'public-lessons',
         element: <PublicLessons />
       },
+      {
+        path: 'lessons/:id',
+        element: <LessonDetails />
+      },
       // TODO: Add more routes
-      // { path: 'lessons/:id', element: <LessonDetails /> },
       // { path: 'pricing', element: <Pricing /> },
     ]
   },
