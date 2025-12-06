@@ -19,6 +19,7 @@ import Loading from './components/shared/Loading';
 
 // Dashboard Pages
 import AddLesson from './pages/dashboard/AddLesson';
+import MyLessons from './pages/dashboard/MyLessons';
 
 // Create router
 const router = createBrowserRouter([
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: 'add-lesson',
         element: <AddLesson />
+      },
+      {
+        path: 'my-lessons',
+        element: <MyLessons />
       },
       // TODO: Add more dashboard routes
     ]
