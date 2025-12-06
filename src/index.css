@@ -72,7 +72,7 @@ body {
 
 /* macOS-style capsule button */
 .btn-capsule {
-  @apply px-6 py-2.5 font-medium rounded-full shadow-md transition-all duration-200;
+  @apply px-6 py-2.5 font-medium rounded-full shadow-md transition-all duration-200 cursor-pointer;
   background: linear-gradient(to bottom, #E63946, #C62F3B);
   color: white;
 }
@@ -88,7 +88,7 @@ body {
 
 /* Ghost button */
 .btn-ghost-capsule {
-  @apply px-6 py-2.5 font-medium rounded-full border border-gray-200 shadow-sm transition-all duration-200;
+  @apply px-6 py-2.5 font-medium rounded-full border border-gray-200 shadow-sm transition-all duration-200 cursor-pointer;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
   color: #374151;

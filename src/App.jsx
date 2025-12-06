@@ -10,6 +10,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import PublicLessons from './pages/PublicLessons';
 import LessonDetails from './pages/LessonDetails';
+import Pricing from './pages/Pricing';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancel from './pages/PaymentCancel';
 import Loading from './components/shared/Loading';
 
 // Create router
@@ -38,8 +41,19 @@ const router = createBrowserRouter([
         path: 'lessons/:id',
         element: <LessonDetails />
       },
-      // TODO: Add more routes
-      // { path: 'pricing', element: <Pricing /> },
+      {
+        path: 'pricing',
+        element: <Pricing />
+      },
+      {
+        path: 'payment/success',
+        element: <PaymentSuccess />
+      },
+      {
+        path: 'payment/cancel',
+        element: <PaymentCancel />
+      },
+      // TODO: Add more routes (dashboard, etc.)
     ]
   },
   // 404 Route (without navbar/footer)
