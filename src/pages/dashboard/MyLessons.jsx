@@ -123,32 +123,184 @@ const MyLessons = () => {
     return `${month} ${day}, ${year}`;
   };
 
-  // Handle visibility toggle
-  const handleVisibilityChange = (lessonId, newVisibility) => {
-    setLessonsData(prev => 
-      prev.map(lesson => 
-        lesson._id === lessonId 
-          ? { ...lesson, visibility: newVisibility }
-          : lesson
-      )
+  // Handle visibility toggle with warning toast
+  const handleVisibilityChange = (lessonId, currentVisibility, newVisibility) => {
+    const lesson = lessonsData.find(l => l._id === lessonId);
+    const lessonTitle = lesson?.title || 'This lesson';
+    
+    // Define warning messages based on visibility change
+    const warningMessages = {
+      public: {
+        icon: '🌍',
+        title: 'Make Lesson Public?',
+        message: `"${lessonTitle}" will be visible to everyone on LifeCherry.`,
+        warning: 'Anyone can view and interact with this lesson.'
+      },
+      private: {
+        icon: '🔒',
+        title: 'Make Lesson Private?',
+        message: `"${lessonTitle}" will be hidden from the public.`,
+        warning: 'Only you will be able to see this lesson.'
+      }
+    };
+
+    const config = warningMessages[newVisibility];
+
+    toast(
+      (t) => (
+        <div className="flex flex-col gap-3 max-w-sm">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">{config.icon}</span>
+            <div>
+              <p className="font-semibold text-gray-900">{config.title}</p>
+              <p className="text-sm text-gray-600 mt-1">{config.message}</p>
+              <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
+                <HiOutlineExclamationTriangle className="w-3.5 h-3.5" />
+                {config.warning}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 mt-1">
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                toast.dismiss(t.id);
+                setLessonsData(prev => 
+                  prev.map(l => 
+                    l._id === lessonId 
+                      ? { ...l, visibility: newVisibility }
+                      : l
+                  )
+                );
+                toast.success(
+                  newVisibility === 'public' 
+                    ? '🌍 Lesson is now public!' 
+                    : '🔒 Lesson is now private!',
+                  { duration: 3000 }
+                );
+              }}
+              className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${
+                newVisibility === 'public'
+                  ? 'bg-green-500 hover:bg-green-600'
+                  : 'bg-gray-700 hover:bg-gray-800'
+              }`}
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        duration: 10000,
+        position: 'top-center',
+        style: {
+          background: '#fff',
+          padding: '16px',
+          borderRadius: '12px',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
+          border: '1px solid #e5e7eb'
+        }
+      }
     );
-    toast.success(`Lesson visibility changed to ${newVisibility}`);
   };
 
-  // Handle access level toggle (only for premium users)
-  const handleAccessLevelChange = (lessonId, newAccessLevel) => {
+  // Handle access level toggle with warning toast (only for premium users)
+  const handleAccessLevelChange = (lessonId, currentAccessLevel, newAccessLevel) => {
     if (!dummyUser.isPremium && newAccessLevel === 'premium') {
-      toast.error('Upgrade to Premium to set premium access level');
+      toast.error('Upgrade to Premium to set premium access level', {
+        icon: '👑',
+        duration: 4000
+      });
       return;
     }
-    setLessonsData(prev => 
-      prev.map(lesson => 
-        lesson._id === lessonId 
-          ? { ...lesson, accessLevel: newAccessLevel }
-          : lesson
-      )
+
+    const lesson = lessonsData.find(l => l._id === lessonId);
+    const lessonTitle = lesson?.title || 'This lesson';
+
+    // Define warning messages based on access level change
+    const warningMessages = {
+      free: {
+        icon: '🆓',
+        title: 'Make Lesson Free?',
+        message: `"${lessonTitle}" will be accessible to all users.`,
+        warning: 'Both free and premium users can access this lesson.'
+      },
+      premium: {
+        icon: '👑',
+        title: 'Make Lesson Premium?',
+        message: `"${lessonTitle}" will be exclusive to premium members.`,
+        warning: 'Free users will need to upgrade to access this lesson.'
+      }
+    };
+
+    const config = warningMessages[newAccessLevel];
+
+    toast(
+      (t) => (
+        <div className="flex flex-col gap-3 max-w-sm">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">{config.icon}</span>
+            <div>
+              <p className="font-semibold text-gray-900">{config.title}</p>
+              <p className="text-sm text-gray-600 mt-1">{config.message}</p>
+              <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
+                <HiOutlineExclamationTriangle className="w-3.5 h-3.5" />
+                {config.warning}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 mt-1">
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                toast.dismiss(t.id);
+                setLessonsData(prev => 
+                  prev.map(l => 
+                    l._id === lessonId 
+                      ? { ...l, accessLevel: newAccessLevel }
+                      : l
+                  )
+                );
+                toast.success(
+                  newAccessLevel === 'premium' 
+                    ? '👑 Lesson is now Premium only!' 
+                    : '🆓 Lesson is now Free for all!',
+                  { duration: 3000 }
+                );
+              }}
+              className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${
+                newAccessLevel === 'premium'
+                  ? 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600'
+                  : 'bg-green-500 hover:bg-green-600'
+              }`}
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        duration: 10000,
+        position: 'top-center',
+        style: {
+          background: '#fff',
+          padding: '16px',
+          borderRadius: '12px',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
+          border: '1px solid #e5e7eb'
+        }
+      }
     );
-    toast.success(`Access level changed to ${newAccessLevel}`);
   };
 
   // Open edit modal
@@ -549,6 +701,7 @@ const MyLessons = () => {
                       <th className="text-left px-6 py-4 text-sm font-semibold text-text">Access</th>
                       <th className="text-left px-6 py-4 text-sm font-semibold text-text">Stats</th>
                       <th className="text-left px-6 py-4 text-sm font-semibold text-text">Created</th>
+                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Updated</th>
                       <th className="text-right px-6 py-4 text-sm font-semibold text-text">Actions</th>
                     </tr>
                   </thead>
@@ -591,7 +744,7 @@ const MyLessons = () => {
                         <td className="px-6 py-4">
                           <div className="flex gap-1">
                             <button
-                              onClick={() => handleVisibilityChange(lesson._id, 'public')}
+                              onClick={() => lesson.visibility !== 'public' && handleVisibilityChange(lesson._id, lesson.visibility, 'public')}
                               className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
                                 lesson.visibility === 'public'
                                   ? 'bg-green-100 text-green-600'
@@ -602,7 +755,7 @@ const MyLessons = () => {
                               <HiOutlineGlobeAlt className="w-4 h-4" />
                             </button>
                             <button
-                              onClick={() => handleVisibilityChange(lesson._id, 'private')}
+                              onClick={() => lesson.visibility !== 'private' && handleVisibilityChange(lesson._id, lesson.visibility, 'private')}
                               className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
                                 lesson.visibility === 'private'
                                   ? 'bg-gray-700 text-white'
@@ -619,7 +772,7 @@ const MyLessons = () => {
                         <td className="px-6 py-4">
                           <div className="flex gap-1">
                             <button
-                              onClick={() => handleAccessLevelChange(lesson._id, 'free')}
+                              onClick={() => lesson.accessLevel !== 'free' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'free')}
                               className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
                                 lesson.accessLevel === 'free'
                                   ? 'bg-blue-100 text-blue-600'
@@ -630,7 +783,7 @@ const MyLessons = () => {
                               <HiOutlineLockOpen className="w-4 h-4" />
                             </button>
                             <button
-                              onClick={() => handleAccessLevelChange(lesson._id, 'premium')}
+                              onClick={() => lesson.accessLevel !== 'premium' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'premium')}
                               disabled={!dummyUser.isPremium}
                               className={`p-2 rounded-lg transition-all duration-200 ${
                                 !dummyUser.isPremium 
@@ -664,6 +817,13 @@ const MyLessons = () => {
                         <td className="px-6 py-4">
                           <span className="text-sm text-text-muted whitespace-nowrap">
                             {formatDate(lesson.createdAt)}
+                          </span>
+                        </td>
+
+                        {/* Updated Date */}
+                        <td className="px-6 py-4">
+                          <span className="text-sm text-text-muted whitespace-nowrap">
+                            {lesson.updatedAt ? formatDate(lesson.updatedAt) : '—'}
                           </span>
                         </td>
 
@@ -744,7 +904,7 @@ const MyLessons = () => {
                       <div className="flex items-center gap-2">
                         {/* Visibility */}
                         <button
-                          onClick={() => handleVisibilityChange(lesson._id, lesson.visibility === 'public' ? 'private' : 'public')}
+                          onClick={() => handleVisibilityChange(lesson._id, lesson.visibility, lesson.visibility === 'public' ? 'private' : 'public')}
                           className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
                             lesson.visibility === 'public'
                               ? 'bg-green-100 text-green-600'
@@ -761,7 +921,7 @@ const MyLessons = () => {
 
                         {/* Access Level */}
                         <button
-                          onClick={() => dummyUser.isPremium && handleAccessLevelChange(lesson._id, lesson.accessLevel === 'free' ? 'premium' : 'free')}
+                          onClick={() => dummyUser.isPremium && handleAccessLevelChange(lesson._id, lesson.accessLevel, lesson.accessLevel === 'free' ? 'premium' : 'free')}
                           disabled={!dummyUser.isPremium}
                           className={`p-2 rounded-lg transition-all duration-200 ${
                             !dummyUser.isPremium 
