@@ -68,22 +68,65 @@ body {
   color: var(--color-text);
 }
 
-/* Custom scrollbar */
+/* ========================================
+   Custom Scrollbar - Cherry Theme
+   Works on Chrome, Edge, Safari, Firefox
+   ======================================== */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #F4A3A8 #FFF8F8;
+}
+
+/* Chrome, Edge, Safari */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-cherry-50);
+  background: #FFF8F8;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-cherry-200);
-  border-radius: 4px;
+  background: linear-gradient(180deg, #F4A3A8 0%, #E8787F 100%);
+  border-radius: 10px;
+  border: 2px solid #FFF8F8;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-cherry);
+  background: linear-gradient(180deg, #E8787F 0%, #E63946 100%);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #E63946;
+}
+
+/* Corner piece (where horizontal and vertical scrollbars meet) */
+::-webkit-scrollbar-corner {
+  background: #FFF8F8;
+}
+
+/* Thin scrollbar variant for smaller elements */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  border: 1px solid #FFF8F8;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* macOS-style capsule button */
