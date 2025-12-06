@@ -166,8 +166,7 @@ const LessonDetails = () => {
               to="/public-lessons" 
               className="inline-flex items-center gap-2 px-6 py-3 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-colors"
             >
-              <FiArrowLeft className="w-5 h-5" />
-              Back to Lessons
+              ← Back to Lessons
             </Link>
           </div>
         </div>
