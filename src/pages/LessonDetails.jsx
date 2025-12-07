@@ -15,7 +15,8 @@ import {
   FiClock,
   FiEdit3,
   FiX,
-  FiCheck
+  FiCheck,
+  FiAlertCircle
 } from 'react-icons/fi';
 import {
   FacebookShareButton,
@@ -27,26 +28,27 @@ import {
   LinkedinIcon,
   WhatsappIcon
 } from 'react-share';
-import { lessons } from '../data/lessons';
-import { getCommentsByLesson } from '../data/comments';
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import apiClient from '../utils/apiClient';
 
 const LessonDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   
-  // Find the lesson
-  const lesson = lessons.find(l => l._id === id);
-  
+  const [lesson, setLesson] = useState(null);
+  const [allLessons, setAllLessons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   // Dynamic page title based on lesson
   useDocumentTitle(lesson ? lesson.title : 'Lesson Not Found');
-  
+
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [likesCount, setLikesCount] = useState(lesson?.likesCount || 0);
   const [newComment, setNewComment] = useState('');
-  const [comments, setComments] = useState(() => getCommentsByLesson(id));
+  const [comments, setComments] = useState([]);
   const [showShareDropdown, setShowShareDropdown] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState('');
@@ -56,6 +58,57 @@ const LessonDetails = () => {
   const isLoggedIn = false;
   const isUserPremium = false;
   const currentUser = null;
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchLesson = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const { data } = await apiClient.get(`/lessons/${id}`);
+        if (!isMounted) return;
+        setLesson(data?.lesson || null);
+        setLikesCount(data?.lesson?.likesCount || 0);
+      } catch (err) {
+        if (!isMounted) return;
+        if (err?.response?.status === 404) {
+          setError('not-found');
+        } else if (err?.response?.status === 401) {
+          setError('auth');
+        } else if (err?.response?.status === 403) {
+          setError('forbidden');
+        } else {
+          setError('unknown');
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchLesson();
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchAllLessons = async () => {
+      try {
+        const { data } = await apiClient.get('/lessons', { params: { limit: 100, sort: '-createdAt' } });
+        if (!isMounted) return;
+        setAllLessons(data?.lessons || []);
+      } catch (err) {
+        // best-effort, no hard failure
+      }
+    };
+
+    fetchAllLessons();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Generate static random view count (consistent per lesson)
   const viewsCount = useMemo(() => {
@@ -75,22 +128,22 @@ const LessonDetails = () => {
   // Get creator's total lessons
   const creatorLessonsCount = useMemo(() => {
     if (!lesson) return 0;
-    return lessons.filter(l => l.creatorEmail === lesson.creatorEmail).length;
-  }, [lesson]);
+    return allLessons.filter((l) => l.creatorEmail === lesson.creatorEmail).length;
+  }, [lesson, allLessons]);
 
   // Get related lessons by category (excluding current)
   const relatedByCategory = useMemo(() => {
     if (!lesson) return [];
-    return lessons
-      .filter(l => l.category === lesson.category && l._id !== id && l.visibility === 'public')
+    return allLessons
+      .filter((l) => l.category === lesson.category && l._id !== id && l.visibility === 'public')
       .slice(0, 6);
-  }, [lesson, id]);
+  }, [lesson, id, allLessons]);
 
   // Get similar lessons by emotional tone (excluding current and category duplicates)
   const similarByTone = useMemo(() => {
     if (!lesson) return [];
     const categoryIds = relatedByCategory.map(l => l._id);
-    return lessons
+    return allLessons
       .filter(l => 
         l.emotionalTone === lesson.emotionalTone && 
         l._id !== id && 
@@ -98,13 +151,13 @@ const LessonDetails = () => {
         !categoryIds.includes(l._id)
       )
       .slice(0, 6);
-  }, [lesson, id, relatedByCategory]);
+  }, [lesson, id, relatedByCategory, allLessons]);
 
   // Reset state when lesson id changes
   useEffect(() => {
     if (lesson) {
       setLikesCount(lesson.likesCount);
-      setComments(getCommentsByLesson(id));
+      setComments([]);
       setIsLiked(false);
       setIsSaved(false);
       setShowShareDropdown(false);
@@ -252,14 +305,52 @@ const LessonDetails = () => {
     'Other'
   ];
 
-  // If lesson not found
-  if (!lesson) {
+  if (loading) {
+    return (
+      <PageLoader>
+        <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white flex items-center justify-center text-text-secondary">
+          Loading lesson...
+        </div>
+      </PageLoader>
+    );
+  }
+
+  const notFound = error === 'not-found' || (!lesson && !loading);
+
+  if (notFound) {
     return (
       <PageLoader>
         <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-text-primary mb-4">Lesson Not Found</h1>
-            <p className="text-text-secondary mb-6">The lesson you're looking for doesn't exist or has been removed.</p>
+          <div className="text-center max-w-md px-6">
+            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-red-50 text-red-600">
+              <FiAlertCircle className="w-8 h-8" />
+            </div>
+            <h1 className="text-3xl font-bold text-text-primary mb-2">Lesson Not Found</h1>
+            <p className="text-text-secondary mb-6">
+              The lesson you're looking for doesn't exist, is private, or has been removed.
+            </p>
+            <Link 
+              to="/public-lessons" 
+              className="inline-flex items-center gap-2 px-6 py-3 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-colors"
+            >
+              ← Back to Lessons
+            </Link>
+          </div>
+        </div>
+      </PageLoader>
+    );
+  }
+
+  if (error && !lesson) {
+    return (
+      <PageLoader>
+        <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white flex items-center justify-center text-center px-6">
+          <div className="max-w-md">
+            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-amber-50 text-amber-600">
+              <FiAlertCircle className="w-8 h-8" />
+            </div>
+            <h1 className="text-2xl font-bold text-text-primary mb-2">Unable to load lesson</h1>
+            <p className="text-text-secondary mb-6">Please try again. If this keeps happening, check your connection or sign in.</p>
             <Link 
               to="/public-lessons" 
               className="inline-flex items-center gap-2 px-6 py-3 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-colors"
