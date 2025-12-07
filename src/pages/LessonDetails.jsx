@@ -1,5 +1,5 @@
 // Lesson Details Page - LifeCherry
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { 
   FiHeart, 
@@ -31,10 +31,12 @@ import {
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import apiClient from '../utils/apiClient';
+import useAuth from '../hooks/useAuth';
 
 const LessonDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { firebaseUser, userProfile, authLoading } = useAuth();
   
   const [lesson, setLesson] = useState(null);
   const [allLessons, setAllLessons] = useState([]);
@@ -54,10 +56,12 @@ const LessonDetails = () => {
   const [reportReason, setReportReason] = useState('');
   const [reportSubmitted, setReportSubmitted] = useState(false);
 
-  // Simulating user status (will be from context later)
-  const isLoggedIn = false;
-  const isUserPremium = false;
-  const currentUser = null;
+  const isLoggedIn = !!firebaseUser;
+  const isUserPremium = !!userProfile?.isPremium;
+  const currentUser = firebaseUser || null;
+  const hasRecordedViewRef = useRef(false);
+  const visibilityStartRef = useRef(null);
+  const elapsedRef = useRef(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -110,13 +114,8 @@ const LessonDetails = () => {
     };
   }, []);
 
-  // Generate static random view count (consistent per lesson)
-  const viewsCount = useMemo(() => {
-    if (!lesson) return 0;
-    // Use lesson id to generate consistent random number
-    const seed = lesson._id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return Math.floor((seed * 9301 + 49297) % 10000);
-  }, [lesson]);
+  // Views come from API
+  const viewsCount = lesson?.views || 0;
 
   // Calculate reading time (avg 200 words per minute)
   const readingTime = useMemo(() => {
@@ -163,9 +162,57 @@ const LessonDetails = () => {
       setShowShareDropdown(false);
       setShowReportModal(false);
       setReportSubmitted(false);
+      hasRecordedViewRef.current = false;
+      elapsedRef.current = 0;
+      visibilityStartRef.current = null;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  // Track engaged view time and record a view after 70% of reading time
+  useEffect(() => {
+    if (!lesson || !isLoggedIn || hasRecordedViewRef.current || authLoading) return undefined;
+
+    const targetMs = Math.max(15000, Math.round(readingTime * 0.7 * 60 * 1000)); // at least 15s
+
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') {
+        visibilityStartRef.current = Date.now();
+      } else if (visibilityStartRef.current) {
+        elapsedRef.current += Date.now() - visibilityStartRef.current;
+        visibilityStartRef.current = null;
+      }
+
+      const total = elapsedRef.current + (visibilityStartRef.current ? Date.now() - visibilityStartRef.current : 0);
+      if (total >= targetMs && !hasRecordedViewRef.current) {
+        hasRecordedViewRef.current = true;
+        recordView();
+      }
+    };
+
+    const recordView = async () => {
+      try {
+        const { data } = await apiClient.post(`/lessons/${id}/view`);
+        if (data?.views !== undefined) {
+          setLesson((prev) => (prev ? { ...prev, views: data.views } : prev));
+        }
+      } catch (err) {
+        // silent fail
+      }
+    };
+
+    const interval = setInterval(onVisible, 2000);
+    document.addEventListener('visibilitychange', onVisible);
+    onVisible();
+
+    return () => {
+      if (visibilityStartRef.current) {
+        elapsedRef.current += Date.now() - visibilityStartRef.current;
+      }
+      document.removeEventListener('visibilitychange', onVisible);
+      clearInterval(interval);
+    };
+  }, [lesson, isLoggedIn, authLoading, id, readingTime]);
 
   // Format date
   const formatDate = (dateString) => {
