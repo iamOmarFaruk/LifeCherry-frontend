@@ -1,6 +1,6 @@
 // Public Lessons Page - LifeCherry
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FiSearch, FiFilter, FiLock, FiHeart, FiBookmark, FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
 import { categories, emotionalTones } from '../data/lessons';
 import apiClient from '../utils/apiClient';
@@ -11,12 +11,17 @@ const LESSONS_PER_PAGE = 9;
 
 const PublicLessons = () => {
   useDocumentTitle('Public Lessons');
+  const [searchParams, setSearchParams] = useSearchParams();
+
   // Filter & Search State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedTone, setSelectedTone] = useState('');
   const [selectedAccessLevel, setSelectedAccessLevel] = useState('');
-  const [sortBy, setSortBy] = useState('newest');
+  const [sortBy, setSortBy] = useState(() => {
+    const sortParam = searchParams.get('sort');
+    return sortParam === 'mostSaved' ? 'mostSaved' : 'newest';
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
   const [lessons, setLessons] = useState([]);
@@ -32,7 +37,10 @@ const PublicLessons = () => {
       try {
         setLoading(true);
         const { data } = await apiClient.get('/lessons', {
-          params: { limit: 100, sort: '-createdAt' },
+          params: {
+            limit: 100,
+            sort: sortBy === 'mostSaved' ? '-favoritesCount' : '-createdAt',
+          },
         });
         if (!isMounted) return;
         setLessons(data?.lessons || []);
@@ -48,7 +56,13 @@ const PublicLessons = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [sortBy]);
+
+  useEffect(() => {
+    const sortParam = searchParams.get('sort');
+    const nextSort = sortParam === 'mostSaved' ? 'mostSaved' : 'newest';
+    setSortBy((prev) => (prev === nextSort ? prev : nextSort));
+  }, [searchParams]);
 
   // Get only public lessons
   const publicLessons = lessons.filter(lesson => lesson.visibility === 'public');
@@ -86,7 +100,7 @@ const PublicLessons = () => {
     if (sortBy === 'newest') {
       result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     } else if (sortBy === 'mostSaved') {
-      result.sort((a, b) => b.favoritesCount - a.favoritesCount);
+      result.sort((a, b) => (b.favoritesCount || 0) - (a.favoritesCount || 0));
     }
 
     return result;
@@ -103,6 +117,16 @@ const PublicLessons = () => {
   const handleFilterChange = (setter) => (value) => {
     setter(value);
     setCurrentPage(1);
+
+    if (setter === setSortBy) {
+      const params = new URLSearchParams(searchParams);
+      if (value === 'newest') {
+        params.delete('sort');
+      } else {
+        params.set('sort', value);
+      }
+      setSearchParams(params);
+    }
   };
 
   // Clear all filters
@@ -113,6 +137,9 @@ const PublicLessons = () => {
     setSelectedAccessLevel('');
     setSortBy('newest');
     setCurrentPage(1);
+    const params = new URLSearchParams(searchParams);
+    params.delete('sort');
+    setSearchParams(params);
   };
 
   // Check if any filter is active

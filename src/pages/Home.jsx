@@ -1,7 +1,7 @@
 // Home Page - LifeCherry
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiArrowRight, FiBookOpen, FiHeart, FiUsers, FiStar } from 'react-icons/fi';
+import { FiArrowRight, FiBookOpen, FiHeart, FiUsers, FiStar, FiLock, FiImage } from 'react-icons/fi';
 import apiClient from '../utils/apiClient';
 import HeroSlider from '../components/home/HeroSlider';
 import PageLoader from '../components/shared/PageLoader';
@@ -89,7 +89,7 @@ const Home = () => {
               <h2 className="text-3xl font-bold text-text-cherry">Featured Lessons</h2>
               <p className="text-text-secondary mt-2">Handpicked wisdom from our community</p>
             </div>
-            <Link to="/public-lessons" className="text-cherry hover:underline flex items-center gap-1">
+            <Link to="/public-lessons?sort=mostSaved" className="text-cherry hover:underline flex items-center gap-1">
               View All <FiArrowRight />
             </Link>
           </div>
@@ -263,13 +263,40 @@ const Home = () => {
                 className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
               >
                 {lesson.accessLevel === 'premium' && (
-                  <div className="absolute inset-0 bg-white/80 backdrop-blur-[1px] z-10 flex items-center justify-center">
-                    <div className="text-center px-4">
-                      <span className="badge-premium text-xs inline-flex items-center gap-1 mb-2">⭐ Premium</span>
-                      <p className="text-sm text-text-secondary">Upgrade to unlock this lesson</p>
+                  <div className="absolute inset-0 bg-white/85 backdrop-blur-sm z-10 flex items-center justify-center">
+                    <div className="text-center px-4 flex flex-col items-center gap-3">
+                      <div className="w-16 h-16 rounded-full bg-cherry-50 border border-cherry-100 flex items-center justify-center shadow-sm">
+                        <FiLock className="text-cherry w-8 h-8" aria-hidden />
+                      </div>
+                      <div>
+                        <span className="badge-premium text-xs inline-flex items-center gap-1 mb-2">⭐ Premium</span>
+                        <p className="text-lg font-semibold text-text-cherry">Upgrade to unlock this lesson</p>
+                      </div>
+                      <Link
+                        to="/pricing"
+                        className="px-4 py-2 bg-cherry text-white text-sm font-semibold rounded-full shadow hover:bg-cherry-600 transition-colors"
+                      >
+                        Upgrade Now
+                      </Link>
                     </div>
                   </div>
                 )}
+
+                <div className="mb-4 rounded-xl overflow-hidden h-44 bg-gradient-to-br from-cherry-50 to-white">
+                  {lesson.image ? (
+                    <img
+                      src={lesson.image}
+                      alt={lesson.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="h-full w-full flex items-center justify-center text-text-muted gap-2 text-sm">
+                      <FiImage className="w-5 h-5" aria-hidden />
+                      <span>Image coming soon</span>
+                    </div>
+                  )}
+                </div>
 
                 <div className="flex items-center gap-2 mb-3">
                   <span className="px-3 py-1 bg-cherry-50 text-cherry text-xs font-medium rounded-full">
