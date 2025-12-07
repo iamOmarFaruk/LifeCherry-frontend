@@ -16,6 +16,8 @@ import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
 import NotFound from './pages/NotFound';
 import Loading from './components/shared/Loading';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 // Dashboard Pages
 import DashboardHome from './pages/dashboard/DashboardHome';
@@ -68,6 +70,14 @@ const router = createBrowserRouter([
       {
         path: 'payment/cancel',
         element: <PaymentCancel />
+      },
+      {
+        path: 'terms',
+        element: <Terms />
+      },
+      {
+        path: 'privacy',
+        element: <Privacy />
       },
       // TODO: Add more routes (dashboard, etc.)
     ]
