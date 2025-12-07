@@ -651,34 +651,54 @@ const LessonDetails = () => {
                 </h2>
 
                 {/* Comment Form */}
-                <form onSubmit={handleCommentSubmit} className="mb-8">
-                  <div className="flex gap-3">
-                    <img 
-                      src={currentUser?.photoURL || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face'}
-                      alt="Your avatar"
-                      className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                    />
-                    <div className="flex-1">
-                      <textarea
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder={isLoggedIn ? "Share your thoughts..." : "Login to leave a comment..."}
-                        rows={3}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all resize-none text-text-primary"
+                {isLoggedIn ? (
+                  <form onSubmit={handleCommentSubmit} className="mb-8">
+                    <div className="flex gap-3">
+                      <img 
+                        src={currentUser?.photoURL || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face'}
+                        alt="Your avatar"
+                        className="w-10 h-10 rounded-full object-cover flex-shrink-0"
                       />
-                      <div className="flex justify-end mt-2">
-                        <button 
-                          type="submit"
-                          className="flex items-center gap-2 px-5 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-dark transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                          disabled={!newComment.trim()}
-                        >
-                          <FiSend className="w-4 h-4" />
-                          Post Comment
-                        </button>
+                      <div className="flex-1">
+                        <textarea
+                          value={newComment}
+                          onChange={(e) => setNewComment(e.target.value)}
+                          placeholder="Share your thoughts..."
+                          rows={3}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all resize-none text-text-primary"
+                        />
+                        <div className="flex justify-end mt-2">
+                          <button 
+                            type="submit"
+                            className="flex items-center gap-2 px-5 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-dark transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled={!newComment.trim()}
+                          >
+                            <FiSend className="w-4 h-4" />
+                            Post Comment
+                          </button>
+                        </div>
                       </div>
                     </div>
+                  </form>
+                ) : (
+                  <div className="mb-8 bg-white border border-gray-100 rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4 shadow-sm">
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                      <div className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200" />
+                      <div>
+                        <p className="font-semibold text-text-primary">Login to comment</p>
+                        <p className="text-sm text-text-secondary">Join the conversation to share your thoughts.</p>
+                      </div>
+                    </div>
+                    <div className="flex-1" />
+                    <Link
+                      to="/login"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-dark transition-all"
+                    >
+                      <FiSend className="w-4 h-4" />
+                      Login to comment
+                    </Link>
                   </div>
-                </form>
+                )}
 
                 {/* Comments List */}
                 <div className="space-y-6">
