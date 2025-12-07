@@ -681,15 +681,12 @@ const LessonDetails = () => {
                     </div>
                   </form>
                 ) : (
-                  <div className="mb-8 bg-white border border-gray-100 rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4 shadow-sm">
-                    <div className="flex items-center gap-3 w-full sm:w-auto">
-                      <div className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200" />
-                      <div>
-                        <p className="font-semibold text-text-primary">Login to comment</p>
-                        <p className="text-sm text-text-secondary">Join the conversation to share your thoughts.</p>
-                      </div>
+                  <div className="mb-8 bg-white border border-gray-100 rounded-2xl p-6 flex flex-col items-center text-center gap-3 shadow-sm">
+                    <FiMessageCircle className="w-8 h-8 text-cherry" />
+                    <div>
+                      <p className="font-semibold text-text-primary">Login to comment</p>
+                      <p className="text-sm text-text-secondary">Join the conversation to share your thoughts.</p>
                     </div>
-                    <div className="flex-1" />
                     <Link
                       to="/login"
                       className="inline-flex items-center gap-2 px-5 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-dark transition-all"
