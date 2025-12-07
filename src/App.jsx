@@ -16,6 +16,7 @@ import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
 import NotFound from './pages/NotFound';
 import Loading from './components/shared/Loading';
+import CookieConsentToast from './components/shared/CookieConsentToast';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 
@@ -166,6 +167,7 @@ function App() {
           },
         }}
       />
+      <CookieConsentToast />
     </>
   );
 }
