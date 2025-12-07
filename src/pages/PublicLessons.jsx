@@ -1,8 +1,9 @@
 // Public Lessons Page - LifeCherry
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiSearch, FiFilter, FiLock, FiHeart, FiBookmark, FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
-import { lessons, categories, emotionalTones } from '../data/lessons';
+import { categories, emotionalTones } from '../data/lessons';
+import apiClient from '../utils/apiClient';
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
@@ -18,9 +19,36 @@ const PublicLessons = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
+  const [lessons, setLessons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Simulating user premium status (will be from context later)
   const isUserPremium = false;
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLessons = async () => {
+      try {
+        setLoading(true);
+        const { data } = await apiClient.get('/lessons', {
+          params: { limit: 100, sort: '-createdAt' },
+        });
+        if (!isMounted) return;
+        setLessons(data?.lessons || []);
+      } catch (err) {
+        if (!isMounted) return;
+        setError('Failed to load lessons. Please try again.');
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchLessons();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Get only public lessons
   const publicLessons = lessons.filter(lesson => lesson.visibility === 'public');
@@ -102,6 +130,9 @@ const PublicLessons = () => {
   return (
     <PageLoader>
       <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white">
+        {error && (
+          <div className="bg-red-50 text-red-700 px-4 py-3 text-center">{error}</div>
+        )}
         {/* Hero Header Section with Background Image */}
         <div 
           className="relative bg-cover bg-center bg-no-repeat"
@@ -259,7 +290,9 @@ const PublicLessons = () => {
           </div>
 
           {/* Lessons Grid */}
-          {paginatedLessons.length > 0 ? (
+          {loading ? (
+            <div className="text-center text-text-secondary py-16">Loading lessons...</div>
+          ) : paginatedLessons.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {paginatedLessons.map((lesson) => {
                 const isPremiumLocked = lesson.accessLevel === 'premium' && !isUserPremium;

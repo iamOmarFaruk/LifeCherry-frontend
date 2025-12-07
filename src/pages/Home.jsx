@@ -1,23 +1,80 @@
 // Home Page - LifeCherry
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiBookOpen, FiHeart, FiUsers, FiStar } from 'react-icons/fi';
-import { getFeaturedLessons, getMostSavedLessons } from '../data/lessons';
-import { users } from '../data/users';
+import apiClient from '../utils/apiClient';
 import HeroSlider from '../components/home/HeroSlider';
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const Home = () => {
   useDocumentTitle('Home');
-  const featuredLessons = getFeaturedLessons();
-  const mostSavedLessons = getMostSavedLessons(6);
+  const [lessons, setLessons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Get top contributors (users with most lessons)
-  const topContributors = users.slice(0, 5);
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLessons = async () => {
+      try {
+        setLoading(true);
+        const { data } = await apiClient.get('/lessons', {
+          params: { limit: 100, sort: '-favoritesCount' },
+        });
+        if (!isMounted) return;
+        setLessons(data?.lessons || []);
+      } catch (err) {
+        if (!isMounted) return;
+        setError('Failed to load lessons. Please try again.');
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchLessons();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const featuredLessons = useMemo(() => {
+    if (!lessons.length) return [];
+    const featured = lessons.filter((l) => l.isFeatured);
+    if (featured.length) return featured.slice(0, 6);
+    return [...lessons].sort((a, b) => (b.favoritesCount || 0) - (a.favoritesCount || 0)).slice(0, 6);
+  }, [lessons]);
+
+  const mostSavedLessons = useMemo(() => {
+    return [...lessons].sort((a, b) => (b.favoritesCount || 0) - (a.favoritesCount || 0)).slice(0, 6);
+  }, [lessons]);
+
+  const topContributors = useMemo(() => {
+    if (!lessons.length) return [];
+    const byAuthor = lessons.reduce((acc, lesson) => {
+      const key = lesson.creatorEmail || lesson.creatorName || 'unknown';
+      if (!acc[key]) {
+        acc[key] = {
+          creatorEmail: lesson.creatorEmail,
+          name: lesson.creatorName || 'Unknown',
+          photoURL: lesson.creatorPhoto,
+          lessonsCount: 0,
+        };
+      }
+      acc[key].lessonsCount += 1;
+      return acc;
+    }, {});
+
+    return Object.values(byAuthor)
+      .sort((a, b) => b.lessonsCount - a.lessonsCount)
+      .slice(0, 5);
+  }, [lessons]);
 
   return (
     <PageLoader>
+      {error && (
+        <div className="bg-red-50 text-red-700 px-4 py-3 text-center">{error}</div>
+      )}
+
       {/* Hero Slider Section */}
       <HeroSlider />
 
@@ -35,7 +92,13 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredLessons.slice(0, 6).map((lesson) => (
+            {loading && (
+              <div className="col-span-full text-center text-text-secondary">Loading lessons...</div>
+            )}
+            {!loading && !featuredLessons.length && (
+              <div className="col-span-full text-center text-text-secondary">No lessons available yet.</div>
+            )}
+            {!loading && featuredLessons.map((lesson) => (
               <div key={lesson._id} className="glass-card hover:shadow-xl transition-shadow">
                 <img
                   src={lesson.image}
@@ -143,11 +206,17 @@ const Home = () => {
           </div>
 
           <div className="flex flex-wrap justify-center gap-8">
-            {topContributors.map((user, index) => (
-              <div key={user._id} className="text-center">
+            {loading && (
+              <div className="text-text-secondary">Loading contributors...</div>
+            )}
+            {!loading && !topContributors.length && (
+              <div className="text-text-secondary">No contributors yet.</div>
+            )}
+            {!loading && topContributors.map((user, index) => (
+              <div key={user.creatorEmail || user.name || index} className="text-center">
                 <div className="relative inline-block">
                   <img
-                    src={user.photoURL}
+                    src={user.photoURL || 'https://i.pravatar.cc/150?img=64'}
                     alt={user.name}
                     className="w-20 h-20 rounded-full object-cover border-4 border-cherry-200"
                   />
@@ -158,7 +227,7 @@ const Home = () => {
                   )}
                 </div>
                 <h4 className="font-semibold text-text-cherry mt-3">{user.name}</h4>
-                <p className="text-text-muted text-sm">12 lessons</p>
+                <p className="text-text-muted text-sm">{user.lessonsCount} lessons</p>
               </div>
             ))}
           </div>
@@ -179,7 +248,13 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mostSavedLessons.map((lesson) => (
+            {loading && (
+              <div className="col-span-full text-center text-text-secondary">Loading lessons...</div>
+            )}
+            {!loading && !mostSavedLessons.length && (
+              <div className="col-span-full text-center text-text-secondary">No lessons available yet.</div>
+            )}
+            {!loading && mostSavedLessons.map((lesson) => (
               <div key={lesson._id} className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="px-3 py-1 bg-cherry-50 text-cherry text-xs font-medium rounded-full">
