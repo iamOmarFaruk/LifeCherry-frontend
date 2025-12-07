@@ -45,7 +45,10 @@ const Home = () => {
   }, [lessons]);
 
   const mostSavedLessons = useMemo(() => {
-    return [...lessons].sort((a, b) => (b.favoritesCount || 0) - (a.favoritesCount || 0)).slice(0, 6);
+    return [...lessons]
+      .filter((l) => l.visibility === 'public')
+      .sort((a, b) => (b.favoritesCount || 0) - (a.favoritesCount || 0))
+      .slice(0, 6);
   }, [lessons]);
 
   const topContributors = useMemo(() => {
@@ -255,13 +258,27 @@ const Home = () => {
               <div className="col-span-full text-center text-text-secondary">No lessons available yet.</div>
             )}
             {!loading && mostSavedLessons.map((lesson) => (
-              <div key={lesson._id} className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+              <div
+                key={lesson._id}
+                className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
+              >
+                {lesson.accessLevel === 'premium' && (
+                  <div className="absolute inset-0 bg-white/80 backdrop-blur-[1px] z-10 flex items-center justify-center">
+                    <div className="text-center px-4">
+                      <span className="badge-premium text-xs inline-flex items-center gap-1 mb-2">⭐ Premium</span>
+                      <p className="text-sm text-text-secondary">Upgrade to unlock this lesson</p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex items-center gap-2 mb-3">
                   <span className="px-3 py-1 bg-cherry-50 text-cherry text-xs font-medium rounded-full">
                     {lesson.category}
                   </span>
-                  {lesson.accessLevel === 'premium' && (
-                    <span className="badge-premium text-xs">⭐ Premium</span>
+                  {lesson.emotionalTone && (
+                    <span className="px-3 py-1 bg-gray-100 text-text-secondary text-xs font-medium rounded-full">
+                      {lesson.emotionalTone}
+                    </span>
                   )}
                 </div>
                 <h3 className="text-lg font-semibold text-text-cherry mb-2 line-clamp-2">
