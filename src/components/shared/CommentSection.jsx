@@ -5,8 +5,9 @@ import apiClient from '../../utils/apiClient';
 import toast from 'react-hot-toast';
 import CommentCard from './CommentCard';
 import Loading from './Loading';
+import DOMPurify from 'dompurify';
 
-export default function CommentSection() {
+export default function CommentSection({ onTotalChange }) {
   const { id: lessonId } = useParams();
   const { isLoggedIn, firebaseUser, userProfile } = useAuth();
   const [comments, setComments] = useState([]);
@@ -42,13 +43,18 @@ export default function CommentSection() {
       setTotal(data.total);
       setPage(pageNum);
       setHasMore(pageNum < data.pages);
+      
+      // Notify parent component of total change
+      if (onTotalChange) {
+        onTotalChange(data.total);
+      }
     } catch (error) {
       console.error('Error fetching comments:', error);
       toast.error('Failed to load comments');
     } finally {
       setLoading(false);
     }
-  }, [lessonId]);
+  }, [lessonId, onTotalChange]);
 
   useEffect(() => {
     if (lessonId) {
@@ -65,20 +71,41 @@ export default function CommentSection() {
       return;
     }
 
-    if (!newComment.trim()) {
+    const trimmedComment = newComment.trim();
+    
+    if (!trimmedComment) {
       toast.error('Comment cannot be empty');
+      return;
+    }
+
+    // Sanitize input on frontend (additional security layer)
+    const sanitizedContent = DOMPurify.sanitize(trimmedComment, {
+      ALLOWED_TAGS: [],
+      ALLOWED_ATTR: [],
+      KEEP_CONTENT: true
+    });
+
+    if (sanitizedContent.length > 2000) {
+      toast.error('Comment is too long (max 2000 characters)');
       return;
     }
 
     try {
       setPosting(true);
       const { data } = await apiClient.post(`/lessons/${lessonId}/comments`, {
-        content: newComment,
+        content: sanitizedContent,
       });
 
       setComments([data, ...comments]);
       setNewComment('');
-      setTotal(total + 1);
+      const newTotal = total + 1;
+      setTotal(newTotal);
+      
+      // Notify parent component of total change
+      if (onTotalChange) {
+        onTotalChange(newTotal);
+      }
+      
       toast.success('Comment posted!');
     } catch (error) {
       console.error('Error posting comment:', error);
@@ -99,7 +126,14 @@ export default function CommentSection() {
   // Handle comment delete
   const handleDeleteComment = (commentId) => {
     setComments(comments.filter((c) => c._id !== commentId));
-    setTotal(total - 1);
+    const newTotal = total - 1;
+    setTotal(newTotal);
+    
+    // Notify parent component of total change
+    if (onTotalChange) {
+      onTotalChange(newTotal);
+    }
+    
     toast.success('Comment deleted');
   };
 

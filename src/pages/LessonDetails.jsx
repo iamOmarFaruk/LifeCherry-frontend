@@ -56,6 +56,7 @@ const LessonDetails = () => {
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
+  const [commentsCount, setCommentsCount] = useState(0);
   const [showShareDropdown, setShowShareDropdown] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState('');
@@ -580,7 +581,7 @@ const LessonDetails = () => {
             {/* Comments Count */}
             <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-50 text-text-secondary text-sm font-medium">
               <FiMessageCircle className="w-4 h-4 text-green-500" />
-              <span>{comments.length} Comments</span>
+              <span>{commentsCount} {commentsCount === 1 ? 'Comment' : 'Comments'}</span>
             </div>
 
             {/* Report Button */}
@@ -743,7 +744,7 @@ const LessonDetails = () => {
                   <FiMessageCircle className="w-6 h-6" />
                   Comments & Discussion
                 </h2>
-                <CommentSection />
+                <CommentSection onTotalChange={setCommentsCount} />
               </div>
 
               {/* Related Lessons by Category */}
