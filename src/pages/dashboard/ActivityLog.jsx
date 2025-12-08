@@ -3,7 +3,6 @@ import React, { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { 
   HiOutlineClipboardDocumentList, 
-  HiOutlineArrowPath,
   HiOutlinePencilSquare,
   HiOutlineTrash,
   HiOutlineEye,
@@ -101,23 +100,14 @@ const ActivityLog = () => {
     <PageLoader>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-text flex items-center gap-3">
-              <div className="p-2 bg-cherry-50 rounded-lg">
-                <HiOutlineClipboardDocumentList className="w-7 h-7 text-cherry" />
-              </div>
-              Activity Log
-            </h1>
-            <p className="text-text-secondary text-sm mt-1">View all actions and changes across your account</p>
-          </div>
-          <button
-            onClick={() => refetch()}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-gray-200 text-sm font-medium text-text hover:border-cherry hover:bg-cherry-50 transition-all duration-200"
-          >
-            <HiOutlineArrowPath className="w-4 h-4" /> 
-            Refresh
-          </button>
+        <div>
+          <h1 className="text-3xl font-bold text-text flex items-center gap-3">
+            <div className="p-2 bg-cherry-50 rounded-lg">
+              <HiOutlineClipboardDocumentList className="w-7 h-7 text-cherry" />
+            </div>
+            Activity Log
+          </h1>
+          <p className="text-text-secondary text-sm mt-1">View all actions and changes across your account</p>
         </div>
 
         {/* Error State */}
