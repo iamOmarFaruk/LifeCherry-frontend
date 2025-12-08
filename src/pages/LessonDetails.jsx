@@ -515,6 +515,55 @@ const LessonDetails = () => {
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Lesson Metadata */}
+          <div className="bg-white rounded-2xl shadow-sm p-6 mb-8 border border-gray-100">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {/* Created Date */}
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center">
+                  <FiCalendar className="w-5 h-5 text-cherry" />
+                </div>
+                <div>
+                  <span className="text-xs text-text-muted block">Created</span>
+                  <p className="font-semibold text-text">{formatDate(lesson.createdAt)}</p>
+                </div>
+              </div>
+
+              {/* Last Updated */}
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                  <FiEdit3 className="w-5 h-5 text-blue-500" />
+                </div>
+                <div>
+                  <span className="text-xs text-text-muted block">Last Updated</span>
+                  <p className="font-semibold text-text">{formatDate(lesson.updatedAt || lesson.createdAt)}</p>
+                </div>
+              </div>
+
+              {/* Visibility */}
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
+                  <FiEye className="w-5 h-5 text-green-500" />
+                </div>
+                <div>
+                  <span className="text-xs text-text-muted block">Visibility</span>
+                  <p className="font-semibold text-text capitalize">{lesson.visibility}</p>
+                </div>
+              </div>
+
+              {/* Reading Time */}
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center">
+                  <FiClock className="w-5 h-5 text-amber-500" />
+                </div>
+                <div>
+                  <span className="text-xs text-text-muted block">Reading Time</span>
+                  <p className="font-semibold text-text">{readingTime} min</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Action Buttons - All in One Line */}
           <div className="flex flex-wrap items-center gap-3 py-4 border-y border-gray-100 mb-8">
             {/* Like Button with Count */}
