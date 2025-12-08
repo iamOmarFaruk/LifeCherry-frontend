@@ -246,13 +246,7 @@ const ActivityLog = () => {
           )}
         </div>
 
-        {/* Timeline Info */}
-        {changes.length > 0 && (
-          <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 text-sm text-blue-800">
-            <p className="font-medium">Viewing {changes.length} of {data?.total || 0} total activities</p>
-            <p className="text-xs text-blue-700 mt-1">Activities are sorted by most recent first</p>
-          </div>
-        )}
+
       </div>
     </PageLoader>
   );
