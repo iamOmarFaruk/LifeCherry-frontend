@@ -21,6 +21,14 @@ import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../hooks/useAuth';
 import apiClient from '../../utils/apiClient';
 
+// Calculate month-over-month change
+const calculateChange = (currentValue, previousValue) => {
+  if (previousValue === 0) {
+    return currentValue > 0 ? 100 : 0;
+  }
+  return Math.round(((currentValue - previousValue) / previousValue) * 100);
+};
+
 const DashboardHome = () => {
   useDocumentTitle('Dashboard');
   const { firebaseUser, userProfile, authLoading, profileLoading, authInitialized } = useAuth();
@@ -120,15 +128,36 @@ const DashboardHome = () => {
 
   const monthStats = useMemo(() => {
     const now = new Date();
+    
+    // Current month stats
     const sameMonthLessons = lessons.filter((lesson) => {
       const created = lesson.createdAt ? new Date(lesson.createdAt) : null;
       if (!created) return false;
       return created.getMonth() === now.getMonth() && created.getFullYear() === now.getFullYear();
     });
-    const createdCount = sameMonthLessons.length;
-    const likes = sameMonthLessons.reduce((acc, lesson) => acc + (lesson.likesCount || 0), 0);
-    const views = sameMonthLessons.reduce((acc, lesson) => acc + (lesson.views || 0), 0);
-    return { createdCount, likes, views };
+    const currentCreatedCount = sameMonthLessons.length;
+    const currentLikes = sameMonthLessons.reduce((acc, lesson) => acc + (lesson.likesCount || 0), 0);
+    const currentViews = sameMonthLessons.reduce((acc, lesson) => acc + (lesson.views || 0), 0);
+    const currentFavorites = sameMonthLessons.reduce((acc, lesson) => acc + (lesson.favoritesCount || 0), 0);
+
+    // Previous month stats
+    const previousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const previousMonthLessons = lessons.filter((lesson) => {
+      const created = lesson.createdAt ? new Date(lesson.createdAt) : null;
+      if (!created) return false;
+      return created.getMonth() === previousMonth.getMonth() && created.getFullYear() === previousMonth.getFullYear();
+    });
+    const previousCreatedCount = previousMonthLessons.length;
+    const previousLikes = previousMonthLessons.reduce((acc, lesson) => acc + (lesson.likesCount || 0), 0);
+    const previousViews = previousMonthLessons.reduce((acc, lesson) => acc + (lesson.views || 0), 0);
+    const previousFavorites = previousMonthLessons.reduce((acc, lesson) => acc + (lesson.favoritesCount || 0), 0);
+
+    return {
+      lessons: { current: currentCreatedCount, previous: previousCreatedCount },
+      likes: { current: currentLikes, previous: previousLikes },
+      views: { current: currentViews, previous: previousViews },
+      favorites: { current: currentFavorites, previous: previousFavorites },
+    };
   }, [lessons]);
 
   const isPremium = !!userProfile?.isPremium;
@@ -169,13 +198,27 @@ const DashboardHome = () => {
               <div className="flex-1">
                 <p className="text-sm font-medium text-text-muted mb-1">Total Lessons</p>
                 <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalLessons}</h3>
-                <div className="flex items-center gap-2 mt-3">
-                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-                    <HiOutlineArrowTrendingUp className="w-4 h-4" />
-                    12%
-                  </span>
-                  <span className="text-sm text-text-muted">vs last month</span>
-                </div>
+                {totalLessons === 0 ? (
+                  <div className="mt-3 p-2 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-text-muted font-medium">Start sharing lessons</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 mt-3">
+                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
+                      monthStats.lessons.current >= monthStats.lessons.previous
+                        ? 'text-green-600 bg-green-50'
+                        : 'text-red-600 bg-red-50'
+                    }`}>
+                      {monthStats.lessons.current >= monthStats.lessons.previous ? (
+                        <HiOutlineArrowTrendingUp className="w-4 h-4" />
+                      ) : (
+                        <HiOutlineArrowTrendingDown className="w-4 h-4" />
+                      )}
+                      {Math.abs(calculateChange(monthStats.lessons.current, monthStats.lessons.previous))}%
+                    </span>
+                    <span className="text-sm text-text-muted">vs last month</span>
+                  </div>
+                )}
               </div>
               <div className="w-11 h-11 bg-cherry-50 rounded-xl flex items-center justify-center group-hover:bg-cherry group-hover:scale-110 transition-all duration-300">
                 <HiOutlineBookOpen className="w-5 h-5 text-cherry group-hover:text-white transition-colors" />
@@ -189,13 +232,27 @@ const DashboardHome = () => {
               <div className="flex-1">
                 <p className="text-sm font-medium text-text-muted mb-1">Saved Favorites</p>
                 <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalFavorites}</h3>
-                <div className="flex items-center gap-2 mt-3">
-                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-                    <HiOutlineArrowTrendingUp className="w-4 h-4" />
-                    8%
-                  </span>
-                  <span className="text-sm text-text-muted">vs last month</span>
-                </div>
+                {totalFavorites === 0 ? (
+                  <div className="mt-3 p-2 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-text-muted font-medium">No saved favorites yet</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 mt-3">
+                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
+                      monthStats.favorites.current >= monthStats.favorites.previous
+                        ? 'text-green-600 bg-green-50'
+                        : 'text-red-600 bg-red-50'
+                    }`}>
+                      {monthStats.favorites.current >= monthStats.favorites.previous ? (
+                        <HiOutlineArrowTrendingUp className="w-4 h-4" />
+                      ) : (
+                        <HiOutlineArrowTrendingDown className="w-4 h-4" />
+                      )}
+                      {Math.abs(calculateChange(monthStats.favorites.current, monthStats.favorites.previous))}%
+                    </span>
+                    <span className="text-sm text-text-muted">vs last month</span>
+                  </div>
+                )}
               </div>
               <div className="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center group-hover:bg-amber-500 group-hover:scale-110 transition-all duration-300">
                 <HiOutlineBookmark className="w-5 h-5 text-amber-500 group-hover:text-white transition-colors" />
@@ -209,13 +266,27 @@ const DashboardHome = () => {
               <div className="flex-1">
                 <p className="text-sm font-medium text-text-muted mb-1">Total Likes</p>
                 <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalLikes.toLocaleString()}</h3>
-                <div className="flex items-center gap-2 mt-3">
-                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-                    <HiOutlineArrowTrendingUp className="w-4 h-4" />
-                    24%
-                  </span>
-                  <span className="text-sm text-text-muted">vs last month</span>
-                </div>
+                {totalLikes === 0 ? (
+                  <div className="mt-3 p-2 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-text-muted font-medium">Likes coming soon</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 mt-3">
+                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
+                      monthStats.likes.current >= monthStats.likes.previous
+                        ? 'text-green-600 bg-green-50'
+                        : 'text-red-600 bg-red-50'
+                    }`}>
+                      {monthStats.likes.current >= monthStats.likes.previous ? (
+                        <HiOutlineArrowTrendingUp className="w-4 h-4" />
+                      ) : (
+                        <HiOutlineArrowTrendingDown className="w-4 h-4" />
+                      )}
+                      {Math.abs(calculateChange(monthStats.likes.current, monthStats.likes.previous))}%
+                    </span>
+                    <span className="text-sm text-text-muted">vs last month</span>
+                  </div>
+                )}
               </div>
               <div className="w-11 h-11 bg-rose-50 rounded-xl flex items-center justify-center group-hover:bg-rose-500 group-hover:scale-110 transition-all duration-300">
                 <HiOutlineHeart className="w-5 h-5 text-rose-500 group-hover:text-white transition-colors" />
@@ -229,13 +300,27 @@ const DashboardHome = () => {
               <div className="flex-1">
                 <p className="text-sm font-medium text-text-muted mb-1">Total Views</p>
                 <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalViews.toLocaleString()}</h3>
-                <div className="flex items-center gap-2 mt-3">
-                  <span className="flex items-center gap-1 text-sm font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">
-                    <HiOutlineArrowTrendingDown className="w-4 h-4" />
-                    5%
-                  </span>
-                  <span className="text-sm text-text-muted">vs last month</span>
-                </div>
+                {totalViews === 0 ? (
+                  <div className="mt-3 p-2 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-text-muted font-medium">Build your audience</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 mt-3">
+                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
+                      monthStats.views.current >= monthStats.views.previous
+                        ? 'text-green-600 bg-green-50'
+                        : 'text-red-600 bg-red-50'
+                    }`}>
+                      {monthStats.views.current >= monthStats.views.previous ? (
+                        <HiOutlineArrowTrendingUp className="w-4 h-4" />
+                      ) : (
+                        <HiOutlineArrowTrendingDown className="w-4 h-4" />
+                      )}
+                      {Math.abs(calculateChange(monthStats.views.current, monthStats.views.previous))}%
+                    </span>
+                    <span className="text-sm text-text-muted">vs last month</span>
+                  </div>
+                )}
               </div>
               <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
                 <HiOutlineEye className="w-5 h-5 text-blue-500 group-hover:text-white transition-colors" />
