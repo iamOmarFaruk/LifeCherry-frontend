@@ -17,53 +17,56 @@ const formatDateTime = (value) => {
   });
 };
 
-const ActivityTable = ({ title, icon: Icon, colorClass, items, isLoading }) => (
-  <div className="bg-white rounded-2xl border border-border shadow-sm p-5 space-y-4">
-    <div className="flex items-center gap-3">
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${colorClass}`}>
-        <Icon className="w-5 h-5" />
+const ActivityTable = ({ title, icon, colorClass, items, isLoading }) => {
+  const IconComponent = icon;
+  return (
+    <div className="bg-white rounded-2xl border border-border shadow-sm p-5 space-y-4">
+      <div className="flex items-center gap-3">
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${colorClass}`}>
+          <IconComponent className="w-5 h-5" />
+        </div>
+        <div>
+          <h2 className="text-lg font-bold text-text">{title}</h2>
+          <p className="text-sm text-text-secondary">Latest changes</p>
+        </div>
       </div>
-      <div>
-        <h2 className="text-lg font-bold text-text">{title}</h2>
-        <p className="text-sm text-text-secondary">Latest changes</p>
-      </div>
-    </div>
-    <div className="overflow-x-auto">
-      <table className="min-w-full text-sm">
-        <thead>
-          <tr className="text-left text-text-muted border-b border-border">
-            <th className="py-2 pr-4">When</th>
-            <th className="py-2 pr-4">Actor</th>
-            <th className="py-2 pr-4">Action</th>
-            <th className="py-2 pr-4">Target</th>
-            <th className="py-2 pr-4">Summary</th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
-            <tr>
-              <td className="py-4 text-text-secondary" colSpan={5}>Loading...</td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-sm">
+          <thead>
+            <tr className="text-left text-text-muted border-b border-border">
+              <th className="py-2 pr-4">When</th>
+              <th className="py-2 pr-4">Actor</th>
+              <th className="py-2 pr-4">Action</th>
+              <th className="py-2 pr-4">Target</th>
+              <th className="py-2 pr-4">Summary</th>
             </tr>
-          ) : items.length === 0 ? (
-            <tr>
-              <td className="py-4 text-text-secondary" colSpan={5}>No activity yet</td>
-            </tr>
-          ) : (
-            items.map((item) => (
-              <tr key={item.id} className="border-b border-border/60 last:border-0">
-                <td className="py-3 pr-4 whitespace-nowrap text-text-secondary">{formatDateTime(item.createdAt)}</td>
-                <td className="py-3 pr-4 whitespace-nowrap">{item.actorEmail}</td>
-                <td className="py-3 pr-4 whitespace-nowrap capitalize">{item.action.replace('-', ' ')}</td>
-                <td className="py-3 pr-4 whitespace-nowrap capitalize">{item.targetType}</td>
-                <td className="py-3 pr-4 text-text-secondary">{item.summary || '-'}</td>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <tr>
+                <td className="py-4 text-text-secondary" colSpan={5}>Loading...</td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : items.length === 0 ? (
+              <tr>
+                <td className="py-4 text-text-secondary" colSpan={5}>No activity yet</td>
+              </tr>
+            ) : (
+              items.map((item) => (
+                <tr key={item.id} className="border-b border-border/60 last:border-0">
+                  <td className="py-3 pr-4 whitespace-nowrap text-text-secondary">{formatDateTime(item.createdAt)}</td>
+                  <td className="py-3 pr-4 whitespace-nowrap">{item.actorEmail}</td>
+                  <td className="py-3 pr-4 whitespace-nowrap capitalize">{item.action.replace('-', ' ')}</td>
+                  <td className="py-3 pr-4 whitespace-nowrap capitalize">{item.targetType}</td>
+                  <td className="py-3 pr-4 text-text-secondary">{item.summary || '-'}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const AdminActivity = () => {
   useDocumentTitle('Activity - Admin');
