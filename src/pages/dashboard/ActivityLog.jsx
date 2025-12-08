@@ -69,6 +69,30 @@ const getTargetDetails = (targetType) => {
   return details[targetType] || { icon: HiOutlineClipboardDocumentList, label: targetType, color: 'text-gray-600' };
 };
 
+const formatMetadataField = (key) => {
+  const fieldLabels = {
+    'visibility': 'Visibility',
+    'accessLevel': 'Access Level',
+    'isFeatured': 'Featured',
+    'isReviewed': 'Reviewed',
+    'name': 'Display Name',
+    'photoURL': 'Profile Picture',
+    'isPremium': 'Premium Status',
+    'role': 'Account Role',
+  };
+  return fieldLabels[key] || key.charAt(0).toUpperCase() + key.slice(1);
+};
+
+const formatMetadataValue = (value) => {
+  if (typeof value === 'boolean') {
+    return value ? 'Yes' : 'No';
+  }
+  if (typeof value === 'string' && value.startsWith('http')) {
+    return '[Image URL]';
+  }
+  return String(value);
+};
+
 const ActivityLog = () => {
   useDocumentTitle('Activity Log');
   const { authLoading } = useAuth();
@@ -231,8 +255,8 @@ const ActivityLog = () => {
                           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
                             {Object.entries(item.metadata).map(([key, value]) => (
                               <div key={key} className="flex gap-1">
-                                <span className="text-text-muted font-medium">{key}:</span>
-                                <span className="text-text-secondary truncate">{String(value)}</span>
+                                <span className="text-text-muted font-medium">{formatMetadataField(key)}:</span>
+                                <span className="text-text-secondary truncate">{formatMetadataValue(value)}</span>
                               </div>
                             ))}
                           </div>
