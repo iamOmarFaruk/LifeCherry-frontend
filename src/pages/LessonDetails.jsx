@@ -489,13 +489,19 @@ const LessonDetails = () => {
 
               {/* Category & Tone Badges */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1 bg-cherry text-white rounded-full text-sm font-medium">
+                <button 
+                  onClick={() => navigate(`/public-lessons?category=${encodeURIComponent(lesson.category)}`)}
+                  className="px-3 py-1 bg-cherry text-white rounded-full text-sm font-medium hover:bg-cherry-dark transition-colors cursor-pointer"
+                >
                   {lesson.category}
-                </span>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getToneColor(lesson.emotionalTone)}`}>
+                </button>
+                <button 
+                  onClick={() => navigate(`/public-lessons?emotionalTone=${encodeURIComponent(lesson.emotionalTone)}`)}
+                  className={`px-3 py-1 rounded-full text-sm font-medium hover:opacity-80 transition-opacity cursor-pointer ${getToneColor(lesson.emotionalTone)}`}
+                >
                   <FiSmile className="inline w-3.5 h-3.5 mr-1" />
                   {lesson.emotionalTone}
-                </span>
+                </button>
                 {lesson.accessLevel === 'premium' && (
                   <span className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-full text-sm font-medium">
                     <FiLock className="w-3.5 h-3.5" />

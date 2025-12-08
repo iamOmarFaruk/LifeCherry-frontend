@@ -17,8 +17,12 @@ const PublicLessons = () => {
 
   // Filter & Search State
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedTone, setSelectedTone] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    return searchParams.get('category') || '';
+  });
+  const [selectedTone, setSelectedTone] = useState(() => {
+    return searchParams.get('emotionalTone') || '';
+  });
   const [selectedAccessLevel, setSelectedAccessLevel] = useState('');
   const [sortBy, setSortBy] = useState(() => {
     const sortParam = searchParams.get('sort');
