@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
   const [firebaseUser, setFirebaseUser] = useState(null);
   const [token, setToken] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [authInitialized, setAuthInitialized] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
@@ -27,6 +28,7 @@ const AuthProvider = ({ children }) => {
         queryClient.removeQueries({ queryKey: ['userProfile'] });
       }
       setAuthLoading(false);
+      setAuthInitialized(true);
     });
     return unsubscribe;
   }, [queryClient]);
@@ -97,6 +99,7 @@ const AuthProvider = ({ children }) => {
     firebaseUser,
     token,
     authLoading,
+    authInitialized,
     userProfile: profileQuery.data,
     profileLoading: profileQuery.isLoading,
     profileRefetch: profileQuery.refetch,

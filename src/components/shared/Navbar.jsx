@@ -8,7 +8,7 @@ import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { firebaseUser, userProfile, authLoading, profileLoading, logout } = useAuth();
+  const { firebaseUser, userProfile, authLoading, authInitialized, profileLoading, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -36,6 +36,8 @@ const Navbar = () => {
   }, [lastScrollY]);
 
   const providerPhotoURL = firebaseUser?.photoURL || firebaseUser?.providerData?.find((p) => p?.photoURL)?.photoURL;
+
+  const authReady = authInitialized ? !authLoading && authInitialized : !authLoading;
 
   const user = firebaseUser
     ? {
@@ -98,7 +100,7 @@ const Navbar = () => {
               </NavLink>
             ))}
             
-            {user && privateLinks.map((link) => (
+            {authReady && user && privateLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
@@ -108,8 +110,15 @@ const Navbar = () => {
               </NavLink>
             ))}
 
+            {!authReady && (
+              <div className="flex items-center gap-3">
+                <div className="h-3 w-20 rounded-full bg-gray-100 animate-pulse" />
+                <div className="h-3 w-24 rounded-full bg-gray-100 animate-pulse" />
+              </div>
+            )}
+
             {/* Pricing - show for all logged-in users */}
-            {user && (
+            {authReady && user && (
               <NavLink
                 to="/pricing"
                 className={({ isActive }) => isActive ? activeClass : inactiveClass}
@@ -121,8 +130,14 @@ const Navbar = () => {
 
           {/* Auth Buttons / User Menu */}
           <div className="hidden md:flex items-center gap-4">
-            {authLoading ? (
-              <div className="w-10 h-10 rounded-full bg-gray-100 border border-border animate-pulse" aria-label="Loading user" />
+            {!authReady ? (
+              <div className="flex items-center gap-3" aria-label="Loading user">
+                <div className="w-10 h-10 rounded-full bg-gray-100 border border-border animate-pulse" />
+                <div className="space-y-2">
+                  <div className="h-2.5 w-20 bg-gray-100 rounded-full animate-pulse" />
+                  <div className="h-2 w-16 bg-gray-100 rounded-full animate-pulse" />
+                </div>
+              </div>
             ) : user ? (
               <div className="relative">
                 <button
@@ -255,7 +270,7 @@ const Navbar = () => {
 
               <hr className="my-2 border-border" />
 
-              {authLoading ? (
+              {!authReady ? (
                 <div className="flex items-center gap-3 px-4 py-2">
                   <div className="w-10 h-10 rounded-full bg-gray-100 border border-border animate-pulse" aria-label="Loading user" />
                   <div className="space-y-1">
