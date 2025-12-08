@@ -35,11 +35,13 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  const providerPhotoURL = firebaseUser?.photoURL || firebaseUser?.providerData?.find((p) => p?.photoURL)?.photoURL;
+
   const user = firebaseUser
     ? {
         name: userProfile?.name || firebaseUser.displayName || 'User',
         email: firebaseUser.email,
-        photoURL: userProfile?.photoURL || firebaseUser.photoURL,
+        photoURL: userProfile?.photoURL || providerPhotoURL,
         isPremium: !!userProfile?.isPremium,
       }
     : null;
@@ -130,6 +132,7 @@ const Navbar = () => {
                   <img
                     src={avatarUrl}
                     alt={user.name}
+                    referrerPolicy="no-referrer"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = avatarFallback;
@@ -266,6 +269,7 @@ const Navbar = () => {
                     <img
                       src={avatarUrl}
                       alt={user.name}
+                      referrerPolicy="no-referrer"
                       onError={(e) => {
                         e.currentTarget.onerror = null;
                         e.currentTarget.src = avatarFallback;
