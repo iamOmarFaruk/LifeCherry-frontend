@@ -145,8 +145,11 @@ const MyReports = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
+    const dateOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+    const dateStr = date.toLocaleDateString('en-US', dateOptions);
+    const timeStr = date.toLocaleTimeString('en-US', timeOptions);
+    return `${dateStr} at ${timeStr}`;
   };
 
   const filters = [
