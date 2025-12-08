@@ -502,64 +502,85 @@ const DashboardHome = () => {
               <h2 className="text-lg font-bold text-text">Recently Added Lessons</h2>
               <p className="text-sm text-text-secondary">Your latest contributions</p>
             </div>
-            <Link
-              to="/dashboard/my-lessons"
-              className="text-cherry text-sm font-medium hover:underline flex items-center gap-1"
-            >
-              View All <HiOutlineArrowRight className="w-4 h-4" />
-            </Link>
+            {recentLessons.length > 0 && (
+              <Link
+                to="/dashboard/my-lessons"
+                className="text-cherry text-sm font-medium hover:underline flex items-center gap-1"
+              >
+                View All <HiOutlineArrowRight className="w-4 h-4" />
+              </Link>
+            )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {recentLessons.map((lesson) => (
-              <div 
-                key={lesson._id} 
-                className="group bg-bg rounded-xl p-4 hover:shadow-md transition-all border border-transparent hover:border-cherry-100"
-              >
-                <div className="relative mb-3">
-                  <img
-                    src={lesson.image}
-                    alt={lesson.title}
-                    className="w-full h-32 object-cover rounded-lg"
-                  />
-                  <div className="absolute top-2 right-2 flex gap-1">
-                    {lesson.accessLevel === 'premium' && (
-                      <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-white text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-0.5">
-                        <HiOutlineStar className="w-3 h-3" /> Premium
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="px-2 py-0.5 bg-cherry-50 text-cherry text-[10px] font-medium rounded-full">
-                    {lesson.category}
-                  </span>
-                  <span className="px-2 py-0.5 bg-gray-100 text-text-secondary text-[10px] font-medium rounded-full">
-                    {lesson.emotionalTone}
-                  </span>
-                </div>
-                <h3 className="font-semibold text-text text-sm mb-2 line-clamp-2 group-hover:text-cherry transition-colors">
-                  {lesson.title}
-                </h3>
-                <div className="flex items-center justify-between text-xs text-text-muted">
-                  <span className="flex items-center gap-1">
-                    <HiOutlineCalendarDays className="w-3.5 h-3.5" />
-                    {formatDate(lesson.createdAt)}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span className="flex items-center gap-0.5">
-                      <HiOutlineHeart className="w-3.5 h-3.5" />
-                      {lesson.likesCount}
-                    </span>
-                    <span className="flex items-center gap-0.5">
-                      <HiOutlineBookmark className="w-3.5 h-3.5" />
-                      {lesson.favoritesCount}
-                    </span>
-                  </div>
-                </div>
+          {recentLessons.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12">
+              <div className="w-16 h-16 bg-cherry-50 rounded-full flex items-center justify-center mb-4">
+                <HiOutlineBookOpen className="w-8 h-8 text-cherry" />
               </div>
-            ))}
-          </div>
+              <h3 className="text-lg font-semibold text-text mb-2">No Lessons Yet</h3>
+              <p className="text-text-secondary text-center mb-6 max-w-sm">
+                Start sharing your life lessons with the community. Your contributions will appear here.
+              </p>
+              <Link
+                to="/dashboard/add-lesson"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-dark transition-colors"
+              >
+                <HiOutlinePlusCircle className="w-5 h-5" />
+                Create Your First Lesson
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {recentLessons.map((lesson) => (
+                <div 
+                  key={lesson._id} 
+                  className="group bg-bg rounded-xl p-4 hover:shadow-md transition-all border border-transparent hover:border-cherry-100"
+                >
+                  <div className="relative mb-3">
+                    <img
+                      src={lesson.image}
+                      alt={lesson.title}
+                      className="w-full h-32 object-cover rounded-lg"
+                    />
+                    <div className="absolute top-2 right-2 flex gap-1">
+                      {lesson.accessLevel === 'premium' && (
+                        <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-white text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-0.5">
+                          <HiOutlineStar className="w-3 h-3" /> Premium
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="px-2 py-0.5 bg-cherry-50 text-cherry text-[10px] font-medium rounded-full">
+                      {lesson.category}
+                    </span>
+                    <span className="px-2 py-0.5 bg-gray-100 text-text-secondary text-[10px] font-medium rounded-full">
+                      {lesson.emotionalTone}
+                    </span>
+                  </div>
+                  <h3 className="font-semibold text-text text-sm mb-2 line-clamp-2 group-hover:text-cherry transition-colors">
+                    {lesson.title}
+                  </h3>
+                  <div className="flex items-center justify-between text-xs text-text-muted">
+                    <span className="flex items-center gap-1">
+                      <HiOutlineCalendarDays className="w-3.5 h-3.5" />
+                      {formatDate(lesson.createdAt)}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="flex items-center gap-0.5">
+                        <HiOutlineHeart className="w-3.5 h-3.5" />
+                        {lesson.likesCount}
+                      </span>
+                      <span className="flex items-center gap-0.5">
+                        <HiOutlineBookmark className="w-3.5 h-3.5" />
+                        {lesson.favoritesCount}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Premium Upgrade Banner (for free users) */}
