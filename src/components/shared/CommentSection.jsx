@@ -1,14 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import apiClient from '../utils/apiClient';
+import useAuth from '../../hooks/useAuth';
+import apiClient from '../../utils/apiClient';
 import toast from 'react-hot-toast';
 import CommentCard from './CommentCard';
 import Loading from './Loading';
 
 export default function CommentSection() {
   const { id: lessonId } = useParams();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, firebaseUser, userProfile } = useAuth();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,6 +17,13 @@ export default function CommentSection() {
   const [total, setTotal] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const LIMIT = 10;
+
+  // Get user info for avatar
+  const providerPhotoURL = firebaseUser?.photoURL || firebaseUser?.providerData?.find((p) => p?.photoURL)?.photoURL;
+  const userName = userProfile?.name || firebaseUser?.displayName || 'User';
+  const userPhotoURL = userProfile?.photoURL || providerPhotoURL;
+  const avatarFallback = `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(userName)}`;
+  const avatarUrl = userPhotoURL || avatarFallback;
 
   // Fetch comments
   const fetchComments = useCallback(async (pageNum = 1) => {
@@ -105,23 +112,52 @@ export default function CommentSection() {
 
   return (
     <div className="space-y-6">
+      {/* Section Header */}
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <svg className="w-6 h-6 text-cherry" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+          </svg>
+          <h3 className="text-xl font-semibold text-text-primary">Comments & Discussion</h3>
+        </div>
+      </div>
+
       {/* Comment input */}
       {isLoggedIn ? (
-        <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-          <form onSubmit={handlePostComment} className="space-y-3">
-            <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Share your thoughts..."
-              rows="3"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-              disabled={posting}
-            />
-            <div className="flex justify-end gap-2">
+        <div className="bg-surface rounded-2xl shadow-sm border border-border overflow-hidden">
+          <form onSubmit={handlePostComment}>
+            <div className="flex gap-3 p-4">
+              {/* User Avatar */}
+              <div className="flex-shrink-0">
+                <img
+                  src={avatarUrl}
+                  alt={userName}
+                  className="w-10 h-10 rounded-full object-cover ring-2 ring-cherry-100"
+                  onError={(e) => {
+                    e.target.src = avatarFallback;
+                  }}
+                />
+              </div>
+              
+              {/* Comment Input Area */}
+              <div className="flex-1">
+                <textarea
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="Share your thoughts..."
+                  rows="3"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent resize-none text-text-primary placeholder:text-text-muted transition-all"
+                  disabled={posting}
+                />
+              </div>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-2 px-4 pb-4 pt-0">
               <button
                 type="button"
                 onClick={() => setNewComment('')}
-                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+                className="px-5 py-2.5 text-text-secondary bg-gray-50 rounded-xl hover:bg-gray-100 transition-all font-medium"
                 disabled={posting}
               >
                 Cancel
@@ -129,7 +165,7 @@ export default function CommentSection() {
               <button
                 type="submit"
                 disabled={posting || !newComment.trim()}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-5 py-2.5 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
               >
                 {posting ? 'Posting...' : 'Post Comment'}
               </button>
@@ -137,21 +173,23 @@ export default function CommentSection() {
           </form>
         </div>
       ) : (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-          <p className="text-gray-700">
-            <a href="/login" className="text-blue-600 font-medium hover:underline">
+        <div className="bg-cherry-50 border border-cherry-200 rounded-2xl p-6 text-center">
+          <p className="text-text-primary">
+            <a href="/login" className="text-cherry font-semibold hover:text-cherry-dark underline decoration-2 underline-offset-2 transition-colors">
               Log in
             </a>{' '}
-            to share your thoughts
+            to join the conversation
           </p>
         </div>
       )}
 
       {/* Comments list */}
       <div className="space-y-4">
-        <div className="text-sm text-gray-600">
-          {total > 0 ? `${total} ${total === 1 ? 'comment' : 'comments'}` : 'No comments yet'}
-        </div>
+        {total > 0 && (
+          <div className="text-sm font-medium text-text-muted">
+            {total} {total === 1 ? 'comment' : 'comments'}
+          </div>
+        )}
 
         {loading && page === 1 ? (
           <Loading />
@@ -172,7 +210,7 @@ export default function CommentSection() {
               <button
                 onClick={() => fetchComments(page + 1)}
                 disabled={loading}
-                className="w-full py-2 text-blue-600 hover:bg-gray-50 rounded-lg transition disabled:opacity-50"
+                className="w-full py-3 text-cherry font-medium hover:bg-cherry-50 rounded-xl transition-all disabled:opacity-50 border border-cherry-200"
               >
                 {loading ? 'Loading...' : 'Load more comments'}
               </button>

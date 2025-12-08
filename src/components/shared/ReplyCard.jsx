@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import apiClient from '../utils/apiClient';
+import useAuth from '../../hooks/useAuth';
+import apiClient from '../../utils/apiClient';
 import toast from 'react-hot-toast';
 
 const REACTION_EMOJIS = ['👍', '❤️', '😂', '😮', '😢', '😡'];

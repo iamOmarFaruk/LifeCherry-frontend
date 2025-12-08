@@ -740,255 +740,182 @@ const LessonDetails = () => {
               {/* Comments Section */}
               <div className="mb-12">
                 <h2 className="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
-                  <FiMessageCircle className="w-6 h-6 text-cherry" />
-                  Comments ({comments.length})
+                  <FiMessageCircle className="w-6 h-6" />
+                  Comments & Discussion
                 </h2>
+                <CommentSection />
+              </div>
 
-                {/* Comment Form */}
-                {isLoggedIn ? (
-                  <form onSubmit={handleCommentSubmit} className="mb-8">
-                    <div className="flex gap-3">
-                      <img 
-                        src={currentUser?.photoURL || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face'}
-                        alt="Your avatar"
-                        className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                      />
-                      <div className="flex-1">
-                        <textarea
-                          value={newComment}
-                          onChange={(e) => setNewComment(e.target.value)}
-                          placeholder="Share your thoughts..."
-                          rows={3}
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all resize-none text-text-primary"
-                        />
-                        <div className="flex justify-end mt-2">
-                          <button 
-                            type="submit"
-                            className="flex items-center gap-2 px-5 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-dark transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                            disabled={!newComment.trim()}
-                          >
-                            <FiSend className="w-4 h-4" />
-                            Post Comment
-                          </button>
+              {/* Related Lessons by Category */}
+              {relatedByCategory.length > 0 && (
+                <div className="mb-12">
+                  <h2 className="text-2xl font-bold text-text-primary mb-6">Similar Lessons in {lesson.category}</h2>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {relatedByCategory.slice(0, 6).map(relatedLesson => (
+                      <Link 
+                        key={relatedLesson._id}
+                        to={`/lessons/${relatedLesson._id}`}
+                        className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
+                      >
+                        <div className="relative h-40 overflow-hidden">
+                          <img 
+                            src={relatedLesson.image}
+                            alt={relatedLesson.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          {relatedLesson.accessLevel === 'premium' && (
+                            <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
+                              <FiLock className="w-3 h-3" />
+                              Premium
+                            </div>
+                          )}
                         </div>
-                      </div>
-                    </div>
-                  </form>
-                ) : (
-                  <div className="mb-8 bg-white border border-gray-100 rounded-2xl p-6 flex flex-col items-center text-center gap-3 shadow-sm">
-                    <FiMessageCircle className="w-8 h-8 text-cherry" />
-                    <div>
-                      <p className="font-semibold text-text-primary">Login to comment</p>
-                      <p className="text-sm text-text-secondary">Join the conversation to share your thoughts.</p>
-                    </div>
-                    <Link
-                      to="/login"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-dark transition-all"
-                    >
-                      <FiSend className="w-4 h-4" />
-                      Login to comment
-                    </Link>
-                  </div>
-                )}
-
-                {/* Comments List */}
-                <div className="space-y-6">
-                  {comments.length > 0 ? (
-                    comments.map(comment => (
-                      <div key={comment._id} className="flex gap-3 group">
-                        <img 
-                          src={comment.userPhoto}
-                          alt={comment.userName}
-                          className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                        />
-                        <div className="flex-1 bg-gray-50 rounded-2xl p-4 group-hover:bg-gray-100 transition-colors">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="font-semibold text-text-primary">{comment.userName}</span>
-                            <span className="text-sm text-text-muted">•</span>
-                            <span className="text-sm text-text-muted">{formatRelativeTime(comment.createdAt)}</span>
+                        <div className="p-4">
+                          <span className="text-xs font-medium text-cherry mb-1 block">{relatedLesson.category}</span>
+                          <h3 className="font-bold text-text-primary group-hover:text-cherry transition-colors line-clamp-2">
+                            {relatedLesson.title}
+                          </h3>
+                          <div className="flex items-center gap-3 mt-2 text-sm text-text-muted">
+                            <span className="flex items-center gap-1">
+                              <FiHeart className="w-4 h-4" />
+                              {relatedLesson.likesCount}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <FiBookmark className="w-4 h-4" />
+                              {relatedLesson.favoritesCount}
+                            </span>
                           </div>
-                          <p className="text-text-secondary">{comment.content}</p>
                         </div>
-                      </div>
-                    ))
-                  ) : (
-          {/* Comments Section */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
-              <FiMessageCircle className="w-6 h-6" />
-              Comments & Discussion
-            </h2>
-            <CommentSection />
-          </div>
-
-          {/* Related Lessons by Category */}
-          {relatedByCategory.length > 0 && (
-            <div className="mb-12">
-              <h2 className="text-2xl font-bold text-text-primary mb-6">Similar Lessons in {lesson.category}</h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {relatedByCategory.slice(0, 6).map(relatedLesson => (
-                  <Link 
-                    key={relatedLesson._id}
-                    to={`/lessons/${relatedLesson._id}`}
-                    className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
-                  >
-                    <div className="relative h-40 overflow-hidden">
-                      <img 
-                        src={relatedLesson.image}
-                        alt={relatedLesson.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      {relatedLesson.accessLevel === 'premium' && (
-                        <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
-                          <FiLock className="w-3 h-3" />
-                          Premium
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-4">
-                      <span className="text-xs font-medium text-cherry mb-1 block">{relatedLesson.category}</span>
-                      <h3 className="font-bold text-text-primary group-hover:text-cherry transition-colors line-clamp-2">
-                        {relatedLesson.title}
-                      </h3>
-                      <div className="flex items-center gap-3 mt-2 text-sm text-text-muted">
-                        <span className="flex items-center gap-1">
-                          <FiHeart className="w-4 h-4" />
-                          {relatedLesson.likesCount}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <FiBookmark className="w-4 h-4" />
-                          {relatedLesson.favoritesCount}
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Similar Lessons by Emotional Tone */}
-          {similarByTone.length > 0 && (
-            <div>
-              <h2 className="text-2xl font-bold text-text-primary mb-6">More {lesson.emotionalTone} Lessons</h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {similarByTone.slice(0, 6).map(similarLesson => (
-                  <Link 
-                    key={similarLesson._id}
-                    to={`/lessons/${similarLesson._id}`}
-                    className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
-                  >
-                    <div className="relative h-40 overflow-hidden">
-                      <img 
-                        src={similarLesson.image}
-                        alt={similarLesson.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      {similarLesson.accessLevel === 'premium' && (
-                        <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
-                          <FiLock className="w-3 h-3" />
-                          Premium
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-4">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-medium text-cherry">{similarLesson.category}</span>
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${getToneColor(similarLesson.emotionalTone)}`}>
-                          {similarLesson.emotionalTone}
-                        </span>
-                      </div>
-                      <h3 className="font-bold text-text-primary group-hover:text-cherry transition-colors line-clamp-2">
-                        {similarLesson.title}
-                      </h3>
-                      <div className="flex items-center gap-3 mt-2 text-sm text-text-muted">
-                        <span className="flex items-center gap-1">
-                          <FiHeart className="w-4 h-4" />
-                          {similarLesson.likesCount}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <FiBookmark className="w-4 h-4" />
-                          {similarLesson.favoritesCount}
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Report Modal */}
-        {showReportModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6">
-              {reportSubmitted ? (
-                <div className="text-center py-8">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
-                    <FiCheck className="w-8 h-8 text-green-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-text-primary mb-2">Report Submitted</h3>
-                  <p className="text-text-secondary">Thank you for helping keep our community safe.</p>
-                </div>
-              ) : (
-                <>
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-bold text-text-primary flex items-center gap-2">
-                      <FiFlag className="w-5 h-5 text-red-500" />
-                      Report Lesson
-                    </h3>
-                    <button 
-                      onClick={() => setShowReportModal(false)}
-                      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                    >
-                      <FiX className="w-5 h-5" />
-                    </button>
-                  </div>
-                  
-                  <p className="text-text-secondary mb-4">
-                    Why are you reporting this lesson?
-                  </p>
-                  
-                  <select
-                    value={reportReason}
-                    onChange={(e) => setReportReason(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all mb-6 text-text-primary"
-                  >
-                    <option value="">Select a reason...</option>
-                    {reportReasons.map(reason => (
-                      <option key={reason} value={reason}>{reason}</option>
+                      </Link>
                     ))}
-                  </select>
-                  
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setShowReportModal(false)}
-                      className="flex-1 px-4 py-3 border border-gray-200 text-text-secondary rounded-xl font-medium hover:bg-gray-50 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleReportSubmit}
-                      disabled={!reportReason}
-                      className="flex-1 px-4 py-3 bg-red-500 text-white rounded-xl font-medium hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      Submit Report
-                    </button>
                   </div>
-                </>
+                </div>
               )}
-            </div>
-          </div>
-        )}
 
-        {/* Click outside to close share dropdown */}
-        {showShareDropdown && (
-          <div 
-            className="fixed inset-0 z-40" 
-            onClick={() => setShowShareDropdown(false)}
-          />
-        )}
+              {/* Similar Lessons by Emotional Tone */}
+              {similarByTone.length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-bold text-text-primary mb-6">More {lesson.emotionalTone} Lessons</h2>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {similarByTone.slice(0, 6).map(similarLesson => (
+                      <Link 
+                        key={similarLesson._id}
+                        to={`/lessons/${similarLesson._id}`}
+                        className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
+                      >
+                        <div className="relative h-40 overflow-hidden">
+                          <img 
+                            src={similarLesson.image}
+                            alt={similarLesson.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          {similarLesson.accessLevel === 'premium' && (
+                            <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
+                              <FiLock className="w-3 h-3" />
+                              Premium
+                            </div>
+                          )}
+                        </div>
+                        <div className="p-4">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs font-medium text-cherry">{similarLesson.category}</span>
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${getToneColor(similarLesson.emotionalTone)}`}>
+                              {similarLesson.emotionalTone}
+                            </span>
+                          </div>
+                          <h3 className="font-bold text-text-primary group-hover:text-cherry transition-colors line-clamp-2">
+                            {similarLesson.title}
+                          </h3>
+                          <div className="flex items-center gap-3 mt-2 text-sm text-text-muted">
+                            <span className="flex items-center gap-1">
+                              <FiHeart className="w-4 h-4" />
+                              {similarLesson.likesCount}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <FiBookmark className="w-4 h-4" />
+                              {similarLesson.favoritesCount}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+            )}
+
+            {/* Report Modal */}
+            {showReportModal && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-2xl max-w-md w-full p-6">
+                  {reportSubmitted ? (
+                    <div className="text-center py-8">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                        <FiCheck className="w-8 h-8 text-green-600" />
+                      </div>
+                      <h3 className="text-xl font-bold text-text-primary mb-2">Report Submitted</h3>
+                      <p className="text-text-secondary">Thank you for helping keep our community safe.</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-xl font-bold text-text-primary flex items-center gap-2">
+                          <FiFlag className="w-5 h-5 text-red-500" />
+                          Report Lesson
+                        </h3>
+                        <button 
+                          onClick={() => setShowReportModal(false)}
+                          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                        >
+                          <FiX className="w-5 h-5" />
+                        </button>
+                      </div>
+                      
+                      <p className="text-text-secondary mb-4">
+                        Why are you reporting this lesson?
+                      </p>
+                      
+                      <select
+                        value={reportReason}
+                        onChange={(e) => setReportReason(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all mb-6 text-text-primary"
+                      >
+                        <option value="">Select a reason...</option>
+                        {reportReasons.map(reason => (
+                          <option key={reason} value={reason}>{reason}</option>
+                        ))}
+                      </select>
+                      
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => setShowReportModal(false)}
+                          className="flex-1 px-4 py-3 border border-gray-200 text-text-secondary rounded-xl font-medium hover:bg-gray-50 transition-colors"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={handleReportSubmit}
+                          disabled={!reportReason}
+                          className="flex-1 px-4 py-3 bg-red-500 text-white rounded-xl font-medium hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          Submit Report
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Click outside to close share dropdown */}
+            {showShareDropdown && (
+              <div 
+                className="fixed inset-0 z-40" 
+                onClick={() => setShowShareDropdown(false)}
+              />
+            )}
+        </div>
       </div>
     </PageLoader>
   );

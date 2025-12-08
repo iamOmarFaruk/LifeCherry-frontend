@@ -33,6 +33,9 @@ const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, [queryClient]);
 
+  // Derived state for convenience in consumers
+  const isLoggedIn = !!firebaseUser;
+
   const profileQuery = useQuery({
     queryKey: ['userProfile'],
     enabled: !!token && !!firebaseUser?.email,
@@ -119,6 +122,7 @@ const AuthProvider = ({ children }) => {
 
   const value = {
     firebaseUser,
+    isLoggedIn,
     token,
     authLoading,
     authInitialized,
