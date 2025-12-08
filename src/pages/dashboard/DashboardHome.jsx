@@ -1,5 +1,5 @@
 // Dashboard Home Page - LifeCherry Dashboard
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   HiOutlineBookOpen,
@@ -17,34 +17,53 @@ import {
 } from 'react-icons/hi2';
 import PageLoader from '../../components/shared/PageLoader';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
-import { lessons } from '../../data/lessons';
-import { getFavoritesByUser } from '../../data/favorites';
+import { useQuery } from '@tanstack/react-query';
+import useAuth from '../../hooks/useAuth';
+import apiClient from '../../utils/apiClient';
 
 const DashboardHome = () => {
   useDocumentTitle('Dashboard');
-  
-  // Dummy user for UI development
-  const dummyUser = {
-    name: 'Omar Faruk',
-    email: 'omar@example.com',
-    photoURL: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-    isPremium: true
-  };
+  const { firebaseUser, userProfile, authLoading, profileLoading, authInitialized } = useAuth();
+  const userEmail = firebaseUser?.email?.toLowerCase() || null;
+  const displayName = userProfile?.name || firebaseUser?.displayName || 'Friend';
+  const firstName = displayName.split(' ')[0];
 
-  // Get user's lessons (using all lessons as demo)
-  const userLessons = lessons.slice(0, 8); // Simulating user's own lessons
-  const userFavorites = getFavoritesByUser('sarah@example.com'); // Using sample data
-  
-  // Stats
-  const totalLessons = userLessons.length;
-  const totalFavorites = userFavorites.length;
-  const totalLikes = userLessons.reduce((acc, lesson) => acc + lesson.likesCount, 0);
-  const totalViews = userLessons.reduce((acc, _, index) => acc + (500 + index * 123), 0);
-  
+  const lessonsQuery = useQuery({
+    queryKey: ['user-lessons', userEmail],
+    enabled: !!userEmail,
+    queryFn: async () => {
+      const res = await apiClient.get(`/lessons/user/${userEmail}`);
+      return res.data?.lessons || [];
+    },
+    retry: 1,
+  });
+
+  const lessons = lessonsQuery.data || [];
+  const isLoading = authLoading || profileLoading || lessonsQuery.isLoading || !authInitialized;
+
+  // Stats derived from real data
+  const { totalLessons, totalFavorites, totalLikes, totalViews } = useMemo(() => {
+    const totals = lessons.reduce(
+      (acc, lesson) => {
+        acc.totalFavorites += lesson.favoritesCount || 0;
+        acc.totalLikes += lesson.likesCount || (lesson.likes?.length || 0);
+        acc.totalViews += lesson.views || 0;
+        return acc;
+      },
+      { totalFavorites: 0, totalLikes: 0, totalViews: 0 }
+    );
+    return {
+      totalLessons: lessons.length,
+      ...totals,
+    };
+  }, [lessons]);
+
   // Get recently added lessons (last 4)
-  const recentLessons = [...userLessons]
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 4);
+  const recentLessons = useMemo(() => {
+    return [...lessons]
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 4);
+  }, [lessons]);
 
   // Format date
   const formatDate = (dateString) => {
@@ -55,19 +74,64 @@ const DashboardHome = () => {
       year: 'numeric'
     });
   };
+  // Weekly activity data derived from user's lessons
+  const weeklyData = useMemo(() => {
+    const now = new Date();
+    return Array.from({ length: 7 }, (_, idx) => {
+      const date = new Date(now);
+      date.setDate(now.getDate() - (6 - idx));
+      const dayLabel = date.toLocaleDateString('en-US', { weekday: 'short' });
+      const dayLessons = lessons.filter((lesson) => {
+        if (!lesson.createdAt) return false;
+        const created = new Date(lesson.createdAt);
+        return created.toDateString() === date.toDateString();
+      });
 
-  // Weekly activity data (mock data for chart)
-  const weeklyData = [
-    { day: 'Mon', lessons: 2, views: 45 },
-    { day: 'Tue', lessons: 1, views: 32 },
-    { day: 'Wed', lessons: 3, views: 67 },
-    { day: 'Thu', lessons: 0, views: 28 },
-    { day: 'Fri', lessons: 2, views: 54 },
-    { day: 'Sat', lessons: 4, views: 89 },
-    { day: 'Sun', lessons: 1, views: 41 },
-  ];
+      const views = dayLessons.reduce((acc, lesson) => acc + (lesson.views || 0), 0);
+      return { day: dayLabel, lessons: dayLessons.length, views };
+    });
+  }, [lessons]);
 
-  const maxViews = Math.max(...weeklyData.map(d => d.views));
+  const maxViews = Math.max(1, ...weeklyData.map(d => d.views || 0));
+  const weeklyTotals = weeklyData.reduce(
+    (acc, d) => ({ views: acc.views + (d.views || 0), lessons: acc.lessons + (d.lessons || 0) }),
+    { views: 0, lessons: 0 }
+  );
+
+  const topLesson = useMemo(() => {
+    if (!lessons.length) return null;
+    return [...lessons].sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0))[0];
+  }, [lessons]);
+
+  const categoryBreakdown = useMemo(() => {
+    if (!lessons.length) return [];
+    const counts = lessons.reduce((acc, lesson) => {
+      if (lesson.category) {
+        acc[lesson.category] = (acc[lesson.category] || 0) + 1;
+      }
+      return acc;
+    }, {});
+    const total = Math.max(lessons.length, 1);
+    return Object.entries(counts)
+      .map(([category, count]) => ({ category, percent: Math.round((count / total) * 100) }))
+      .sort((a, b) => b.percent - a.percent)
+      .slice(0, 3);
+  }, [lessons]);
+
+  const monthStats = useMemo(() => {
+    const now = new Date();
+    const sameMonthLessons = lessons.filter((lesson) => {
+      const created = lesson.createdAt ? new Date(lesson.createdAt) : null;
+      if (!created) return false;
+      return created.getMonth() === now.getMonth() && created.getFullYear() === now.getFullYear();
+    });
+    const createdCount = sameMonthLessons.length;
+    const likes = sameMonthLessons.reduce((acc, lesson) => acc + (lesson.likesCount || 0), 0);
+    const views = sameMonthLessons.reduce((acc, lesson) => acc + (lesson.views || 0), 0);
+    return { createdCount, likes, views };
+  }, [lessons]);
+
+  const isPremium = !!userProfile?.isPremium;
 
   return (
     <PageLoader>
@@ -76,7 +140,7 @@ const DashboardHome = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-text">
-              Welcome back, {dummyUser.name.split(' ')[0]}! 👋
+              Welcome back, {firstName}! 👋
             </h1>
             <p className="text-text-secondary mt-1">
               Here's an overview of your life lessons journey
@@ -90,6 +154,12 @@ const DashboardHome = () => {
             Add New Lesson
           </Link>
         </div>
+
+        {lessonsQuery.isError && (
+          <div className="p-3 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
+            Could not load your lessons. Please refresh and try again.
+          </div>
+        )}
 
         {/* Stats Cards - Professional Design */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
@@ -326,16 +396,16 @@ const DashboardHome = () => {
             {/* Chart Summary */}
             <div className="mt-6 pt-4 border-t border-border grid grid-cols-3 gap-4">
               <div className="text-center">
-                <p className="text-xl font-bold text-text">356</p>
+                <p className="text-xl font-bold text-text">{totalViews.toLocaleString()}</p>
                 <p className="text-xs text-text-secondary">Total Views</p>
               </div>
               <div className="text-center">
-                <p className="text-xl font-bold text-text">13</p>
-                <p className="text-xs text-text-secondary">New Lessons</p>
+                <p className="text-xl font-bold text-text">{weeklyTotals.lessons}</p>
+                <p className="text-xs text-text-secondary">Lessons This Week</p>
               </div>
               <div className="text-center">
-                <p className="text-xl font-bold text-cherry">+23%</p>
-                <p className="text-xs text-text-secondary">vs Last Week</p>
+                <p className="text-xl font-bold text-cherry">{weeklyTotals.views.toLocaleString()}</p>
+                <p className="text-xs text-text-secondary">Views This Week</p>
               </div>
             </div>
           </div>
@@ -471,7 +541,7 @@ const DashboardHome = () => {
         </div>
 
         {/* Premium Upgrade Banner (for free users) */}
-        {!dummyUser.isPremium && (
+        {!isPremium && (
           <div className="bg-gradient-to-r from-cherry to-cherry-dark rounded-2xl p-6 lg:p-8 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
@@ -504,22 +574,24 @@ const DashboardHome = () => {
               </div>
               <h3 className="font-bold text-text">Top Performing</h3>
             </div>
-            {userLessons[0] && (
+            {topLesson ? (
               <div>
                 <p className="font-medium text-text text-sm line-clamp-2 mb-2">
-                  {userLessons[0].title}
+                  {topLesson.title}
                 </p>
                 <div className="flex items-center gap-3 text-xs text-text-secondary">
                   <span className="flex items-center gap-1">
                     <HiOutlineHeart className="w-3.5 h-3.5 text-red-400" />
-                    {userLessons[0].likesCount} likes
+                    {topLesson.likesCount || 0} likes
                   </span>
                   <span className="flex items-center gap-1">
                     <HiOutlineBookmark className="w-3.5 h-3.5 text-blue-400" />
-                    {userLessons[0].favoritesCount} saves
+                    {topLesson.favoritesCount || 0} saves
                   </span>
                 </div>
               </div>
+            ) : (
+              <p className="text-sm text-text-secondary">Create your first lesson to see performance insights.</p>
             )}
           </div>
 
@@ -531,22 +603,23 @@ const DashboardHome = () => {
               </div>
               <h3 className="font-bold text-text">Top Categories</h3>
             </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-text-secondary">Personal Growth</span>
-                <span className="text-sm font-medium text-text">35%</span>
+            {categoryBreakdown.length ? (
+              <div className="space-y-3">
+                {categoryBreakdown.map((item) => (
+                  <div key={item.category} className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-text-secondary">{item.category}</span>
+                      <span className="text-sm font-medium text-text">{item.percent}%</span>
+                    </div>
+                    <div className="w-full bg-gray-100 rounded-full h-2">
+                      <div className="bg-cherry rounded-full h-2" style={{ width: `${item.percent}%` }}></div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="w-full bg-gray-100 rounded-full h-2">
-                <div className="bg-cherry rounded-full h-2" style={{ width: '35%' }}></div>
-              </div>
-              <div className="flex items-center justify-between mt-2">
-                <span className="text-sm text-text-secondary">Mindset</span>
-                <span className="text-sm font-medium text-text">28%</span>
-              </div>
-              <div className="w-full bg-gray-100 rounded-full h-2">
-                <div className="bg-cherry-300 rounded-full h-2" style={{ width: '28%' }}></div>
-              </div>
-            </div>
+            ) : (
+              <p className="text-sm text-text-secondary">No categories yet. Start adding lessons.</p>
+            )}
           </div>
 
           {/* This Month Stats */}
@@ -560,15 +633,15 @@ const DashboardHome = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-text-secondary">Lessons Created</span>
-                <span className="text-sm font-bold text-text">5</span>
+                <span className="text-sm font-bold text-text">{monthStats.createdCount}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-text-secondary">New Likes</span>
-                <span className="text-sm font-bold text-green-600">+127</span>
+                <span className="text-sm font-bold text-green-600">+{monthStats.likes}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-text-secondary">New Followers</span>
-                <span className="text-sm font-bold text-green-600">+23</span>
+                <span className="text-sm text-text-secondary">Views Recorded</span>
+                <span className="text-sm font-bold text-green-600">+{monthStats.views}</span>
               </div>
             </div>
           </div>

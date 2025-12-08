@@ -1,5 +1,5 @@
 // My Lessons Page - LifeCherry Dashboard
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   HiOutlineBookOpen,
@@ -27,30 +27,42 @@ import {
 import toast from 'react-hot-toast';
 import PageLoader from '../../components/shared/PageLoader';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
-import { lessons, categories, emotionalTones } from '../../data/lessons';
+import { categories, emotionalTones } from '../../data/lessons';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import useAuth from '../../hooks/useAuth';
+import apiClient from '../../utils/apiClient';
 
 const MyLessons = () => {
   useDocumentTitle('My Lessons');
-  
-  // Dummy user for UI development
-  const dummyUser = {
-    name: 'Omar Faruk',
-    email: 'omar@example.com',
-    photoURL: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-    isPremium: true
-  };
+  const { firebaseUser, userProfile, authLoading, profileLoading, authInitialized } = useAuth();
+  const queryClient = useQueryClient();
+  const userEmail = firebaseUser?.email?.toLowerCase() || '';
+  const isPremium = !!userProfile?.isPremium;
 
-  // Get user's lessons (simulating filtering by user email)
-  // For demo, we use all lessons as if they belong to the current user
-  const userLessons = lessons;
+  const lessonsQuery = useQuery({
+    queryKey: ['my-lessons', userEmail],
+    enabled: !!userEmail,
+    queryFn: async () => {
+      const res = await apiClient.get(`/lessons/user/${userEmail}`);
+      return res.data?.lessons || [];
+    },
+    retry: 1,
+  });
 
   // State
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterVisibility, setFilterVisibility] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [lessonsData, setLessonsData] = useState(userLessons);
+  const [lessonsData, setLessonsData] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
+  const isLoading = authLoading || profileLoading || !authInitialized || lessonsQuery.isLoading;
+
+  useEffect(() => {
+    if (lessonsQuery.data) {
+      setLessonsData(lessonsQuery.data);
+    }
+  }, [lessonsQuery.data]);
   
   // View mode state with localStorage persistence
   const [viewMode, setViewMode] = useState(() => {
@@ -123,6 +135,48 @@ const MyLessons = () => {
     return `${month} ${day}, ${year}`;
   };
 
+  const updateLessonMutation = useMutation({
+    mutationFn: async ({ id, data }) => {
+      const res = await apiClient.patch(`/lessons/${id}`, data);
+      return res.data?.lesson || res.data;
+    },
+    onSuccess: (updated) => {
+      const matchId = updated?._id || updated?.id;
+      if (!matchId) return;
+      setLessonsData((prev) =>
+        prev.map((lesson) =>
+          lesson._id === matchId || lesson.id === matchId ? { ...lesson, ...updated } : lesson
+        )
+      );
+      queryClient.setQueryData(['my-lessons', userEmail], (prev) =>
+        Array.isArray(prev)
+          ? prev.map((lesson) =>
+              lesson._id === matchId || lesson.id === matchId ? { ...lesson, ...updated } : lesson
+            )
+          : prev
+      );
+    },
+    onError: (error) => {
+      const message = error?.response?.data?.message || 'Failed to update lesson';
+      toast.error(message);
+    },
+  });
+
+  const deleteLessonMutation = useMutation({
+    mutationFn: async (id) => apiClient.delete(`/lessons/${id}`),
+    onSuccess: (_, id) => {
+      setLessonsData((prev) => prev.filter((lesson) => lesson._id !== id && lesson.id !== id));
+      queryClient.setQueryData(['my-lessons', userEmail], (prev) =>
+        Array.isArray(prev) ? prev.filter((lesson) => lesson._id !== id && lesson.id !== id) : prev
+      );
+      toast.success('Lesson deleted successfully');
+    },
+    onError: (error) => {
+      const message = error?.response?.data?.message || 'Failed to delete lesson';
+      toast.error(message);
+    },
+  });
+
   // Handle visibility toggle with warning toast
   const handleVisibilityChange = (lessonId, currentVisibility, newVisibility) => {
     const lesson = lessonsData.find(l => l._id === lessonId);
@@ -170,18 +224,18 @@ const MyLessons = () => {
             <button
               onClick={() => {
                 toast.dismiss(t.id);
-                setLessonsData(prev => 
-                  prev.map(l => 
-                    l._id === lessonId 
-                      ? { ...l, visibility: newVisibility }
-                      : l
-                  )
-                );
-                toast.success(
-                  newVisibility === 'public' 
-                    ? '🌍 Lesson is now public!' 
-                    : '🔒 Lesson is now private!',
-                  { duration: 3000 }
+                updateLessonMutation.mutate(
+                  { id: lessonId, data: { visibility: newVisibility } },
+                  {
+                    onSuccess: () => {
+                      toast.success(
+                        newVisibility === 'public'
+                          ? '🌍 Lesson is now public!'
+                          : '🔒 Lesson is now private!',
+                        { duration: 3000 }
+                      );
+                    },
+                  }
                 );
               }}
               className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${
@@ -211,7 +265,7 @@ const MyLessons = () => {
 
   // Handle access level toggle with warning toast (only for premium users)
   const handleAccessLevelChange = (lessonId, currentAccessLevel, newAccessLevel) => {
-    if (!dummyUser.isPremium && newAccessLevel === 'premium') {
+    if (!isPremium && newAccessLevel === 'premium') {
       toast.error('Upgrade to Premium to set premium access level', {
         icon: '👑',
         duration: 4000
@@ -264,18 +318,18 @@ const MyLessons = () => {
             <button
               onClick={() => {
                 toast.dismiss(t.id);
-                setLessonsData(prev => 
-                  prev.map(l => 
-                    l._id === lessonId 
-                      ? { ...l, accessLevel: newAccessLevel }
-                      : l
-                  )
-                );
-                toast.success(
-                  newAccessLevel === 'premium' 
-                    ? '👑 Lesson is now Premium only!' 
-                    : '🆓 Lesson is now Free for all!',
-                  { duration: 3000 }
+                updateLessonMutation.mutate(
+                  { id: lessonId, data: { accessLevel: newAccessLevel } },
+                  {
+                    onSuccess: () => {
+                      toast.success(
+                        newAccessLevel === 'premium'
+                          ? '👑 Lesson is now Premium only!'
+                          : '🆓 Lesson is now Free for all!',
+                        { duration: 3000 }
+                      );
+                    },
+                  }
                 );
               }}
               className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${
@@ -338,25 +392,16 @@ const MyLessons = () => {
     }
 
     setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setLessonsData(prev =>
-        prev.map(lesson =>
-          lesson._id === selectedLesson._id
-            ? { 
-                ...lesson, 
-                ...editFormData,
-                updatedAt: new Date().toISOString()
-              }
-            : lesson
-        )
-      );
+    try {
+      await updateLessonMutation.mutateAsync({ id: selectedLesson._id, data: editFormData });
       toast.success('Lesson updated successfully! 🎉');
       setShowEditModal(false);
       setSelectedLesson(null);
+    } catch (error) {
+      // Error handled in mutation onError
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   // Open delete confirmation modal
@@ -368,15 +413,14 @@ const MyLessons = () => {
   // Handle delete lesson
   const handleDeleteLesson = () => {
     setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setLessonsData(prev => prev.filter(lesson => lesson._id !== selectedLesson._id));
-      toast.success('Lesson deleted successfully');
-      setShowDeleteModal(false);
-      setSelectedLesson(null);
-      setIsSubmitting(false);
-    }, 1000);
+    deleteLessonMutation
+      .mutateAsync(selectedLesson._id)
+      .then(() => {
+        setShowDeleteModal(false);
+        setSelectedLesson(null);
+      })
+      .catch(() => {})
+      .finally(() => setIsSubmitting(false));
   };
 
   // Clear filters
@@ -388,6 +432,16 @@ const MyLessons = () => {
   };
 
   const hasActiveFilters = searchQuery || filterCategory || filterVisibility;
+
+  if (isLoading) {
+    return (
+      <PageLoader>
+        <div className="max-w-3xl mx-auto py-16 text-center text-text-secondary">
+          Loading your lessons...
+        </div>
+      </PageLoader>
+    );
+  }
 
   return (
     <PageLoader>
@@ -408,6 +462,12 @@ const MyLessons = () => {
             </Link>
           </div>
         </div>
+
+        {lessonsQuery.isError && (
+          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
+            Could not load your lessons. Please refresh and try again.
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
@@ -784,15 +844,15 @@ const MyLessons = () => {
                             </button>
                             <button
                               onClick={() => lesson.accessLevel !== 'premium' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'premium')}
-                              disabled={!dummyUser.isPremium}
+                              disabled={!isPremium}
                               className={`p-2 rounded-lg transition-all duration-200 ${
-                                !dummyUser.isPremium 
+                                !isPremium 
                                   ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
                                   : lesson.accessLevel === 'premium'
                                     ? 'bg-amber-100 text-amber-600 cursor-pointer'
                                     : 'bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer'
                               }`}
-                              title={dummyUser.isPremium ? 'Premium' : 'Upgrade to set premium'}
+                              title={isPremium ? 'Premium' : 'Upgrade to set premium'}
                             >
                               <HiOutlineStar className="w-4 h-4" />
                             </button>
@@ -921,10 +981,10 @@ const MyLessons = () => {
 
                         {/* Access Level */}
                         <button
-                          onClick={() => dummyUser.isPremium && handleAccessLevelChange(lesson._id, lesson.accessLevel, lesson.accessLevel === 'free' ? 'premium' : 'free')}
-                          disabled={!dummyUser.isPremium}
+                          onClick={() => isPremium && handleAccessLevelChange(lesson._id, lesson.accessLevel, lesson.accessLevel === 'free' ? 'premium' : 'free')}
+                          disabled={!isPremium}
                           className={`p-2 rounded-lg transition-all duration-200 ${
-                            !dummyUser.isPremium 
+                            !isPremium 
                               ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
                               : lesson.accessLevel === 'premium'
                                 ? 'bg-amber-100 text-amber-600 cursor-pointer'
@@ -1224,10 +1284,10 @@ const MyLessons = () => {
                       </button>
                       <button
                         type="button"
-                        onClick={() => dummyUser.isPremium && setEditFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
-                        disabled={!dummyUser.isPremium}
+                        onClick={() => isPremium && setEditFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
+                        disabled={!isPremium}
                         className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 ${
-                          !dummyUser.isPremium 
+                          !isPremium 
                             ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
                             : editFormData.accessLevel === 'premium'
                               ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'

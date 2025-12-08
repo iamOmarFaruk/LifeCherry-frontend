@@ -1,6 +1,6 @@
 // Dashboard Layout - LifeCherry
-import React, { useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { 
   HiOutlineHome, 
   HiOutlinePlusCircle, 
@@ -14,22 +14,38 @@ import {
   HiOutlineFlag,
   HiOutlineDocumentText
 } from 'react-icons/hi2';
+import useAuth from '../hooks/useAuth';
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { firebaseUser, userProfile, authLoading, authInitialized, profileLoading } = useAuth();
+
+  // Redirect unauthenticated users away from dashboard
+  useEffect(() => {
+    if (authInitialized && !authLoading && !firebaseUser) {
+      navigate('/login', { replace: true, state: { from: location.pathname } });
+    }
+  }, [authInitialized, authLoading, firebaseUser, navigate, location.pathname]);
+
+  const providerPhotoURL = useMemo(() => {
+    return firebaseUser?.photoURL || firebaseUser?.providerData?.find((p) => p?.photoURL)?.photoURL;
+  }, [firebaseUser]);
+
+  const user = firebaseUser
+    ? {
+        name: userProfile?.name || firebaseUser.displayName || 'User',
+        email: firebaseUser.email,
+        photoURL: userProfile?.photoURL || providerPhotoURL,
+        isPremium: !!userProfile?.isPremium,
+        role: userProfile?.role || 'user',
+      }
+    : null;
+
+  const isLoading = authLoading || profileLoading || !authInitialized;
+  const isAdmin = user?.role === 'admin';
   
-  // Dummy user for UI development (will be replaced with real auth)
-  // Currently logged in as Admin for development
-  const dummyUser = {
-    name: 'Omar Faruk',
-    email: 'omar@example.com',
-    photoURL: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-    isPremium: true,
-    role: 'admin' // 'user' or 'admin' - Set to 'admin' for Admin access
-  };
-
-  const isAdmin = dummyUser.role === 'admin';
-
   // User menu items
   const userMenuItems = [
     { name: 'Dashboard', path: '/dashboard', icon: HiOutlineHome, end: true },
@@ -50,7 +66,7 @@ const DashboardLayout = () => {
     { name: 'Admin Profile', path: '/dashboard/admin/profile', icon: HiOutlineUser },
   ];
 
-  const menuItems = isAdmin ? adminMenuItems : userMenuItems;
+  const menuItems = isAdmin ? [...adminMenuItems, ...userMenuItems] : userMenuItems;
 
   const NavItem = ({ item }) => (
     <NavLink
@@ -98,31 +114,46 @@ const DashboardLayout = () => {
 
         {/* User Info */}
         <div className="p-4 border-b border-border flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <img 
-              src={dummyUser.photoURL} 
-              alt={dummyUser.name}
-              className="w-10 h-10 rounded-full object-cover border-2 border-cherry-100"
-            />
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-text truncate text-sm">{dummyUser.name}</h3>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {isAdmin ? (
-                  <span className="text-[10px] bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5">
-                    🛡️ Admin
-                  </span>
-                ) : dummyUser.isPremium ? (
-                  <span className="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-white px-1.5 py-0.5 rounded-full font-medium">
-                    ⭐ Premium
-                  </span>
-                ) : (
-                  <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full font-medium">
-                    Starter
-                  </span>
-                )}
+          {isLoading ? (
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gray-100 border border-border animate-pulse" />
+              <div className="flex-1 space-y-2">
+                <div className="h-2.5 w-24 bg-gray-100 rounded-full animate-pulse" />
+                <div className="h-2 w-20 bg-gray-100 rounded-full animate-pulse" />
               </div>
             </div>
-          </div>
+          ) : user ? (
+            <div className="flex items-center gap-3">
+              <img 
+                src={user.photoURL || `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(user.name || 'User')}`} 
+                alt={user.name}
+                className="w-10 h-10 rounded-full object-cover border-2 border-cherry-100"
+              />
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-text truncate text-sm">{user.name}</h3>
+                <p className="text-[11px] text-text-muted truncate">{user.email}</p>
+                <div className="flex items-center gap-1.5 flex-wrap mt-1">
+                  {isAdmin ? (
+                    <span className="text-[10px] bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5">
+                      🛡️ Admin
+                    </span>
+                  ) : user.isPremium ? (
+                    <span className="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-white px-1.5 py-0.5 rounded-full font-medium">
+                      ⭐ Premium
+                    </span>
+                  ) : (
+                    <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full font-medium">
+                      Starter
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2 text-sm text-text-secondary">
+              <p>Redirecting to login…</p>
+            </div>
+          )}
         </div>
 
         {/* Navigation - Scrollable area */}
