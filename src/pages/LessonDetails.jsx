@@ -48,7 +48,10 @@ const LessonDetails = () => {
 
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [likesCount, setLikesCount] = useState(lesson?.likesCount || 0);
+  const [likesCount, setLikesCount] = useState(0);
+  const [favoritesCount, setFavoritesCount] = useState(0);
+  const [likeLoading, setLikeLoading] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const [showShareDropdown, setShowShareDropdown] = useState(false);
@@ -74,6 +77,14 @@ const LessonDetails = () => {
         if (!isMounted) return;
         setLesson(data?.lesson || null);
         setLikesCount(data?.lesson?.likesCount || 0);
+        setFavoritesCount(data?.lesson?.favoritesCount || 0);
+        
+        // Check if current user has already liked/favorited
+        if (firebaseUser?.email && data?.lesson) {
+          const userEmail = firebaseUser.email.toLowerCase();
+          setIsLiked(data?.lesson?.likes?.includes(userEmail) || false);
+          setIsSaved(data?.lesson?.favorites?.includes(userEmail) || false);
+        }
       } catch (err) {
         if (!isMounted) return;
         if (err?.response?.status === 404) {
@@ -94,7 +105,7 @@ const LessonDetails = () => {
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [id, firebaseUser?.email]);
 
   useEffect(() => {
     let isMounted = true;
@@ -155,7 +166,8 @@ const LessonDetails = () => {
   // Reset state when lesson id changes
   useEffect(() => {
     if (lesson) {
-      setLikesCount(lesson.likesCount);
+      setLikesCount(lesson.likesCount || 0);
+      setFavoritesCount(lesson.favoritesCount || 0);
       setComments([]);
       setIsLiked(false);
       setIsSaved(false);
@@ -254,22 +266,51 @@ const LessonDetails = () => {
   };
 
   // Handle like
-  const handleLike = () => {
+  const handleLike = async () => {
     if (!isLoggedIn) {
       navigate('/login');
       return;
     }
-    setIsLiked(!isLiked);
-    setLikesCount(prev => isLiked ? prev - 1 : prev + 1);
+
+    // Prevent liking own lesson
+    if (lesson?.creatorEmail === firebaseUser?.email) {
+      return;
+    }
+
+    setLikeLoading(true);
+    try {
+      const { data } = await apiClient.post(`/lessons/${id}/like`);
+      setIsLiked(data.isLiked);
+      setLikesCount(data.likesCount);
+    } catch (err) {
+      console.error('Failed to toggle like:', err);
+    } finally {
+      setLikeLoading(false);
+    }
   };
 
   // Handle save/bookmark
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!isLoggedIn) {
       navigate('/login');
       return;
     }
-    setIsSaved(!isSaved);
+
+    // Prevent saving own lesson
+    if (lesson?.creatorEmail === firebaseUser?.email) {
+      return;
+    }
+
+    setFavoriteLoading(true);
+    try {
+      const { data } = await apiClient.post(`/lessons/${id}/favorite`);
+      setIsSaved(data.isFavorited);
+      setFavoritesCount(data.favoritesCount);
+    } catch (err) {
+      console.error('Failed to toggle favorite:', err);
+    } finally {
+      setFavoriteLoading(false);
+    }
   };
 
   // Handle report submit
@@ -496,7 +537,7 @@ const LessonDetails = () => {
             </div>
             <div className="flex items-center gap-2">
               <FiBookmark className="w-5 h-5 text-amber-500" />
-              <span className="font-medium">{formatNumber(lesson.favoritesCount)} Saves</span>
+              <span className="font-medium">{formatNumber(favoritesCount)} Saves</span>
             </div>
             <div className="flex items-center gap-2">
               <FiEye className="w-5 h-5 text-blue-500" />
@@ -513,27 +554,35 @@ const LessonDetails = () => {
             {/* Like Button */}
             <button 
               onClick={handleLike}
+              disabled={likeLoading || lesson?.creatorEmail === firebaseUser?.email}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all cursor-pointer font-medium ${
-                isLiked 
-                  ? 'bg-cherry text-white' 
-                  : 'bg-gray-100 text-text-secondary hover:bg-cherry hover:text-white'
+                lesson?.creatorEmail === firebaseUser?.email 
+                  ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
+                  : isLiked 
+                    ? 'bg-cherry text-white' 
+                    : 'bg-gray-100 text-text-secondary hover:bg-cherry hover:text-white'
               }`}
             >
               <FiHeart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
               <span>{isLiked ? 'Liked' : 'Like'}</span>
+              <span className="text-sm font-semibold">{likesCount}</span>
             </button>
 
             {/* Save Button */}
             <button 
               onClick={handleSave}
+              disabled={favoriteLoading || lesson?.creatorEmail === firebaseUser?.email}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all cursor-pointer font-medium ${
-                isSaved 
-                  ? 'bg-amber-500 text-white' 
-                  : 'bg-gray-100 text-text-secondary hover:bg-amber-500 hover:text-white'
+                lesson?.creatorEmail === firebaseUser?.email
+                  ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
+                  : isSaved 
+                    ? 'bg-amber-500 text-white' 
+                    : 'bg-gray-100 text-text-secondary hover:bg-amber-500 hover:text-white'
               }`}
             >
               <FiBookmark className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
               <span>{isSaved ? 'Saved' : 'Save to Favorites'}</span>
+              <span className="text-sm font-semibold">{favoritesCount}</span>
             </button>
 
             {/* Report Button */}
