@@ -104,9 +104,9 @@ const AddLesson = () => {
           accessLevel: 'free'
         });
 
-        // Redirect to activity after 1.5 seconds
+        // Redirect to my lessons after 1.5 seconds
         setTimeout(() => {
-          navigate('/dashboard/activity');
+          navigate('/dashboard/my-lessons');
         }, 1500);
       }
     } catch (error) {
