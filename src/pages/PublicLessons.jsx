@@ -6,12 +6,14 @@ import { categories, emotionalTones } from '../data/lessons';
 import apiClient from '../utils/apiClient';
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import useAuth from '../hooks/useAuth';
 
 const LESSONS_PER_PAGE = 9;
 
 const PublicLessons = () => {
   useDocumentTitle('Public Lessons');
   const [searchParams, setSearchParams] = useSearchParams();
+  const { firebaseUser, userProfile } = useAuth();
 
   // Filter & Search State
   const [searchQuery, setSearchQuery] = useState('');
@@ -28,8 +30,8 @@ const PublicLessons = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Simulating user premium status (will be from context later)
-  const isUserPremium = false;
+  const isAuthenticated = !!firebaseUser;
+  const isUserPremium = !!userProfile?.isPremium;
 
   useEffect(() => {
     let isMounted = true;
@@ -65,11 +67,26 @@ const PublicLessons = () => {
   }, [searchParams]);
 
   // Get only public lessons
-  const publicLessons = lessons.filter(lesson => lesson.visibility === 'public');
+  const publicLessons = useMemo(
+    () => lessons.filter(lesson => lesson.visibility === 'public'),
+    [lessons]
+  );
+
+  // Respect access rules by auth status
+  const visibleLessons = useMemo(() => {
+    if (!isAuthenticated) {
+      return publicLessons.filter(lesson => lesson.accessLevel === 'free');
+    }
+    if (isUserPremium) {
+      return publicLessons;
+    }
+    // Logged in but free: show all public lessons, lock premium below
+    return publicLessons;
+  }, [isAuthenticated, isUserPremium, publicLessons]);
 
   // Filter, Search & Sort Logic
   const filteredLessons = useMemo(() => {
-    let result = [...publicLessons];
+    let result = [...visibleLessons];
 
     // Search by title or description
     if (searchQuery.trim()) {
@@ -104,7 +121,7 @@ const PublicLessons = () => {
     }
 
     return result;
-  }, [publicLessons, searchQuery, selectedCategory, selectedTone, selectedAccessLevel, sortBy]);
+  }, [visibleLessons, searchQuery, selectedCategory, selectedTone, selectedAccessLevel, sortBy]);
 
   // Pagination
   const totalPages = Math.ceil(filteredLessons.length / LESSONS_PER_PAGE);
