@@ -189,52 +189,58 @@ const LessonDetails = () => {
       return undefined;
     }
 
-    const targetMs = Math.max(15000, Math.round(readingTime * 0.7 * 60 * 1000)); // at least 15s
-
-    const onVisible = () => {
-      if (document.visibilityState === 'visible') {
-        visibilityStartRef.current = Date.now();
-      } else if (visibilityStartRef.current) {
-        elapsedRef.current += Date.now() - visibilityStartRef.current;
-        visibilityStartRef.current = null;
-      }
-
-      const total = elapsedRef.current + (visibilityStartRef.current ? Date.now() - visibilityStartRef.current : 0);
-      if (total >= targetMs && !hasRecordedViewRef.current) {
-        hasRecordedViewRef.current = true;
-        recordView();
-      }
-    };
+    const targetMs = 5000; // 5 seconds
 
     const recordView = async () => {
       try {
         const { data } = await apiClient.post(`/lessons/${id}/view`);
         if (data?.views !== undefined) {
           setLesson((prev) => (prev ? { ...prev, views: data.views } : prev));
-          // Show toast notification for testing (remove after development)
-          toast.success(`View recorded! Total views: ${data.views}`, {
-            position: 'top-right',
-            duration: 3000,
-          });
         }
       } catch (err) {
-        console.error('Failed to record view:', err);
-        toast.error('Failed to record view', {
-          position: 'top-right',
-          duration: 2000,
-        });
+        // Silently fail if view recording fails
       }
     };
 
-    const interval = setInterval(onVisible, 2000);
-    document.addEventListener('visibilitychange', onVisible);
-    onVisible();
+    // Track visibility changes
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        visibilityStartRef.current = Date.now();
+      } else if (visibilityStartRef.current) {
+        const sessionTime = Date.now() - visibilityStartRef.current;
+        elapsedRef.current += sessionTime;
+        visibilityStartRef.current = null;
+      }
+    };
+
+    // Check progress every 500ms while page is visible
+    const checkProgress = () => {
+      // Only accumulate time if page is visible and started
+      if (document.visibilityState === 'visible' && !visibilityStartRef.current) {
+        visibilityStartRef.current = Date.now();
+      }
+
+      const total = elapsedRef.current + (visibilityStartRef.current ? Date.now() - visibilityStartRef.current : 0);
+      
+      if (total >= targetMs && !hasRecordedViewRef.current) {
+        hasRecordedViewRef.current = true;
+        recordView();
+      }
+    };
+
+    // Start with page visibility
+    if (document.visibilityState === 'visible') {
+      visibilityStartRef.current = Date.now();
+    }
+
+    const interval = setInterval(checkProgress, 500);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       if (visibilityStartRef.current) {
         elapsedRef.current += Date.now() - visibilityStartRef.current;
       }
-      document.removeEventListener('visibilitychange', onVisible);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       clearInterval(interval);
     };
   }, [lesson, isLoggedIn, authLoading, id, readingTime, firebaseUser?.email]);
