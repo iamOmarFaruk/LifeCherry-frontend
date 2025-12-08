@@ -169,7 +169,12 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
             <div>
-              <p className="text-sm font-medium text-gray-900">{reply.userName}</p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-medium text-gray-900">{reply.userName}</p>
+                {reply.updatedAt && new Date(reply.updatedAt).getTime() > new Date(reply.createdAt).getTime() + 5000 && (
+                  <span className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">edited</span>
+                )}
+              </div>
               <p className="text-xs text-gray-500">{formatDate(reply.createdAt)}</p>
             </div>
             {isOwner && (

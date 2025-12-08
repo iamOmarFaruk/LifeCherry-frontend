@@ -128,7 +128,12 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
             <div>
-              <p className="font-medium text-gray-900">{comment.userName}</p>
+              <div className="flex items-center gap-2">
+                <p className="font-medium text-gray-900">{comment.userName}</p>
+                {comment.updatedAt && new Date(comment.updatedAt).getTime() > new Date(comment.createdAt).getTime() + 5000 && (
+                  <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">edited</span>
+                )}
+              </div>
               <p className="text-xs text-gray-500">{formatDate(comment.createdAt)}</p>
             </div>
             {isOwner && (

@@ -7,6 +7,19 @@ import CommentCard from './CommentCard';
 import Loading from './Loading';
 import DOMPurify from 'dompurify';
 
+// Helper function to count all replies recursively
+const countAllReplies = (replies) => {
+  if (!replies || replies.length === 0) return 0;
+  
+  let count = replies.length;
+  for (const reply of replies) {
+    if (reply.replies && reply.replies.length > 0) {
+      count += countAllReplies(reply.replies);
+    }
+  }
+  return count;
+};
+
 export default function CommentSection({ onTotalChange }) {
   const { id: lessonId } = useParams();
   const { isLoggedIn, firebaseUser, userProfile } = useAuth();
@@ -125,8 +138,11 @@ export default function CommentSection({ onTotalChange }) {
 
   // Handle comment delete
   const handleDeleteComment = (commentId) => {
+    const deletedComment = comments.find((c) => c._id === commentId);
+    const replyCount = deletedComment ? countAllReplies(deletedComment.replies) : 0;
+    
     setComments(comments.filter((c) => c._id !== commentId));
-    const newTotal = total - 1;
+    const newTotal = total - 1 - replyCount; // Subtract comment + all its replies
     setTotal(newTotal);
     
     // Notify parent component of total change
@@ -139,9 +155,24 @@ export default function CommentSection({ onTotalChange }) {
 
   // Handle reply added
   const handleReplyAdded = (commentId, updatedComment) => {
+    const oldComment = comments.find((c) => c._id === commentId);
+    const oldReplyCount = oldComment ? countAllReplies(oldComment.replies) : 0;
+    const newReplyCount = updatedComment ? countAllReplies(updatedComment.replies) : 0;
+    const replyDiff = newReplyCount - oldReplyCount;
+    
     setComments(
       comments.map((c) => (c._id === commentId ? updatedComment : c))
     );
+    
+    if (replyDiff !== 0) {
+      const newTotal = total + replyDiff;
+      setTotal(newTotal);
+      
+      // Notify parent component of total change
+      if (onTotalChange) {
+        onTotalChange(newTotal);
+      }
+    }
   };
 
   return (
