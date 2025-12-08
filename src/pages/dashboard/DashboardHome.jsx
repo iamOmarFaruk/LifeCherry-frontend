@@ -254,160 +254,97 @@ const DashboardHome = () => {
                 <h2 className="text-lg font-bold text-text">Weekly Activity</h2>
                 <p className="text-sm text-text-secondary">Your lesson engagement this week</p>
               </div>
-              <div className="flex items-center gap-4 text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 bg-cherry rounded-full"></span>
-                  Views
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 bg-cherry-200 rounded-full"></span>
-                  Lessons
-                </span>
-              </div>
+              {weeklyTotals.views > 0 && (
+                <div className="flex items-center gap-4 text-xs">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 bg-blue-500 rounded-full"></span>
+                    Views
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 bg-blue-200 rounded-full"></span>
+                    Lessons
+                  </span>
+                </div>
+              )}
             </div>
             
-            {/* Animated Bar & Line Chart */}
-            <div className="relative h-48">
-              {/* SVG Line Chart Overlay */}
-              <svg 
-                className="absolute inset-0 w-full h-40 z-10 pointer-events-none"
-                viewBox="0 0 700 160"
-                preserveAspectRatio="none"
-              >
-                {/* Gradient Definition */}
-                <defs>
-                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#E63946" />
-                    <stop offset="100%" stopColor="#F4A3A8" />
-                  </linearGradient>
-                  <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#E63946" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#E63946" stopOpacity="0" />
-                  </linearGradient>
-                  <filter id="glow">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-                
-                {/* Area Fill */}
-                <path
-                  d={`M 50 ${160 - (weeklyData[0].views / maxViews) * 130} 
-                      C 100 ${160 - (weeklyData[0].views / maxViews) * 130}, 100 ${160 - (weeklyData[1].views / maxViews) * 130}, 150 ${160 - (weeklyData[1].views / maxViews) * 130}
-                      C 200 ${160 - (weeklyData[1].views / maxViews) * 130}, 200 ${160 - (weeklyData[2].views / maxViews) * 130}, 250 ${160 - (weeklyData[2].views / maxViews) * 130}
-                      C 300 ${160 - (weeklyData[2].views / maxViews) * 130}, 300 ${160 - (weeklyData[3].views / maxViews) * 130}, 350 ${160 - (weeklyData[3].views / maxViews) * 130}
-                      C 400 ${160 - (weeklyData[3].views / maxViews) * 130}, 400 ${160 - (weeklyData[4].views / maxViews) * 130}, 450 ${160 - (weeklyData[4].views / maxViews) * 130}
-                      C 500 ${160 - (weeklyData[4].views / maxViews) * 130}, 500 ${160 - (weeklyData[5].views / maxViews) * 130}, 550 ${160 - (weeklyData[5].views / maxViews) * 130}
-                      C 600 ${160 - (weeklyData[5].views / maxViews) * 130}, 600 ${160 - (weeklyData[6].views / maxViews) * 130}, 650 ${160 - (weeklyData[6].views / maxViews) * 130}
-                      L 650 160 L 50 160 Z`}
-                  fill="url(#areaGradient)"
-                  className="animate-fade-in"
-                />
-                
-                {/* Smooth Line */}
-                <path
-                  d={`M 50 ${160 - (weeklyData[0].views / maxViews) * 130} 
-                      C 100 ${160 - (weeklyData[0].views / maxViews) * 130}, 100 ${160 - (weeklyData[1].views / maxViews) * 130}, 150 ${160 - (weeklyData[1].views / maxViews) * 130}
-                      C 200 ${160 - (weeklyData[1].views / maxViews) * 130}, 200 ${160 - (weeklyData[2].views / maxViews) * 130}, 250 ${160 - (weeklyData[2].views / maxViews) * 130}
-                      C 300 ${160 - (weeklyData[2].views / maxViews) * 130}, 300 ${160 - (weeklyData[3].views / maxViews) * 130}, 350 ${160 - (weeklyData[3].views / maxViews) * 130}
-                      C 400 ${160 - (weeklyData[3].views / maxViews) * 130}, 400 ${160 - (weeklyData[4].views / maxViews) * 130}, 450 ${160 - (weeklyData[4].views / maxViews) * 130}
-                      C 500 ${160 - (weeklyData[4].views / maxViews) * 130}, 500 ${160 - (weeklyData[5].views / maxViews) * 130}, 550 ${160 - (weeklyData[5].views / maxViews) * 130}
-                      C 600 ${160 - (weeklyData[5].views / maxViews) * 130}, 600 ${160 - (weeklyData[6].views / maxViews) * 130}, 650 ${160 - (weeklyData[6].views / maxViews) * 130}`}
-                  fill="none"
-                  stroke="url(#lineGradient)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  filter="url(#glow)"
-                  className="animate-draw-line"
-                  style={{
-                    strokeDasharray: 1000,
-                    strokeDashoffset: 0,
-                    animation: 'drawLine 1.5s ease-out forwards'
-                  }}
-                />
-                
-                {/* Data Points */}
-                {weeklyData.map((data, index) => (
-                  <g key={index}>
-                    <circle
-                      cx={50 + index * 100}
-                      cy={160 - (data.views / maxViews) * 130}
-                      r="6"
-                      fill="white"
-                      stroke="#E63946"
-                      strokeWidth="3"
-                      className="animate-pop-in"
-                      style={{ 
-                        animationDelay: `${0.2 + index * 0.1}s`,
-                        opacity: 0,
-                        animation: `popIn 0.3s ease-out ${0.2 + index * 0.1}s forwards`
-                      }}
-                    />
-                    {/* Tooltip on hover */}
-                    <title>{data.views} views</title>
-                  </g>
-                ))}
-              </svg>
-
-              {/* Bar Chart */}
-              <div className="flex items-end justify-between gap-2 h-40 relative z-0">
-                {weeklyData.map((data, index) => (
-                  <div key={index} className="flex-1 flex flex-col items-center gap-2">
-                    <div className="w-full flex flex-col items-center gap-1 h-32 justify-end">
-                      {/* Animated Bar */}
-                      <div 
-                        className="w-full max-w-10 bg-gradient-to-t from-cherry-100 to-cherry-50 rounded-t-xl transition-all duration-700 hover:from-cherry-200 hover:to-cherry-100 cursor-pointer relative group"
-                        style={{ 
-                          height: `${(data.views / maxViews) * 100}%`,
-                          animation: `growUp 0.8s ease-out ${index * 0.1}s both`
-                        }}
-                      >
-                        {/* Hover tooltip */}
-                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-text text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                          {data.views} views
+            {/* Chart or Empty State */}
+            {weeklyTotals.views === 0 && weeklyTotals.lessons === 0 ? (
+              <div className="h-48 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-2 border-dashed border-gray-200">
+                <div className="text-center">
+                  <HiOutlineChartBar className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                  <p className="text-text-secondary font-medium">No activity this week</p>
+                  <p className="text-xs text-text-muted mt-1">Create and share lessons to see your activity chart</p>
+                  <Link to="/dashboard/add-lesson" className="inline-block mt-3 px-4 py-2 bg-cherry text-white text-xs font-semibold rounded-lg hover:bg-cherry-dark transition-colors">
+                    Add Your First Lesson
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="relative h-48">
+                {/* Bar Chart */}
+                <div className="flex items-end justify-between gap-2 h-40 relative z-0">
+                  {weeklyData.map((data, index) => (
+                    <div key={index} className="flex-1 flex flex-col items-center gap-2">
+                      <div className="w-full flex flex-col items-center gap-1 h-32 justify-end">
+                        {/* Animated Bar */}
+                        <div 
+                          className="w-full max-w-10 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-xl transition-all duration-700 hover:from-blue-600 hover:to-blue-500 cursor-pointer relative group shadow-sm"
+                          style={{ 
+                            height: `${(data.views / maxViews) * 100}%`,
+                            animation: `growUp 0.8s ease-out ${index * 0.1}s both`
+                          }}
+                        >
+                          {/* Hover tooltip */}
+                          {data.views > 0 && (
+                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-text text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap font-semibold">
+                              {data.views} views
+                            </div>
+                          )}
                         </div>
                       </div>
+                      <span className="text-xs text-text-secondary font-medium">{data.day}</span>
                     </div>
-                    <span className="text-xs text-text-muted font-medium">{data.day}</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                
+                {/* Lessons mini bars (secondary data) */}
+                <div className="flex items-end justify-between gap-2 h-8 absolute bottom-6 left-0 right-0 px-1">
+                  {weeklyData.map((data, index) => (
+                    <div key={index} className="flex-1 flex justify-center">
+                      {data.lessons > 0 && (
+                        <div 
+                          className="w-2 bg-blue-200 rounded-full transition-all duration-500 shadow-sm"
+                          style={{ 
+                            height: `${Math.max((data.lessons / 4) * 100, 12)}%`,
+                            animation: `growUp 0.6s ease-out ${0.5 + index * 0.08}s both`
+                          }}
+                          title={`${data.lessons} lesson${data.lessons !== 1 ? 's' : ''}`}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-              
-              {/* Lessons mini bars (secondary data) */}
-              <div className="flex items-end justify-between gap-2 h-8 absolute bottom-6 left-0 right-0 px-1">
-                {weeklyData.map((data, index) => (
-                  <div key={index} className="flex-1 flex justify-center">
-                    <div 
-                      className="w-2 bg-cherry-200 rounded-full transition-all duration-500"
-                      style={{ 
-                        height: `${Math.max((data.lessons / 4) * 100, 10)}%`,
-                        animation: `growUp 0.6s ease-out ${0.5 + index * 0.08}s both`
-                      }}
-                      title={`${data.lessons} lessons`}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
+            )}
 
             {/* Chart Summary */}
-            <div className="mt-6 pt-4 border-t border-border grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <p className="text-xl font-bold text-text">{totalViews.toLocaleString()}</p>
-                <p className="text-xs text-text-secondary">Total Views</p>
+            {weeklyTotals.views > 0 || weeklyTotals.lessons > 0 ? (
+              <div className="mt-6 pt-4 border-t border-border grid grid-cols-3 gap-4">
+                <div className="text-center">
+                  <p className="text-xl font-bold text-text">{weeklyTotals.views}</p>
+                  <p className="text-xs text-text-secondary">This Week Views</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-text">{weeklyTotals.lessons}</p>
+                  <p className="text-xs text-text-secondary">This Week Lessons</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-text">{weeklyTotals.views > 0 ? (weeklyTotals.views / weeklyTotals.lessons || 0).toFixed(1) : '0'}</p>
+                  <p className="text-xs text-text-secondary">Avg Views/Lesson</p>
+                </div>
               </div>
-              <div className="text-center">
-                <p className="text-xl font-bold text-text">{weeklyTotals.lessons}</p>
-                <p className="text-xs text-text-secondary">Lessons This Week</p>
-              </div>
-              <div className="text-center">
-                <p className="text-xl font-bold text-cherry">{weeklyTotals.views.toLocaleString()}</p>
-                <p className="text-xs text-text-secondary">Views This Week</p>
-              </div>
-            </div>
+            ) : null}
           </div>
 
           {/* Quick Actions */}
