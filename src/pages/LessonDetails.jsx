@@ -504,7 +504,7 @@ const LessonDetails = () => {
                 {lesson.title}
               </h1>
               
-              {/* Author & Date */}
+              {/* Author Only */}
               <div className="flex flex-wrap items-center gap-4 text-white/80">
                 <div className="flex items-center gap-2">
                   <img 
@@ -513,14 +513,6 @@ const LessonDetails = () => {
                     className="w-8 h-8 rounded-full object-cover border-2 border-white/30"
                   />
                   <span className="font-medium">{lesson.creatorName}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <FiCalendar className="w-4 h-4" />
-                  <span>{formatDate(lesson.createdAt)}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <FiClock className="w-4 h-4" />
-                  <span>{readingTime} min read</span>
                 </div>
               </div>
             </div>
