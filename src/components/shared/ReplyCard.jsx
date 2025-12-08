@@ -159,9 +159,12 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
       {/* Reply header */}
       <div className="flex items-start gap-2">
         <img
-          src={reply.userPhoto || '/default-avatar.png'}
+          src={reply.userPhoto || `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(reply.userName)}`}
           alt={reply.userName}
-          className="w-8 h-8 rounded-full object-cover"
+          className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-100"
+          onError={(e) => {
+            e.target.src = `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(reply.userName)}`;
+          }}
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">

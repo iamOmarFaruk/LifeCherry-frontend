@@ -118,9 +118,12 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
       {/* Comment header */}
       <div className="flex items-start gap-3">
         <img
-          src={comment.userPhoto || '/default-avatar.png'}
+          src={comment.userPhoto || `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(comment.userName)}`}
           alt={comment.userName}
-          className="w-10 h-10 rounded-full object-cover"
+          className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-100"
+          onError={(e) => {
+            e.target.src = `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(comment.userName)}`;
+          }}
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
