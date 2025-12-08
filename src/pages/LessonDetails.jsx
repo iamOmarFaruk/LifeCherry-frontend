@@ -643,13 +643,6 @@ const LessonDetails = () => {
             </div>
           ) : (
             <>
-              {/* Lesson Content */}
-              <div className="prose prose-lg max-w-none mb-8">
-                <p className="text-lg md:text-xl text-text-secondary leading-relaxed whitespace-pre-line">
-                  {lesson.description}
-                </p>
-              </div>
-
               {/* Lesson Metadata */}
               <div className="bg-white rounded-2xl shadow-sm p-6 mb-8 border border-gray-100">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -690,6 +683,13 @@ const LessonDetails = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Lesson Content */}
+              <div className="prose prose-lg max-w-none mb-8">
+                <p className="text-lg md:text-xl text-text-secondary leading-relaxed whitespace-pre-line">
+                  {lesson.description}
+                </p>
               </div>
 
               {/* Creator Card */}
