@@ -44,7 +44,10 @@ const Navbar = () => {
       }
     : null;
 
-  const avatarUrl = user?.photoURL || `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(user?.name || 'User')}`;
+  const avatarFallback = user
+    ? `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(user?.name || 'User')}`
+    : '';
+  const avatarUrl = user?.photoURL || avatarFallback;
 
   const handleLogout = async () => {
     try {
@@ -127,6 +130,10 @@ const Navbar = () => {
                   <img
                     src={avatarUrl}
                     alt={user.name}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = avatarFallback;
+                    }}
                     className="w-8 h-8 rounded-full object-cover border-2 border-cherry-200"
                   />
                   <div className="flex flex-col items-start">
@@ -259,6 +266,10 @@ const Navbar = () => {
                     <img
                       src={avatarUrl}
                       alt={user.name}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = avatarFallback;
+                      }}
                       className="w-10 h-10 rounded-full object-cover border-2 border-cherry-200"
                     />
                     <div>
