@@ -12,7 +12,8 @@ import {
   HiOutlineCog6Tooth,
   HiOutlineUsers,
   HiOutlineFlag,
-  HiOutlineDocumentText
+  HiOutlineDocumentText,
+  HiOutlineTrash
 } from 'react-icons/hi2';
 import useAuth from '../hooks/useAuth';
 
@@ -63,6 +64,7 @@ const DashboardLayout = () => {
     { name: 'Manage Users', path: '/dashboard/admin/manage-users', icon: HiOutlineUsers },
     { name: 'Manage Lessons', path: '/dashboard/admin/manage-lessons', icon: HiOutlineDocumentText },
     { name: 'Reported Lessons', path: '/dashboard/admin/reported-lessons', icon: HiOutlineFlag },
+    { name: 'Trash', path: '/dashboard/admin/trash', icon: HiOutlineTrash },
     { name: 'Admin Profile', path: '/dashboard/admin/profile', icon: HiOutlineUser },
   ];
 
