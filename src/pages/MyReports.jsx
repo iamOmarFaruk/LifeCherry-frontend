@@ -54,7 +54,7 @@ const MyReports = () => {
               onClick={() => {
                 toast.dismiss(t.id);
               }}
-              className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold transition-colors text-sm"
+              className="flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-all text-sm"
             >
               Cancel
             </button>
@@ -76,7 +76,7 @@ const MyReports = () => {
                   toast.error(error.response?.data?.message || 'Failed to withdraw report');
                 }
               }}
-              className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 font-semibold transition-colors text-sm"
+              className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all text-sm"
             >
               Withdraw
             </button>
