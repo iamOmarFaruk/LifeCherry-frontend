@@ -481,9 +481,14 @@ const LessonDetails = () => {
                 <span>/</span>
                 <span className="text-white line-clamp-1">{lesson.title}</span>
               </nav>
+              
+              {/* Title */}
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+                {lesson.title}
+              </h1>
 
               {/* Category & Tone Badges */}
-              <div className="flex flex-wrap items-center gap-2 mb-3">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="px-3 py-1 bg-cherry text-white rounded-full text-sm font-medium">
                   {lesson.category}
                 </span>
@@ -498,11 +503,6 @@ const LessonDetails = () => {
                   </span>
                 )}
               </div>
-              
-              {/* Title */}
-              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 leading-tight">
-                {lesson.title}
-              </h1>
             </div>
           </div>
         </div>
