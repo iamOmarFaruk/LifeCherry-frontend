@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import { FiHome, FiBookOpen, FiFileText, FiShield, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -26,33 +27,45 @@ const Footer = () => {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
+                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
               >
-                <FaFacebookF size={18} className="text-cherry group-hover:!text-white transition-colors" />
+                <FaFacebookF
+                  size={18}
+                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:-rotate-3"
+                />
               </a>
               <a
                 href="https://x.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
+                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
               >
-                <FaXTwitter size={18} className="text-cherry group-hover:!text-white transition-colors" />
+                <FaXTwitter
+                  size={18}
+                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:rotate-3"
+                />
               </a>
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
+                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
               >
-                <FaInstagram size={18} className="text-cherry group-hover:!text-white transition-colors" />
+                <FaInstagram
+                  size={18}
+                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:-rotate-3"
+                />
               </a>
               <a
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
+                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
               >
-                <FaLinkedinIn size={18} className="text-cherry group-hover:!text-white transition-colors" />
+                <FaLinkedinIn
+                  size={18}
+                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:rotate-3"
+                />
               </a>
             </div>
           </div>
@@ -62,23 +75,27 @@ const Footer = () => {
             <h3 className="font-semibold text-text-primary mb-4">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/" className="text-text-secondary hover:text-cherry transition-colors">
+                <Link to="/" className="flex items-center gap-2 text-text-secondary hover:text-cherry transition-colors">
+                  <FiHome className="text-cherry" />
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/public-lessons" className="text-text-secondary hover:text-cherry transition-colors">
+                <Link to="public-lessons" className="flex items-center gap-2 text-text-secondary hover:text-cherry transition-colors">
+                  <FiBookOpen className="text-cherry" />
                   Public Lessons
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-text-secondary hover:text-cherry transition-colors">
-                  Pricing
+                <Link to="terms" className="flex items-center gap-2 text-text-secondary hover:text-cherry transition-colors">
+                  <FiFileText className="text-cherry" />
+                  Terms &amp; Conditions
                 </Link>
               </li>
               <li>
-                <Link to="/dashboard" className="text-text-secondary hover:text-cherry transition-colors">
-                  Dashboard
+                <Link to="privacy" className="flex items-center gap-2 text-text-secondary hover:text-cherry transition-colors">
+                  <FiShield className="text-cherry" />
+                  Privacy Policy
                 </Link>
               </li>
             </ul>
@@ -89,20 +106,41 @@ const Footer = () => {
             <h3 className="font-semibold text-text-primary mb-4">Contact Us</h3>
             <ul className="space-y-3 text-text-secondary">
               <li>
-                <span className="block">Email:</span>
-                <a href="mailto:support@lifecherry.com" className="hover:text-cherry transition-colors">
-                  support@lifecherry.com
-                </a>
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cherry-50 text-cherry">
+                    <FiMail />
+                  </span>
+                  <div>
+                    <span className="block text-text-primary font-medium leading-tight">Email</span>
+                    <a href="mailto:support@lifecherry.com" className="hover:text-cherry transition-colors leading-tight">
+                      support@lifecherry.com
+                    </a>
+                  </div>
+                </div>
               </li>
               <li>
-                <span className="block">Phone:</span>
-                <a href="tel:+8801234567890" className="hover:text-cherry transition-colors">
-                  +880 1234-567890
-                </a>
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cherry-50 text-cherry">
+                    <FiPhone />
+                  </span>
+                  <div>
+                    <span className="block text-text-primary font-medium leading-tight">Phone</span>
+                    <a href="tel:+8801234567890" className="hover:text-cherry transition-colors leading-tight">
+                      +880 1234-567890
+                    </a>
+                  </div>
+                </div>
               </li>
               <li>
-                <span className="block">Address:</span>
-                <span>Dhaka, Bangladesh</span>
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cherry-50 text-cherry">
+                    <FiMapPin />
+                  </span>
+                  <div>
+                    <span className="block text-text-primary font-medium leading-tight">Address</span>
+                    <span className="leading-tight">Dhaka, Bangladesh</span>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
@@ -113,14 +151,7 @@ const Footer = () => {
           <p className="text-text-muted text-sm">
             © {currentYear} LifeCherry. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            <Link to="/terms" className="text-text-muted text-sm hover:text-cherry transition-colors">
-              Terms & Conditions
-            </Link>
-            <Link to="/privacy" className="text-text-muted text-sm hover:text-cherry transition-colors">
-              Privacy Policy
-            </Link>
-          </div>
+          <div className="flex gap-6" />
         </div>
       </div>
     </footer>
