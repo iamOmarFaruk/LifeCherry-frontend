@@ -1,5 +1,6 @@
 // Add Lesson Page - LifeCherry Dashboard
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   HiOutlinePencilSquare,
   HiOutlinePhoto,
@@ -14,17 +15,13 @@ import {
 import toast from 'react-hot-toast';
 import PageLoader from '../../components/shared/PageLoader';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
+import useAuth from '../../hooks/useAuth';
+import apiClient from '../../utils/apiClient';
 
 const AddLesson = () => {
   useDocumentTitle('Add Lesson');
-  
-  // Dummy user for UI development
-  const dummyUser = {
-    name: 'Omar Faruk',
-    email: 'omar@example.com',
-    photoURL: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-    isPremium: true
-  };
+  const navigate = useNavigate();
+  const { userProfile, authLoading } = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -80,21 +77,45 @@ const AddLesson = () => {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Lesson data:', formData);
-      toast.success('Life lesson added successfully! 🎉');
-      setFormData({
-        title: '',
-        description: '',
-        category: '',
-        emotionalTone: '',
-        image: '',
-        visibility: 'public',
-        accessLevel: 'free'
-      });
+    try {
+      const payload = {
+        title: formData.title.trim(),
+        description: formData.description.trim(),
+        category: formData.category,
+        emotionalTone: formData.emotionalTone,
+        image: formData.image.trim() || null,
+        visibility: formData.visibility,
+        accessLevel: formData.accessLevel,
+      };
+
+      const response = await apiClient.post('/lessons', payload);
+      
+      if (response.data?.lesson) {
+        toast.success('Life lesson published successfully! 🎉');
+        
+        // Reset form
+        setFormData({
+          title: '',
+          description: '',
+          category: '',
+          emotionalTone: '',
+          image: '',
+          visibility: 'public',
+          accessLevel: 'free'
+        });
+
+        // Redirect to activity after 1.5 seconds
+        setTimeout(() => {
+          navigate('/dashboard/activity');
+        }, 1500);
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to create lesson';
+      toast.error(errorMessage);
+      console.error('Lesson creation error:', error);
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -292,10 +313,10 @@ const AddLesson = () => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => dummyUser.isPremium && setFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
-                    disabled={!dummyUser.isPremium}
+                    onClick={() => userProfile?.isPremium && setFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
+                    disabled={!userProfile?.isPremium}
                     className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
-                      !dummyUser.isPremium 
+                      !userProfile?.isPremium 
                         ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
                         : formData.accessLevel === 'premium'
                           ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
@@ -308,7 +329,7 @@ const AddLesson = () => {
                 </div>
                 
                 {/* Tooltip for non-premium users */}
-                {!dummyUser.isPremium && (
+                {!userProfile?.isPremium && (
                   <div className="mt-3 flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                     <HiOutlineLockClosed className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                     <p className="text-sm text-amber-800">
