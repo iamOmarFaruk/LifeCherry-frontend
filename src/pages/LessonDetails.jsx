@@ -529,33 +529,13 @@ const LessonDetails = () => {
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Stats Bar */}
-          <div className="flex flex-wrap items-center gap-6 py-4 mb-6 text-text-secondary">
-            <div className="flex items-center gap-2">
-              <FiHeart className="w-5 h-5 text-cherry" />
-              <span className="font-medium">{formatNumber(likesCount)} Likes</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <FiBookmark className="w-5 h-5 text-amber-500" />
-              <span className="font-medium">{formatNumber(favoritesCount)} Saves</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <FiEye className="w-5 h-5 text-blue-500" />
-              <span className="font-medium">{formatNumber(viewsCount)} Views</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <FiMessageCircle className="w-5 h-5 text-green-500" />
-              <span className="font-medium">{comments.length} Comments</span>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
+          {/* Action Buttons - All in One Line */}
           <div className="flex flex-wrap items-center gap-3 py-4 border-y border-gray-100 mb-8">
-            {/* Like Button */}
+            {/* Like Button with Count */}
             <button 
               onClick={handleLike}
               disabled={likeLoading || lesson?.creatorEmail === firebaseUser?.email}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all cursor-pointer font-medium ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all cursor-pointer font-medium text-sm ${
                 lesson?.creatorEmail === firebaseUser?.email 
                   ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
                   : isLiked 
@@ -563,16 +543,16 @@ const LessonDetails = () => {
                     : 'bg-gray-100 text-text-secondary hover:bg-cherry hover:text-white'
               }`}
             >
-              <FiHeart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
+              <FiHeart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
               <span>{isLiked ? 'Liked' : 'Like'}</span>
-              <span className="text-sm font-semibold">{likesCount}</span>
+              <span className="font-semibold">{formatNumber(likesCount)}</span>
             </button>
 
-            {/* Save Button */}
+            {/* Save Button with Count */}
             <button 
               onClick={handleSave}
               disabled={favoriteLoading || lesson?.creatorEmail === firebaseUser?.email}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all cursor-pointer font-medium ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all cursor-pointer font-medium text-sm ${
                 lesson?.creatorEmail === firebaseUser?.email
                   ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
                   : isSaved 
@@ -580,17 +560,29 @@ const LessonDetails = () => {
                     : 'bg-gray-100 text-text-secondary hover:bg-amber-500 hover:text-white'
               }`}
             >
-              <FiBookmark className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
-              <span>{isSaved ? 'Saved' : 'Save to Favorites'}</span>
-              <span className="text-sm font-semibold">{favoritesCount}</span>
+              <FiBookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
+              <span>{isSaved ? 'Saved' : 'Save'}</span>
+              <span className="font-semibold">{formatNumber(favoritesCount)}</span>
             </button>
+
+            {/* Views Count */}
+            <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-50 text-text-secondary text-sm font-medium">
+              <FiEye className="w-4 h-4 text-blue-500" />
+              <span>{formatNumber(viewsCount)} Views</span>
+            </div>
+
+            {/* Comments Count */}
+            <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-50 text-text-secondary text-sm font-medium">
+              <FiMessageCircle className="w-4 h-4 text-green-500" />
+              <span>{comments.length} Comments</span>
+            </div>
 
             {/* Report Button */}
             <button 
               onClick={() => setShowReportModal(true)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 text-text-secondary hover:bg-red-100 hover:text-red-600 transition-all cursor-pointer font-medium"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-100 text-text-secondary hover:bg-red-100 hover:text-red-600 transition-all cursor-pointer font-medium text-sm"
             >
-              <FiFlag className="w-5 h-5" />
+              <FiFlag className="w-4 h-4" />
               <span className="hidden sm:inline">Report</span>
             </button>
 
@@ -598,9 +590,9 @@ const LessonDetails = () => {
             <div className="relative">
               <button 
                 onClick={() => setShowShareDropdown(!showShareDropdown)}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 text-text-secondary hover:bg-blue-100 hover:text-blue-600 transition-all cursor-pointer font-medium"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-100 text-text-secondary hover:bg-blue-100 hover:text-blue-600 transition-all cursor-pointer font-medium text-sm"
               >
-                <FiShare2 className="w-5 h-5" />
+                <FiShare2 className="w-4 h-4" />
                 <span>Share</span>
               </button>
               
