@@ -27,6 +27,7 @@ import MyLessons from './pages/dashboard/MyLessons';
 import MyFavorites from './pages/dashboard/MyFavorites';
 import Profile from './pages/dashboard/Profile';
 import ActivityLog from './pages/dashboard/ActivityLog';
+import MyReports from './pages/MyReports';
 
 // Admin Dashboard Pages
 import AdminDashboardHome from './pages/dashboard/admin/AdminDashboardHome';
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
       {
         path: 'activity',
         element: <ActivityLog />
+      },
+      {
+        path: 'my-reports',
+        element: <MyReports />
       },
       // Admin Dashboard Routes
       {

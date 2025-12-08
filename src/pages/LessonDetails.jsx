@@ -31,8 +31,9 @@ import {
 } from 'react-share';
 import PageLoader from '../components/shared/PageLoader';
 import CommentSection from '../components/shared/CommentSection';
+import ReportModal from '../components/shared/ReportModal';
 import useDocumentTitle from '../hooks/useDocumentTitle';
-import apiClient from '../utils/apiClient';
+import apiClient, { reportAPI } from '../utils/apiClient';
 import useAuth from '../hooks/useAuth';
 
 const LessonDetails = () => {
@@ -59,8 +60,8 @@ const LessonDetails = () => {
   const [commentsCount, setCommentsCount] = useState(0);
   const [showShareDropdown, setShowShareDropdown] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
-  const [reportReason, setReportReason] = useState('');
-  const [reportSubmitted, setReportSubmitted] = useState(false);
+  const [hasReported, setHasReported] = useState(false);
+  const [userReport, setUserReport] = useState(null);
 
   const isLoggedIn = !!firebaseUser;
   const isUserPremium = !!userProfile?.isPremium;
@@ -128,6 +129,23 @@ const LessonDetails = () => {
     };
   }, []);
 
+  // Check if user has already reported this lesson
+  useEffect(() => {
+    if (!isLoggedIn || !lesson) return;
+
+    const checkReport = async () => {
+      try {
+        const { data } = await reportAPI.checkUserReport(id);
+        setHasReported(data.reported);
+        setUserReport(data.report);
+      } catch (error) {
+        console.error('Error checking report:', error);
+      }
+    };
+
+    checkReport();
+  }, [id, isLoggedIn, lesson]);
+
   // Views come from API
   const viewsCount = lesson?.views || 0;
 
@@ -176,7 +194,8 @@ const LessonDetails = () => {
       setIsSaved(false);
       setShowShareDropdown(false);
       setShowReportModal(false);
-      setReportSubmitted(false);
+      setHasReported(false);
+      setUserReport(null);
       hasRecordedViewRef.current = false;
       elapsedRef.current = 0;
       visibilityStartRef.current = null;
@@ -334,28 +353,17 @@ const LessonDetails = () => {
     }
   };
 
-  // Handle report submit
-  const handleReportSubmit = () => {
-    if (!isLoggedIn) {
-      navigate('/login');
-      return;
+  // Handle report submitted
+  const handleReportSubmitted = async () => {
+    setShowReportModal(false);
+    // Refresh report status
+    try {
+      const { data } = await reportAPI.checkUserReport(id);
+      setHasReported(data.reported);
+      setUserReport(data.report);
+    } catch (error) {
+      console.error('Error refreshing report status:', error);
     }
-    if (!reportReason) return;
-    
-    // In real app, this would be an API call
-    console.log('Report submitted:', {
-      lessonId: id,
-      reason: reportReason,
-      reporterEmail: currentUser?.email,
-      timestamp: new Date().toISOString()
-    });
-    
-    setReportSubmitted(true);
-    setTimeout(() => {
-      setShowReportModal(false);
-      setReportReason('');
-      setReportSubmitted(false);
-    }, 2000);
   };
 
   // Handle comment submit
@@ -403,16 +411,6 @@ const LessonDetails = () => {
     };
     return colors[tone] || 'bg-gray-100 text-gray-700';
   };
-
-  // Report reasons
-  const reportReasons = [
-    'Inappropriate Content',
-    'Hate Speech or Harassment',
-    'Misleading or False Information',
-    'Spam or Promotional Content',
-    'Sensitive or Disturbing Content',
-    'Other'
-  ];
 
   if (loading) {
     return (
@@ -586,11 +584,27 @@ const LessonDetails = () => {
 
             {/* Report Button */}
             <button 
-              onClick={() => setShowReportModal(true)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-100 text-text-secondary hover:bg-red-100 hover:text-red-600 transition-all cursor-pointer font-medium text-sm"
+              onClick={() => {
+                if (!isLoggedIn) {
+                  toast.error('Please login to report');
+                  navigate('/login');
+                  return;
+                }
+                if (hasReported) {
+                  toast.info('You have already reported this lesson');
+                  return;
+                }
+                setShowReportModal(true);
+              }}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full font-medium text-sm transition-all ${
+                hasReported 
+                  ? 'bg-red-100 text-red-600 cursor-not-allowed' 
+                  : 'bg-gray-100 text-text-secondary hover:bg-red-100 hover:text-red-600 cursor-pointer'
+              }`}
+              disabled={hasReported}
             >
               <FiFlag className="w-4 h-4" />
-              <span className="hidden sm:inline">Report</span>
+              <span className="hidden sm:inline">{hasReported ? 'Reported' : 'Report'}</span>
             </button>
 
             {/* Share Button with Dropdown */}
@@ -848,65 +862,12 @@ const LessonDetails = () => {
 
             {/* Report Modal */}
             {showReportModal && (
-              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-2xl max-w-md w-full p-6">
-                  {reportSubmitted ? (
-                    <div className="text-center py-8">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
-                        <FiCheck className="w-8 h-8 text-green-600" />
-                      </div>
-                      <h3 className="text-xl font-bold text-text-primary mb-2">Report Submitted</h3>
-                      <p className="text-text-secondary">Thank you for helping keep our community safe.</p>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-xl font-bold text-text-primary flex items-center gap-2">
-                          <FiFlag className="w-5 h-5 text-red-500" />
-                          Report Lesson
-                        </h3>
-                        <button 
-                          onClick={() => setShowReportModal(false)}
-                          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                        >
-                          <FiX className="w-5 h-5" />
-                        </button>
-                      </div>
-                      
-                      <p className="text-text-secondary mb-4">
-                        Why are you reporting this lesson?
-                      </p>
-                      
-                      <select
-                        value={reportReason}
-                        onChange={(e) => setReportReason(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all mb-6 text-text-primary"
-                      >
-                        <option value="">Select a reason...</option>
-                        {reportReasons.map(reason => (
-                          <option key={reason} value={reason}>{reason}</option>
-                        ))}
-                      </select>
-                      
-                      <div className="flex gap-3">
-                        <button
-                          onClick={() => setShowReportModal(false)}
-                          className="flex-1 px-4 py-3 border border-gray-200 text-text-secondary rounded-xl font-medium hover:bg-gray-50 transition-colors"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick={handleReportSubmit}
-                          disabled={!reportReason}
-                          className="flex-1 px-4 py-3 bg-red-500 text-white rounded-xl font-medium hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          Submit Report
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
+              <ReportModal
+                lessonId={id}
+                lessonTitle={lesson?.title}
+                onClose={() => setShowReportModal(false)}
+                onReported={handleReportSubmitted}
+              />
             )}
 
             {/* Click outside to close share dropdown */}

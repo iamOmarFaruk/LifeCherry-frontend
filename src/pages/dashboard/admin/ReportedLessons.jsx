@@ -1,11 +1,10 @@
 // Reported Lessons Page - LifeCherry Admin
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   HiOutlineFlag,
   HiOutlineMagnifyingGlass,
   HiOutlineXMark,
-  HiOutlineTrash,
   HiOutlineEye,
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
@@ -18,76 +17,105 @@ import {
 import toast from 'react-hot-toast';
 import PageLoader from '../../../components/shared/PageLoader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
-import { lessons } from '../../../data/lessons';
-import { reports, reportReasons } from '../../../data/reports';
-import { users } from '../../../data/users';
+import { reportAPI } from '../../../utils/apiClient';
 
 const ReportedLessons = () => {
   useDocumentTitle('Reported Lessons');
   
   // State
-  const [reportsData, setReportsData] = useState(reports);
-  const [lessonsData, setLessonsData] = useState(lessons);
+  const [reportsData, setReportsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('pending');
   const [currentPage, setCurrentPage] = useState(1);
   
   // Modal states
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
-  const [selectedLesson, setSelectedLesson] = useState(null);
+  const [selectedReport, setSelectedReport] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [adminMessage, setAdminMessage] = useState('');
+  const [reviewStatus, setReviewStatus] = useState('');
 
   const ITEMS_PER_PAGE = 10;
+
+  const fetchReports = async () => {
+    try {
+      setLoading(true);
+      const params = filterStatus !== 'all' ? { status: filterStatus } : {};
+      const { data } = await reportAPI.getAllReports(params);
+      setReportsData(data.reports || []);
+      setStats(data.stats || {});
+    } catch (error) {
+      console.error('Error fetching reports:', error);
+      toast.error('Failed to load reports');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReports();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterStatus]);
+
+  const handleReviewReport = async (status) => {
+    if (!selectedReport) return;
+
+    try {
+      setIsSubmitting(true);
+      await reportAPI.reviewReport(selectedReport._id, {
+        status,
+        adminMessage: adminMessage.trim() || undefined,
+      });
+      toast.success(`Report ${status} successfully`);
+      setShowDetailsModal(false);
+      setSelectedReport(null);
+      setAdminMessage('');
+      setReviewStatus('');
+      fetchReports();
+    } catch (error) {
+      console.error('Error reviewing report:', error);
+      toast.error(error.response?.data?.message || 'Failed to review report');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // Group reports by lesson
   const reportedLessons = useMemo(() => {
     const lessonReports = {};
     
     reportsData.forEach(report => {
-      if (!lessonReports[report.lessonId]) {
-        const lesson = lessonsData.find(l => l._id === report.lessonId);
-        if (lesson) {
-          lessonReports[report.lessonId] = {
-            lesson,
-            reports: [],
-            reportCount: 0,
-            latestReport: null
-          };
-        }
+      const lessonId = report.lessonId?._id || report.lessonId;
+      if (!lessonReports[lessonId]) {
+        lessonReports[lessonId] = {
+          lesson: report.lessonId,
+          reports: [],
+          reportCount: 0,
+          latestReport: null
+        };
       }
-      if (lessonReports[report.lessonId]) {
-        lessonReports[report.lessonId].reports.push(report);
-        lessonReports[report.lessonId].reportCount++;
-        if (!lessonReports[report.lessonId].latestReport || 
-            new Date(report.createdAt) > new Date(lessonReports[report.lessonId].latestReport.createdAt)) {
-          lessonReports[report.lessonId].latestReport = report;
-        }
+      lessonReports[lessonId].reports.push(report);
+      lessonReports[lessonId].reportCount++;
+      if (!lessonReports[lessonId].latestReport || 
+          new Date(report.createdAt) > new Date(lessonReports[lessonId].latestReport.createdAt)) {
+        lessonReports[lessonId].latestReport = report;
       }
     });
 
     return Object.values(lessonReports);
-  }, [reportsData, lessonsData]);
+  }, [reportsData]);
 
   // Filter reported lessons
   const filteredReportedLessons = useMemo(() => {
-    let result = [...reportedLessons];
+    let result = [...reportedLessons].filter(item => item.lesson);
 
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       result = result.filter(item =>
-        item.lesson.title.toLowerCase().includes(query) ||
-        item.lesson.creatorName.toLowerCase().includes(query)
-      );
-    }
-
-    if (filterStatus === 'pending') {
-      result = result.filter(item => 
-        item.reports.some(r => r.status === 'pending')
-      );
-    } else if (filterStatus === 'resolved') {
-      result = result.filter(item => 
-        item.reports.every(r => r.status === 'resolved')
+        item.lesson?.title?.toLowerCase().includes(query) ||
+        item.lesson?.creatorName?.toLowerCase().includes(query)
       );
     }
 
@@ -95,7 +123,7 @@ const ReportedLessons = () => {
     result.sort((a, b) => b.reportCount - a.reportCount);
 
     return result;
-  }, [reportedLessons, searchQuery, filterStatus]);
+  }, [reportedLessons, searchQuery]);
 
   // Pagination
   const totalPages = Math.ceil(filteredReportedLessons.length / ITEMS_PER_PAGE);
@@ -152,13 +180,23 @@ const ReportedLessons = () => {
     }, 1000);
   };
 
-  // Stats
-  const stats = {
+  // Stats display
+  const statsDisplay = {
     total: reportedLessons.length,
-    pending: reportedLessons.filter(item => item.reports.some(r => r.status === 'pending')).length,
-    resolved: reportedLessons.filter(item => item.reports.every(r => r.status === 'resolved')).length,
+    pending: stats.pending || 0,
+    resolved: stats.resolved || 0,
     totalReports: reportsData.length
   };
+
+  if (loading) {
+    return (
+      <PageLoader>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-cherry">Loading reports...</div>
+        </div>
+      </PageLoader>
+    );
+  }
 
   return (
     <PageLoader>
@@ -184,7 +222,7 @@ const ReportedLessons = () => {
                 <HiOutlineFlag className="w-5 h-5 text-red-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.total}</p>
+                <p className="text-2xl font-bold text-text">{statsDisplay.total}</p>
                 <p className="text-xs text-text-secondary">Reported Lessons</p>
               </div>
             </div>
@@ -195,7 +233,7 @@ const ReportedLessons = () => {
                 <HiOutlineClock className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.pending}</p>
+                <p className="text-2xl font-bold text-text">{statsDisplay.pending}</p>
                 <p className="text-xs text-text-secondary">Pending Review</p>
               </div>
             </div>
@@ -206,7 +244,7 @@ const ReportedLessons = () => {
                 <HiOutlineCheckCircle className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.resolved}</p>
+                <p className="text-2xl font-bold text-text">{statsDisplay.resolved}</p>
                 <p className="text-xs text-text-secondary">Resolved</p>
               </div>
             </div>
@@ -217,7 +255,7 @@ const ReportedLessons = () => {
                 <HiOutlineInformationCircle className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.totalReports}</p>
+                <p className="text-2xl font-bold text-text">{statsDisplay.totalReports}</p>
                 <p className="text-xs text-text-secondary">Total Reports</p>
               </div>
             </div>

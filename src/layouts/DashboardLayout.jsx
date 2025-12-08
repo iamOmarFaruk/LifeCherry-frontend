@@ -53,6 +53,7 @@ const DashboardLayout = () => {
     { name: 'Add Lesson', path: '/dashboard/add-lesson', icon: HiOutlinePlusCircle },
     { name: 'My Lessons', path: '/dashboard/my-lessons', icon: HiOutlineBookOpen },
     { name: 'My Favorites', path: '/dashboard/my-favorites', icon: HiOutlineHeart },
+    { name: 'My Reports', path: '/dashboard/my-reports', icon: HiOutlineFlag },
     { name: 'My Activity', path: '/dashboard/activity', icon: HiOutlineDocumentText },
     { name: 'Profile', path: '/dashboard/profile', icon: HiOutlineUser },
   ];
