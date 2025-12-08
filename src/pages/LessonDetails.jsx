@@ -30,6 +30,7 @@ import {
   WhatsappIcon
 } from 'react-share';
 import PageLoader from '../components/shared/PageLoader';
+import CommentSection from '../components/shared/CommentSection';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import apiClient from '../utils/apiClient';
 import useAuth from '../hooks/useAuth';
@@ -811,15 +812,14 @@ const LessonDetails = () => {
                       </div>
                     ))
                   ) : (
-                    <div className="text-center py-8">
-                      <FiMessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                      <p className="text-text-muted">No comments yet. Be the first to share your thoughts!</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </>
-          )}
+          {/* Comments Section */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
+              <FiMessageCircle className="w-6 h-6" />
+              Comments & Discussion
+            </h2>
+            <CommentSection />
+          </div>
 
           {/* Related Lessons by Category */}
           {relatedByCategory.length > 0 && (
