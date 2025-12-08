@@ -1,6 +1,7 @@
 // Lesson Details Page - LifeCherry
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { 
   FiHeart, 
   FiBookmark, 
@@ -183,7 +184,10 @@ const LessonDetails = () => {
 
   // Track engaged view time and record a view after 70% of reading time
   useEffect(() => {
-    if (!lesson || !isLoggedIn || hasRecordedViewRef.current || authLoading) return undefined;
+    // Don't record view if user is viewing their own post
+    if (!lesson || !isLoggedIn || lesson.creatorEmail === firebaseUser?.email || hasRecordedViewRef.current || authLoading) {
+      return undefined;
+    }
 
     const targetMs = Math.max(15000, Math.round(readingTime * 0.7 * 60 * 1000)); // at least 15s
 
@@ -207,9 +211,18 @@ const LessonDetails = () => {
         const { data } = await apiClient.post(`/lessons/${id}/view`);
         if (data?.views !== undefined) {
           setLesson((prev) => (prev ? { ...prev, views: data.views } : prev));
+          // Show toast notification for testing (remove after development)
+          toast.success(`View recorded! Total views: ${data.views}`, {
+            position: 'top-right',
+            duration: 3000,
+          });
         }
       } catch (err) {
-        // silent fail
+        console.error('Failed to record view:', err);
+        toast.error('Failed to record view', {
+          position: 'top-right',
+          duration: 2000,
+        });
       }
     };
 
@@ -224,7 +237,7 @@ const LessonDetails = () => {
       document.removeEventListener('visibilitychange', onVisible);
       clearInterval(interval);
     };
-  }, [lesson, isLoggedIn, authLoading, id, readingTime]);
+  }, [lesson, isLoggedIn, authLoading, id, readingTime, firebaseUser?.email]);
 
   // Format date
   const formatDate = (dateString) => {
