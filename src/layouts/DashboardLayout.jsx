@@ -36,12 +36,14 @@ const DashboardLayout = () => {
     { name: 'Add Lesson', path: '/dashboard/add-lesson', icon: HiOutlinePlusCircle },
     { name: 'My Lessons', path: '/dashboard/my-lessons', icon: HiOutlineBookOpen },
     { name: 'My Favorites', path: '/dashboard/my-favorites', icon: HiOutlineHeart },
+    { name: 'My Activity', path: '/dashboard/activity', icon: HiOutlineDocumentText },
     { name: 'Profile', path: '/dashboard/profile', icon: HiOutlineUser },
   ];
 
   // Admin menu items
   const adminMenuItems = [
     { name: 'Admin Dashboard', path: '/dashboard/admin', icon: HiOutlineCog6Tooth, end: true },
+    { name: 'Change History', path: '/dashboard/admin/activity', icon: HiOutlineDocumentText },
     { name: 'Manage Users', path: '/dashboard/admin/manage-users', icon: HiOutlineUsers },
     { name: 'Manage Lessons', path: '/dashboard/admin/manage-lessons', icon: HiOutlineDocumentText },
     { name: 'Reported Lessons', path: '/dashboard/admin/reported-lessons', icon: HiOutlineFlag },

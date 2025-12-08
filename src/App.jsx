@@ -26,6 +26,7 @@ import AddLesson from './pages/dashboard/AddLesson';
 import MyLessons from './pages/dashboard/MyLessons';
 import MyFavorites from './pages/dashboard/MyFavorites';
 import Profile from './pages/dashboard/Profile';
+import ActivityLog from './pages/dashboard/ActivityLog';
 
 // Admin Dashboard Pages
 import AdminDashboardHome from './pages/dashboard/admin/AdminDashboardHome';
@@ -33,6 +34,7 @@ import ManageUsers from './pages/dashboard/admin/ManageUsers';
 import ManageLessons from './pages/dashboard/admin/ManageLessons';
 import ReportedLessons from './pages/dashboard/admin/ReportedLessons';
 import AdminProfile from './pages/dashboard/admin/AdminProfile';
+import AdminActivity from './pages/dashboard/admin/AdminActivity';
 
 // Create router
 const router = createBrowserRouter([
@@ -108,10 +110,18 @@ const router = createBrowserRouter([
         path: 'profile',
         element: <Profile />
       },
+      {
+        path: 'activity',
+        element: <ActivityLog />
+      },
       // Admin Dashboard Routes
       {
         path: 'admin',
         element: <AdminDashboardHome />
+      },
+      {
+        path: 'admin/activity',
+        element: <AdminActivity />
       },
       {
         path: 'admin/manage-users',
