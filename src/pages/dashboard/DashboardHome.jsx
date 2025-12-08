@@ -153,10 +153,10 @@ const DashboardHome = () => {
     const previousFavorites = previousMonthLessons.reduce((acc, lesson) => acc + (lesson.favoritesCount || 0), 0);
 
     return {
-      lessons: { current: currentCreatedCount, previous: previousCreatedCount },
-      likes: { current: currentLikes, previous: previousLikes },
-      views: { current: currentViews, previous: previousViews },
-      favorites: { current: currentFavorites, previous: previousFavorites },
+      lessonsChange: calculateChange(currentCreatedCount, previousCreatedCount),
+      likesChange: calculateChange(currentLikes, previousLikes),
+      viewsChange: calculateChange(currentViews, previousViews),
+      favoritesChange: calculateChange(currentFavorites, previousFavorites),
     };
   }, [lessons]);
 
@@ -205,16 +205,16 @@ const DashboardHome = () => {
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
-                      monthStats.lessons.current >= monthStats.lessons.previous
+                      monthStats.lessonsChange >= 0
                         ? 'text-green-600 bg-green-50'
                         : 'text-red-600 bg-red-50'
                     }`}>
-                      {monthStats.lessons.current >= monthStats.lessons.previous ? (
+                      {monthStats.lessonsChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
                       ) : (
                         <HiOutlineArrowTrendingDown className="w-4 h-4" />
                       )}
-                      {Math.abs(calculateChange(monthStats.lessons.current, monthStats.lessons.previous))}%
+                      {Math.abs(monthStats.lessonsChange)}%
                     </span>
                     <span className="text-sm text-text-muted">vs last month</span>
                   </div>
@@ -239,16 +239,16 @@ const DashboardHome = () => {
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
-                      monthStats.favorites.current >= monthStats.favorites.previous
+                      monthStats.favoritesChange >= 0
                         ? 'text-green-600 bg-green-50'
                         : 'text-red-600 bg-red-50'
                     }`}>
-                      {monthStats.favorites.current >= monthStats.favorites.previous ? (
+                      {monthStats.favoritesChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
                       ) : (
                         <HiOutlineArrowTrendingDown className="w-4 h-4" />
                       )}
-                      {Math.abs(calculateChange(monthStats.favorites.current, monthStats.favorites.previous))}%
+                      {Math.abs(monthStats.favoritesChange)}%
                     </span>
                     <span className="text-sm text-text-muted">vs last month</span>
                   </div>
@@ -268,21 +268,21 @@ const DashboardHome = () => {
                 <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalLikes.toLocaleString()}</h3>
                 {totalLikes === 0 ? (
                   <div className="mt-3 p-2 bg-gray-50 rounded-lg">
-                    <p className="text-xs text-text-muted font-medium">Likes coming soon</p>
+                    <p className="text-xs text-text-muted font-medium">No likes yet</p>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
-                      monthStats.likes.current >= monthStats.likes.previous
+                      monthStats.likesChange >= 0
                         ? 'text-green-600 bg-green-50'
                         : 'text-red-600 bg-red-50'
                     }`}>
-                      {monthStats.likes.current >= monthStats.likes.previous ? (
+                      {monthStats.likesChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
                       ) : (
                         <HiOutlineArrowTrendingDown className="w-4 h-4" />
                       )}
-                      {Math.abs(calculateChange(monthStats.likes.current, monthStats.likes.previous))}%
+                      {Math.abs(monthStats.likesChange)}%
                     </span>
                     <span className="text-sm text-text-muted">vs last month</span>
                   </div>
@@ -307,16 +307,16 @@ const DashboardHome = () => {
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
-                      monthStats.views.current >= monthStats.views.previous
+                      monthStats.viewsChange >= 0
                         ? 'text-green-600 bg-green-50'
                         : 'text-red-600 bg-red-50'
                     }`}>
-                      {monthStats.views.current >= monthStats.views.previous ? (
+                      {monthStats.viewsChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
                       ) : (
                         <HiOutlineArrowTrendingDown className="w-4 h-4" />
                       )}
-                      {Math.abs(calculateChange(monthStats.views.current, monthStats.views.previous))}%
+                      {Math.abs(monthStats.viewsChange)}%
                     </span>
                     <span className="text-sm text-text-muted">vs last month</span>
                   </div>
