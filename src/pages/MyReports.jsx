@@ -39,17 +39,62 @@ const MyReports = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
-  const handleWithdraw = async (reportId) => {
-    if (!confirm('Are you sure you want to withdraw this report?')) return;
-
-    try {
-      await reportAPI.withdrawReport(reportId);
-      toast.success('Report withdrawn successfully');
-      fetchReports();
-    } catch (error) {
-      console.error('Error withdrawing report:', error);
-      toast.error(error.response?.data?.message || 'Failed to withdraw report');
-    }
+  const handleWithdraw = async (reportId, lessonTitle) => {
+    toast(
+      (t) => (
+        <div className="flex flex-col gap-3">
+          <div>
+            <h3 className="font-bold text-gray-900 mb-1">Withdraw Report?</h3>
+            <p className="text-sm text-gray-600">
+              Are you sure you want to withdraw your report for "{lessonTitle}"? This action cannot be undone.
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                toast.dismiss(t.id);
+              }}
+              className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold transition-colors text-sm"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={async () => {
+                toast.dismiss(t.id);
+                try {
+                  await reportAPI.withdrawReport(reportId);
+                  toast.success('Report withdrawn successfully', {
+                    icon: '✓',
+                    style: {
+                      background: '#10B981',
+                      color: '#fff',
+                    },
+                  });
+                  fetchReports();
+                } catch (error) {
+                  console.error('Error withdrawing report:', error);
+                  toast.error(error.response?.data?.message || 'Failed to withdraw report');
+                }
+              }}
+              className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 font-semibold transition-colors text-sm"
+            >
+              Withdraw
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        duration: Infinity,
+        style: {
+          background: '#fff',
+          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+          border: '1px solid #E5E7EB',
+          borderRadius: '12px',
+          padding: '16px',
+          maxWidth: '420px',
+        },
+      }
+    );
   };
 
   const getStatusIcon = (status) => {
@@ -96,6 +141,12 @@ const MyReports = () => {
       'other': 'Other',
     };
     return labels[reason] || reason;
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   };
 
   const filters = [
@@ -187,12 +238,12 @@ const MyReports = () => {
                         <span>•</span>
                         <span>{getReasonLabel(report.reason)}</span>
                         <span>•</span>
-                        <span>{new Date(report.createdAt).toLocaleDateString()}</span>
+                        <span>{formatDate(report.createdAt)}</span>
                       </div>
                     </div>
                     {(report.status === 'pending' || report.status === 'reviewing') && (
                       <button
-                        onClick={() => handleWithdraw(report._id)}
+                        onClick={() => handleWithdraw(report._id, report.lessonId?.title || 'this lesson')}
                         className="px-4 py-2 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 font-semibold transition-colors"
                       >
                         Withdraw
@@ -212,7 +263,7 @@ const MyReports = () => {
                           Admin Response by {report.reviewerName}:
                         </p>
                         <span className="text-xs text-gray-500">
-                          {new Date(report.reviewedAt).toLocaleDateString()}
+                          {formatDate(report.reviewedAt)}
                         </span>
                       </div>
                       <p className="text-gray-700">{report.adminMessage}</p>
