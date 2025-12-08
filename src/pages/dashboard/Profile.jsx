@@ -1,6 +1,7 @@
 // Profile Page - LifeCherry Dashboard
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { 
   HiOutlineUser,
   HiOutlineEnvelope,
@@ -13,6 +14,7 @@ import {
   HiOutlineCheckCircle,
   HiOutlinePhoto,
   HiOutlineEye,
+  HiOutlineExclamationTriangle,
   HiOutlineLockClosed,
   HiOutlineSparkles,
   HiOutlineCalendarDays,
@@ -20,63 +22,97 @@ import {
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
-import { lessons, emotionalTones } from '../../data/lessons';
-import { favorites } from '../../data/favorites';
+import useAuth from '../../hooks/useAuth';
+import apiClient from '../../utils/apiClient';
+import Loading from '../../components/shared/Loading';
+import { emotionalTones } from '../../data/lessons';
 
 const Profile = () => {
   useDocumentTitle('My Profile');
-  
-  // Dummy user for UI development (will be replaced with real auth)
-  const [dummyUser, setDummyUser] = useState({
-    _id: 'u1',
-    name: 'Sarah Johnson',
-    email: 'sarah@example.com',
-    photoURL: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face',
-    isPremium: true,
-    role: 'user',
-    createdAt: '2025-01-15T10:00:00Z'
-  });
+  const {
+    firebaseUser,
+    userProfile,
+    authLoading,
+    profileLoading,
+    authInitialized,
+    updateProfileInfo,
+    profileRefetch,
+  } = useAuth();
+
+  const userEmail = firebaseUser?.email?.toLowerCase() || '';
 
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Edit form state
-  const [editFormData, setEditFormData] = useState({
-    name: dummyUser.name,
-    photoURL: dummyUser.photoURL
+  const [editFormData, setEditFormData] = useState({ name: '', photoURL: '' });
+
+  const lessonsQuery = useQuery({
+    queryKey: ['my-lessons', userEmail],
+    enabled: !!userEmail,
+    queryFn: async () => {
+      const res = await apiClient.get(`/lessons/user/${userEmail}`);
+      return res.data?.lessons || [];
+    },
+    retry: 1,
   });
 
-  // Get user's lessons
-  const userLessons = useMemo(() => {
-    return lessons.filter(lesson => lesson.creatorEmail === dummyUser.email);
-  }, [dummyUser.email]);
+  const profile = useMemo(
+    () => ({
+      name:
+        userProfile?.name ||
+        firebaseUser?.displayName ||
+        firebaseUser?.email?.split('@')[0] ||
+        'User',
+      email: userProfile?.email || firebaseUser?.email || '',
+      photoURL: userProfile?.photoURL || firebaseUser?.photoURL || '',
+      isPremium: !!userProfile?.isPremium,
+      role: userProfile?.role || 'user',
+      createdAt: userProfile?.createdAt || firebaseUser?.metadata?.creationTime,
+    }),
+    [userProfile, firebaseUser]
+  );
+
+  useEffect(() => {
+    setEditFormData({
+      name: profile.name || '',
+      photoURL: profile.photoURL || '',
+    });
+  }, [profile.name, profile.photoURL]);
+
+  const lessons = useMemo(() => lessonsQuery.data || [], [lessonsQuery.data]);
 
   // Get user's public lessons only (sorted by newest first)
   const publicLessons = useMemo(() => {
-    return userLessons
-      .filter(lesson => lesson.visibility === 'public')
+    return lessons
+      .filter((lesson) => lesson.visibility === 'public')
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  }, [userLessons]);
+  }, [lessons]);
 
-  // Get user's saved lessons (favorites)
-  const savedLessonsCount = useMemo(() => {
-    const userFavorites = favorites.filter(fav => fav.userId === dummyUser._id);
-    return userFavorites.length;
-  }, [dummyUser._id]);
+  const privateLessons = useMemo(
+    () => lessons.filter((lesson) => lesson.visibility === 'private'),
+    [lessons]
+  );
+
+  const draftLessons = useMemo(
+    () => lessons.filter((lesson) => lesson.visibility === 'draft'),
+    [lessons]
+  );
 
   // Stats
   const stats = {
-    totalLessons: userLessons.length,
+    totalLessons: lessons.length,
     publicLessons: publicLessons.length,
-    privateLessons: userLessons.filter(l => l.visibility === 'private').length,
-    savedLessons: savedLessonsCount,
-    totalLikes: userLessons.reduce((sum, l) => sum + (l.likesCount || 0), 0),
-    totalFavorites: userLessons.reduce((sum, l) => sum + (l.favoritesCount || 0), 0)
+    privateLessons: privateLessons.length,
+    drafts: draftLessons.length,
+    totalLikes: lessons.reduce((sum, l) => sum + (l.likesCount || 0), 0),
+    totalFavorites: lessons.reduce((sum, l) => sum + (l.favoritesCount || 0), 0),
   };
 
   // Format date
   const formatDate = (dateString) => {
+    if (!dateString) return '—';
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
@@ -94,7 +130,7 @@ const Profile = () => {
   // Handle profile update
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    
+
     if (!editFormData.name.trim()) {
       toast.error('Name is required');
       return;
@@ -102,24 +138,27 @@ const Profile = () => {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setDummyUser(prev => ({
-        ...prev,
-        name: editFormData.name,
-        photoURL: editFormData.photoURL
-      }));
-      setShowEditModal(false);
-      setIsSubmitting(false);
+    try {
+      await updateProfileInfo({
+        name: editFormData.name.trim(),
+        photoURL: editFormData.photoURL.trim(),
+      });
+      await profileRefetch();
       toast.success('Profile updated successfully!');
-    }, 1000);
+      setShowEditModal(false);
+    } catch (error) {
+      const message = error?.response?.data?.message || error?.message || 'Failed to update profile';
+      toast.error(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Open edit modal
   const openEditModal = () => {
     setEditFormData({
-      name: dummyUser.name,
-      photoURL: dummyUser.photoURL
+      name: profile.name,
+      photoURL: profile.photoURL
     });
     setShowEditModal(true);
   };
@@ -134,6 +173,28 @@ const Profile = () => {
     } : { bg: 'bg-gray-50', text: 'text-gray-600', emoji: '💭' };
   };
 
+  const isLoading = authLoading || profileLoading || !authInitialized || lessonsQuery.isLoading;
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!firebaseUser) {
+    return (
+      <div className="p-6 sm:p-10 text-center">
+        <h1 className="text-2xl font-bold text-text mb-2">Please sign in</h1>
+        <p className="text-text-secondary mb-4">Log in to view and update your profile.</p>
+        <Link
+          to="/login"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-colors"
+        >
+          <HiOutlineLockClosed className="w-5 h-5" />
+          Go to Login
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Page Header */}
@@ -142,16 +203,30 @@ const Profile = () => {
         <p className="text-text-secondary">Manage your profile and view your public lessons</p>
       </div>
 
+      {lessonsQuery.isError && (
+        <div className="mb-6 p-4 rounded-xl border border-amber-200 bg-amber-50 text-amber-800">
+          <div className="flex items-start gap-2">
+            <HiOutlineExclamationTriangle className="w-5 h-5 mt-0.5" />
+            <div>
+              <p className="font-semibold">Could not load your lessons</p>
+              <p className="text-sm text-amber-900/90">
+                {lessonsQuery.error?.response?.data?.message || lessonsQuery.error?.message || 'Please try again shortly.'}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Profile Card */}
       <div className="bg-white rounded-2xl border border-border p-6 sm:p-8 mb-8">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           {/* Profile Photo */}
           <div className="relative group">
             <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-4 border-cherry-100 shadow-lg">
-              {dummyUser.photoURL ? (
+              {profile.photoURL ? (
                 <img 
-                  src={dummyUser.photoURL} 
-                  alt={dummyUser.name}
+                  src={profile.photoURL} 
+                  alt={profile.name}
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -161,7 +236,7 @@ const Profile = () => {
               )}
             </div>
             {/* Premium badge */}
-            {dummyUser.isPremium && (
+            {profile.isPremium && (
               <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1">
                 <HiOutlineStar className="w-3.5 h-3.5" />
                 <span>Premium</span>
@@ -172,7 +247,7 @@ const Profile = () => {
           {/* Profile Info */}
           <div className="flex-1 text-center sm:text-left">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-              <h2 className="text-2xl sm:text-3xl font-bold text-text">{dummyUser.name}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-text">{profile.name}</h2>
               <button
                 onClick={openEditModal}
                 className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-cherry-50 hover:bg-cherry-100 text-cherry rounded-xl transition-colors text-sm font-medium"
@@ -185,16 +260,16 @@ const Profile = () => {
             <div className="flex flex-col gap-2 mb-4">
               <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary">
                 <HiOutlineEnvelope className="w-5 h-5" />
-                <span>{dummyUser.email}</span>
+                <span>{profile.email}</span>
               </div>
               <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary">
                 <HiOutlineCalendarDays className="w-5 h-5" />
-                <span>Member since {formatDate(dummyUser.createdAt)}</span>
+                <span>Member since {formatDate(profile.createdAt)}</span>
               </div>
             </div>
 
             {/* Upgrade CTA for Free Users */}
-            {!dummyUser.isPremium && (
+            {!profile.isPremium && (
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 text-gray-600">
                 <HiOutlineUser className="w-5 h-5" />
                 <span className="font-medium">Free Plan</span>
@@ -236,8 +311,8 @@ const Profile = () => {
             <div className="w-10 h-10 mx-auto mb-2 bg-amber-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
               <HiOutlineStar className="w-5 h-5 text-amber-500" />
             </div>
-            <div className="text-2xl sm:text-3xl font-bold text-amber-600 mb-1">{stats.savedLessons}</div>
-            <div className="text-sm text-text-secondary">Saved</div>
+            <div className="text-2xl sm:text-3xl font-bold text-amber-600 mb-1">{stats.drafts}</div>
+            <div className="text-sm text-text-secondary">Drafts</div>
           </div>
           <div className="bg-red-50 rounded-xl p-4 text-center group hover:shadow-md transition-all">
             <div className="w-10 h-10 mx-auto mb-2 bg-red-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -474,7 +549,7 @@ const Profile = () => {
                 <div className="relative">
                   <input
                     type="email"
-                    value={dummyUser.email}
+                    value={profile.email}
                     disabled
                     className="w-full px-4 py-3 rounded-xl border border-border bg-gray-50 text-text-secondary cursor-not-allowed"
                   />

@@ -95,6 +95,28 @@ const AuthProvider = ({ children }) => {
     queryClient.removeQueries({ queryKey: ['userProfile'] });
   };
 
+  const updateProfileInfo = async ({ name, photoURL }) => {
+    if (!firebaseUser) {
+      throw new Error('Not authenticated');
+    }
+
+    const payload = {};
+    if (name !== undefined) payload.name = name;
+    if (photoURL !== undefined) payload.photoURL = photoURL;
+
+    if (name || photoURL) {
+      await updateProfile(firebaseUser, {
+        displayName: name || firebaseUser.displayName || '',
+        photoURL: photoURL || null,
+      });
+      setFirebaseUser({ ...auth.currentUser });
+    }
+
+    const res = await apiClient.patch('/users/me', payload);
+    await profileQuery.refetch();
+    return res.data?.user;
+  };
+
   const value = {
     firebaseUser,
     token,
@@ -103,6 +125,7 @@ const AuthProvider = ({ children }) => {
     userProfile: profileQuery.data,
     profileLoading: profileQuery.isLoading,
     profileRefetch: profileQuery.refetch,
+    updateProfileInfo,
     register,
     login,
     loginWithGoogle,
