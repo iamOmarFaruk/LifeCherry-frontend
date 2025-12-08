@@ -4,38 +4,56 @@ import { toast } from 'react-hot-toast';
 import { FiFlag, FiClock, FiCheck, FiX, FiAlertCircle, FiEye } from 'react-icons/fi';
 import { reportAPI } from '../utils/apiClient';
 import PageLoader from '../components/shared/PageLoader';
+import Loading from '../components/shared/Loading';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const MyReports = () => {
   useDocumentTitle('My Reports - LifeCherry');
   const [reports, setReports] = useState([]);
+  const [allReports, setAllReports] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [tabLoading, setTabLoading] = useState(false);
   const [filter, setFilter] = useState('all');
   const [stats, setStats] = useState({});
 
-  const fetchReports = async () => {
+  const fetchReports = async (isTabChange = false) => {
     try {
-      setLoading(true);
+      if (isTabChange) {
+        setTabLoading(true);
+      } else {
+        setLoading(true);
+      }
       const params = filter !== 'all' ? { status: filter } : {};
       const { data } = await reportAPI.getUserReports(params);
       setReports(data.reports || []);
       
-      // Calculate stats
-      const statusCounts = (data.reports || []).reduce((acc, report) => {
-        acc[report.status] = (acc[report.status] || 0) + 1;
-        return acc;
-      }, {});
-      setStats(statusCounts);
+      // Fetch all reports for stats calculation if not already loaded
+      if (allReports.length === 0) {
+        const { data: allData } = await reportAPI.getUserReports({});
+        setAllReports(allData.reports || []);
+        
+        // Calculate stats from all reports
+        const statusCounts = (allData.reports || []).reduce((acc, report) => {
+          acc[report.status] = (acc[report.status] || 0) + 1;
+          return acc;
+        }, {});
+        setStats(statusCounts);
+      }
     } catch (error) {
       console.error('Error fetching reports:', error);
       toast.error('Failed to load reports');
     } finally {
-      setLoading(false);
+      if (isTabChange) {
+        setTabLoading(false);
+      } else {
+        setLoading(false);
+      }
     }
   };
 
   useEffect(() => {
-    fetchReports();
+    const isInitialLoad = loading;
+    fetchReports(!isInitialLoad);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
@@ -153,7 +171,7 @@ const MyReports = () => {
   };
 
   const filters = [
-    { value: 'all', label: 'All Reports', count: reports.length },
+    { value: 'all', label: 'All Reports', count: allReports.length || reports.length },
     { value: 'pending', label: 'Pending', count: stats.pending || 0 },
     { value: 'reviewing', label: 'Under Review', count: stats.reviewing || 0 },
     { value: 'resolved', label: 'Resolved', count: stats.resolved || 0 },
@@ -204,7 +222,21 @@ const MyReports = () => {
           </div>
 
           {/* Reports List */}
-          {reports.length === 0 ? (
+          {tabLoading ? (
+            <div className="bg-white rounded-2xl shadow-sm p-12 flex flex-col items-center justify-center gap-4">
+              <div className="relative w-16 h-16">
+                {/* Outer rotating circle */}
+                <div className="absolute inset-0 border-4 border-cherry/20 rounded-full"></div>
+                {/* Inner rotating gradient circle */}
+                <div className="absolute inset-0 border-4 border-transparent border-t-cherry border-r-cherry rounded-full animate-spin"></div>
+                {/* Center cherry icon */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-6 h-6 bg-gradient-to-br from-cherry to-cherry-dark rounded-full animate-pulse shadow-lg"></div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-500 font-medium">Loading reports...</p>
+            </div>
+          ) : reports.length === 0 ? (
             <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
               <FiFlag className="w-16 h-16 mx-auto mb-4 text-gray-300" />
               <h3 className="text-xl font-bold text-gray-700 mb-2">No reports found</h3>
