@@ -68,6 +68,11 @@ body {
   color: var(--color-text);
 }
 
+/* Smooth scrolling across supported browsers */
+html {
+  scroll-behavior: smooth;
+}
+
 /* ========================================
    Custom Scrollbar - Cherry Theme
    Works on Chrome, Edge, Safari, Firefox
