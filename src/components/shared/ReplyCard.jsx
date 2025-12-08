@@ -179,13 +179,13 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
                     setIsEditing(!isEditing);
                     setEditedContent(reply.content);
                   }}
-                  className="text-xs px-2 py-0.5 text-blue-600 hover:bg-blue-50 rounded"
+                  className="text-xs px-2 py-1 text-cherry hover:bg-cherry-50 rounded-lg font-medium transition-all"
                 >
                   {isEditing ? 'Cancel' : 'Edit'}
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="text-xs px-2 py-0.5 text-red-600 hover:bg-red-50 rounded"
+                  className="text-xs px-2 py-1 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-all"
                 >
                   Delete
                 </button>
@@ -201,21 +201,21 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
           <textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            className="w-full px-2 py-1 border border-gray-300 rounded text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border-2 border-cherry-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent transition-all shadow-sm"
             rows="2"
             disabled={isSubmitting}
           />
           <div className="flex justify-end gap-2">
             <button
               onClick={() => setIsEditing(false)}
-              className="text-xs px-2 py-1 text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50"
+              className="text-xs px-3 py-1.5 text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 font-medium transition-all"
               disabled={isSubmitting}
             >
               Cancel
             </button>
             <button
               onClick={handleUpdate}
-              className="text-xs px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+              className="text-xs px-3 py-1.5 bg-gradient-to-r from-cherry to-cherry-dark text-white rounded-lg hover:shadow-lg disabled:opacity-50 font-medium transition-all"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Saving...' : 'Save'}
@@ -223,14 +223,14 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
           </div>
         </div>
       ) : (
-        <p className="text-gray-800 text-sm">{reply.content}</p>
+        <p className="text-gray-800 text-sm leading-relaxed">{reply.content}</p>
       )}
 
       {/* Reactions and actions */}
       <div className="flex items-center gap-3 flex-wrap text-xs">
         {/* Reaction summary */}
         {reply.reactions && reply.reactions.length > 0 && (
-          <div className="flex items-center gap-0.5 bg-white border border-gray-200 rounded-full px-2 py-0.5">
+          <div className="flex items-center gap-1 bg-gradient-to-r from-cherry-50 to-pink-50 border border-cherry-100 rounded-full px-2 py-1 shadow-sm">
             {Array.from(
               new Set(reply.reactions.map((r) => r.emoji))
             ).map((emoji) => {
@@ -238,13 +238,13 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
               return (
                 <span
                   key={emoji}
-                  className="text-xs cursor-pointer hover:scale-110 transition"
+                  className="flex items-center gap-0.5 text-sm cursor-pointer hover:scale-125 transition-transform duration-200"
                   title={reply.reactions
                     .filter((r) => r.emoji === emoji)
                     .map((r) => r.userEmail.split('@')[0])
                     .join(', ')}
                 >
-                  {emoji} {count > 1 ? count : ''}
+                  {emoji} {count > 1 && <span className="text-xs font-semibold text-cherry-600">{count}</span>}
                 </span>
               );
             })}
@@ -255,17 +255,17 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
         <div className="relative">
           <button
             onClick={() => setShowReactions(!showReactions)}
-            className="text-gray-600 hover:text-gray-900 hover:bg-white px-2 py-0.5 rounded transition"
+            className="text-sm text-gray-600 hover:text-cherry hover:bg-cherry-50 px-2 py-1 rounded-lg transition-all font-medium border border-transparent hover:border-cherry-200"
           >
             {userReaction ? userReaction.emoji : '👍'}
           </button>
           {showReactions && (
-            <div className="absolute bottom-full left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-2 flex gap-1 z-10">
+            <div className="absolute bottom-full left-0 mb-2 bg-white border-2 border-cherry-100 rounded-2xl shadow-2xl p-2 flex gap-1.5 z-10">
               {REACTION_EMOJIS.map((emoji) => (
                 <button
                   key={emoji}
                   onClick={() => handleReaction(emoji)}
-                  className="text-lg hover:scale-125 transition cursor-pointer"
+                  className="text-xl hover:scale-125 transition-transform duration-200 cursor-pointer p-1 hover:bg-cherry-50 rounded-lg"
                 >
                   {emoji}
                 </button>
@@ -278,7 +278,7 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
         {level < 3 && (
           <button
             onClick={() => setShowReplyForm(!showReplyForm)}
-            className="text-gray-600 hover:text-gray-900 hover:bg-white px-2 py-0.5 rounded transition"
+            className="text-sm text-gray-600 hover:text-cherry hover:bg-cherry-50 px-2 py-1 rounded-lg transition-all font-medium border border-transparent hover:border-cherry-200"
           >
             Reply
           </button>
@@ -288,7 +288,7 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
         {reply.replies && reply.replies.length > 0 && (
           <button
             onClick={() => setShowNestedReplies(!showNestedReplies)}
-            className="text-blue-600 hover:text-blue-800"
+            className="text-sm text-cherry hover:text-cherry-dark font-semibold transition-colors"
           >
             {reply.replies.length} {reply.replies.length === 1 ? 'reply' : 'replies'}
           </button>
@@ -297,13 +297,13 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
 
       {/* Nested reply form */}
       {showReplyForm && level < 3 && (
-        <form onSubmit={handleNestedReply} className="mt-2 space-y-2 border-t border-gray-200 pt-2">
+        <form onSubmit={handleNestedReply} className="mt-2 space-y-2 border-t border-cherry-200 pt-2">
           <textarea
             value={nestedReplyContent}
             onChange={(e) => setNestedReplyContent(e.target.value)}
             placeholder="Write a reply..."
             rows="1"
-            className="w-full px-2 py-1 border border-gray-300 rounded text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border-2 border-cherry-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent transition-all shadow-sm"
             disabled={isSubmitting}
           />
           <div className="flex justify-end gap-2">
@@ -313,7 +313,7 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
                 setShowReplyForm(false);
                 setNestedReplyContent('');
               }}
-              className="text-xs px-2 py-1 text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50"
+              className="text-xs px-3 py-1.5 text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 font-medium transition-all"
               disabled={isSubmitting}
             >
               Cancel
@@ -321,7 +321,7 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
             <button
               type="submit"
               disabled={isSubmitting || !nestedReplyContent.trim()}
-              className="text-xs px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+              className="text-xs px-3 py-1.5 bg-gradient-to-r from-cherry to-cherry-dark text-white rounded-lg hover:shadow-lg disabled:opacity-50 font-medium transition-all"
             >
               {isSubmitting ? 'Posting...' : 'Reply'}
             </button>
@@ -331,7 +331,7 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
 
       {/* Nested replies */}
       {showNestedReplies && reply.replies && reply.replies.length > 0 && (
-        <div className="mt-2 space-y-2 border-t border-gray-200 pt-2">
+        <div className="mt-2 space-y-2 border-t border-cherry-200 pt-2">
           {reply.replies.map((nestedReply) => (
             <ReplyCard
               key={nestedReply._id}
