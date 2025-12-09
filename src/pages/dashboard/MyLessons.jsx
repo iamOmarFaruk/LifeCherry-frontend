@@ -129,10 +129,14 @@ const MyLessons = () => {
   // Format date - compact single line format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const month = date.toLocaleDateString('en-US', { month: 'short' });
-    const day = date.getDate();
-    const year = date.getFullYear();
-    return `${month} ${day}, ${year}`;
+    return date.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    });
   };
 
   const updateLessonMutation = useMutation({
@@ -208,10 +212,6 @@ const MyLessons = () => {
             <div>
               <p className="font-semibold text-gray-900">{config.title}</p>
               <p className="text-sm text-gray-600 mt-1">{config.message}</p>
-              <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
-                <HiOutlineExclamationTriangle className="w-3.5 h-3.5" />
-                {config.warning}
-              </p>
             </div>
           </div>
           <div className="flex justify-end gap-2 mt-1">
