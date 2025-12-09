@@ -65,7 +65,7 @@ const LessonDetails = () => {
   const [isBioExpanded, setIsBioExpanded] = useState(false);
 
   const isLoggedIn = !!firebaseUser;
-  const isUserPremium = !!userProfile?.isPremium;
+  const isUserPremium = !!userProfile?.isPremium || userProfile?.role === 'admin';
   const currentUser = firebaseUser || null;
   const hasRecordedViewRef = useRef(false);
   const visibilityStartRef = useRef(null);

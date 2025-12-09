@@ -55,7 +55,7 @@ const Profile = () => {
       email: userProfile?.email || firebaseUser?.email || '',
       photoURL: userProfile?.photoURL || firebaseUser?.photoURL || '',
       bio: userProfile?.bio || '',
-      isPremium: !!userProfile?.isPremium,
+      isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
       role: userProfile?.role || 'user',
       createdAt: userProfile?.createdAt || firebaseUser?.metadata?.creationTime,
       status: userProfile?.status || 'active',

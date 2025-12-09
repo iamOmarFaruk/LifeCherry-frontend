@@ -316,15 +316,15 @@ const AddLesson = () => {
                   </button>
                   
                   <div 
-                    className={`flex-1 ${!userProfile?.isPremium ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}`} 
+                    className={`flex-1 ${(!userProfile?.isPremium && userProfile?.role !== 'admin') ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}`} 
                     data-tip="Upgrade to Premium to create paid lessons"
                   >
                     <button
                       type="button"
-                      onClick={() => userProfile?.isPremium && setFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
-                      disabled={!userProfile?.isPremium}
+                      onClick={() => (userProfile?.isPremium || userProfile?.role === 'admin') && setFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
+                      disabled={!userProfile?.isPremium && userProfile?.role !== 'admin'}
                       className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
-                        !userProfile?.isPremium 
+                        (!userProfile?.isPremium && userProfile?.role !== 'admin')
                           ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
                           : formData.accessLevel === 'premium'
                             ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'

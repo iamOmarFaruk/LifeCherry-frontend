@@ -37,7 +37,7 @@ const MyLessons = () => {
   const { firebaseUser, userProfile, authLoading, profileLoading, authInitialized } = useAuth();
   const queryClient = useQueryClient();
   const userEmail = firebaseUser?.email?.toLowerCase() || '';
-  const isPremium = !!userProfile?.isPremium;
+  const isPremium = !!userProfile?.isPremium || userProfile?.role === 'admin';
 
   const lessonsQuery = useQuery({
     queryKey: ['my-lessons', userEmail],

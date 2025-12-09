@@ -21,7 +21,7 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { firebaseUser, userProfile, authLoading, authInitialized, profileLoading } = useAuth();
+  const { firebaseUser, userProfile, authLoading, authInitialized, profileLoading, viewMode, toggleViewMode } = useAuth();
 
   // Redirect unauthenticated users away from dashboard
   useEffect(() => {
@@ -39,7 +39,7 @@ const DashboardLayout = () => {
         name: userProfile?.name || firebaseUser.displayName || 'User',
         email: firebaseUser.email,
         photoURL: userProfile?.photoURL || providerPhotoURL,
-        isPremium: !!userProfile?.isPremium,
+        isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
         role: userProfile?.role || 'user',
       }
     : null;
@@ -69,7 +69,9 @@ const DashboardLayout = () => {
     { name: 'Admin Profile', path: '/dashboard/admin/profile', icon: HiOutlineUser },
   ];
 
-  const menuItems = isAdmin ? [...adminMenuItems, ...userMenuItems] : userMenuItems;
+  const menuItems = isAdmin 
+    ? (viewMode === 'admin' ? adminMenuItems : userMenuItems)
+    : userMenuItems;
 
   const NavItem = ({ item }) => (
     <NavLink
@@ -159,12 +161,29 @@ const DashboardLayout = () => {
           )}
         </div>
 
+        {/* Admin View Toggle */}
+        {isAdmin && (
+          <div className="px-3 py-2 border-b border-border bg-gray-50/50">
+            <button
+              onClick={toggleViewMode}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-text-secondary hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-border"
+            >
+              <span>View as {viewMode === 'admin' ? 'User' : 'Admin'}</span>
+              <div className={`w-8 h-4 rounded-full relative transition-colors ${viewMode === 'admin' ? 'bg-cherry' : 'bg-gray-300'}`}>
+                <div className={`absolute top-0.5 w-3 h-3 bg-white rounded-full shadow-sm transition-transform ${viewMode === 'admin' ? 'left-4.5' : 'left-0.5'}`} style={{ left: viewMode === 'admin' ? '18px' : '2px' }} />
+              </div>
+            </button>
+          </div>
+        )}
+
         {/* Navigation - Scrollable area */}
         <nav className="p-3 space-y-1 flex-1 overflow-y-auto">
           {menuItems.map((item) => (
             <NavItem key={item.path} item={item} />
           ))}
         </nav>
+
+
 
         {/* Back to Home - Always visible at bottom */}
         <div className="p-3 border-t border-border bg-white flex-shrink-0">

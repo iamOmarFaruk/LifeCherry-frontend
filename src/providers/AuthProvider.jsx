@@ -14,6 +14,7 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [authInitialized, setAuthInitialized] = useState(false);
+  const [viewMode, setViewMode] = useState('user'); // 'user' or 'admin'
 
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
@@ -157,13 +158,30 @@ const AuthProvider = ({ children }) => {
     return res.data?.user;
   };
 
+  const toggleViewMode = () => {
+    setViewMode(prev => prev === 'admin' ? 'user' : 'admin');
+  };
+
+  // Ensure admins always have premium access
+  const effectiveUserProfile = profileQuery.data ? {
+    ...profileQuery.data,
+    isPremium: profileQuery.data.isPremium || profileQuery.data.role === 'admin'
+  } : null;
+
+  // Set initial view mode based on role
+  useEffect(() => {
+    if (profileQuery.data?.role === 'admin') {
+      setViewMode('admin');
+    }
+  }, [profileQuery.data?.role]);
+
   const value = {
     firebaseUser,
     isLoggedIn,
     token,
     authLoading,
     authInitialized,
-    userProfile: profileQuery.data,
+    userProfile: effectiveUserProfile,
     profileLoading: profileQuery.isLoading,
     profileRefetch: profileQuery.refetch,
     updateProfileInfo,
@@ -171,6 +189,8 @@ const AuthProvider = ({ children }) => {
     login,
     loginWithGoogle,
     logout,
+    viewMode,
+    toggleViewMode,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

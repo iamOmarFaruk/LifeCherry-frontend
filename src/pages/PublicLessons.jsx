@@ -35,7 +35,7 @@ const PublicLessons = () => {
   const [error, setError] = useState(null);
 
   const isAuthenticated = !!firebaseUser;
-  const isUserPremium = !!userProfile?.isPremium;
+  const isUserPremium = !!userProfile?.isPremium || userProfile?.role === 'admin';
 
   useEffect(() => {
     let isMounted = true;

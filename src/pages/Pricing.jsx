@@ -42,7 +42,7 @@ const Pricing = () => {
     ? {
         name: userProfile?.name || firebaseUser.displayName || 'User',
         email: firebaseUser.email,
-        isPremium: !!userProfile?.isPremium,
+        isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
       }
     : null;
 

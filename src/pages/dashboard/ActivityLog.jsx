@@ -15,6 +15,7 @@ import {
   HiOutlineLockClosed
 } from 'react-icons/hi2';
 import PageLoader from '../../components/shared/PageLoader';
+import Loading from '../../components/shared/Loading';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import apiClient from '../../utils/apiClient';
 import useAuth from '../../hooks/useAuth';
@@ -93,7 +94,7 @@ const dummyActivities = [
 
 const ActivityLog = () => {
   useDocumentTitle('Activity Log');
-  const { authLoading } = useAuth();
+  const { authLoading, profileLoading, userProfile } = useAuth();
   const [filterType, setFilterType] = useState('all');
   const loadMoreRef = useRef();
 
@@ -106,7 +107,7 @@ const ActivityLog = () => {
     error
   } = useInfiniteQuery({
     queryKey: ['user-activity', filterType],
-    enabled: !authLoading,
+    enabled: !authLoading && !profileLoading,
     queryFn: async ({ pageParam = 1 }) => {
       const res = await apiClient.get('/audit/user', { 
         params: { 
@@ -118,14 +119,17 @@ const ActivityLog = () => {
       return res.data;
     },
     getNextPageParam: (lastPage) => {
-      if (!lastPage.isPremium) return undefined;
+      // Always allow pagination if user is admin or premium
+      // The backend also returns isPremium=true for admins now
+      const isUserPremium = lastPage.isPremium || userProfile?.role === 'admin';
+      if (!isUserPremium) return undefined;
       if (lastPage.page * lastPage.limit >= lastPage.total) return undefined;
       return lastPage.page + 1;
     },
   });
 
   const allChanges = data?.pages.flatMap(page => page.changes) || [];
-  const isPremium = data?.pages[0]?.isPremium;
+  const isPremium = userProfile?.isPremium || userProfile?.role === 'admin';
   const totalCount = data?.pages[0]?.total || 0;
 
   // Infinite scroll observer
@@ -168,6 +172,10 @@ const ActivityLog = () => {
     if (filterType === 'all') return allChanges;
     return allChanges.filter(change => change.targetType === filterType);
   }, [allChanges, filterType]);
+
+  if (authLoading || profileLoading) {
+    return <Loading />;
+  }
 
   return (
     <PageLoader>

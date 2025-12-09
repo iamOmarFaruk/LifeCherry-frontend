@@ -160,7 +160,7 @@ const DashboardHome = () => {
     };
   }, [lessons]);
 
-  const isPremium = !!userProfile?.isPremium;
+  const isPremium = !!userProfile?.isPremium || userProfile?.role === 'admin';
 
   return (
     <PageLoader>

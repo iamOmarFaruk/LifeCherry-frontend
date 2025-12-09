@@ -371,7 +371,7 @@ const Home = () => {
                 <FiArrowRight className="w-5 h-5" />
               </Link>
             </>
-          ) : !userProfile?.isPremium ? (
+          ) : (!userProfile?.isPremium && userProfile?.role !== 'admin') ? (
             <>
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
                 Unlock Your Full Potential

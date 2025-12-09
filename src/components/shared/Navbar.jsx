@@ -44,7 +44,8 @@ const Navbar = () => {
         name: userProfile?.name || firebaseUser.displayName || 'User',
         email: firebaseUser.email,
         photoURL: userProfile?.photoURL || providerPhotoURL,
-        isPremium: !!userProfile?.isPremium,
+        isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
+        role: userProfile?.role || 'user',
       }
     : null;
 
@@ -156,8 +157,14 @@ const Navbar = () => {
                   />
                   <div className="flex flex-col items-start">
                     <span className="text-sm font-medium text-text-primary leading-tight">{user.name.split(' ')[0]}</span>
-                    <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.isPremium ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}>
-                      {user.isPremium ? 'Premium' : 'Starter'}
+                    <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${
+                      user.role === 'admin' 
+                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
+                        : user.isPremium 
+                          ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' 
+                          : 'bg-indigo-100 text-indigo-700'
+                    }`}>
+                      {user.role === 'admin' ? 'Admin' : user.isPremium ? 'Premium' : 'Starter'}
                     </span>
                   </div>
                   <FiChevronDown className={`text-text-secondary transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
@@ -293,8 +300,14 @@ const Navbar = () => {
                     />
                     <div>
                       <p className="font-semibold text-text-primary">{user.name}</p>
-                      <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.isPremium ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                        {user.isPremium ? 'Premium' : 'Starter'}
+                      <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${
+                        user.role === 'admin' 
+                          ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
+                          : user.isPremium 
+                            ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' 
+                            : 'bg-gray-200 text-gray-600'
+                      }`}>
+                        {user.role === 'admin' ? 'Admin' : user.isPremium ? 'Premium' : 'Starter'}
                       </span>
                     </div>
                   </div>

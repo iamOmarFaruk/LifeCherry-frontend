@@ -417,7 +417,7 @@ const MyFavorites = () => {
                                 <h3 className="font-semibold text-text truncate max-w-[200px]">
                                   {fav.title}
                                 </h3>
-                                {fav.accessLevel === 'premium' && !userProfile?.isPremium && (
+                                {fav.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
                                   <HiOutlineLockClosed className="w-4 h-4 text-amber-500 flex-shrink-0" />
                                 )}
                               </div>
@@ -521,7 +521,7 @@ const MyFavorites = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <h3 className="font-semibold text-text truncate">{fav.title}</h3>
-                          {fav.accessLevel === 'premium' && !userProfile?.isPremium && (
+                          {fav.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
                             <HiOutlineLockClosed className="w-4 h-4 text-amber-500 flex-shrink-0" />
                           )}
                         </div>
