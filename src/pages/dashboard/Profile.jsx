@@ -63,8 +63,10 @@ const Profile = () => {
 
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDisableModal, setShowDisableModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDisabling, setIsDisabling] = useState(false);
+  const [disableReason, setDisableReason] = useState('');
 
   // Edit form state
   const [editFormData, setEditFormData] = useState({ name: '', photoURL: '', bio: '' });
@@ -86,13 +88,19 @@ const Profile = () => {
     }
   };
 
-  const handleRequestDisable = async () => {
-    if (!window.confirm('Are you sure you want to request to disable your account? Your content will be hidden.')) return;
+  const handleRequestDisable = () => {
+    setShowDisableModal(true);
+  };
+
+  const submitDisableRequest = async (e) => {
+    e.preventDefault();
     try {
       setIsDisabling(true);
-      await apiClient.post('/users/request-disable');
+      await apiClient.post('/users/request-disable', { reason: disableReason });
       await profileRefetch();
       toast.success('Disable request submitted');
+      setShowDisableModal(false);
+      setDisableReason('');
     } catch (error) {
       toast.error('Failed to submit request');
     } finally {
@@ -644,6 +652,71 @@ const Profile = () => {
                       <HiOutlineCheckCircle className="w-5 h-5" />
                       <span>Save Changes</span>
                     </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Disable Account Modal */}
+      {showDisableModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+            <div className="flex items-center gap-3 p-6 border-b border-border bg-red-50 rounded-t-2xl">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-red-900">Disable Account</h3>
+                <p className="text-sm text-red-700">This action will hide your profile</p>
+              </div>
+            </div>
+
+            <form onSubmit={submitDisableRequest} className="p-6 space-y-4">
+              <p className="text-text-secondary">
+                We're sorry to see you go. Please let us know why you want to disable your account. 
+                Your feedback helps us improve.
+              </p>
+
+              <div>
+                <label className="block text-sm font-medium text-text mb-2">
+                  Reason for disabling <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  value={disableReason}
+                  onChange={(e) => setDisableReason(e.target.value)}
+                  placeholder="I'm taking a break because..."
+                  rows="4"
+                  className="w-full px-4 py-3 rounded-xl border border-border focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-none transition-all resize-none"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowDisableModal(false);
+                    setDisableReason('');
+                  }}
+                  className="flex-1 px-4 py-3 border border-border text-text-secondary rounded-xl hover:bg-gray-50 transition-colors font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isDisabling || !disableReason.trim()}
+                  className="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isDisabling ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    <span>Submit Request</span>
                   )}
                 </button>
               </div>
