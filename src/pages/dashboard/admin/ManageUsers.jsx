@@ -1,5 +1,6 @@
 // Manage Users Page - LifeCherry Admin
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { 
   HiOutlineUsers,
   HiOutlineMagnifyingGlass,
@@ -14,92 +15,54 @@ import {
   HiOutlineStar,
   HiOutlineBookOpen,
   HiOutlineExclamationTriangle,
-  HiOutlineCheckCircle
+  HiOutlineCheckCircle,
+  HiOutlineArchiveBox,
+  HiOutlineArrowPath
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import PageLoader from '../../../components/shared/PageLoader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
-import { users } from '../../../data/users';
-import { lessons } from '../../../data/lessons';
+import apiClient from '../../../utils/apiClient';
 
 const ManageUsers = () => {
   useDocumentTitle('Manage Users');
   
   // State
-  const [usersData, setUsersData] = useState(users);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterRole, setFilterRole] = useState('');
   const [filterPremium, setFilterPremium] = useState('');
-  const [sortBy, setSortBy] = useState('newest');
+  const [filterStatus, setFilterStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
   
   // Modal states
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPromoteModal, setShowPromoteModal] = useState(false);
+  const [showArchiveModal, setShowArchiveModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const ITEMS_PER_PAGE = 10;
 
-  // Get lesson count for each user
-  const getUserLessonsCount = (email) => {
-    return lessons.filter(l => l.creatorEmail === email).length;
-  };
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ['users', currentPage, searchQuery, filterRole, filterPremium, filterStatus],
+    queryFn: async () => {
+      const params = {
+        page: currentPage,
+        limit: ITEMS_PER_PAGE,
+        search: searchQuery,
+        role: filterRole,
+        isPremium: filterPremium === 'premium' ? 'true' : filterPremium === 'free' ? 'false' : undefined,
+        status: filterStatus,
+      };
+      const res = await apiClient.get('/users', { params });
+      return res.data;
+    },
+    keepPreviousData: true,
+  });
 
-  // Filter and search
-  const filteredUsers = useMemo(() => {
-    let result = usersData.map(user => ({
-      ...user,
-      lessonsCount: getUserLessonsCount(user.email)
-    }));
-
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(
-        user =>
-          user.name.toLowerCase().includes(query) ||
-          user.email.toLowerCase().includes(query)
-      );
-    }
-
-    if (filterRole) {
-      result = result.filter(user => user.role === filterRole);
-    }
-
-    if (filterPremium) {
-      result = result.filter(user => 
-        filterPremium === 'premium' ? user.isPremium : !user.isPremium
-      );
-    }
-
-    // Sort
-    switch (sortBy) {
-      case 'newest':
-        result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        break;
-      case 'oldest':
-        result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-        break;
-      case 'name':
-        result.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case 'lessons':
-        result.sort((a, b) => b.lessonsCount - a.lessonsCount);
-        break;
-      default:
-        break;
-    }
-
-    return result;
-  }, [usersData, searchQuery, filterRole, filterPremium, sortBy]);
-
-  // Pagination
-  const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
-  const paginatedUsers = filteredUsers.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  const usersData = data?.users || [];
+  const totalPages = Math.ceil((data?.total || 0) / ITEMS_PER_PAGE);
 
   // Format date
   const formatDate = (dateString) => {
@@ -112,37 +75,47 @@ const ManageUsers = () => {
   };
 
   // Handle promote to admin
-  const handlePromoteToAdmin = () => {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setUsersData(prev => prev.map(user => 
-        user._id === selectedUser._id ? { ...user, role: 'admin' } : user
-      ));
+  const handlePromoteToAdmin = async () => {
+    try {
+      setIsSubmitting(true);
+      await apiClient.patch(`/users/${selectedUser.email}/role`, { role: 'admin' });
       toast.success(`${selectedUser.name} has been promoted to Admin!`);
       setShowPromoteModal(false);
       setSelectedUser(null);
+      refetch();
+    } catch (error) {
+      toast.error('Failed to promote user');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   // Handle demote from admin
-  const handleDemoteFromAdmin = (user) => {
-    setUsersData(prev => prev.map(u => 
-      u._id === user._id ? { ...u, role: 'user' } : u
-    ));
-    toast.success(`${user.name} has been demoted to User`);
+  const handleDemoteFromAdmin = async (user) => {
+    if (!window.confirm(`Are you sure you want to demote ${user.name}?`)) return;
+    try {
+      await apiClient.patch(`/users/${user.email}/role`, { role: 'user' });
+      toast.success(`${user.name} has been demoted to User`);
+      refetch();
+    } catch (error) {
+      toast.error('Failed to demote user');
+    }
   };
 
-  // Handle delete user
-  const handleDeleteUser = () => {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setUsersData(prev => prev.filter(user => user._id !== selectedUser._id));
-      toast.success('User deleted successfully');
-      setShowDeleteModal(false);
+  // Handle archive/restore user
+  const handleManageStatus = async (action) => {
+    try {
+      setIsSubmitting(true);
+      await apiClient.post('/users/manage-status', { email: selectedUser.email, action });
+      toast.success(`User ${action}d successfully`);
+      setShowArchiveModal(false);
       setSelectedUser(null);
+      refetch();
+    } catch (error) {
+      toast.error(`Failed to ${action} user`);
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   // Clear filters
@@ -150,23 +123,16 @@ const ManageUsers = () => {
     setSearchQuery('');
     setFilterRole('');
     setFilterPremium('');
-    setSortBy('newest');
+    setFilterStatus('');
     setCurrentPage(1);
   };
 
-  const hasActiveFilters = searchQuery || filterRole || filterPremium || sortBy !== 'newest';
+  const hasActiveFilters = searchQuery || filterRole || filterPremium || filterStatus;
 
-  // Stats
-  const stats = {
-    total: usersData.length,
-    admins: usersData.filter(u => u.role === 'admin').length,
-    premium: usersData.filter(u => u.isPremium).length,
-    regular: usersData.filter(u => !u.isPremium).length
-  };
+  if (isLoading) return <PageLoader />;
 
   return (
-    <PageLoader>
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -177,54 +143,6 @@ const ManageUsers = () => {
               <h1 className="text-2xl lg:text-3xl font-bold text-text">Manage Users</h1>
             </div>
             <p className="text-text-secondary">View and manage all registered users</p>
-          </div>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white rounded-xl p-4 border border-border">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-                <HiOutlineUsers className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{stats.total}</p>
-                <p className="text-xs text-text-secondary">Total Users</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl p-4 border border-border">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
-                <HiOutlineShieldCheck className="w-5 h-5 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{stats.admins}</p>
-                <p className="text-xs text-text-secondary">Admins</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl p-4 border border-border">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center">
-                <HiOutlineStar className="w-5 h-5 text-amber-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{stats.premium}</p>
-                <p className="text-xs text-text-secondary">Premium Users</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl p-4 border border-border">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center">
-                <HiOutlineUsers className="w-5 h-5 text-gray-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{stats.regular}</p>
-                <p className="text-xs text-text-secondary">Free Users</p>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -295,16 +213,16 @@ const ManageUsers = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Sort By</label>
+                <label className="block text-sm font-medium text-text mb-1">Status</label>
                 <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none"
                 >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                  <option value="name">Name (A-Z)</option>
-                  <option value="lessons">Most Lessons</option>
+                  <option value="">All Status</option>
+                  <option value="active">Active</option>
+                  <option value="disable_requested">Disable Requested</option>
+                  <option value="archived">Archived</option>
                 </select>
               </div>
             </div>
@@ -324,10 +242,7 @@ const ManageUsers = () => {
                     Role
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
-                    Plan
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
-                    Lessons
+                    Status
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
                     Joined
@@ -338,8 +253,8 @@ const ManageUsers = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {paginatedUsers.map((user) => (
-                  <tr key={user._id} className="hover:bg-gray-50 transition-colors">
+                {usersData.map((user) => (
+                  <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <img
@@ -366,22 +281,19 @@ const ManageUsers = () => {
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      {user.isPremium ? (
+                      {user.status === 'archived' ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">
+                          Archived
+                        </span>
+                      ) : user.status === 'disable_requested' ? (
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
-                          <HiOutlineStar className="w-3.5 h-3.5" />
-                          Premium
+                          Disable Requested
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
-                          Free
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                          Active
                         </span>
                       )}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-1.5">
-                        <HiOutlineBookOpen className="w-4 h-4 text-text-muted" />
-                        <span className="font-medium text-text">{user.lessonsCount}</span>
-                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <span className="text-sm text-text-secondary">
@@ -390,6 +302,30 @@ const ManageUsers = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
+                        {user.status === 'archived' ? (
+                          <button
+                            onClick={() => {
+                              setSelectedUser(user);
+                              handleManageStatus('restore');
+                            }}
+                            className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                            title="Restore User"
+                          >
+                            <HiOutlineArrowPath className="w-5 h-5" />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              setSelectedUser(user);
+                              setShowArchiveModal(true);
+                            }}
+                            className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+                            title="Archive User"
+                          >
+                            <HiOutlineArchiveBox className="w-5 h-5" />
+                          </button>
+                        )}
+                        
                         {user.role !== 'admin' ? (
                           <button
                             onClick={() => {
@@ -410,16 +346,6 @@ const ManageUsers = () => {
                             <HiOutlineShieldCheck className="w-5 h-5" />
                           </button>
                         )}
-                        <button
-                          onClick={() => {
-                            setSelectedUser(user);
-                            setShowDeleteModal(true);
-                          }}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          title="Delete User"
-                        >
-                          <HiOutlineTrash className="w-5 h-5" />
-                        </button>
                       </div>
                     </td>
                   </tr>
@@ -429,7 +355,7 @@ const ManageUsers = () => {
           </div>
 
           {/* Empty State */}
-          {paginatedUsers.length === 0 && (
+          {usersData.length === 0 && (
             <div className="text-center py-12">
               <HiOutlineUsers className="w-12 h-12 text-text-muted mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-text mb-2">No users found</h3>
@@ -441,7 +367,7 @@ const ManageUsers = () => {
           {totalPages > 1 && (
             <div className="px-6 py-4 border-t border-border flex items-center justify-between">
               <p className="text-sm text-text-secondary">
-                Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredUsers.length)} of {filteredUsers.length} users
+                Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, data?.total || 0)} of {data?.total || 0} users
               </p>
               <div className="flex items-center gap-2">
                 <button
@@ -475,6 +401,61 @@ const ManageUsers = () => {
             </div>
           )}
         </div>
+
+        {/* Archive Modal */}
+        {showArchiveModal && selectedUser && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+                  <HiOutlineArchiveBox className="w-6 h-6 text-amber-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-text">Archive User</h3>
+                  <p className="text-sm text-text-secondary">This will hide their profile and lessons</p>
+                </div>
+              </div>
+              
+              <div className="bg-amber-50 rounded-xl p-4 mb-6">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={selectedUser.photoURL}
+                    alt={selectedUser.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <h4 className="font-semibold text-text">{selectedUser.name}</h4>
+                    <p className="text-sm text-text-secondary">{selectedUser.email}</p>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-text-secondary mb-6">
+                Are you sure you want to archive <strong>{selectedUser.name}</strong>? 
+                They will not be able to login, and their content will be hidden from public view.
+              </p>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowArchiveModal(false);
+                    setSelectedUser(null);
+                  }}
+                  className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl font-medium text-text hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleManageStatus('archive')}
+                  disabled={isSubmitting}
+                  className="flex-1 px-4 py-2.5 bg-amber-600 text-white rounded-xl font-medium hover:bg-amber-700 transition-colors disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Archiving...' : 'Archive User'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Promote Modal */}
         {showPromoteModal && selectedUser && (
@@ -531,62 +512,8 @@ const ManageUsers = () => {
           </div>
         )}
 
-        {/* Delete Modal */}
-        {showDeleteModal && selectedUser && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-text">Delete User</h3>
-                  <p className="text-sm text-text-secondary">This action cannot be undone</p>
-                </div>
-              </div>
-              
-              <div className="bg-red-50 rounded-xl p-4 mb-6">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={selectedUser.photoURL}
-                    alt={selectedUser.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-text">{selectedUser.name}</h4>
-                    <p className="text-sm text-text-secondary">{selectedUser.email}</p>
-                  </div>
-                </div>
-              </div>
-
-              <p className="text-text-secondary mb-6">
-                Are you sure you want to delete <strong>{selectedUser.name}</strong>? 
-                All their data including lessons will be permanently removed.
-              </p>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => {
-                    setShowDeleteModal(false);
-                    setSelectedUser(null);
-                  }}
-                  className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl font-medium text-text hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleDeleteUser}
-                  disabled={isSubmitting}
-                  className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Deleting...' : 'Delete User'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Delete Modal - Removed */}
       </div>
-    </PageLoader>
   );
 };
 

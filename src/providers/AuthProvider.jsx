@@ -47,8 +47,44 @@ const AuthProvider = ({ children }) => {
   });
 
   const upsertUser = async (payload) => {
-    await apiClient.post('/users', payload);
-    await profileQuery.refetch();
+    try {
+      await apiClient.post('/users', payload);
+      await profileQuery.refetch();
+    } catch (error) {
+      if (error.response?.status === 403 && error.response?.data?.archivedAt) {
+        const { message, contact } = error.response.data;
+        await signOut(auth);
+        setAuthToken(null);
+        setToken(null);
+        
+        toast.error(
+          (t) => (
+            <div className="min-w-[250px]">
+              <p className="font-bold text-red-600">{message}</p>
+              {error.response.data.archivedAt && (
+                <p className="text-xs text-gray-500 mt-1 mb-2">
+                  Archived on {new Date(error.response.data.archivedAt).toLocaleDateString()}
+                </p>
+              )}
+              <p className="text-sm mt-2 text-gray-600">Contact Admin to enable it:</p>
+              <div className="mt-1 p-2 bg-gray-50 rounded text-sm">
+                <p>📞 {contact.phone}</p>
+                <p>✉️ {contact.email}</p>
+              </div>
+              <button 
+                onClick={() => toast.dismiss(t.id)}
+                className="mt-2 text-xs text-gray-400 hover:text-gray-600"
+              >
+                Dismiss
+              </button>
+            </div>
+          ),
+          { duration: 10000, position: 'top-center' }
+        );
+        throw new Error(message);
+      }
+      throw error;
+    }
   };
 
   const register = async ({ name, email, password, photoURL }) => {

@@ -55,6 +55,8 @@ const Profile = () => {
       isPremium: !!userProfile?.isPremium,
       role: userProfile?.role || 'user',
       createdAt: userProfile?.createdAt || firebaseUser?.metadata?.creationTime,
+      status: userProfile?.status || 'active',
+      disableRequestDate: userProfile?.disableRequestDate,
     }),
     [userProfile, firebaseUser]
   );
@@ -62,6 +64,7 @@ const Profile = () => {
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDisabling, setIsDisabling] = useState(false);
 
   // Edit form state
   const [editFormData, setEditFormData] = useState({ name: '', photoURL: '', bio: '' });
@@ -80,6 +83,33 @@ const Profile = () => {
       toast.success('Bio updated successfully');
     } catch (error) {
       toast.error('Failed to update bio');
+    }
+  };
+
+  const handleRequestDisable = async () => {
+    if (!window.confirm('Are you sure you want to request to disable your account? Your content will be hidden.')) return;
+    try {
+      setIsDisabling(true);
+      await apiClient.post('/users/request-disable');
+      await profileRefetch();
+      toast.success('Disable request submitted');
+    } catch (error) {
+      toast.error('Failed to submit request');
+    } finally {
+      setIsDisabling(false);
+    }
+  };
+
+  const handleCancelDisable = async () => {
+    try {
+      setIsDisabling(true);
+      await apiClient.post('/users/cancel-disable-request');
+      await profileRefetch();
+      toast.success('Disable request cancelled');
+    } catch (error) {
+      toast.error('Failed to cancel request');
+    } finally {
+      setIsDisabling(false);
     }
   };
 
@@ -426,6 +456,45 @@ const Profile = () => {
             </div>
             <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-1">{stats.totalFavorites}</div>
             <div className="text-sm text-text-secondary">Favorites</div>
+          </div>
+        </div>
+
+        {/* Danger Zone */}
+        <div className="mt-8 border-t border-border pt-8">
+          <h3 className="text-lg font-bold text-red-600 mb-4 flex items-center gap-2">
+            <HiOutlineExclamationTriangle className="w-5 h-5" />
+            Danger Zone
+          </h3>
+          <div className="bg-red-50 border border-red-100 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h4 className="font-medium text-red-900">Disable Account</h4>
+              <p className="text-sm text-red-700 mt-1">
+                Request to disable your account. Your profile and lessons will be hidden from public view.
+                Admin will review your request.
+              </p>
+              {profile.status === 'disable_requested' && (
+                <p className="text-sm font-medium text-amber-600 mt-2">
+                  Request submitted on {new Date(profile.disableRequestDate).toLocaleDateString()}
+                </p>
+              )}
+            </div>
+            {profile.status === 'disable_requested' ? (
+              <button
+                onClick={handleCancelDisable}
+                disabled={isDisabling}
+                className="px-4 py-2 bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-medium disabled:opacity-50"
+              >
+                {isDisabling ? 'Processing...' : 'Cancel Request'}
+              </button>
+            ) : (
+              <button
+                onClick={handleRequestDisable}
+                disabled={isDisabling}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50"
+              >
+                {isDisabling ? 'Processing...' : 'Request Disable'}
+              </button>
+            )}
           </div>
         </div>
       </div>
