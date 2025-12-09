@@ -331,16 +331,45 @@ const ActivityLog = () => {
                         </p>
                         
                         {/* Metadata/Details */}
-                        {change.metadata && Object.keys(change.metadata).length > 0 && (
+                        {change.metadata && (
                           <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-100 text-sm text-text-secondary">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
-                              {Object.entries(change.metadata).map(([key, value]) => (
-                                <div key={key} className="flex items-center gap-2">
-                                  <span className="font-medium text-text-muted capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
-                                  <span className="truncate">{String(value)}</span>
-                                </div>
-                              ))}
-                            </div>
+                            {change.metadata.detailedChanges && Array.isArray(change.metadata.detailedChanges) ? (
+                              <div className="space-y-1">
+                                {change.metadata.detailedChanges.map((detail, idx) => (
+                                  <div key={idx} className="flex flex-wrap items-center gap-1">
+                                    <span className="font-medium text-text-muted capitalize">
+                                      Update {detail.field.replace(/([A-Z])/g, ' $1').trim()}
+                                    </span>
+                                    {detail.from !== undefined && detail.to !== undefined ? (
+                                      <>
+                                        <span className="text-gray-400">- from</span>
+                                        <span className="font-medium text-text bg-white px-1.5 py-0.5 rounded border border-gray-200 max-w-[150px] truncate" title={String(detail.from)}>
+                                          {String(detail.from)}
+                                        </span>
+                                        <span className="text-gray-400">to</span>
+                                        <span className="font-medium text-text bg-white px-1.5 py-0.5 rounded border border-gray-200 max-w-[150px] truncate" title={String(detail.to)}>
+                                          {String(detail.to)}
+                                        </span>
+                                      </>
+                                    ) : (
+                                      <span className="text-gray-500">changed</span>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            ) : Object.keys(change.metadata).length > 0 ? (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
+                                {Object.entries(change.metadata).map(([key, value]) => {
+                                  if (key === 'fields' || key === 'detailedChanges') return null;
+                                  return (
+                                    <div key={key} className="flex items-center gap-2">
+                                      <span className="font-medium text-text-muted capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                                      <span className="truncate">{String(value)}</span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            ) : null}
                           </div>
                         )}
                       </div>

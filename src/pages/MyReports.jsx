@@ -6,9 +6,11 @@ import { reportAPI } from '../utils/apiClient';
 import PageLoader from '../components/shared/PageLoader';
 import Loading from '../components/shared/Loading';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import useAuth from '../hooks/useAuth';
 
 const MyReports = () => {
   useDocumentTitle('My Reports - LifeCherry');
+  const { authLoading, firebaseUser } = useAuth();
   const [reports, setReports] = useState([]);
   const [allReports, setAllReports] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,10 +54,12 @@ const MyReports = () => {
   };
 
   useEffect(() => {
+    if (authLoading || !firebaseUser) return;
+
     const isInitialLoad = loading;
     fetchReports(!isInitialLoad);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
+  }, [filter, authLoading, firebaseUser]);
 
   const handleWithdraw = async (reportId, lessonTitle) => {
     toast(

@@ -591,6 +591,10 @@ const LessonDetails = () => {
                   navigate('/login');
                   return;
                 }
+                if (lesson?.creatorEmail === firebaseUser?.email) {
+                  toast.error('You cannot report your own lesson');
+                  return;
+                }
                 if (hasReported) {
                   toast.info('You have already reported this lesson');
                   return;
@@ -598,11 +602,13 @@ const LessonDetails = () => {
                 setShowReportModal(true);
               }}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-full font-medium text-sm transition-all ${
-                hasReported 
-                  ? 'bg-red-100 text-red-600 cursor-not-allowed' 
-                  : 'bg-gray-100 text-text-secondary hover:bg-red-100 hover:text-red-600 cursor-pointer'
+                lesson?.creatorEmail === firebaseUser?.email
+                  ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
+                  : hasReported
+                    ? 'bg-red-100 text-red-600 cursor-not-allowed'
+                    : 'bg-gray-100 text-text-secondary hover:bg-red-100 hover:text-red-600 cursor-pointer'
               }`}
-              disabled={hasReported}
+              disabled={hasReported || lesson?.creatorEmail === firebaseUser?.email}
             >
               <FiFlag className="w-4 h-4" />
               <span className="hidden sm:inline">{hasReported ? 'Reported' : 'Report'}</span>
