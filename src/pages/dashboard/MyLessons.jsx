@@ -845,20 +845,25 @@ const MyLessons = () => {
                             >
                               <HiOutlineLockOpen className="w-4 h-4" />
                             </button>
-                            <button
-                              onClick={() => lesson.accessLevel !== 'premium' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'premium')}
-                              disabled={!isPremium}
-                              className={`p-2 rounded-lg transition-all duration-200 ${
-                                !isPremium 
-                                  ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
-                                  : lesson.accessLevel === 'premium'
-                                    ? 'bg-amber-100 text-amber-600 cursor-pointer'
-                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer'
-                              }`}
-                              title={isPremium ? 'Premium' : 'Upgrade to set premium'}
+                            <div 
+                              className={!isPremium ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''} 
+                              data-tip="Upgrade to Premium to create paid lessons"
                             >
-                              <HiOutlineStar className="w-4 h-4" />
-                            </button>
+                              <button
+                                onClick={() => lesson.accessLevel !== 'premium' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'premium')}
+                                disabled={!isPremium}
+                                className={`p-2 rounded-lg transition-all duration-200 ${
+                                  !isPremium 
+                                    ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
+                                    : lesson.accessLevel === 'premium'
+                                      ? 'bg-amber-100 text-amber-600 cursor-pointer'
+                                      : 'bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer'
+                                }`}
+                                title={isPremium ? 'Premium' : ''}
+                              >
+                                <HiOutlineStar className="w-4 h-4" />
+                              </button>
+                            </div>
                           </div>
                         </td>
 
