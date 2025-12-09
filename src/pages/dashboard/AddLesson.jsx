@@ -1,6 +1,6 @@
 // Add Lesson Page - LifeCherry Dashboard
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
   HiOutlinePencilSquare,
   HiOutlinePhoto,
@@ -358,7 +358,7 @@ const AddLesson = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-cherry text-white font-semibold rounded-xl hover:bg-cherry-dark transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-cherry text-white font-semibold rounded-xl hover:bg-cherry-dark transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>
@@ -391,6 +391,10 @@ const AddLesson = () => {
                 Clear Form
               </button>
             </div>
+
+            <p className="text-xs text-text-muted mt-2">
+              By publishing, you agree to our <Link to="/terms" className="text-cherry hover:underline">Terms of Service</Link> and <Link to="/privacy" className="text-cherry hover:underline">Privacy Policy</Link>.
+            </p>
           </form>
         </div>
       </div>
