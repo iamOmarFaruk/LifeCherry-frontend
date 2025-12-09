@@ -6,9 +6,11 @@ import apiClient from '../utils/apiClient';
 import HeroSlider from '../components/home/HeroSlider';
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import useAuth from '../hooks/useAuth';
 
 const Home = () => {
   useDocumentTitle('Home');
+  const { firebaseUser, userProfile } = useAuth();
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -337,22 +339,72 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-cherry to-cherry-500">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Share Your Wisdom?
-          </h2>
-          <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-            Join thousands of people who are preserving their life lessons and inspiring others. 
-            Start your journey today.
-          </p>
-          <Link
-            to="/register"
-            className="inline-flex items-center gap-2 bg-white text-cherry font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-shadow"
-          >
-            Create Your Account
-            <FiArrowRight />
-          </Link>
+      <section className="relative py-24 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80" 
+            alt="Background" 
+            className="w-full h-full object-cover"
+          />
+          {/* Dark Overlay for Readability */}
+          <div className="absolute inset-0 bg-black/60"></div>
+          {/* Color Tint Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cherry-900/90 to-cherry-800/80 mix-blend-multiply backdrop-blur-[1px]"></div>
+        </div>
+
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {!firebaseUser ? (
+            <>
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                Ready to Share Your Wisdom?
+              </h2>
+              <p className="text-white/90 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+                Join thousands of people who are preserving their life lessons and inspiring others. 
+                Start your journey today.
+              </p>
+              <Link
+                to="/register"
+                className="inline-flex items-center gap-2 bg-white text-cherry-700 font-bold px-8 py-4 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-50 hover:scale-105 transition-all duration-300"
+              >
+                Create Your Account
+                <FiArrowRight className="w-5 h-5" />
+              </Link>
+            </>
+          ) : !userProfile?.isPremium ? (
+            <>
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                Unlock Your Full Potential
+              </h2>
+              <p className="text-white/90 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+                Upgrade to Premium to access exclusive lessons, advanced analytics, and unlimited content.
+                Take your growth to the next level.
+              </p>
+              <Link
+                to="/pricing"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 text-white font-bold px-8 py-4 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20"
+              >
+                Upgrade to Premium
+                <FiStar className="w-5 h-5 fill-current" />
+              </Link>
+            </>
+          ) : (
+            <>
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                Continue Your Journey
+              </h2>
+              <p className="text-white/90 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+                You have full access to all premium content. Keep learning and sharing your wisdom with the world.
+              </p>
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center gap-2 bg-white text-cherry-700 font-bold px-8 py-4 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-50 hover:scale-105 transition-all duration-300"
+              >
+                Go to Dashboard
+                <FiArrowRight className="w-5 h-5" />
+              </Link>
+            </>
+          )}
         </div>
       </section>
     </PageLoader>
