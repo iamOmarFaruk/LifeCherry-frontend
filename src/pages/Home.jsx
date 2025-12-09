@@ -247,7 +247,7 @@ const Home = () => {
               <h2 className="text-3xl font-bold text-text-cherry">Most Saved Lessons</h2>
               <p className="text-text-secondary mt-2">The lessons our community loves most</p>
             </div>
-            <Link to="/public-lessons" className="text-cherry hover:underline flex items-center gap-1">
+            <Link to="/public-lessons?sort=mostSaved" className="text-cherry hover:underline flex items-center gap-1">
               View All <FiArrowRight />
             </Link>
           </div>
