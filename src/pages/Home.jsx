@@ -105,11 +105,24 @@ const Home = () => {
             )}
             {!loading && featuredLessons.map((lesson) => (
               <div key={lesson._id} className="glass-card hover:shadow-xl transition-shadow">
-                <img
-                  src={lesson.image}
-                  alt={lesson.title}
-                  className="w-full h-48 object-cover rounded-xl mb-4"
-                />
+                <div className="relative">
+                  <img
+                    src={lesson.image}
+                    alt={lesson.title}
+                    className="w-full h-48 object-cover rounded-xl mb-4"
+                  />
+                  <div className="absolute top-3 right-3">
+                    {lesson.accessLevel === 'premium' ? (
+                      <span className="badge-premium text-xs px-3 py-1">
+                        ⭐ Premium
+                      </span>
+                    ) : (
+                      <span className="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded-full">
+                        Free
+                      </span>
+                    )}
+                  </div>
+                </div>
                 <div className="flex items-center gap-2 mb-3">
                   <span className="px-3 py-1 bg-cherry-50 text-cherry text-xs font-medium rounded-full">
                     {lesson.category}
@@ -264,7 +277,7 @@ const Home = () => {
                 key={lesson._id}
                 className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
               >
-                {lesson.accessLevel === 'premium' && (
+                {lesson.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
                   <div className="absolute inset-0 bg-white/85 backdrop-blur-sm z-10 flex items-center justify-center">
                     <div className="text-center px-4 flex flex-col items-center gap-3">
                       <div className="w-16 h-16 rounded-full bg-cherry-50 border border-cherry-100 flex items-center justify-center shadow-sm">
@@ -284,7 +297,7 @@ const Home = () => {
                   </div>
                 )}
 
-                <div className="mb-4 rounded-xl overflow-hidden h-44 bg-gradient-to-br from-cherry-50 to-white">
+                <div className="mb-4 rounded-xl overflow-hidden h-44 bg-gradient-to-br from-cherry-50 to-white relative">
                   {lesson.image ? (
                     <img
                       src={lesson.image}
@@ -298,6 +311,17 @@ const Home = () => {
                       <span>Image coming soon</span>
                     </div>
                   )}
+                  <div className="absolute top-3 right-3">
+                    {lesson.accessLevel === 'premium' ? (
+                      <span className="badge-premium text-xs px-3 py-1">
+                        ⭐ Premium
+                      </span>
+                    ) : (
+                      <span className="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded-full">
+                        Free
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2 mb-3">
