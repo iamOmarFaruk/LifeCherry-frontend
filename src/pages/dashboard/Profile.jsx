@@ -196,7 +196,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className="space-y-6 lg:space-y-8">
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-text mb-2">My Profile</h1>

@@ -120,9 +120,9 @@ const AddLesson = () => {
 
   return (
     <PageLoader>
-      <div className="max-w-4xl mx-auto">
+      <div className="space-y-6 lg:space-y-8">
         {/* Page Header */}
-        <div className="mb-8">
+        <div>
           <h1 className="text-3xl font-bold text-text mb-2">Add New Life Lesson</h1>
           <p className="text-text-secondary">Share your wisdom and insights with the community</p>
         </div>

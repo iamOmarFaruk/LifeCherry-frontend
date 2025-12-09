@@ -125,9 +125,9 @@ const MyFavorites = () => {
 
   return (
     <PageLoader>
-      <div className="max-w-7xl mx-auto">
+      <div className="space-y-6 lg:space-y-8">
         {/* Page Header */}
-        <div className="mb-8">
+        <div>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-text mb-2">My Favorites</h1>

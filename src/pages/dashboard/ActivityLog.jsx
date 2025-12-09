@@ -171,7 +171,7 @@ const ActivityLog = () => {
 
   return (
     <PageLoader>
-      <div className="space-y-6">
+      <div className="space-y-6 lg:space-y-8">
         {/* Header */}
         <div>
           <h1 className="text-3xl font-bold text-text flex items-center gap-3">
