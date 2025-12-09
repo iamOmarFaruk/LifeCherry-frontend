@@ -1,6 +1,7 @@
 // My Favorites Page - LifeCherry Dashboard
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { 
   HiOutlineHeart,
   HiOutlineEye,
@@ -22,39 +23,45 @@ import {
 import toast from 'react-hot-toast';
 import PageLoader from '../../components/shared/PageLoader';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
-import { lessons, categories, emotionalTones } from '../../data/lessons';
-import { getFavoritesByUser } from '../../data/favorites';
+import useAuth from '../../hooks/useAuth';
+import apiClient from '../../utils/apiClient';
+import { categories, emotionalTones } from '../../data/lessons';
 
 const MyFavorites = () => {
   useDocumentTitle('My Favorites');
+  const { firebaseUser, userProfile } = useAuth();
+  const userEmail = firebaseUser?.email?.toLowerCase();
   
-  // Dummy user for UI development
-  const dummyUser = {
-    name: 'Omar Faruk',
-    email: 'sarah@example.com', // Using sarah's email to show her favorites
-    photoURL: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-    isPremium: true
-  };
-
-  // Get user's favorites with lesson data
-  const userFavorites = useMemo(() => {
-    const favs = getFavoritesByUser(dummyUser.email);
-    return favs.map(fav => {
-      const lesson = lessons.find(l => l._id === fav.lessonId);
-      return {
-        ...fav,
-        lesson
-      };
-    }).filter(fav => fav.lesson); // Filter out any favorites without matching lessons
-  }, [dummyUser.email]);
-
   // State
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterEmotionalTone, setFilterEmotionalTone] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [favoritesData, setFavoritesData] = useState(userFavorites);
   const [showFilters, setShowFilters] = useState(false);
+  
+  const ITEMS_PER_PAGE = 8;
+
+  // Fetch favorites
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ['my-favorites', userEmail, currentPage, searchQuery, filterCategory, filterEmotionalTone],
+    enabled: !!userEmail,
+    queryFn: async () => {
+      const params = {
+        page: currentPage,
+        limit: ITEMS_PER_PAGE,
+        favoritedBy: userEmail,
+        search: searchQuery,
+        category: filterCategory,
+        emotionalTone: filterEmotionalTone
+      };
+      const res = await apiClient.get('/lessons', { params });
+      return res.data;
+    },
+  });
+
+  const favorites = data?.lessons || [];
+  const totalItems = data?.total || 0;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   
   // View mode state with localStorage persistence
   const [viewMode, setViewMode] = useState(() => {
@@ -73,40 +80,6 @@ const MyFavorites = () => {
   const [selectedFavorite, setSelectedFavorite] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const ITEMS_PER_PAGE = 8;
-
-  // Filter and search
-  const filteredFavorites = useMemo(() => {
-    let result = [...favoritesData];
-
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(
-        fav =>
-          fav.lesson.title.toLowerCase().includes(query) ||
-          fav.lesson.description.toLowerCase().includes(query) ||
-          fav.lesson.creatorName.toLowerCase().includes(query)
-      );
-    }
-
-    if (filterCategory) {
-      result = result.filter(fav => fav.lesson.category === filterCategory);
-    }
-
-    if (filterEmotionalTone) {
-      result = result.filter(fav => fav.lesson.emotionalTone === filterEmotionalTone);
-    }
-
-    return result;
-  }, [favoritesData, searchQuery, filterCategory, filterEmotionalTone]);
-
-  // Pagination
-  const totalPages = Math.ceil(filteredFavorites.length / ITEMS_PER_PAGE);
-  const paginatedFavorites = filteredFavorites.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
-
   // Format date - compact single line format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -123,17 +96,21 @@ const MyFavorites = () => {
   };
 
   // Handle remove from favorites
-  const handleRemoveFavorite = () => {
+  const handleRemoveFavorite = async () => {
+    if (!selectedFavorite) return;
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setFavoritesData(prev => prev.filter(fav => fav._id !== selectedFavorite._id));
+    try {
+      await apiClient.post(`/lessons/${selectedFavorite._id}/favorite`);
+      await refetch();
       toast.success('Removed from favorites');
       setShowRemoveModal(false);
       setSelectedFavorite(null);
+    } catch (error) {
+      toast.error('Failed to remove favorite');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   // Clear filters
@@ -146,26 +123,6 @@ const MyFavorites = () => {
 
   const hasActiveFilters = searchQuery || filterCategory || filterEmotionalTone;
 
-  // Get category counts
-  const categoryCounts = useMemo(() => {
-    const counts = {};
-    favoritesData.forEach(fav => {
-      const cat = fav.lesson.category;
-      counts[cat] = (counts[cat] || 0) + 1;
-    });
-    return counts;
-  }, [favoritesData]);
-
-  // Get emotional tone counts
-  const toneCounts = useMemo(() => {
-    const counts = {};
-    favoritesData.forEach(fav => {
-      const tone = fav.lesson.emotionalTone;
-      counts[tone] = (counts[tone] || 0) + 1;
-    });
-    return counts;
-  }, [favoritesData]);
-
   return (
     <PageLoader>
       <div className="max-w-7xl mx-auto">
@@ -176,13 +133,6 @@ const MyFavorites = () => {
               <h1 className="text-3xl font-bold text-text mb-2">My Favorites</h1>
               <p className="text-text-secondary">Your curated collection of life lessons</p>
             </div>
-            <Link
-              to="/public-lessons"
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-cherry text-white font-semibold rounded-xl hover:bg-cherry-dark transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
-            >
-              <HiOutlineSparkles className="w-5 h-5" />
-              Discover More
-            </Link>
           </div>
         </div>
 
@@ -194,34 +144,8 @@ const MyFavorites = () => {
                 <HiOutlineBookmark className="w-6 h-6 text-cherry" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{favoritesData.length}</p>
+                <p className="text-2xl font-bold text-text">{totalItems}</p>
                 <p className="text-sm text-text-muted">Total Favorites</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-border p-5">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-green-50 rounded-xl">
-                <HiOutlineBookOpen className="w-6 h-6 text-green-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">
-                  {Object.keys(categoryCounts).length}
-                </p>
-                <p className="text-sm text-text-muted">Categories</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-border p-5">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-amber-50 rounded-xl">
-                <HiOutlineStar className="w-6 h-6 text-amber-500" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">
-                  {favoritesData.filter(fav => fav.lesson.accessLevel === 'premium').length}
-                </p>
-                <p className="text-sm text-text-muted">Premium Lessons</p>
               </div>
             </div>
           </div>
@@ -318,7 +242,7 @@ const MyFavorites = () => {
                   <option value="">All Categories</option>
                   {categories.map(cat => (
                     <option key={cat} value={cat}>
-                      {cat} {categoryCounts[cat] ? `(${categoryCounts[cat]})` : ''}
+                      {cat}
                     </option>
                   ))}
                 </select>
@@ -336,7 +260,7 @@ const MyFavorites = () => {
                   <option value="">All Tones</option>
                   {emotionalTones.map(tone => (
                     <option key={tone} value={tone}>
-                      {tone} {toneCounts[tone] ? `(${toneCounts[tone]})` : ''}
+                      {tone}
                     </option>
                   ))}
                 </select>
@@ -347,7 +271,7 @@ const MyFavorites = () => {
 
         {/* Favorites Table */}
         <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
-          {filteredFavorites.length === 0 ? (
+          {favorites.length === 0 ? (
             <div className="p-12 text-center">
               <HiOutlineBookmark className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-text mb-2">No favorites found</h3>
@@ -373,17 +297,17 @@ const MyFavorites = () => {
               {viewMode === 'grid' && (
                 <div className="p-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {paginatedFavorites.map((fav) => (
+                    {favorites.map((fav) => (
                       <div 
                         key={fav._id} 
                         className="bg-white rounded-xl border border-border hover:shadow-lg transition-all duration-300 overflow-hidden group"
                       >
                         {/* Image */}
                         <div className="relative h-40 overflow-hidden">
-                          {fav.lesson.image ? (
+                          {fav.image ? (
                             <img 
-                              src={fav.lesson.image} 
-                              alt={fav.lesson.title}
+                              src={fav.image} 
+                              alt={fav.title}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                           ) : (
@@ -392,7 +316,7 @@ const MyFavorites = () => {
                             </div>
                           )}
                           {/* Premium Badge */}
-                          {fav.lesson.accessLevel === 'premium' && (
+                          {fav.accessLevel === 'premium' && (
                             <div className="absolute top-2 right-2 px-2 py-1 bg-amber-400 text-white text-xs font-medium rounded-full flex items-center gap-1">
                               <HiOutlineStar className="w-3 h-3" />
                               Premium
@@ -401,7 +325,7 @@ const MyFavorites = () => {
                           {/* Category Badge */}
                           <div className="absolute bottom-2 left-2">
                             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/90 backdrop-blur-sm text-cherry">
-                              {fav.lesson.category}
+                              {fav.category}
                             </span>
                           </div>
                         </div>
@@ -409,39 +333,39 @@ const MyFavorites = () => {
                         {/* Content */}
                         <div className="p-4">
                           <h3 className="font-semibold text-text mb-1 line-clamp-1 group-hover:text-cherry transition-colors">
-                            {fav.lesson.title}
+                            {fav.title}
                           </h3>
                           <p className="text-sm text-text-muted line-clamp-2 mb-3">
-                            {fav.lesson.description}
+                            {fav.description}
                           </p>
 
                           {/* Creator & Tone */}
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">
                               <img 
-                                src={fav.lesson.creatorPhoto} 
-                                alt={fav.lesson.creatorName}
+                                src={fav.creatorPhoto} 
+                                alt={fav.creatorName}
                                 className="w-6 h-6 rounded-full object-cover border border-gray-200"
                               />
-                              <span className="text-xs text-text-muted truncate max-w-[80px]">{fav.lesson.creatorName}</span>
+                              <span className="text-xs text-text-muted truncate max-w-[80px]">{fav.creatorName}</span>
                             </div>
                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                              fav.lesson.emotionalTone === 'Motivational' 
+                              fav.emotionalTone === 'Motivational' 
                                 ? 'bg-green-50 text-green-600' 
-                                : fav.lesson.emotionalTone === 'Sad'
+                                : fav.emotionalTone === 'Sad'
                                   ? 'bg-blue-50 text-blue-600'
-                                  : fav.lesson.emotionalTone === 'Realization'
+                                  : fav.emotionalTone === 'Realization'
                                     ? 'bg-purple-50 text-purple-600'
                                     : 'bg-amber-50 text-amber-600'
                             }`}>
-                              {fav.lesson.emotionalTone}
+                              {fav.emotionalTone}
                             </span>
                           </div>
 
                           {/* Actions */}
                           <div className="flex items-center gap-2">
                             <Link
-                              to={`/lessons/${fav.lesson._id}`}
+                              to={`/lessons/${fav._id}`}
                               className="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-all duration-200 cursor-pointer text-sm"
                             >
                               <HiOutlineEye className="w-4 h-4" />
@@ -477,16 +401,16 @@ const MyFavorites = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
-                    {paginatedFavorites.map((fav) => (
+                    {favorites.map((fav) => (
                       <tr key={fav._id} className="hover:bg-gray-50 transition-colors">
                         {/* Lesson Info */}
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
                             <div className="relative">
-                              {fav.lesson.image ? (
+                              {fav.image ? (
                                 <img 
-                                  src={fav.lesson.image} 
-                                  alt={fav.lesson.title}
+                                  src={fav.image} 
+                                  alt={fav.title}
                                   className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
                                 />
                               ) : (
@@ -494,7 +418,7 @@ const MyFavorites = () => {
                                   <HiOutlineBookOpen className="w-6 h-6 text-cherry" />
                                 </div>
                               )}
-                              {fav.lesson.accessLevel === 'premium' && (
+                              {fav.accessLevel === 'premium' && (
                                 <div className="absolute -top-1 -right-1 w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
                                   <HiOutlineStar className="w-3 h-3 text-white" />
                                 </div>
@@ -503,14 +427,14 @@ const MyFavorites = () => {
                             <div className="min-w-0">
                               <div className="flex items-center gap-2">
                                 <h3 className="font-semibold text-text truncate max-w-[200px]">
-                                  {fav.lesson.title}
+                                  {fav.title}
                                 </h3>
-                                {fav.lesson.accessLevel === 'premium' && !dummyUser.isPremium && (
+                                {fav.accessLevel === 'premium' && !userProfile?.isPremium && (
                                   <HiOutlineLockClosed className="w-4 h-4 text-amber-500 flex-shrink-0" />
                                 )}
                               </div>
                               <p className="text-sm text-text-muted truncate max-w-[200px]">
-                                {fav.lesson.description.substring(0, 60)}...
+                                {fav.description.substring(0, 60)}...
                               </p>
                             </div>
                           </div>
@@ -519,22 +443,22 @@ const MyFavorites = () => {
                         {/* Category */}
                         <td className="px-6 py-4">
                           <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium bg-cherry-50 text-cherry whitespace-nowrap">
-                            {fav.lesson.category}
+                            {fav.category}
                           </span>
                         </td>
 
                         {/* Emotional Tone */}
                         <td className="px-6 py-4">
                           <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                            fav.lesson.emotionalTone === 'Motivational' 
+                            fav.emotionalTone === 'Motivational' 
                               ? 'bg-green-50 text-green-600' 
-                              : fav.lesson.emotionalTone === 'Sad'
+                              : fav.emotionalTone === 'Sad'
                                 ? 'bg-blue-50 text-blue-600'
-                                : fav.lesson.emotionalTone === 'Realization'
+                                : fav.emotionalTone === 'Realization'
                                   ? 'bg-purple-50 text-purple-600'
                                   : 'bg-amber-50 text-amber-600'
                           }`}>
-                            {fav.lesson.emotionalTone}
+                            {fav.emotionalTone}
                           </span>
                         </td>
 
@@ -542,11 +466,11 @@ const MyFavorites = () => {
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
                             <img 
-                              src={fav.lesson.creatorPhoto} 
-                              alt={fav.lesson.creatorName}
+                              src={fav.creatorPhoto} 
+                              alt={fav.creatorName}
                               className="w-8 h-8 rounded-full object-cover border border-gray-200"
                             />
-                            <span className="text-sm text-text">{fav.lesson.creatorName}</span>
+                            <span className="text-sm text-text">{fav.creatorName}</span>
                           </div>
                         </td>
 
@@ -561,7 +485,7 @@ const MyFavorites = () => {
                         <td className="px-6 py-4">
                           <div className="flex items-center justify-end gap-2">
                             <Link
-                              to={`/lessons/${fav.lesson._id}`}
+                              to={`/lessons/${fav._id}`}
                               className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
                               title="View Details"
                             >
@@ -585,14 +509,14 @@ const MyFavorites = () => {
 
               {/* Mobile Cards */}
               <div className="lg:hidden divide-y divide-border">
-                {paginatedFavorites.map((fav) => (
+                {favorites.map((fav) => (
                   <div key={fav._id} className="p-4">
                     <div className="flex gap-3 mb-4">
                       <div className="relative">
-                        {fav.lesson.image ? (
+                        {fav.image ? (
                           <img 
-                            src={fav.lesson.image} 
-                            alt={fav.lesson.title}
+                            src={fav.image} 
+                            alt={fav.title}
                             className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
                           />
                         ) : (
@@ -600,7 +524,7 @@ const MyFavorites = () => {
                             <HiOutlineBookOpen className="w-8 h-8 text-cherry" />
                           </div>
                         )}
-                        {fav.lesson.accessLevel === 'premium' && (
+                        {fav.accessLevel === 'premium' && (
                           <div className="absolute -top-1 -right-1 w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center">
                             <HiOutlineStar className="w-3.5 h-3.5 text-white" />
                           </div>
@@ -608,26 +532,26 @@ const MyFavorites = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-text truncate">{fav.lesson.title}</h3>
-                          {fav.lesson.accessLevel === 'premium' && !dummyUser.isPremium && (
+                          <h3 className="font-semibold text-text truncate">{fav.title}</h3>
+                          {fav.accessLevel === 'premium' && !userProfile?.isPremium && (
                             <HiOutlineLockClosed className="w-4 h-4 text-amber-500 flex-shrink-0" />
                           )}
                         </div>
-                        <p className="text-sm text-text-muted line-clamp-1">{fav.lesson.description}</p>
+                        <p className="text-sm text-text-muted line-clamp-1">{fav.description}</p>
                         <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                           <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-cherry-50 text-cherry">
-                            {fav.lesson.category}
+                            {fav.category}
                           </span>
                           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                            fav.lesson.emotionalTone === 'Motivational' 
+                            fav.emotionalTone === 'Motivational' 
                               ? 'bg-green-50 text-green-600' 
-                              : fav.lesson.emotionalTone === 'Sad'
+                              : fav.emotionalTone === 'Sad'
                                 ? 'bg-blue-50 text-blue-600'
-                                : fav.lesson.emotionalTone === 'Realization'
+                                : fav.emotionalTone === 'Realization'
                                   ? 'bg-purple-50 text-purple-600'
                                   : 'bg-amber-50 text-amber-600'
                           }`}>
-                            {fav.lesson.emotionalTone}
+                            {fav.emotionalTone}
                           </span>
                         </div>
                       </div>
@@ -637,11 +561,11 @@ const MyFavorites = () => {
                     <div className="flex items-center justify-between gap-4 mb-4">
                       <div className="flex items-center gap-2">
                         <img 
-                          src={fav.lesson.creatorPhoto} 
-                          alt={fav.lesson.creatorName}
+                          src={fav.creatorPhoto} 
+                          alt={fav.creatorName}
                           className="w-6 h-6 rounded-full object-cover border border-gray-200"
                         />
-                        <span className="text-sm text-text-muted">{fav.lesson.creatorName}</span>
+                        <span className="text-sm text-text-muted">{fav.creatorName}</span>
                       </div>
                       <span className="text-xs text-text-muted">Added {formatDate(fav.createdAt)}</span>
                     </div>
@@ -649,7 +573,7 @@ const MyFavorites = () => {
                     {/* Mobile Actions */}
                     <div className="flex items-center gap-2">
                       <Link
-                        to={`/lessons/${fav.lesson._id}`}
+                        to={`/lessons/${fav._id}`}
                         className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-all duration-200 cursor-pointer text-sm"
                       >
                         <HiOutlineEye className="w-4 h-4" />
@@ -670,7 +594,7 @@ const MyFavorites = () => {
               {totalPages > 1 && (
                 <div className="px-6 py-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
                   <p className="text-sm text-text-muted">
-                    Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredFavorites.length)} of {filteredFavorites.length} favorites
+                    Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of {totalItems} favorites
                   </p>
                   <div className="flex items-center gap-2">
                     <button
@@ -718,7 +642,7 @@ const MyFavorites = () => {
               </div>
               <h3 className="text-xl font-bold text-text text-center mb-2">Remove from Favorites?</h3>
               <p className="text-text-muted text-center mb-6">
-                Are you sure you want to remove "<strong>{selectedFavorite.lesson.title}</strong>" from your favorites?
+                Are you sure you want to remove "<strong>{selectedFavorite.title}</strong>" from your favorites?
               </p>
               <div className="flex gap-3">
                 <button
