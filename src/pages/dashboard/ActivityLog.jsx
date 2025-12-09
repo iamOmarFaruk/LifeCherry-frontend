@@ -173,14 +173,12 @@ const ActivityLog = () => {
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-text flex items-center gap-3">
-            <div className="p-2 bg-cherry-50 rounded-lg">
-              <HiOutlineClipboardDocumentList className="w-7 h-7 text-cherry" />
-            </div>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
+            <HiOutlineClipboardDocumentList className="w-10 h-10" />
             Activity Log
           </h1>
-          <p className="text-text-secondary text-sm mt-1">View all actions and changes across your account</p>
+          <p className="text-gray-600">View all actions and changes across your account</p>
         </div>
 
         {/* Filter Tabs */}

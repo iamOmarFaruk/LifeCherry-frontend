@@ -447,11 +447,14 @@ const MyLessons = () => {
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
         {/* Page Header */}
-        <div>
+        <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-text mb-2">My Lessons</h1>
-              <p className="text-text-secondary">Manage and organize all your life lessons</p>
+              <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
+                <HiOutlineBookOpen className="w-10 h-10" />
+                My Lessons
+              </h1>
+              <p className="text-gray-600">Manage and organize all your life lessons</p>
             </div>
             <Link
               to="/dashboard/add-lesson"

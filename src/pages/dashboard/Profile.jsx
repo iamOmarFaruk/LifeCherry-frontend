@@ -199,8 +199,11 @@ const Profile = () => {
     <div className="space-y-6 lg:space-y-8">
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-text mb-2">My Profile</h1>
-        <p className="text-text-secondary">Manage your profile and view your public lessons</p>
+        <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
+          <HiOutlineUser className="w-10 h-10" />
+          My Profile
+        </h1>
+        <p className="text-gray-600">Manage your profile and view your public lessons</p>
       </div>
 
       {lessonsQuery.isError && (

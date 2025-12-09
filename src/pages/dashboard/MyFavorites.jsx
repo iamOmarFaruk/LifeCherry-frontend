@@ -127,11 +127,14 @@ const MyFavorites = () => {
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
         {/* Page Header */}
-        <div>
+        <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-text mb-2">My Favorites</h1>
-              <p className="text-text-secondary">Your curated collection of life lessons</p>
+              <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
+                <HiOutlineHeart className="w-10 h-10" />
+                My Favorites
+              </h1>
+              <p className="text-gray-600">Your curated collection of life lessons</p>
             </div>
           </div>
         </div>
