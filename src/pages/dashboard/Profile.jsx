@@ -1,6 +1,6 @@
 // Profile Page - LifeCherry Dashboard
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { 
   HiOutlineUser,
@@ -38,7 +38,10 @@ const Profile = () => {
     authInitialized,
     updateProfileInfo,
     profileRefetch,
+    logout,
   } = useAuth();
+
+  const navigate = useNavigate();
 
   const userEmail = firebaseUser?.email?.toLowerCase() || '';
 
@@ -64,8 +67,10 @@ const Profile = () => {
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDisableModal, setShowDisableModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDisabling, setIsDisabling] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [disableReason, setDisableReason] = useState('');
 
   // Edit form state
@@ -118,6 +123,20 @@ const Profile = () => {
       toast.error('Failed to cancel request');
     } finally {
       setIsDisabling(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      setIsDeleting(true);
+      await apiClient.delete('/users/me');
+      await logout();
+      toast.success('Account deleted permanently');
+      navigate('/');
+    } catch (error) {
+      toast.error('Failed to delete account');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -474,34 +493,53 @@ const Profile = () => {
             Danger Zone
           </h3>
           <div className="bg-red-50 border border-red-100 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <h4 className="font-medium text-red-900">Disable Account</h4>
-              <p className="text-sm text-red-700 mt-1">
-                Request to disable your account. Your profile and lessons will be hidden from public view.
-                Admin will review your request.
-              </p>
-              {profile.status === 'disable_requested' && (
-                <p className="text-sm font-medium text-amber-600 mt-2">
-                  Request submitted on {new Date(profile.disableRequestDate).toLocaleDateString()}
-                </p>
-              )}
-            </div>
-            {profile.status === 'disable_requested' ? (
-              <button
-                onClick={handleCancelDisable}
-                disabled={isDisabling}
-                className="px-4 py-2 bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-medium disabled:opacity-50"
-              >
-                {isDisabling ? 'Processing...' : 'Cancel Request'}
-              </button>
+            {profile.role === 'admin' ? (
+              <>
+                <div>
+                  <h4 className="font-medium text-red-900">Delete Account</h4>
+                  <p className="text-sm text-red-700 mt-1">
+                    Permanently delete your account and all associated data. This action cannot be undone.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowDeleteModal(true)}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+                >
+                  Delete Permanently
+                </button>
+              </>
             ) : (
-              <button
-                onClick={handleRequestDisable}
-                disabled={isDisabling}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50"
-              >
-                {isDisabling ? 'Processing...' : 'Request Disable'}
-              </button>
+              <>
+                <div>
+                  <h4 className="font-medium text-red-900">Disable Account</h4>
+                  <p className="text-sm text-red-700 mt-1">
+                    Request to disable your account. Your profile and lessons will be hidden from public view.
+                    Admin will review your request.
+                  </p>
+                  {profile.status === 'disable_requested' && (
+                    <p className="text-sm font-medium text-amber-600 mt-2">
+                      Request submitted on {new Date(profile.disableRequestDate).toLocaleDateString()}
+                    </p>
+                  )}
+                </div>
+                {profile.status === 'disable_requested' ? (
+                  <button
+                    onClick={handleCancelDisable}
+                    disabled={isDisabling}
+                    className="px-4 py-2 bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-medium disabled:opacity-50"
+                  >
+                    {isDisabling ? 'Processing...' : 'Cancel Request'}
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleRequestDisable}
+                    disabled={isDisabling}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50"
+                  >
+                    {isDisabling ? 'Processing...' : 'Request Disable'}
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -721,6 +759,59 @@ const Profile = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {/* Delete Account Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+            <div className="flex items-center gap-3 p-6 border-b border-border bg-red-50 rounded-t-2xl">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-red-900">Delete Account Permanently</h3>
+                <p className="text-sm text-red-700">This action cannot be undone</p>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <p className="text-text-secondary">
+                Are you sure you want to delete your account? This will permanently remove your profile, lessons, comments, and all other data associated with your account.
+              </p>
+
+              <div className="bg-red-50 p-4 rounded-xl border border-red-100">
+                <p className="text-sm text-red-800 font-medium">
+                  Warning: This action is irreversible. You will lose access to all your content immediately.
+                </p>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteModal(false)}
+                  className="flex-1 px-4 py-3 border border-border text-text-secondary rounded-xl hover:bg-gray-50 transition-colors font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeleteAccount}
+                  disabled={isDeleting}
+                  className="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isDeleting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span>Deleting...</span>
+                    </>
+                  ) : (
+                    <span>Yes, Delete My Account</span>
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
