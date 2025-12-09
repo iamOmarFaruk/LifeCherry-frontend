@@ -136,21 +136,6 @@ const MyFavorites = () => {
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white rounded-2xl shadow-sm border border-border p-5">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-cherry-50 rounded-xl">
-                <HiOutlineBookmark className="w-6 h-6 text-cherry" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{totalItems}</p>
-                <p className="text-sm text-text-muted">Total Favorites</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Search & Filter Bar */}
         <div className="bg-white rounded-2xl shadow-sm border border-border p-4 mb-6">
           <div className="flex flex-col lg:flex-row gap-4">
