@@ -42,12 +42,46 @@ const Profile = () => {
 
   const userEmail = firebaseUser?.email?.toLowerCase() || '';
 
+  const profile = useMemo(
+    () => ({
+      name:
+        userProfile?.name ||
+        firebaseUser?.displayName ||
+        firebaseUser?.email?.split('@')[0] ||
+        'User',
+      email: userProfile?.email || firebaseUser?.email || '',
+      photoURL: userProfile?.photoURL || firebaseUser?.photoURL || '',
+      bio: userProfile?.bio || '',
+      isPremium: !!userProfile?.isPremium,
+      role: userProfile?.role || 'user',
+      createdAt: userProfile?.createdAt || firebaseUser?.metadata?.creationTime,
+    }),
+    [userProfile, firebaseUser]
+  );
+
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Edit form state
-  const [editFormData, setEditFormData] = useState({ name: '', photoURL: '' });
+  const [editFormData, setEditFormData] = useState({ name: '', photoURL: '', bio: '' });
+
+  const [isEditingBio, setIsEditingBio] = useState(false);
+  const [bioContent, setBioContent] = useState('');
+
+  useEffect(() => {
+    setBioContent(profile.bio || '');
+  }, [profile.bio]);
+
+  const handleSaveBio = async () => {
+    try {
+      await updateProfileInfo({ bio: bioContent });
+      setIsEditingBio(false);
+      toast.success('Bio updated successfully');
+    } catch (error) {
+      toast.error('Failed to update bio');
+    }
+  };
 
   const lessonsQuery = useQuery({
     queryKey: ['my-lessons', userEmail],
@@ -59,28 +93,13 @@ const Profile = () => {
     retry: 1,
   });
 
-  const profile = useMemo(
-    () => ({
-      name:
-        userProfile?.name ||
-        firebaseUser?.displayName ||
-        firebaseUser?.email?.split('@')[0] ||
-        'User',
-      email: userProfile?.email || firebaseUser?.email || '',
-      photoURL: userProfile?.photoURL || firebaseUser?.photoURL || '',
-      isPremium: !!userProfile?.isPremium,
-      role: userProfile?.role || 'user',
-      createdAt: userProfile?.createdAt || firebaseUser?.metadata?.creationTime,
-    }),
-    [userProfile, firebaseUser]
-  );
-
   useEffect(() => {
     setEditFormData({
       name: profile.name || '',
       photoURL: profile.photoURL || '',
+      bio: profile.bio || '',
     });
-  }, [profile.name, profile.photoURL]);
+  }, [profile.name, profile.photoURL, profile.bio]);
 
   const lessons = useMemo(() => lessonsQuery.data || [], [lessonsQuery.data]);
 
@@ -159,7 +178,8 @@ const Profile = () => {
   const openEditModal = () => {
     setEditFormData({
       name: profile.name,
-      photoURL: profile.photoURL
+      photoURL: profile.photoURL,
+      bio: profile.bio
     });
     setShowEditModal(true);
   };
@@ -298,6 +318,71 @@ const Profile = () => {
           </div>
         </div>
 
+        {/* About Me Section */}
+        <div className="mt-8 pt-8 border-t border-border">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-text">About Me</h3>
+          </div>
+          
+          {isEditingBio ? (
+            <div className="bg-white rounded-xl border-2 border-cherry-100 shadow-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+              <textarea
+                value={bioContent}
+                onChange={(e) => setBioContent(e.target.value)}
+                placeholder="Tell us a little about yourself..."
+                className="w-full p-4 min-h-[150px] outline-none resize-y text-text leading-relaxed placeholder:text-gray-300"
+                autoFocus
+              />
+              <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
+                <span className="text-xs text-text-secondary font-medium">
+                  {bioContent.length}/500 characters
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setIsEditingBio(false);
+                      setBioContent(profile.bio || '');
+                    }}
+                    className="px-4 py-2 text-sm font-medium text-text-secondary hover:bg-gray-200 rounded-lg transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSaveBio}
+                    className="px-4 py-2 text-sm font-bold text-white bg-cherry hover:bg-cherry-dark rounded-lg shadow-sm transition-all hover:shadow-md active:scale-95"
+                  >
+                    Save Bio
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div 
+              onClick={() => setIsEditingBio(true)}
+              className="group relative rounded-xl transition-all duration-200 cursor-text"
+            >
+              {profile.bio ? (
+                <div className="prose prose-sm max-w-none text-text-secondary leading-relaxed whitespace-pre-wrap p-4 -ml-4 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-100">
+                  {profile.bio}
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="p-2 bg-white rounded-lg shadow-sm border border-gray-100 text-text-secondary">
+                      <HiOutlinePencilSquare className="w-4 h-4" />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-gray-50 rounded-xl p-8 text-center border-2 border-dashed border-gray-200 hover:border-cherry-200 hover:bg-cherry-50/30 transition-all cursor-pointer group">
+                  <div className="w-12 h-12 mx-auto mb-3 bg-white rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                    <HiOutlinePencilSquare className="w-6 h-6 text-cherry-300 group-hover:text-cherry" />
+                  </div>
+                  <h4 className="text-text font-medium mb-1">Write your bio</h4>
+                  <p className="text-text-muted text-sm">Share your story with the community</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
         {/* Stats Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-8 pt-8 border-t border-border">
           <div className="bg-cherry-50 rounded-xl p-4 text-center group hover:shadow-md transition-all">
@@ -343,135 +428,6 @@ const Profile = () => {
             <div className="text-sm text-text-secondary">Favorites</div>
           </div>
         </div>
-      </div>
-
-      {/* Public Lessons Section */}
-      <div className="bg-white rounded-2xl border border-border p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
-            <h3 className="text-xl font-bold text-text mb-1">My Public Lessons</h3>
-            <p className="text-text-secondary text-sm">All your publicly shared lessons</p>
-          </div>
-          <Link
-            to="/dashboard/my-lessons"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-colors text-sm font-medium"
-          >
-            <HiOutlineBookOpen className="w-4 h-4" />
-            <span>Manage All Lessons</span>
-          </Link>
-        </div>
-
-        {publicLessons.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="w-20 h-20 mx-auto mb-4 bg-cherry-50 rounded-2xl flex items-center justify-center">
-              <HiOutlineBookOpen className="w-10 h-10 text-cherry-300" />
-            </div>
-            <h4 className="text-lg font-semibold text-text mb-2">No Public Lessons Yet</h4>
-            <p className="text-text-secondary mb-4">Start sharing your wisdom with the community</p>
-            <Link
-              to="/dashboard/add-lesson"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-colors font-medium"
-            >
-              <HiOutlineBookOpen className="w-5 h-5" />
-              <span>Add Your First Lesson</span>
-            </Link>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {publicLessons.map(lesson => {
-              const toneStyle = getToneStyle(lesson.emotionalTone);
-              return (
-                <div 
-                  key={lesson._id}
-                  className="bg-bg rounded-xl border border-border overflow-hidden hover:shadow-lg transition-all duration-300 group"
-                >
-                  {/* Lesson Image */}
-                  <div className="relative h-40 overflow-hidden">
-                    {lesson.image ? (
-                      <img 
-                        src={lesson.image} 
-                        alt={lesson.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-cherry-100 to-cherry-200 flex items-center justify-center">
-                        <HiOutlinePhoto className="w-12 h-12 text-cherry-300" />
-                      </div>
-                    )}
-                    {/* Access Level Badge */}
-                    <div className="absolute top-3 left-3">
-                      {lesson.accessLevel === 'premium' ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-xs font-semibold rounded-full shadow">
-                          <HiOutlineStar className="w-3.5 h-3.5" />
-                          Premium
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-500/90 text-white text-xs font-semibold rounded-full">
-                          <HiOutlineEye className="w-3.5 h-3.5" />
-                          Free
-                        </span>
-                      )}
-                    </div>
-                    {/* Featured Badge */}
-                    {lesson.isFeatured && (
-                      <div className="absolute top-3 right-3">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-cherry/90 text-white text-xs font-semibold rounded-full">
-                          <HiOutlineSparkles className="w-3.5 h-3.5" />
-                          Featured
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4">
-                    {/* Category & Tone */}
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="px-2.5 py-1 bg-cherry-50 text-cherry text-xs font-medium rounded-full">
-                        {lesson.category}
-                      </span>
-                      <span className={`px-2.5 py-1 ${toneStyle.bg} ${toneStyle.text} text-xs font-medium rounded-full flex items-center gap-1`}>
-                        <span>{toneStyle.emoji}</span>
-                        {lesson.emotionalTone}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h4 className="text-lg font-semibold text-text mb-2 line-clamp-2 group-hover:text-cherry transition-colors">
-                      {lesson.title}
-                    </h4>
-
-                    {/* Description */}
-                    <p className="text-text-secondary text-sm line-clamp-2 mb-4">
-                      {lesson.description}
-                    </p>
-
-                    {/* Stats */}
-                    <div className="flex items-center justify-between text-sm text-text-secondary">
-                      <div className="flex items-center gap-4">
-                        <span className="flex items-center gap-1">
-                          <HiOutlineHeart className="w-4 h-4 text-red-500" />
-                          {lesson.likesCount}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <HiOutlineStar className="w-4 h-4 text-amber-500" />
-                          {lesson.favoritesCount}
-                        </span>
-                      </div>
-                      <Link
-                        to={`/lessons/${lesson._id}`}
-                        className="text-cherry hover:text-cherry-dark font-medium flex items-center gap-1"
-                      >
-                        <HiOutlineEye className="w-4 h-4" />
-                        View
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
 
       {/* Edit Profile Modal */}
@@ -554,6 +510,25 @@ const Profile = () => {
                   Paste a direct link to your profile image
                 </p>
               </div>
+
+              {/* Bio - Removed from modal as it is now inline */}
+              {/* <div>
+                <label className="block text-sm font-medium text-text mb-2">
+                  About Me
+                </label>
+                <textarea
+                  name="bio"
+                  value={editFormData.bio}
+                  onChange={handleEditChange}
+                  placeholder="Tell us a little about yourself..."
+                  rows="4"
+                  maxLength="500"
+                  className="w-full px-4 py-3 rounded-xl border border-border focus:border-cherry focus:ring-2 focus:ring-cherry/20 outline-none transition-all resize-none"
+                />
+                <p className="text-xs text-text-secondary mt-1.5 text-right">
+                  {editFormData.bio?.length || 0}/500 characters
+                </p>
+              </div> */}
 
               {/* Email (Readonly) */}
               <div>

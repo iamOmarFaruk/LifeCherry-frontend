@@ -98,7 +98,7 @@ const AuthProvider = ({ children }) => {
     queryClient.removeQueries({ queryKey: ['userProfile'] });
   };
 
-  const updateProfileInfo = async ({ name, photoURL }) => {
+  const updateProfileInfo = async ({ name, photoURL, bio }) => {
     if (!firebaseUser) {
       throw new Error('Not authenticated');
     }
@@ -106,6 +106,7 @@ const AuthProvider = ({ children }) => {
     const payload = {};
     if (name !== undefined) payload.name = name;
     if (photoURL !== undefined) payload.photoURL = photoURL;
+    if (bio !== undefined) payload.bio = bio;
 
     if (name || photoURL) {
       await updateProfile(firebaseUser, {

@@ -62,6 +62,7 @@ const LessonDetails = () => {
   const [showReportModal, setShowReportModal] = useState(false);
   const [hasReported, setHasReported] = useState(false);
   const [userReport, setUserReport] = useState(null);
+  const [isBioExpanded, setIsBioExpanded] = useState(false);
 
   const isLoggedIn = !!firebaseUser;
   const isUserPremium = !!userProfile?.isPremium;
@@ -738,10 +739,36 @@ const LessonDetails = () => {
                   <div className="flex-1">
                     <p className="text-sm text-text-muted mb-1">Written by</p>
                     <h3 className="text-xl font-bold text-text-primary mb-1">{lesson.creatorName}</h3>
-                    <p className="text-text-secondary text-sm flex items-center gap-2">
+                    <p className="text-text-secondary text-sm flex items-center gap-2 mb-2">
                       <FiEdit3 className="w-4 h-4" />
                       {creatorLessonsCount} lessons created
                     </p>
+                    {lesson.creatorBio && (
+                      <div className="text-text-secondary text-sm italic mt-3">
+                        <div className="relative">
+                          <div 
+                            className={`transition-all duration-500 ease-in-out overflow-hidden ${
+                              isBioExpanded ? 'max-h-[500px] opacity-100' : 'max-h-[2.6rem] opacity-90'
+                            }`}
+                          >
+                            <p>"{lesson.creatorBio}"</p>
+                          </div>
+                          
+                          {!isBioExpanded && lesson.creatorBio.length > 100 && (
+                            <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none" />
+                          )}
+                        </div>
+
+                        {lesson.creatorBio.length > 100 && (
+                          <button 
+                            onClick={() => setIsBioExpanded(!isBioExpanded)}
+                            className="text-cherry font-medium text-xs mt-1 hover:underline focus:outline-none flex items-center gap-1 transition-colors"
+                          >
+                            {isBioExpanded ? "See Less" : "See More"}
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <Link 
                     to={`/profile/${lesson.creatorEmail}`}
