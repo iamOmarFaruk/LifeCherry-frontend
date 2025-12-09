@@ -8,7 +8,8 @@ import {
   HiOutlineEye,
   HiOutlineCheckCircle,
   HiOutlineXCircle,
-  HiOutlineUser
+  HiOutlineUser,
+  HiOutlineFlag
 } from 'react-icons/hi2';
 import PageLoader from '../../components/shared/PageLoader';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
@@ -57,6 +58,13 @@ const getActionDetails = (action) => {
       border: 'border-l-4 border-gray-500',
       badge: 'bg-gray-100 text-gray-800'
     },
+    'report': { 
+      icon: HiOutlineFlag, 
+      label: 'Reported', 
+      bg: 'bg-red-50',
+      border: 'border-l-4 border-red-500',
+      badge: 'bg-red-100 text-red-800'
+    },
   };
   return details[action] || details.update;
 };
@@ -65,6 +73,7 @@ const getTargetDetails = (targetType) => {
   const details = {
     'lesson': { icon: HiOutlineClipboardDocumentList, label: 'Lesson', color: 'text-cherry' },
     'profile': { icon: HiOutlineUser, label: 'Profile', color: 'text-blue-600' },
+    'user': { icon: HiOutlineUser, label: 'Profile', color: 'text-blue-600' },
   };
   return details[targetType] || { icon: HiOutlineClipboardDocumentList, label: targetType, color: 'text-gray-600' };
 };
@@ -83,17 +92,19 @@ const ActivityLog = () => {
     },
   });
 
+  const allChanges = data?.changes || [];
+
   const changes = useMemo(() => {
-    const allChanges = data?.changes || [];
     if (filterType === 'all') return allChanges;
     return allChanges.filter(change => change.targetType === filterType);
-  }, [data, filterType]);
+  }, [allChanges, filterType]);
 
   const stats = useMemo(() => ({
     total: changes.length,
     created: changes.filter(c => c.action === 'create').length,
     updated: changes.filter(c => c.action === 'update').length,
     deleted: changes.filter(c => c.action === 'delete').length,
+    reported: changes.filter(c => c.action === 'report').length,
   }), [changes]);
 
   return (
@@ -120,9 +131,9 @@ const ActivityLog = () => {
         {/* Filter Tabs */}
         <div className="flex gap-2 flex-wrap p-3 bg-gray-50 rounded-xl border border-gray-200">
           {[
-            { value: 'all', label: 'All Activity', count: stats.total },
-            { value: 'lesson', label: 'Lessons', count: changes.filter(c => c.targetType === 'lesson').length },
-            { value: 'profile', label: 'Profile', count: changes.filter(c => c.targetType === 'profile').length },
+            { value: 'all', label: 'All Activity', count: allChanges.length },
+            { value: 'lesson', label: 'Lessons', count: allChanges.filter(c => c.targetType === 'lesson').length },
+            { value: 'user', label: 'Profile', count: allChanges.filter(c => c.targetType === 'user').length },
           ].map(filter => (
             <button
               key={filter.value}
@@ -145,22 +156,70 @@ const ActivityLog = () => {
 
         {/* Stats Summary */}
         {changes.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="p-4 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200">
-              <div className="text-2xl font-bold text-text">{stats.total}</div>
-              <p className="text-xs text-text-muted font-medium mt-1">Total Activities</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {/* Total */}
+            <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <HiOutlineClipboardDocumentList className="w-6 h-6 text-gray-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-text">{stats.total}</p>
+                  <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Total</p>
+                </div>
+              </div>
             </div>
-            <div className="p-4 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200">
-              <div className="text-2xl font-bold text-green-600">{stats.created}</div>
-              <p className="text-xs text-green-700 font-medium mt-1">Created</p>
+
+            {/* Created */}
+            <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <HiOutlineCheckCircle className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-text">{stats.created}</p>
+                  <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Created</p>
+                </div>
+              </div>
             </div>
-            <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200">
-              <div className="text-2xl font-bold text-blue-600">{stats.updated}</div>
-              <p className="text-xs text-blue-700 font-medium mt-1">Updated</p>
+
+            {/* Updated */}
+            <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <HiOutlinePencilSquare className="w-6 h-6 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-text">{stats.updated}</p>
+                  <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Updated</p>
+                </div>
+              </div>
             </div>
-            <div className="p-4 rounded-xl bg-gradient-to-br from-red-50 to-pink-50 border border-red-200">
-              <div className="text-2xl font-bold text-red-600">{stats.deleted}</div>
-              <p className="text-xs text-red-700 font-medium mt-1">Deleted</p>
+
+            {/* Reported */}
+            <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <HiOutlineFlag className="w-6 h-6 text-amber-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-text">{stats.reported}</p>
+                  <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Reported</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Deleted */}
+            <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <HiOutlineTrash className="w-6 h-6 text-red-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-text">{stats.deleted}</p>
+                  <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Deleted</p>
+                </div>
+              </div>
             </div>
           </div>
         )}
