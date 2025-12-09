@@ -793,43 +793,82 @@ const LessonDetails = () => {
                 <div className="mb-12">
                   <h2 className="text-2xl font-bold text-text-primary mb-6">Similar Lessons in {lesson.category}</h2>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {relatedByCategory.slice(0, 6).map(relatedLesson => (
-                      <Link 
-                        key={relatedLesson._id}
-                        to={`/lessons/${relatedLesson._id}`}
-                        className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
-                      >
-                        <div className="relative h-40 overflow-hidden">
-                          <img 
-                            src={relatedLesson.image}
-                            alt={relatedLesson.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          {relatedLesson.accessLevel === 'premium' && (
-                            <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
-                              <FiLock className="w-3 h-3" />
-                              Premium
-                            </div>
-                          )}
-                        </div>
-                        <div className="p-4">
-                          <span className="text-xs font-medium text-cherry mb-1 block">{relatedLesson.category}</span>
-                          <h3 className="font-bold text-text-primary group-hover:text-cherry transition-colors line-clamp-2">
-                            {relatedLesson.title}
-                          </h3>
-                          <div className="flex items-center gap-3 mt-2 text-sm text-text-muted">
-                            <span className="flex items-center gap-1">
-                              <FiHeart className="w-4 h-4" />
-                              {relatedLesson.likesCount}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <FiBookmark className="w-4 h-4" />
-                              {relatedLesson.favoritesCount}
-                            </span>
+                    {relatedByCategory.slice(0, 6).map(relatedLesson => {
+                      const isPremiumLocked = relatedLesson.accessLevel === 'premium' && !isUserPremium;
+
+                      const CardContent = () => (
+                        <>
+                          <div className="relative h-40 overflow-hidden">
+                            <img 
+                              src={relatedLesson.image}
+                              alt={relatedLesson.title}
+                              className={`w-full h-full object-cover transition-transform duration-300 ${isPremiumLocked ? 'blur-sm' : 'group-hover:scale-105'}`}
+                            />
+                            {relatedLesson.accessLevel === 'premium' && !isPremiumLocked && (
+                              <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
+                                <FiLock className="w-3 h-3" />
+                                Premium
+                              </div>
+                            )}
                           </div>
-                        </div>
-                      </Link>
-                    ))}
+                          <div className={`p-4 ${isPremiumLocked ? 'blur-sm' : ''}`}>
+                            <span className="text-xs font-medium text-cherry mb-1 block">{relatedLesson.category}</span>
+                            <h3 className="font-bold text-text-primary group-hover:text-cherry transition-colors line-clamp-2">
+                              {relatedLesson.title}
+                            </h3>
+                            <div className="flex items-center gap-3 mt-2 text-sm text-text-muted">
+                              <span className="flex items-center gap-1">
+                                <FiHeart className="w-4 h-4" />
+                                {relatedLesson.likesCount}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <FiBookmark className="w-4 h-4" />
+                                {relatedLesson.favoritesCount}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      );
+
+                      if (isPremiumLocked) {
+                        return (
+                          <div 
+                            key={relatedLesson._id}
+                            className="relative bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100"
+                          >
+                            {/* Premium Locked Overlay */}
+                            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-6">
+                              <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-full flex items-center justify-center mb-4">
+                                <FiLock className="w-8 h-8 text-white" />
+                              </div>
+                              <h4 className="text-lg font-semibold text-text-cherry mb-2 text-center">
+                                Premium Lesson
+                              </h4>
+                              <p className="text-text-secondary text-sm text-center mb-4">
+                                Upgrade to access exclusive content
+                              </p>
+                              <Link
+                                to="/pricing"
+                                className="px-6 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-medium rounded-full hover:shadow-lg transition-all"
+                              >
+                                Upgrade Now
+                              </Link>
+                            </div>
+                            <CardContent />
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <Link 
+                          key={relatedLesson._id}
+                          to={`/lessons/${relatedLesson._id}`}
+                          className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
+                        >
+                          <CardContent />
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -839,48 +878,87 @@ const LessonDetails = () => {
                 <div>
                   <h2 className="text-2xl font-bold text-text-primary mb-6">More {lesson.emotionalTone} Lessons</h2>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {similarByTone.slice(0, 6).map(similarLesson => (
-                      <Link 
-                        key={similarLesson._id}
-                        to={`/lessons/${similarLesson._id}`}
-                        className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
-                      >
-                        <div className="relative h-40 overflow-hidden">
-                          <img 
-                            src={similarLesson.image}
-                            alt={similarLesson.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          {similarLesson.accessLevel === 'premium' && (
-                            <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
-                              <FiLock className="w-3 h-3" />
-                              Premium
+                    {similarByTone.slice(0, 6).map(similarLesson => {
+                      const isPremiumLocked = similarLesson.accessLevel === 'premium' && !isUserPremium;
+                      
+                      const CardContent = () => (
+                        <>
+                          <div className="relative h-40 overflow-hidden">
+                            <img 
+                              src={similarLesson.image}
+                              alt={similarLesson.title}
+                              className={`w-full h-full object-cover transition-transform duration-300 ${isPremiumLocked ? 'blur-sm' : 'group-hover:scale-105'}`}
+                            />
+                            {similarLesson.accessLevel === 'premium' && !isPremiumLocked && (
+                              <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
+                                <FiLock className="w-3 h-3" />
+                                Premium
+                              </div>
+                            )}
+                          </div>
+                          <div className={`p-4 ${isPremiumLocked ? 'blur-sm' : ''}`}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-xs font-medium text-cherry">{similarLesson.category}</span>
+                              <span className={`text-xs px-2 py-0.5 rounded-full ${getToneColor(similarLesson.emotionalTone)}`}>
+                                {similarLesson.emotionalTone}
+                              </span>
                             </div>
-                          )}
-                        </div>
-                        <div className="p-4">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-xs font-medium text-cherry">{similarLesson.category}</span>
-                            <span className={`text-xs px-2 py-0.5 rounded-full ${getToneColor(similarLesson.emotionalTone)}`}>
-                              {similarLesson.emotionalTone}
-                            </span>
+                            <h3 className="font-bold text-text-primary group-hover:text-cherry transition-colors line-clamp-2">
+                              {similarLesson.title}
+                            </h3>
+                            <div className="flex items-center gap-3 mt-2 text-sm text-text-muted">
+                              <span className="flex items-center gap-1">
+                                <FiHeart className="w-4 h-4" />
+                                {similarLesson.likesCount}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <FiBookmark className="w-4 h-4" />
+                                {similarLesson.favoritesCount}
+                              </span>
+                            </div>
                           </div>
-                          <h3 className="font-bold text-text-primary group-hover:text-cherry transition-colors line-clamp-2">
-                            {similarLesson.title}
-                          </h3>
-                          <div className="flex items-center gap-3 mt-2 text-sm text-text-muted">
-                            <span className="flex items-center gap-1">
-                              <FiHeart className="w-4 h-4" />
-                              {similarLesson.likesCount}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <FiBookmark className="w-4 h-4" />
-                              {similarLesson.favoritesCount}
-                            </span>
+                        </>
+                      );
+
+                      if (isPremiumLocked) {
+                        return (
+                          <div 
+                            key={similarLesson._id}
+                            className="relative bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100"
+                          >
+                            {/* Premium Locked Overlay */}
+                            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-6">
+                              <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-full flex items-center justify-center mb-4">
+                                <FiLock className="w-8 h-8 text-white" />
+                              </div>
+                              <h4 className="text-lg font-semibold text-text-cherry mb-2 text-center">
+                                Premium Lesson
+                              </h4>
+                              <p className="text-text-secondary text-sm text-center mb-4">
+                                Upgrade to access exclusive content
+                              </p>
+                              <Link
+                                to="/pricing"
+                                className="px-6 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-medium rounded-full hover:shadow-lg transition-all"
+                              >
+                                Upgrade Now
+                              </Link>
+                            </div>
+                            <CardContent />
                           </div>
-                        </div>
-                      </Link>
-                    ))}
+                        );
+                      }
+
+                      return (
+                        <Link 
+                          key={similarLesson._id}
+                          to={`/lessons/${similarLesson._id}`}
+                          className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
+                        >
+                          <CardContent />
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               )}
