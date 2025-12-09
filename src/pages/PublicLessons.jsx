@@ -13,7 +13,7 @@ const LESSONS_PER_PAGE = 9;
 const PublicLessons = () => {
   useDocumentTitle('Public Lessons');
   const [searchParams, setSearchParams] = useSearchParams();
-  const { firebaseUser, userProfile } = useAuth();
+  const { firebaseUser, userProfile, authInitialized } = useAuth();
 
   // Filter & Search State
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,6 +38,8 @@ const PublicLessons = () => {
   const isUserPremium = !!userProfile?.isPremium || userProfile?.role === 'admin';
 
   useEffect(() => {
+    if (!authInitialized) return;
+
     let isMounted = true;
     const fetchLessons = async () => {
       try {
@@ -62,7 +64,7 @@ const PublicLessons = () => {
     return () => {
       isMounted = false;
     };
-  }, [sortBy]);
+  }, [sortBy, authInitialized, firebaseUser]);
 
   useEffect(() => {
     const sortParam = searchParams.get('sort');
