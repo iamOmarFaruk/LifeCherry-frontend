@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [authInitialized, setAuthInitialized] = useState(false);
-  const [viewMode, setViewMode] = useState('user'); // 'user' or 'admin'
+  const [viewMode, setViewMode] = useState(() => localStorage.getItem('viewMode') || 'user'); // 'user' or 'admin'
 
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
@@ -159,7 +159,11 @@ const AuthProvider = ({ children }) => {
   };
 
   const toggleViewMode = () => {
-    setViewMode(prev => prev === 'admin' ? 'user' : 'admin');
+    setViewMode(prev => {
+      const newMode = prev === 'admin' ? 'user' : 'admin';
+      localStorage.setItem('viewMode', newMode);
+      return newMode;
+    });
   };
 
   // Ensure admins always have premium access
@@ -168,10 +172,25 @@ const AuthProvider = ({ children }) => {
     isPremium: profileQuery.data.isPremium || profileQuery.data.role === 'admin'
   } : null;
 
-  // Set initial view mode based on role
+  // Set initial view mode based on role and persistence
   useEffect(() => {
-    if (profileQuery.data?.role === 'admin') {
-      setViewMode('admin');
+    if (profileQuery.data) {
+      if (profileQuery.data.role === 'admin') {
+        // If admin, respect saved preference or default to admin
+        const saved = localStorage.getItem('viewMode');
+        if (!saved) {
+          setViewMode('admin');
+          localStorage.setItem('viewMode', 'admin');
+        } else {
+          setViewMode(saved);
+        }
+      } else {
+        // If not admin, force user mode
+        if (viewMode !== 'user') {
+          setViewMode('user');
+          localStorage.removeItem('viewMode');
+        }
+      }
     }
   }, [profileQuery.data?.role]);
 

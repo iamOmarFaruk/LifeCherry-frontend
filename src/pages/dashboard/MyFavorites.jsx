@@ -1,5 +1,5 @@
 // My Favorites Page - LifeCherry Dashboard
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { 
@@ -42,7 +42,7 @@ const MyFavorites = () => {
   const ITEMS_PER_PAGE = 8;
 
   // Fetch favorites
-  const { data, isLoading, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['my-favorites', userEmail, currentPage, searchQuery, filterCategory, filterEmotionalTone],
     enabled: !!userEmail,
     queryFn: async () => {
@@ -106,7 +106,7 @@ const MyFavorites = () => {
       toast.success('Removed from favorites');
       setShowRemoveModal(false);
       setSelectedFavorite(null);
-    } catch (error) {
+    } catch {
       toast.error('Failed to remove favorite');
     } finally {
       setIsSubmitting(false);
