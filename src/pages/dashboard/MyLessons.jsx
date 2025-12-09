@@ -1285,21 +1285,26 @@ const MyLessons = () => {
                         <HiOutlineLockOpen className="w-4 h-4" />
                         Free
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => isPremium && setEditFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
-                        disabled={!isPremium}
-                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 ${
-                          !isPremium 
-                            ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
-                            : editFormData.accessLevel === 'premium'
-                              ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
-                              : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
-                        }`}
+                      <div 
+                        className={`flex-1 ${!isPremium ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}`} 
+                        data-tip="Upgrade to Premium to create paid lessons"
                       >
-                        <HiOutlineStar className="w-4 h-4" />
-                        Premium
-                      </button>
+                        <button
+                          type="button"
+                          onClick={() => isPremium && setEditFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
+                          disabled={!isPremium}
+                          className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 ${
+                            !isPremium 
+                              ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
+                              : editFormData.accessLevel === 'premium'
+                                ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
+                                : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
+                          }`}
+                        >
+                          <HiOutlineStar className="w-4 h-4" />
+                          Premium
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
