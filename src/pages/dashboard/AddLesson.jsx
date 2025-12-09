@@ -314,32 +314,28 @@ const AddLesson = () => {
                     <HiOutlineLockOpen className="w-5 h-5" />
                     <span className="font-medium">Free</span>
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => userProfile?.isPremium && setFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
-                    disabled={!userProfile?.isPremium}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
-                      !userProfile?.isPremium 
-                        ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
-                        : formData.accessLevel === 'premium'
-                          ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
-                          : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
-                    }`}
+                  
+                  <div 
+                    className={`flex-1 ${!userProfile?.isPremium ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}`} 
+                    data-tip="Upgrade to Premium to create paid lessons"
                   >
-                    <HiOutlineStar className="w-5 h-5" />
-                    <span className="font-medium">Premium</span>
-                  </button>
-                </div>
-                
-                {/* Tooltip for non-premium users */}
-                {!userProfile?.isPremium && (
-                  <div className="mt-3 flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                    <HiOutlineLockClosed className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-amber-800">
-                      <strong>Upgrade to Premium</strong> to create paid lessons that only premium users can access.
-                    </p>
+                    <button
+                      type="button"
+                      onClick={() => userProfile?.isPremium && setFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
+                      disabled={!userProfile?.isPremium}
+                      className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
+                        !userProfile?.isPremium 
+                          ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
+                          : formData.accessLevel === 'premium'
+                            ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
+                            : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
+                      }`}
+                    >
+                      <HiOutlineStar className="w-5 h-5" />
+                      <span className="font-medium">Premium</span>
+                    </button>
                   </div>
-                )}
+                </div>
               </div>
             </div>
 
