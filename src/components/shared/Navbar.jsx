@@ -156,7 +156,7 @@ const Navbar = () => {
                   />
                   <div className="flex flex-col items-start">
                     <span className="text-sm font-medium text-text-primary leading-tight">{user.name.split(' ')[0]}</span>
-                    <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.isPremium ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                    <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.isPremium ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}>
                       {user.isPremium ? 'Premium' : 'Starter'}
                     </span>
                   </div>

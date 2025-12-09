@@ -251,7 +251,7 @@ const Profile = () => {
                 <span>Premium</span>
               </div>
             ) : (
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-white z-10">
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-white z-10">
                 <HiOutlineSparkles className="w-3.5 h-3.5" />
                 <span>Starter</span>
               </div>
@@ -284,14 +284,14 @@ const Profile = () => {
 
             {/* Upgrade CTA for Free Users */}
             {!profile.isPremium && (
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 text-gray-600">
-                <HiOutlineUser className="w-5 h-5" />
-                <span className="font-medium">Free Plan</span>
+              <div className="flex items-center gap-2 text-sm mt-1">
+                <HiOutlineSparkles className="w-4 h-4 text-indigo-500" />
+                <span className="text-text-secondary">Currently an Apprentice.</span>
                 <Link 
                   to="/pricing" 
-                  className="ml-2 text-cherry hover:text-cherry-dark font-semibold underline"
+                  className="text-cherry font-semibold hover:underline"
                 >
-                  Upgrade
+                  Prove you're a Master & Upgrade
                 </Link>
               </div>
             )}

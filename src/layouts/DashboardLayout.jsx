@@ -145,7 +145,7 @@ const DashboardLayout = () => {
                       ⭐ Premium
                     </span>
                   ) : (
-                    <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full font-medium">
+                    <span className="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full font-medium">
                       Starter
                     </span>
                   )}
