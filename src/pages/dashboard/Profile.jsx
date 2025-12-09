@@ -18,7 +18,8 @@ import {
   HiOutlineLockClosed,
   HiOutlineSparkles,
   HiOutlineCalendarDays,
-  HiOutlineBookmark
+  HiOutlineBookmark,
+  HiOutlineShieldCheck
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
@@ -238,11 +239,21 @@ const Profile = () => {
                 </div>
               )}
             </div>
-            {/* Premium badge */}
-            {profile.isPremium && (
-              <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1">
+            {/* User Status Badge */}
+            {profile.role === 'admin' ? (
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-white z-10">
+                <HiOutlineShieldCheck className="w-3.5 h-3.5" />
+                <span>Admin</span>
+              </div>
+            ) : profile.isPremium ? (
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-white z-10">
                 <HiOutlineStar className="w-3.5 h-3.5" />
                 <span>Premium</span>
+              </div>
+            ) : (
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-white z-10">
+                <HiOutlineSparkles className="w-3.5 h-3.5" />
+                <span>Starter</span>
               </div>
             )}
           </div>
