@@ -213,8 +213,8 @@ const DashboardHome = () => {
                   </div>
                 )}
               </div>
-              <div className="w-11 h-11 bg-cherry-50 rounded-xl flex items-center justify-center group-hover:bg-cherry group-hover:scale-110 transition-all duration-300">
-                <HiOutlineBookOpen className="w-5 h-5 text-cherry group-hover:!text-white transition-colors" />
+              <div className="w-11 h-11 bg-cherry-50 dark:bg-cherry-900/10 rounded-xl flex items-center justify-center group-hover:bg-cherry dark:group-hover:bg-cherry group-hover:scale-110 transition-all duration-300">
+                <HiOutlineBookOpen className="w-5 h-5 text-cherry dark:text-cherry-400 group-hover:!text-white transition-colors" />
               </div>
             </div>
           </div>
@@ -246,8 +246,8 @@ const DashboardHome = () => {
                   </div>
                 )}
               </div>
-              <div className="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center group-hover:bg-amber-500 group-hover:scale-110 transition-all duration-300">
-                <HiOutlineBookmark className="w-5 h-5 text-amber-500 group-hover:text-white transition-colors" />
+              <div className="w-11 h-11 bg-amber-50 dark:bg-amber-900/10 rounded-xl flex items-center justify-center group-hover:bg-amber-500 dark:group-hover:bg-amber-500 group-hover:scale-110 transition-all duration-300">
+                <HiOutlineBookmark className="w-5 h-5 text-amber-500 dark:text-amber-400 group-hover:text-white transition-colors" />
               </div>
             </div>
           </div>
@@ -279,8 +279,8 @@ const DashboardHome = () => {
                   </div>
                 )}
               </div>
-              <div className="w-11 h-11 bg-rose-50 rounded-xl flex items-center justify-center group-hover:bg-rose-500 group-hover:scale-110 transition-all duration-300">
-                <HiOutlineHeart className="w-5 h-5 text-rose-500 group-hover:text-white transition-colors" />
+              <div className="w-11 h-11 bg-rose-50 dark:bg-rose-900/10 rounded-xl flex items-center justify-center group-hover:bg-rose-500 dark:group-hover:bg-rose-500 group-hover:scale-110 transition-all duration-300">
+                <HiOutlineHeart className="w-5 h-5 text-rose-500 dark:text-rose-400 group-hover:text-white transition-colors" />
               </div>
             </div>
           </div>
@@ -312,8 +312,8 @@ const DashboardHome = () => {
                   </div>
                 )}
               </div>
-              <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
-                <HiOutlineEye className="w-5 h-5 text-blue-500 group-hover:text-white transition-colors" />
+              <div className="w-11 h-11 bg-blue-50 dark:bg-blue-900/10 rounded-xl flex items-center justify-center group-hover:bg-blue-500 dark:group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+                <HiOutlineEye className="w-5 h-5 text-blue-500 dark:text-blue-400 group-hover:text-white transition-colors" />
               </div>
             </div>
           </div>
@@ -602,7 +602,7 @@ const DashboardHome = () => {
           {/* Most Popular Lesson */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
                 <span className="text-lg">🏆</span>
               </div>
               <h3 className="font-bold text-text dark:text-white">Top Performing</h3>
@@ -631,8 +631,8 @@ const DashboardHome = () => {
           {/* Category Distribution */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                <HiOutlineChartBar className="w-4 h-4 text-purple-600" />
+              <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                <HiOutlineChartBar className="w-4 h-4 text-purple-600 dark:text-purple-400" />
               </div>
               <h3 className="font-bold text-text dark:text-white">Top Categories</h3>
             </div>
@@ -658,8 +658,8 @@ const DashboardHome = () => {
           {/* This Month Stats */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                <HiOutlineCalendarDays className="w-4 h-4 text-green-600" />
+              <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                <HiOutlineCalendarDays className="w-4 h-4 text-green-600 dark:text-green-400" />
               </div>
               <h3 className="font-bold text-text dark:text-white">This Month</h3>
             </div>

@@ -504,7 +504,7 @@ const Profile = () => {
                   Customize how LifeCherry looks on your device.
                 </p>
               </div>
-              <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
+              <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700/50 p-1 rounded-lg">
                 {[
                   { id: 'light', label: 'Light', icon: HiOutlineSun },
                   { id: 'system', label: 'System', icon: HiOutlineComputerDesktop },
@@ -514,7 +514,7 @@ const Profile = () => {
                     key={mode.id}
                     onClick={() => setTheme(mode.id)}
                     className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all flex items-center gap-2 ${theme === mode.id
-                      ? 'bg-white dark:bg-gray-600 text-cherry shadow-sm'
+                      ? 'bg-white dark:bg-gray-600 text-cherry dark:text-white shadow-sm'
                       : 'text-text-secondary hover:text-text dark:text-gray-400 dark:hover:text-gray-200'
                       }`}
                   >
