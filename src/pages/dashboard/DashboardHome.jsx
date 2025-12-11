@@ -1,7 +1,7 @@
 // Dashboard Home Page - LifeCherry Dashboard
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { 
+import {
   HiOutlineBookOpen,
   HiOutlineHeart,
   HiOutlinePlusCircle,
@@ -76,8 +76,8 @@ const DashboardHome = () => {
   // Format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
       day: 'numeric',
       year: 'numeric'
     });
@@ -128,7 +128,7 @@ const DashboardHome = () => {
 
   const monthStats = useMemo(() => {
     const now = new Date();
-    
+
     // Current month stats
     const sameMonthLessons = lessons.filter((lesson) => {
       const created = lesson.createdAt ? new Date(lesson.createdAt) : null;
@@ -175,13 +175,7 @@ const DashboardHome = () => {
               Here's an overview of your life lessons journey
             </p>
           </div>
-          <Link
-            to="/dashboard/add-lesson"
-            className="inline-flex items-center gap-2 bg-cherry text-white px-5 py-2.5 rounded-xl font-medium hover:bg-cherry-dark transition-colors shadow-lg shadow-cherry/20"
-          >
-            <HiOutlinePlusCircle className="w-5 h-5" />
-            Add New Lesson
-          </Link>
+
         </div>
 
         {lessonsQuery.isError && (
@@ -204,11 +198,10 @@ const DashboardHome = () => {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
-                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
-                      monthStats.lessonsChange >= 0
+                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.lessonsChange >= 0
                         ? 'text-green-600 bg-green-50'
                         : 'text-red-600 bg-red-50'
-                    }`}>
+                      }`}>
                       {monthStats.lessonsChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
                       ) : (
@@ -238,11 +231,10 @@ const DashboardHome = () => {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
-                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
-                      monthStats.favoritesChange >= 0
+                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.favoritesChange >= 0
                         ? 'text-green-600 bg-green-50'
                         : 'text-red-600 bg-red-50'
-                    }`}>
+                      }`}>
                       {monthStats.favoritesChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
                       ) : (
@@ -272,11 +264,10 @@ const DashboardHome = () => {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
-                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
-                      monthStats.likesChange >= 0
+                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.likesChange >= 0
                         ? 'text-green-600 bg-green-50'
                         : 'text-red-600 bg-red-50'
-                    }`}>
+                      }`}>
                       {monthStats.likesChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
                       ) : (
@@ -306,11 +297,10 @@ const DashboardHome = () => {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
-                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${
-                      monthStats.viewsChange >= 0
+                    <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.viewsChange >= 0
                         ? 'text-green-600 bg-green-50'
                         : 'text-red-600 bg-red-50'
-                    }`}>
+                      }`}>
                       {monthStats.viewsChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
                       ) : (
@@ -331,7 +321,7 @@ const DashboardHome = () => {
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
+
           {/* Weekly Activity Chart */}
           <div className="lg:col-span-2 bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
             <div className="flex items-center justify-between mb-6">
@@ -352,7 +342,7 @@ const DashboardHome = () => {
                 </div>
               )}
             </div>
-            
+
             {/* Chart or Empty State */}
             {weeklyTotals.views === 0 && weeklyTotals.lessons === 0 ? (
               <div className="h-48 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-2 border-dashed border-gray-200">
@@ -373,9 +363,9 @@ const DashboardHome = () => {
                     <div key={index} className="flex-1 flex flex-col items-center gap-2">
                       <div className="w-full flex flex-col items-center gap-1 h-32 justify-end">
                         {/* Animated Bar */}
-                        <div 
+                        <div
                           className="w-full max-w-10 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-xl transition-all duration-700 hover:from-blue-600 hover:to-blue-500 cursor-pointer relative group shadow-sm"
-                          style={{ 
+                          style={{
                             height: `${(data.views / maxViews) * 100}%`,
                             animation: `growUp 0.8s ease-out ${index * 0.1}s both`
                           }}
@@ -392,15 +382,15 @@ const DashboardHome = () => {
                     </div>
                   ))}
                 </div>
-                
+
                 {/* Lessons mini bars (secondary data) */}
                 <div className="flex items-end justify-between gap-2 h-8 absolute bottom-6 left-0 right-0 px-1">
                   {weeklyData.map((data, index) => (
                     <div key={index} className="flex-1 flex justify-center">
                       {data.lessons > 0 && (
-                        <div 
+                        <div
                           className="w-2 bg-blue-200 rounded-full transition-all duration-500 shadow-sm"
-                          style={{ 
+                          style={{
                             height: `${Math.max((data.lessons / 4) * 100, 12)}%`,
                             animation: `growUp 0.6s ease-out ${0.5 + index * 0.08}s both`
                           }}
@@ -532,8 +522,8 @@ const DashboardHome = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {recentLessons.map((lesson) => (
-                <div 
-                  key={lesson._id} 
+                <div
+                  key={lesson._id}
                   className="group bg-bg rounded-xl p-4 hover:shadow-md transition-all border border-transparent hover:border-cherry-100"
                 >
                   <div className="relative mb-3">
@@ -588,7 +578,7 @@ const DashboardHome = () => {
           <div className="bg-gradient-to-r from-cherry to-cherry-dark rounded-2xl p-6 lg:p-8 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-            
+
             <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div>
                 <h3 className="text-xl lg:text-2xl font-bold mb-2">Upgrade to Premium ⭐</h3>
