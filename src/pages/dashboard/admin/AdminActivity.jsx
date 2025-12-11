@@ -73,7 +73,7 @@ const AdminActivity = () => {
   useDocumentTitle('Activity - Admin');
   const { authLoading } = useAuth();
 
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isLoading, error, refetch, isRefetching } = useQuery({
     queryKey: ['admin-activity'],
     enabled: !authLoading,
     queryFn: async () => {
@@ -96,9 +96,11 @@ const AdminActivity = () => {
         >
           <button
             onClick={() => refetch()}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border dark:border-gray-700 text-sm text-text dark:text-gray-300 hover:border-cherry hover:text-cherry dark:hover:text-white transition-colors"
+            disabled={isRefetching}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border dark:border-gray-700 text-sm text-text dark:text-gray-300 hover:border-cherry hover:text-cherry dark:hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <HiOutlineArrowPath className="w-4 h-4" /> Refresh
+            <HiOutlineArrowPath className={`w-4 h-4 ${isRefetching ? 'animate-spin' : ''}`} />
+            {isRefetching ? 'Refreshing...' : 'Refresh'}
           </button>
         </DashboardPageHeader>
 
