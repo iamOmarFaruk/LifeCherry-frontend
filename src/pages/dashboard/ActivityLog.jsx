@@ -338,47 +338,52 @@ const ActivityLog = () => {
                         </p>
 
                         {/* Metadata/Details */}
-                        {change.metadata && (
-                          <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600 text-xs lg:text-sm text-text-secondary dark:text-gray-300 overflow-hidden">
-                            {change.metadata.detailedChanges && Array.isArray(change.metadata.detailedChanges) ? (
-                              <div className="space-y-1">
-                                {change.metadata.detailedChanges.map((detail, idx) => (
-                                  <div key={idx} className="flex flex-wrap items-center gap-1">
-                                    <span className="font-medium text-text-muted capitalize">
-                                      Update {detail.field.replace(/([A-Z])/g, ' $1').trim()}
-                                    </span>
-                                    {detail.from !== undefined && detail.to !== undefined ? (
-                                      <>
-                                        <span className="text-gray-400 dark:text-gray-500">- from</span>
-                                        <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.from)}>
-                                          {String(detail.from)}
-                                        </span>
-                                        <span className="text-gray-400 dark:text-gray-500">to</span>
-                                        <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.to)}>
-                                          {String(detail.to)}
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <span className="text-gray-500">changed</span>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            ) : Object.keys(change.metadata).length > 0 ? (
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
-                                {Object.entries(change.metadata).map(([key, value]) => {
-                                  if (key === 'fields' || key === 'detailedChanges') return null;
-                                  return (
+                        {change.metadata && (() => {
+                          const hasDetailedChanges = change.metadata.detailedChanges && Array.isArray(change.metadata.detailedChanges) && change.metadata.detailedChanges.length > 0;
+                          const displayableKeys = Object.keys(change.metadata).filter(key => key !== 'fields' && key !== 'detailedChanges');
+                          const hasDisplayableMetadata = displayableKeys.length > 0;
+
+                          if (!hasDetailedChanges && !hasDisplayableMetadata) return null;
+
+                          return (
+                            <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600 text-xs lg:text-sm text-text-secondary dark:text-gray-300 overflow-hidden">
+                              {hasDetailedChanges ? (
+                                <div className="space-y-1">
+                                  {change.metadata.detailedChanges.map((detail, idx) => (
+                                    <div key={idx} className="flex flex-wrap items-center gap-1">
+                                      <span className="font-medium text-text-muted capitalize">
+                                        Update {detail.field.replace(/([A-Z])/g, ' $1').trim()}
+                                      </span>
+                                      {detail.from !== undefined && detail.to !== undefined ? (
+                                        <>
+                                          <span className="text-gray-400 dark:text-gray-500">- from</span>
+                                          <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.from)}>
+                                            {String(detail.from)}
+                                          </span>
+                                          <span className="text-gray-400 dark:text-gray-500">to</span>
+                                          <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.to)}>
+                                            {String(detail.to)}
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <span className="text-gray-500">changed</span>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : hasDisplayableMetadata ? (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
+                                  {displayableKeys.map((key) => (
                                     <div key={key} className="flex items-center gap-2 max-w-full">
                                       <span className="font-medium text-text-muted capitalize flex-shrink-0">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
-                                      <span className="truncate">{String(value)}</span>
+                                      <span className="truncate">{String(change.metadata[key])}</span>
                                     </div>
-                                  );
-                                })}
-                              </div>
-                            ) : null}
-                          </div>
-                        )}
+                                  ))}
+                                </div>
+                              ) : null}
+                            </div>
+                          );
+                        })()}
                       </div>
                     </div>
                   </div>
