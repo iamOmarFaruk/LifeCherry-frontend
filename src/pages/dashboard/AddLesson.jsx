@@ -17,6 +17,7 @@ import PageLoader from '../../components/shared/PageLoader';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import useAuth from '../../hooks/useAuth';
 import apiClient from '../../utils/apiClient';
+import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
 
 const AddLesson = () => {
   useDocumentTitle('Add Lesson');
@@ -122,13 +123,11 @@ const AddLesson = () => {
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
         {/* Page Header */}
-        <div className="mb-6 lg:mb-8">
-          <h1 className="text-2xl lg:text-4xl font-bold text-cherry mb-2 flex items-center gap-2 lg:gap-3">
-            <HiOutlinePencilSquare className="w-8 h-8 lg:w-10 lg:h-10 flex-shrink-0" />
-            Add New Life Lesson
-          </h1>
-          <p className="text-sm lg:text-base text-gray-600">Share your wisdom and insights with the community</p>
-        </div>
+        <DashboardPageHeader
+          icon={HiOutlinePencilSquare}
+          title="Add New Life Lesson"
+          description="Share your wisdom and insights with the community"
+        />
 
         {/* Form Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-border p-4 lg:p-8">
@@ -270,8 +269,8 @@ const AddLesson = () => {
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, visibility: 'public' }))}
                     className={`flex-1 flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer text-sm lg:text-base ${formData.visibility === 'public'
-                        ? 'border-cherry bg-cherry-50 text-cherry'
-                        : 'border-gray-200 text-text-secondary hover:border-gray-300'
+                      ? 'border-cherry bg-cherry-50 text-cherry'
+                      : 'border-gray-200 text-text-secondary hover:border-gray-300'
                       }`}
                   >
                     <HiOutlineGlobeAlt className="w-4 h-4 lg:w-5 lg:h-5" />
@@ -281,8 +280,8 @@ const AddLesson = () => {
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, visibility: 'private' }))}
                     className={`flex-1 flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer text-sm lg:text-base ${formData.visibility === 'private'
-                        ? 'border-cherry bg-cherry-50 text-cherry'
-                        : 'border-gray-200 text-text-secondary hover:border-gray-300'
+                      ? 'border-cherry bg-cherry-50 text-cherry'
+                      : 'border-gray-200 text-text-secondary hover:border-gray-300'
                       }`}
                   >
                     <HiOutlineLockClosed className="w-4 h-4 lg:w-5 lg:h-5" />
@@ -304,8 +303,8 @@ const AddLesson = () => {
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, accessLevel: 'free' }))}
                     className={`flex-1 flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer text-sm lg:text-base ${formData.accessLevel === 'free'
-                        ? 'border-cherry bg-cherry-50 text-cherry'
-                        : 'border-gray-200 text-text-secondary hover:border-gray-300'
+                      ? 'border-cherry bg-cherry-50 text-cherry'
+                      : 'border-gray-200 text-text-secondary hover:border-gray-300'
                       }`}
                   >
                     <HiOutlineLockOpen className="w-4 h-4 lg:w-5 lg:h-5" />
@@ -321,10 +320,10 @@ const AddLesson = () => {
                       onClick={() => (userProfile?.isPremium || userProfile?.role === 'admin') && setFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
                       disabled={!userProfile?.isPremium && userProfile?.role !== 'admin'}
                       className={`w-full flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 text-sm lg:text-base ${(!userProfile?.isPremium && userProfile?.role !== 'admin')
-                          ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
-                          : formData.accessLevel === 'premium'
-                            ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
-                            : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
+                        ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
+                        : formData.accessLevel === 'premium'
+                          ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
+                          : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
                         }`}
                     >
                       <HiOutlineStar className="w-4 h-4 lg:w-5 lg:h-5" />

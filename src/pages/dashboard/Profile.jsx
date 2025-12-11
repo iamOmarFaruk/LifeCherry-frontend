@@ -24,6 +24,7 @@ import {
   HiOutlineMoon,
   HiOutlineComputerDesktop
 } from 'react-icons/hi2';
+import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
 import toast from 'react-hot-toast';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import useAuth from '../../hooks/useAuth';
@@ -281,13 +282,11 @@ const Profile = () => {
   return (
     <div className="space-y-6 lg:space-y-8">
       {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
-          <HiOutlineUser className="w-10 h-10" />
-          My Profile
-        </h1>
-        <p className="text-gray-600 dark:text-gray-300">Manage your profile and view your public lessons</p>
-      </div>
+      <DashboardPageHeader
+        icon={HiOutlineUser}
+        title="My Profile"
+        description="Manage your profile and view your public lessons"
+      />
 
       {lessonsQuery.isError && (
         <div className="mb-6 p-4 rounded-xl border border-amber-200 bg-amber-50 text-amber-800">

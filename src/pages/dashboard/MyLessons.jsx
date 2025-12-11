@@ -31,6 +31,7 @@ import { categories, emotionalTones } from '../../data/lessons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useAuth from '../../hooks/useAuth';
 import apiClient from '../../utils/apiClient';
+import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
 
 const MyLessons = () => {
   useDocumentTitle('My Lessons');
@@ -239,8 +240,8 @@ const MyLessons = () => {
                 );
               }}
               className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${newVisibility === 'public'
-                  ? 'bg-green-500 hover:bg-green-600'
-                  : 'bg-gray-700 hover:bg-gray-800'
+                ? 'bg-green-500 hover:bg-green-600'
+                : 'bg-gray-700 hover:bg-gray-800'
                 }`}
             >
               Confirm
@@ -332,8 +333,8 @@ const MyLessons = () => {
                 );
               }}
               className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${newAccessLevel === 'premium'
-                  ? 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600'
-                  : 'bg-green-500 hover:bg-green-600'
+                ? 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600'
+                : 'bg-green-500 hover:bg-green-600'
                 }`}
             >
               Confirm
@@ -445,24 +446,19 @@ const MyLessons = () => {
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
         {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
-                <HiOutlineBookOpen className="w-10 h-10" />
-                My Lessons
-              </h1>
-              <p className="text-gray-600">Manage and organize all your life lessons</p>
-            </div>
-            <Link
-              to="/dashboard/add-lesson"
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-cherry text-white font-semibold rounded-xl hover:bg-cherry-dark transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
-            >
-              <HiOutlineSparkles className="w-5 h-5" />
-              Add New Lesson
-            </Link>
-          </div>
-        </div>
+        <DashboardPageHeader
+          icon={HiOutlineBookOpen}
+          title="My Lessons"
+          description="Manage and organize all your life lessons"
+        >
+          <Link
+            to="/dashboard/add-lesson"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-cherry text-white font-semibold rounded-xl hover:bg-cherry-dark transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+          >
+            <HiOutlineSparkles className="w-5 h-5" />
+            Add New Lesson
+          </Link>
+        </DashboardPageHeader>
 
         {lessonsQuery.isError && (
           <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
@@ -538,8 +534,8 @@ const MyLessons = () => {
                 <button
                   onClick={() => handleViewModeChange('list')}
                   className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'list'
-                      ? 'bg-cherry text-white'
-                      : 'bg-white text-text-secondary hover:bg-gray-50'
+                    ? 'bg-cherry text-white'
+                    : 'bg-white text-text-secondary hover:bg-gray-50'
                     }`}
                   title="List View"
                 >
@@ -548,8 +544,8 @@ const MyLessons = () => {
                 <button
                   onClick={() => handleViewModeChange('grid')}
                   className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'grid'
-                      ? 'bg-cherry text-white'
-                      : 'bg-white text-text-secondary hover:bg-gray-50'
+                    ? 'bg-cherry text-white'
+                    : 'bg-white text-text-secondary hover:bg-gray-50'
                     }`}
                   title="Grid View"
                 >
@@ -560,8 +556,8 @@ const MyLessons = () => {
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className={`inline-flex items-center gap-2 px-4 py-3 border-2 rounded-xl font-medium transition-all duration-200 cursor-pointer ${showFilters || hasActiveFilters
-                    ? 'border-cherry bg-cherry-50 text-cherry'
-                    : 'border-gray-200 text-text-secondary hover:border-gray-300'
+                  ? 'border-cherry bg-cherry-50 text-cherry'
+                  : 'border-gray-200 text-text-secondary hover:border-gray-300'
                   }`}
               >
                 <HiOutlineFunnel className="w-5 h-5" />
@@ -670,8 +666,8 @@ const MyLessons = () => {
                           {/* Visibility & Access Badges */}
                           <div className="absolute top-2 left-2 flex gap-1">
                             <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${lesson.visibility === 'public'
-                                ? 'bg-green-100 text-green-600'
-                                : 'bg-gray-700 text-white'
+                              ? 'bg-green-100 text-green-600'
+                              : 'bg-gray-700 text-white'
                               }`}>
                               {lesson.visibility === 'public' ? (
                                 <HiOutlineGlobeAlt className="w-3 h-3" />
@@ -803,8 +799,8 @@ const MyLessons = () => {
                               <button
                                 onClick={() => lesson.visibility !== 'public' && handleVisibilityChange(lesson._id, lesson.visibility, 'public')}
                                 className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'public'
-                                    ? 'bg-green-100 text-green-600'
-                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                  ? 'bg-green-100 text-green-600'
+                                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
                                   }`}
                                 title="Public"
                               >
@@ -813,8 +809,8 @@ const MyLessons = () => {
                               <button
                                 onClick={() => lesson.visibility !== 'private' && handleVisibilityChange(lesson._id, lesson.visibility, 'private')}
                                 className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'private'
-                                    ? 'bg-gray-700 text-white'
-                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                  ? 'bg-gray-700 text-white'
+                                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
                                   }`}
                                 title="Private"
                               >
@@ -829,8 +825,8 @@ const MyLessons = () => {
                               <button
                                 onClick={() => lesson.accessLevel !== 'free' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'free')}
                                 className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.accessLevel === 'free'
-                                    ? 'bg-blue-100 text-blue-600'
-                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                  ? 'bg-blue-100 text-blue-600'
+                                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
                                   }`}
                                 title="Free"
                               >
@@ -844,10 +840,10 @@ const MyLessons = () => {
                                   onClick={() => lesson.accessLevel !== 'premium' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'premium')}
                                   disabled={!isPremium}
                                   className={`p-2 rounded-lg transition-all duration-200 ${!isPremium
-                                      ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
-                                      : lesson.accessLevel === 'premium'
-                                        ? 'bg-amber-100 text-amber-600 cursor-pointer'
-                                        : 'bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer'
+                                    ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
+                                    : lesson.accessLevel === 'premium'
+                                      ? 'bg-amber-100 text-amber-600 cursor-pointer'
+                                      : 'bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer'
                                     }`}
                                   title={isPremium ? 'Premium' : ''}
                                 >
@@ -971,8 +967,8 @@ const MyLessons = () => {
                         <button
                           onClick={() => handleVisibilityChange(lesson._id, lesson.visibility, lesson.visibility === 'public' ? 'private' : 'public')}
                           className={`p-1.5 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'public'
-                              ? 'bg-green-100 text-green-600'
-                              : 'bg-gray-700 text-white'
+                            ? 'bg-green-100 text-green-600'
+                            : 'bg-gray-700 text-white'
                             }`}
                           title={lesson.visibility === 'public' ? 'Public' : 'Private'}
                         >
@@ -988,10 +984,10 @@ const MyLessons = () => {
                           onClick={() => isPremium && handleAccessLevelChange(lesson._id, lesson.accessLevel, lesson.accessLevel === 'free' ? 'premium' : 'free')}
                           disabled={!isPremium}
                           className={`p-1.5 rounded-lg transition-all duration-200 ${!isPremium
-                              ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
-                              : lesson.accessLevel === 'premium'
-                                ? 'bg-amber-100 text-amber-600 cursor-pointer'
-                                : 'bg-blue-100 text-blue-600 cursor-pointer'
+                            ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
+                            : lesson.accessLevel === 'premium'
+                              ? 'bg-amber-100 text-amber-600 cursor-pointer'
+                              : 'bg-blue-100 text-blue-600 cursor-pointer'
                             }`}
                           title={lesson.accessLevel === 'free' ? 'Free' : 'Premium'}
                         >
@@ -1051,8 +1047,8 @@ const MyLessons = () => {
                         key={i + 1}
                         onClick={() => setCurrentPage(i + 1)}
                         className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg font-medium transition-all duration-200 cursor-pointer text-xs sm:text-sm ${currentPage === i + 1
-                            ? 'bg-cherry text-white'
-                            : 'hover:bg-gray-50'
+                          ? 'bg-cherry text-white'
+                          : 'hover:bg-gray-50'
                           }`}
                       >
                         {i + 1}
@@ -1247,8 +1243,8 @@ const MyLessons = () => {
                         type="button"
                         onClick={() => setEditFormData(prev => ({ ...prev, visibility: 'public' }))}
                         className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${editFormData.visibility === 'public'
-                            ? 'border-cherry bg-cherry-50 text-cherry'
-                            : 'border-gray-200 text-text-secondary hover:border-gray-300'
+                          ? 'border-cherry bg-cherry-50 text-cherry'
+                          : 'border-gray-200 text-text-secondary hover:border-gray-300'
                           }`}
                       >
                         <HiOutlineGlobeAlt className="w-4 h-4" />
@@ -1258,8 +1254,8 @@ const MyLessons = () => {
                         type="button"
                         onClick={() => setEditFormData(prev => ({ ...prev, visibility: 'private' }))}
                         className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${editFormData.visibility === 'private'
-                            ? 'border-cherry bg-cherry-50 text-cherry'
-                            : 'border-gray-200 text-text-secondary hover:border-gray-300'
+                          ? 'border-cherry bg-cherry-50 text-cherry'
+                          : 'border-gray-200 text-text-secondary hover:border-gray-300'
                           }`}
                       >
                         <HiOutlineLockClosed className="w-4 h-4" />
@@ -1274,8 +1270,8 @@ const MyLessons = () => {
                         type="button"
                         onClick={() => setEditFormData(prev => ({ ...prev, accessLevel: 'free' }))}
                         className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${editFormData.accessLevel === 'free'
-                            ? 'border-cherry bg-cherry-50 text-cherry'
-                            : 'border-gray-200 text-text-secondary hover:border-gray-300'
+                          ? 'border-cherry bg-cherry-50 text-cherry'
+                          : 'border-gray-200 text-text-secondary hover:border-gray-300'
                           }`}
                       >
                         <HiOutlineLockOpen className="w-4 h-4" />
@@ -1290,10 +1286,10 @@ const MyLessons = () => {
                           onClick={() => isPremium && setEditFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
                           disabled={!isPremium}
                           className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 ${!isPremium
-                              ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
-                              : editFormData.accessLevel === 'premium'
-                                ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
-                                : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
+                            ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
+                            : editFormData.accessLevel === 'premium'
+                              ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
+                              : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
                             }`}
                         >
                           <HiOutlineStar className="w-4 h-4" />

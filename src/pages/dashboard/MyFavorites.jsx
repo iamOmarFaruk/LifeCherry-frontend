@@ -26,6 +26,7 @@ import useDocumentTitle from '../../hooks/useDocumentTitle';
 import useAuth from '../../hooks/useAuth';
 import apiClient from '../../utils/apiClient';
 import { categories, emotionalTones } from '../../data/lessons';
+import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
 
 const MyFavorites = () => {
   useDocumentTitle('My Favorites');
@@ -127,17 +128,11 @@ const MyFavorites = () => {
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
         {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
-                <HiOutlineHeart className="w-10 h-10" />
-                My Favorites
-              </h1>
-              <p className="text-gray-600">Your curated collection of life lessons</p>
-            </div>
-          </div>
-        </div>
+        <DashboardPageHeader
+          icon={HiOutlineHeart}
+          title="My Favorites"
+          description="Your curated collection of life lessons"
+        />
 
         {/* Search & Filter Bar */}
         <div className="bg-white rounded-2xl shadow-sm border border-border p-4 mb-6">
@@ -166,8 +161,8 @@ const MyFavorites = () => {
                 <button
                   onClick={() => handleViewModeChange('list')}
                   className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'list'
-                      ? 'bg-cherry text-white'
-                      : 'bg-white text-text-secondary hover:bg-gray-50'
+                    ? 'bg-cherry text-white'
+                    : 'bg-white text-text-secondary hover:bg-gray-50'
                     }`}
                   title="List View"
                 >
@@ -176,8 +171,8 @@ const MyFavorites = () => {
                 <button
                   onClick={() => handleViewModeChange('grid')}
                   className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'grid'
-                      ? 'bg-cherry text-white'
-                      : 'bg-white text-text-secondary hover:bg-gray-50'
+                    ? 'bg-cherry text-white'
+                    : 'bg-white text-text-secondary hover:bg-gray-50'
                     }`}
                   title="Grid View"
                 >
@@ -188,8 +183,8 @@ const MyFavorites = () => {
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className={`inline-flex items-center gap-2 px-4 py-3 border-2 rounded-xl font-medium transition-all duration-200 cursor-pointer ${showFilters || hasActiveFilters
-                    ? 'border-cherry bg-cherry-50 text-cherry'
-                    : 'border-gray-200 text-text-secondary hover:border-gray-300'
+                  ? 'border-cherry bg-cherry-50 text-cherry'
+                  : 'border-gray-200 text-text-secondary hover:border-gray-300'
                   }`}
               >
                 <HiOutlineFunnel className="w-5 h-5" />
@@ -335,12 +330,12 @@ const MyFavorites = () => {
                               <span className="text-xs text-text-muted truncate max-w-[80px]">{fav.creatorName}</span>
                             </div>
                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${fav.emotionalTone === 'Motivational'
-                                ? 'bg-green-50 text-green-600'
-                                : fav.emotionalTone === 'Sad'
-                                  ? 'bg-blue-50 text-blue-600'
-                                  : fav.emotionalTone === 'Realization'
-                                    ? 'bg-purple-50 text-purple-600'
-                                    : 'bg-amber-50 text-amber-600'
+                              ? 'bg-green-50 text-green-600'
+                              : fav.emotionalTone === 'Sad'
+                                ? 'bg-blue-50 text-blue-600'
+                                : fav.emotionalTone === 'Realization'
+                                  ? 'bg-purple-50 text-purple-600'
+                                  : 'bg-amber-50 text-amber-600'
                               }`}>
                               {fav.emotionalTone}
                             </span>
@@ -434,12 +429,12 @@ const MyFavorites = () => {
                           {/* Emotional Tone */}
                           <td className="px-6 py-4">
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${fav.emotionalTone === 'Motivational'
-                                ? 'bg-green-50 text-green-600'
-                                : fav.emotionalTone === 'Sad'
-                                  ? 'bg-blue-50 text-blue-600'
-                                  : fav.emotionalTone === 'Realization'
-                                    ? 'bg-purple-50 text-purple-600'
-                                    : 'bg-amber-50 text-amber-600'
+                              ? 'bg-green-50 text-green-600'
+                              : fav.emotionalTone === 'Sad'
+                                ? 'bg-blue-50 text-blue-600'
+                                : fav.emotionalTone === 'Realization'
+                                  ? 'bg-purple-50 text-purple-600'
+                                  : 'bg-amber-50 text-amber-600'
                               }`}>
                               {fav.emotionalTone}
                             </span>
@@ -526,12 +521,12 @@ const MyFavorites = () => {
                             {fav.category}
                           </span>
                           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${fav.emotionalTone === 'Motivational'
-                              ? 'bg-green-50 text-green-600'
-                              : fav.emotionalTone === 'Sad'
-                                ? 'bg-blue-50 text-blue-600'
-                                : fav.emotionalTone === 'Realization'
-                                  ? 'bg-purple-50 text-purple-600'
-                                  : 'bg-amber-50 text-amber-600'
+                            ? 'bg-green-50 text-green-600'
+                            : fav.emotionalTone === 'Sad'
+                              ? 'bg-blue-50 text-blue-600'
+                              : fav.emotionalTone === 'Realization'
+                                ? 'bg-purple-50 text-purple-600'
+                                : 'bg-amber-50 text-amber-600'
                             }`}>
                             {fav.emotionalTone}
                           </span>
@@ -593,8 +588,8 @@ const MyFavorites = () => {
                         key={i + 1}
                         onClick={() => setCurrentPage(i + 1)}
                         className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg font-medium transition-all duration-200 cursor-pointer text-xs sm:text-sm ${currentPage === i + 1
-                            ? 'bg-cherry text-white'
-                            : 'hover:bg-gray-50'
+                          ? 'bg-cherry text-white'
+                          : 'hover:bg-gray-50'
                           }`}
                       >
                         {i + 1}
