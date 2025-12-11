@@ -133,10 +133,10 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="px-3 py-1 bg-cherry-50 text-cherry text-xs font-medium rounded-full">
+                  <span className="px-3 py-1 bg-cherry text-white text-xs font-medium rounded-full">
                     {lesson.category}
                   </span>
-                  <span className="px-3 py-1 bg-gray-100 text-text-secondary text-xs font-medium rounded-full">
+                  <span className="px-3 py-1 bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200 text-xs font-medium rounded-full">
                     {lesson.emotionalTone}
                   </span>
                 </div>
@@ -179,7 +179,7 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 text-center border border-gray-100 dark:border-gray-600">
               <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FiBookOpen className="w-7 h-7 text-cherry" />
+                <FiBookOpen className="w-7 h-7 text-cherry dark:text-white" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Preserve Wisdom</h3>
               <p className="text-gray-600 dark:text-gray-300 text-sm">
@@ -189,7 +189,7 @@ const Home = () => {
 
             <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 text-center border border-gray-100 dark:border-gray-600">
               <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FiHeart className="w-7 h-7 text-cherry" />
+                <FiHeart className="w-7 h-7 text-cherry dark:text-white" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Mindful Reflection</h3>
               <p className="text-gray-600 dark:text-gray-300 text-sm">
@@ -199,7 +199,7 @@ const Home = () => {
 
             <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 text-center border border-gray-100 dark:border-gray-600">
               <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FiUsers className="w-7 h-7 text-cherry" />
+                <FiUsers className="w-7 h-7 text-cherry dark:text-white" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Help Others</h3>
               <p className="text-gray-600 dark:text-gray-300 text-sm">
@@ -209,7 +209,7 @@ const Home = () => {
 
             <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 text-center border border-gray-100 dark:border-gray-600">
               <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FiStar className="w-7 h-7 text-cherry" />
+                <FiStar className="w-7 h-7 text-cherry dark:text-white" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Build Community</h3>
               <p className="text-gray-600 dark:text-gray-300 text-sm">
@@ -330,11 +330,11 @@ const Home = () => {
                 </div>
 
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="px-3 py-1 bg-cherry-50 text-cherry text-xs font-medium rounded-full">
+                  <span className="px-3 py-1 bg-cherry text-white text-xs font-medium rounded-full">
                     {lesson.category}
                   </span>
                   {lesson.emotionalTone && (
-                    <span className="px-3 py-1 bg-gray-100 text-text-secondary text-xs font-medium rounded-full">
+                    <span className="px-3 py-1 bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200 text-xs font-medium rounded-full">
                       {lesson.emotionalTone}
                     </span>
                   )}
