@@ -187,14 +187,14 @@ const DashboardHome = () => {
         {/* Stats Cards - Professional Design */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {/* Total Lessons */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-muted mb-1">Total Lessons</p>
-                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalLessons}</h3>
+                <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Total Lessons</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text dark:text-white tracking-tight">{totalLessons}</h3>
                 {totalLessons === 0 ? (
-                  <div className="mt-3 p-2 bg-gray-50 rounded-lg">
-                    <p className="text-xs text-text-muted font-medium">Start sharing lessons</p>
+                  <div className="mt-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <p className="text-xs text-text-muted dark:text-gray-400 font-medium">Start sharing lessons</p>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
@@ -209,7 +209,7 @@ const DashboardHome = () => {
                       )}
                       {Math.abs(monthStats.lessonsChange)}%
                     </span>
-                    <span className="text-sm text-text-muted">vs last month</span>
+                    <span className="text-sm text-text-muted dark:text-gray-400">vs last month</span>
                   </div>
                 )}
               </div>
@@ -220,14 +220,14 @@ const DashboardHome = () => {
           </div>
 
           {/* Total Favorites */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-muted mb-1">Saved Favorites</p>
-                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalFavorites}</h3>
+                <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Saved Favorites</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text dark:text-white tracking-tight">{totalFavorites}</h3>
                 {totalFavorites === 0 ? (
-                  <div className="mt-3 p-2 bg-gray-50 rounded-lg">
-                    <p className="text-xs text-text-muted font-medium">No saved favorites yet</p>
+                  <div className="mt-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <p className="text-xs text-text-muted dark:text-gray-400 font-medium">No saved favorites yet</p>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
@@ -242,7 +242,7 @@ const DashboardHome = () => {
                       )}
                       {Math.abs(monthStats.favoritesChange)}%
                     </span>
-                    <span className="text-sm text-text-muted">vs last month</span>
+                    <span className="text-sm text-text-muted dark:text-gray-400">vs last month</span>
                   </div>
                 )}
               </div>
@@ -253,14 +253,14 @@ const DashboardHome = () => {
           </div>
 
           {/* Total Likes */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-muted mb-1">Total Likes</p>
-                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalLikes.toLocaleString()}</h3>
+                <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Total Likes</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text dark:text-white tracking-tight">{totalLikes.toLocaleString()}</h3>
                 {totalLikes === 0 ? (
-                  <div className="mt-3 p-2 bg-gray-50 rounded-lg">
-                    <p className="text-xs text-text-muted font-medium">No likes yet</p>
+                  <div className="mt-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <p className="text-xs text-text-muted dark:text-gray-400 font-medium">No likes yet</p>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
@@ -275,7 +275,7 @@ const DashboardHome = () => {
                       )}
                       {Math.abs(monthStats.likesChange)}%
                     </span>
-                    <span className="text-sm text-text-muted">vs last month</span>
+                    <span className="text-sm text-text-muted dark:text-gray-400">vs last month</span>
                   </div>
                 )}
               </div>
@@ -286,14 +286,14 @@ const DashboardHome = () => {
           </div>
 
           {/* Total Views */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-muted mb-1">Total Views</p>
-                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalViews.toLocaleString()}</h3>
+                <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Total Views</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text dark:text-white tracking-tight">{totalViews.toLocaleString()}</h3>
                 {totalViews === 0 ? (
-                  <div className="mt-3 p-2 bg-gray-50 rounded-lg">
-                    <p className="text-xs text-text-muted font-medium">Build your audience</p>
+                  <div className="mt-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <p className="text-xs text-text-muted dark:text-gray-400 font-medium">Build your audience</p>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
@@ -308,7 +308,7 @@ const DashboardHome = () => {
                       )}
                       {Math.abs(monthStats.viewsChange)}%
                     </span>
-                    <span className="text-sm text-text-muted">vs last month</span>
+                    <span className="text-sm text-text-muted dark:text-gray-400">vs last month</span>
                   </div>
                 )}
               </div>
@@ -323,11 +323,11 @@ const DashboardHome = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           {/* Weekly Activity Chart */}
-          <div className="lg:col-span-2 bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+          <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-lg font-bold text-text">Weekly Activity</h2>
-                <p className="text-sm text-text-secondary">Your lesson engagement this week</p>
+                <h2 className="text-lg font-bold text-text dark:text-white">Weekly Activity</h2>
+                <p className="text-sm text-text-secondary dark:text-gray-400">Your lesson engagement this week</p>
               </div>
               {weeklyTotals.views > 0 && (
                 <div className="flex items-center gap-4 text-xs">
@@ -345,11 +345,11 @@ const DashboardHome = () => {
 
             {/* Chart or Empty State */}
             {weeklyTotals.views === 0 && weeklyTotals.lessons === 0 ? (
-              <div className="h-48 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-2 border-dashed border-gray-200">
+              <div className="h-48 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-600">
                 <div className="text-center">
-                  <HiOutlineChartBar className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-text-secondary font-medium">No activity this week</p>
-                  <p className="text-xs text-text-muted mt-1">Create and share lessons to see your activity chart</p>
+                  <HiOutlineChartBar className="w-12 h-12 text-gray-300 dark:text-gray-500 mx-auto mb-3" />
+                  <p className="text-text-secondary dark:text-gray-400 font-medium">No activity this week</p>
+                  <p className="text-xs text-text-muted dark:text-gray-500 mt-1">Create and share lessons to see your activity chart</p>
                   <Link to="/dashboard/add-lesson" className="inline-block mt-3 px-4 py-2 bg-cherry text-white text-xs font-semibold rounded-lg hover:bg-cherry-dark transition-colors">
                     Add Your First Lesson
                   </Link>
@@ -378,7 +378,7 @@ const DashboardHome = () => {
                           )}
                         </div>
                       </div>
-                      <span className="text-xs text-text-secondary font-medium">{data.day}</span>
+                      <span className="text-xs text-text-secondary dark:text-gray-400 font-medium">{data.day}</span>
                     </div>
                   ))}
                 </div>
@@ -405,79 +405,79 @@ const DashboardHome = () => {
 
             {/* Chart Summary */}
             {weeklyTotals.views > 0 || weeklyTotals.lessons > 0 ? (
-              <div className="mt-6 pt-4 border-t border-border grid grid-cols-3 gap-4">
+              <div className="mt-6 pt-4 border-t border-border dark:border-gray-700 grid grid-cols-3 gap-4">
                 <div className="text-center">
-                  <p className="text-xl font-bold text-text">{weeklyTotals.views}</p>
-                  <p className="text-xs text-text-secondary">This Week Views</p>
+                  <p className="text-xl font-bold text-text dark:text-white">{weeklyTotals.views}</p>
+                  <p className="text-xs text-text-secondary dark:text-gray-400">This Week Views</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-xl font-bold text-text">{weeklyTotals.lessons}</p>
-                  <p className="text-xs text-text-secondary">This Week Lessons</p>
+                  <p className="text-xl font-bold text-text dark:text-white">{weeklyTotals.lessons}</p>
+                  <p className="text-xs text-text-secondary dark:text-gray-400">This Week Lessons</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-xl font-bold text-text">{weeklyTotals.views > 0 ? (weeklyTotals.views / weeklyTotals.lessons || 0).toFixed(1) : '0'}</p>
-                  <p className="text-xs text-text-secondary">Avg Views/Lesson</p>
+                  <p className="text-xl font-bold text-text dark:text-white">{weeklyTotals.views > 0 ? (weeklyTotals.views / weeklyTotals.lessons || 0).toFixed(1) : '0'}</p>
+                  <p className="text-xs text-text-secondary dark:text-gray-400">Avg Views/Lesson</p>
                 </div>
               </div>
             ) : null}
           </div>
 
           {/* Quick Actions */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
-            <h2 className="text-lg font-bold text-text mb-4">Quick Actions</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
+            <h2 className="text-lg font-bold text-text dark:text-white mb-4">Quick Actions</h2>
             <div className="space-y-3">
               <Link
                 to="/dashboard/add-lesson"
-                className="flex items-center gap-3 p-3 rounded-xl bg-cherry-50 hover:bg-cherry-100 transition-colors group"
+                className="flex items-center gap-3 p-3 rounded-xl bg-cherry-50 dark:bg-cherry-900/30 hover:bg-cherry-100 dark:hover:bg-cherry-900/50 transition-colors group"
               >
                 <div className="w-10 h-10 bg-cherry rounded-lg flex items-center justify-center">
                   <HiOutlinePlusCircle className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-text text-sm">Add New Lesson</p>
-                  <p className="text-xs text-text-secondary">Share your wisdom</p>
+                  <p className="font-medium text-text dark:text-white text-sm">Add New Lesson</p>
+                  <p className="text-xs text-text-secondary dark:text-gray-400">Share your wisdom</p>
                 </div>
                 <HiOutlineArrowRight className="w-4 h-4 text-cherry opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
 
               <Link
                 to="/dashboard/my-lessons"
-                className="flex items-center gap-3 p-3 rounded-xl bg-blue-50 hover:bg-blue-100 transition-colors group"
+                className="flex items-center gap-3 p-3 rounded-xl bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors group"
               >
                 <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
                   <HiOutlineBookOpen className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-text text-sm">Manage Lessons</p>
-                  <p className="text-xs text-text-secondary">Edit or update</p>
+                  <p className="font-medium text-text dark:text-white text-sm">Manage Lessons</p>
+                  <p className="text-xs text-text-secondary dark:text-gray-400">Edit or update</p>
                 </div>
                 <HiOutlineArrowRight className="w-4 h-4 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
 
               <Link
                 to="/dashboard/my-favorites"
-                className="flex items-center gap-3 p-3 rounded-xl bg-pink-50 hover:bg-pink-100 transition-colors group"
+                className="flex items-center gap-3 p-3 rounded-xl bg-pink-50 dark:bg-pink-900/30 hover:bg-pink-100 dark:hover:bg-pink-900/50 transition-colors group"
               >
                 <div className="w-10 h-10 bg-pink-500 rounded-lg flex items-center justify-center">
                   <HiOutlineHeart className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-text text-sm">View Favorites</p>
-                  <p className="text-xs text-text-secondary">Saved lessons</p>
+                  <p className="font-medium text-text dark:text-white text-sm">View Favorites</p>
+                  <p className="text-xs text-text-secondary dark:text-gray-400">Saved lessons</p>
                 </div>
                 <HiOutlineArrowRight className="w-4 h-4 text-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
 
               <Link
                 to="/public-lessons"
-                className="flex items-center gap-3 p-3 rounded-xl bg-purple-50 hover:bg-purple-100 transition-colors group"
+                className="flex items-center gap-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-900/30 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors group"
               >
                 <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
                   <HiOutlineSparkles className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-text text-sm">Explore Lessons</p>
-                  <p className="text-xs text-text-secondary">Discover wisdom</p>
+                  <p className="font-medium text-text dark:text-white text-sm">Explore Lessons</p>
+                  <p className="text-xs text-text-secondary dark:text-gray-400">Discover wisdom</p>
                 </div>
                 <HiOutlineArrowRight className="w-4 h-4 text-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
@@ -486,11 +486,11 @@ const DashboardHome = () => {
         </div>
 
         {/* Recently Added Lessons */}
-        <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-bold text-text">Recently Added Lessons</h2>
-              <p className="text-sm text-text-secondary">Your latest contributions</p>
+              <h2 className="text-lg font-bold text-text dark:text-white">Recently Added Lessons</h2>
+              <p className="text-sm text-text-secondary dark:text-gray-400">Your latest contributions</p>
             </div>
             {recentLessons.length > 0 && (
               <Link
@@ -504,11 +504,11 @@ const DashboardHome = () => {
 
           {recentLessons.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12">
-              <div className="w-16 h-16 bg-cherry-50 rounded-full flex items-center justify-center mb-4">
+              <div className="w-16 h-16 bg-cherry-50 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mb-4">
                 <HiOutlineBookOpen className="w-8 h-8 text-cherry" />
               </div>
-              <h3 className="text-lg font-semibold text-text mb-2">No Lessons Yet</h3>
-              <p className="text-text-secondary text-center mb-6 max-w-sm">
+              <h3 className="text-lg font-semibold text-text dark:text-white mb-2">No Lessons Yet</h3>
+              <p className="text-text-secondary dark:text-gray-400 text-center mb-6 max-w-sm">
                 Start sharing your life lessons with the community. Your contributions will appear here.
               </p>
               <Link
@@ -524,7 +524,7 @@ const DashboardHome = () => {
               {recentLessons.map((lesson) => (
                 <div
                   key={lesson._id}
-                  className="group bg-bg rounded-xl p-4 hover:shadow-md transition-all border border-transparent hover:border-cherry-100"
+                  className="group bg-bg dark:bg-gray-700 rounded-xl p-4 hover:shadow-md transition-all border border-transparent hover:border-cherry-100 dark:hover:border-cherry-900"
                 >
                   <div className="relative mb-3">
                     <img
@@ -544,14 +544,14 @@ const DashboardHome = () => {
                     <span className="px-2 py-0.5 bg-cherry-50 text-cherry text-[10px] font-medium rounded-full">
                       {lesson.category}
                     </span>
-                    <span className="px-2 py-0.5 bg-gray-100 text-text-secondary text-[10px] font-medium rounded-full">
+                    <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-600 text-text-secondary dark:text-gray-300 text-[10px] font-medium rounded-full">
                       {lesson.emotionalTone}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-text text-sm mb-2 line-clamp-2 group-hover:text-cherry transition-colors">
+                  <h3 className="font-semibold text-text dark:text-white text-sm mb-2 line-clamp-2 group-hover:text-cherry transition-colors">
                     {lesson.title}
                   </h3>
-                  <div className="flex items-center justify-between text-xs text-text-muted">
+                  <div className="flex items-center justify-between text-xs text-text-muted dark:text-gray-400">
                     <span className="flex items-center gap-1">
                       <HiOutlineCalendarDays className="w-3.5 h-3.5" />
                       {formatDate(lesson.createdAt)}
@@ -600,19 +600,19 @@ const DashboardHome = () => {
         {/* Monthly Insights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           {/* Most Popular Lesson */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
                 <span className="text-lg">🏆</span>
               </div>
-              <h3 className="font-bold text-text">Top Performing</h3>
+              <h3 className="font-bold text-text dark:text-white">Top Performing</h3>
             </div>
             {topLesson ? (
               <div>
-                <p className="font-medium text-text text-sm line-clamp-2 mb-2">
+                <p className="font-medium text-text dark:text-white text-sm line-clamp-2 mb-2">
                   {topLesson.title}
                 </p>
-                <div className="flex items-center gap-3 text-xs text-text-secondary">
+                <div className="flex items-center gap-3 text-xs text-text-secondary dark:text-gray-400">
                   <span className="flex items-center gap-1">
                     <HiOutlineHeart className="w-3.5 h-3.5 text-red-400" />
                     {topLesson.likesCount || 0} likes
@@ -624,56 +624,56 @@ const DashboardHome = () => {
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-text-secondary">Create your first lesson to see performance insights.</p>
+              <p className="text-sm text-text-secondary dark:text-gray-400">Create your first lesson to see performance insights.</p>
             )}
           </div>
 
           {/* Category Distribution */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
                 <HiOutlineChartBar className="w-4 h-4 text-purple-600" />
               </div>
-              <h3 className="font-bold text-text">Top Categories</h3>
+              <h3 className="font-bold text-text dark:text-white">Top Categories</h3>
             </div>
             {categoryBreakdown.length ? (
               <div className="space-y-3">
                 {categoryBreakdown.map((item) => (
                   <div key={item.category} className="space-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-text-secondary">{item.category}</span>
-                      <span className="text-sm font-medium text-text">{item.percent}%</span>
+                      <span className="text-sm text-text-secondary dark:text-gray-400">{item.category}</span>
+                      <span className="text-sm font-medium text-text dark:text-white">{item.percent}%</span>
                     </div>
-                    <div className="w-full bg-gray-100 rounded-full h-2">
+                    <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
                       <div className="bg-cherry rounded-full h-2" style={{ width: `${item.percent}%` }}></div>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-text-secondary">No categories yet. Start adding lessons.</p>
+              <p className="text-sm text-text-secondary dark:text-gray-400">No categories yet. Start adding lessons.</p>
             )}
           </div>
 
           {/* This Month Stats */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
                 <HiOutlineCalendarDays className="w-4 h-4 text-green-600" />
               </div>
-              <h3 className="font-bold text-text">This Month</h3>
+              <h3 className="font-bold text-text dark:text-white">This Month</h3>
             </div>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-text-secondary">Lessons Created</span>
-                <span className="text-sm font-bold text-text">{monthStats.createdCount}</span>
+                <span className="text-sm text-text-secondary dark:text-gray-400">Lessons Created</span>
+                <span className="text-sm font-bold text-text dark:text-white">{monthStats.createdCount}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-text-secondary">New Likes</span>
+                <span className="text-sm text-text-secondary dark:text-gray-400">New Likes</span>
                 <span className="text-sm font-bold text-green-600">+{monthStats.likes}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-text-secondary">Views Recorded</span>
+                <span className="text-sm text-text-secondary dark:text-gray-400">Views Recorded</span>
                 <span className="text-sm font-bold text-green-600">+{monthStats.views}</span>
               </div>
             </div>
