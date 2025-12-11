@@ -1,6 +1,6 @@
 // Admin Profile Page - LifeCherry Admin
 import React, { useState, useMemo } from 'react';
-import { 
+import {
   HiOutlineUser,
   HiOutlineEnvelope,
   HiOutlinePencilSquare,
@@ -18,6 +18,7 @@ import {
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import PageLoader from '../../../components/shared/PageLoader';
+import DashboardPageHeader from '../../../components/shared/DashboardPageHeader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
 import { lessons } from '../../../data/lessons';
 import { users } from '../../../data/users';
@@ -25,7 +26,7 @@ import { reports } from '../../../data/reports';
 
 const AdminProfile = () => {
   useDocumentTitle('Admin Profile');
-  
+
   // Admin user state
   const [adminUser, setAdminUser] = useState({
     _id: 'admin1',
@@ -54,7 +55,7 @@ const AdminProfile = () => {
     const totalLessons = lessons.length;
     const resolvedReports = reports.filter(r => r.status === 'resolved').length;
     const featuredLessons = lessons.filter(l => l.isFeatured).length;
-    
+
     return {
       usersManaged: totalUsers,
       lessonsModerated: Math.floor(totalLessons * 0.7),
@@ -104,7 +105,7 @@ const AdminProfile = () => {
   // Handle profile update
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    
+
     if (!editFormData.name.trim()) {
       toast.error('Name is required');
       return;
@@ -137,6 +138,12 @@ const AdminProfile = () => {
   return (
     <PageLoader>
       <div className="space-y-6 max-w-5xl mx-auto">
+        <DashboardPageHeader
+          icon={HiOutlineShieldCheck}
+          title="Admin Profile"
+          description="Manage your account settings and view activity overview"
+        />
+
         {/* Profile Card */}
         <div className="bg-white rounded-2xl border border-border overflow-hidden">
           {/* Profile Info */}
@@ -246,12 +253,11 @@ const AdminProfile = () => {
             <div className="space-y-4">
               {recentActions.map((action) => (
                 <div key={action.id} className="flex items-start gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    action.type === 'user' ? 'bg-blue-100' :
-                    action.type === 'lesson' ? 'bg-red-100' :
-                    action.type === 'feature' ? 'bg-amber-100' :
-                    'bg-green-100'
-                  }`}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${action.type === 'user' ? 'bg-blue-100' :
+                      action.type === 'lesson' ? 'bg-red-100' :
+                        action.type === 'feature' ? 'bg-amber-100' :
+                          'bg-green-100'
+                    }`}>
                     {action.type === 'user' && <HiOutlineUsers className="w-5 h-5 text-blue-600" />}
                     {action.type === 'lesson' && <HiOutlineBookOpen className="w-5 h-5 text-red-600" />}
                     {action.type === 'feature' && <HiOutlineSparkles className="w-5 h-5 text-amber-600" />}
@@ -270,7 +276,7 @@ const AdminProfile = () => {
           {/* Activity Summary */}
           <div className="bg-white rounded-2xl border border-border p-6">
             <h3 className="text-lg font-bold text-text mb-5">Activity Summary</h3>
-            
+
             <div className="space-y-6">
               {/* This Week */}
               <div>
@@ -279,8 +285,8 @@ const AdminProfile = () => {
                   <span className="text-lg font-bold text-cherry">{activityStats.actionsThisWeek}</span>
                 </div>
                 <div className="w-full bg-gray-100 rounded-full h-2">
-                  <div 
-                    className="bg-cherry rounded-full h-2 transition-all duration-500" 
+                  <div
+                    className="bg-cherry rounded-full h-2 transition-all duration-500"
                     style={{ width: `${(activityStats.actionsThisWeek / 20) * 100}%` }}
                   ></div>
                 </div>
@@ -294,8 +300,8 @@ const AdminProfile = () => {
                   <span className="text-lg font-bold text-indigo-600">{activityStats.actionsThisMonth}</span>
                 </div>
                 <div className="w-full bg-gray-100 rounded-full h-2">
-                  <div 
-                    className="bg-indigo-600 rounded-full h-2 transition-all duration-500" 
+                  <div
+                    className="bg-indigo-600 rounded-full h-2 transition-all duration-500"
                     style={{ width: `${(activityStats.actionsThisMonth / 60) * 100}%` }}
                   ></div>
                 </div>

@@ -1,7 +1,7 @@
 // Reported Lessons Page - LifeCherry Admin
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
+import {
   HiOutlineFlag,
   HiOutlineMagnifyingGlass,
   HiOutlineXMark,
@@ -16,12 +16,13 @@ import {
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import PageLoader from '../../../components/shared/PageLoader';
+import DashboardPageHeader from '../../../components/shared/DashboardPageHeader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
 import { reportAPI } from '../../../utils/apiClient';
 
 const ReportedLessons = () => {
   useDocumentTitle('Reported Lessons');
-  
+
   // State
   const [reportsData, setReportsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +30,7 @@ const ReportedLessons = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('pending');
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   // Modal states
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
@@ -85,7 +86,7 @@ const ReportedLessons = () => {
   // Group reports by lesson
   const reportedLessons = useMemo(() => {
     const lessonReports = {};
-    
+
     reportsData.forEach(report => {
       const lessonId = report.lessonId?._id || report.lessonId;
       if (!lessonReports[lessonId]) {
@@ -98,8 +99,8 @@ const ReportedLessons = () => {
       }
       lessonReports[lessonId].reports.push(report);
       lessonReports[lessonId].reportCount++;
-      if (!lessonReports[lessonId].latestReport || 
-          new Date(report.createdAt) > new Date(lessonReports[lessonId].latestReport.createdAt)) {
+      if (!lessonReports[lessonId].latestReport ||
+        new Date(report.createdAt) > new Date(lessonReports[lessonId].latestReport.createdAt)) {
         lessonReports[lessonId].latestReport = report;
       }
     });
@@ -158,7 +159,7 @@ const ReportedLessons = () => {
 
   // Handle ignore report (dismiss)
   const handleIgnoreReports = (lessonId) => {
-    setReportsData(prev => prev.map(r => 
+    setReportsData(prev => prev.map(r =>
       r.lessonId === lessonId ? { ...r, status: 'resolved' } : r
     ));
     toast.success('Reports dismissed');
@@ -202,17 +203,11 @@ const ReportedLessons = () => {
     <PageLoader>
       <div className="space-y-6">
         {/* Page Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
-                <HiOutlineFlag className="w-5 h-5 text-red-600" />
-              </div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-text">Reported Lessons</h1>
-            </div>
-            <p className="text-text-secondary">Review and manage community-reported content</p>
-          </div>
-        </div>
+        <DashboardPageHeader
+          icon={HiOutlineFlag}
+          title="Reported Lessons"
+          description="Review and manage community-reported content"
+        />
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -281,31 +276,28 @@ const ReportedLessons = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setFilterStatus('all')}
-                className={`px-4 py-2.5 rounded-xl font-medium transition-colors ${
-                  filterStatus === 'all' 
-                    ? 'bg-cherry text-white' 
+                className={`px-4 py-2.5 rounded-xl font-medium transition-colors ${filterStatus === 'all'
+                    ? 'bg-cherry text-white'
                     : 'bg-gray-100 text-text-secondary hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 All
               </button>
               <button
                 onClick={() => setFilterStatus('pending')}
-                className={`px-4 py-2.5 rounded-xl font-medium transition-colors ${
-                  filterStatus === 'pending' 
-                    ? 'bg-amber-500 text-white' 
+                className={`px-4 py-2.5 rounded-xl font-medium transition-colors ${filterStatus === 'pending'
+                    ? 'bg-amber-500 text-white'
                     : 'bg-gray-100 text-text-secondary hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 Pending
               </button>
               <button
                 onClick={() => setFilterStatus('resolved')}
-                className={`px-4 py-2.5 rounded-xl font-medium transition-colors ${
-                  filterStatus === 'resolved' 
-                    ? 'bg-green-500 text-white' 
+                className={`px-4 py-2.5 rounded-xl font-medium transition-colors ${filterStatus === 'resolved'
+                    ? 'bg-green-500 text-white'
                     : 'bg-gray-100 text-text-secondary hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 Resolved
               </button>
@@ -369,13 +361,12 @@ const ReportedLessons = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-semibold ${
-                          item.reportCount >= 5 
-                            ? 'bg-red-100 text-red-700' 
-                            : item.reportCount >= 3 
-                              ? 'bg-amber-100 text-amber-700' 
+                        <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-semibold ${item.reportCount >= 5
+                            ? 'bg-red-100 text-red-700'
+                            : item.reportCount >= 3
+                              ? 'bg-amber-100 text-amber-700'
                               : 'bg-gray-100 text-gray-700'
-                        }`}>
+                          }`}>
                           <HiOutlineFlag className="w-4 h-4" />
                           {item.reportCount}
                         </span>
@@ -439,8 +430,8 @@ const ReportedLessons = () => {
               <HiOutlineCheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-text mb-2">No reported lessons</h3>
               <p className="text-text-secondary">
-                {filterStatus === 'pending' 
-                  ? 'All reports have been reviewed!' 
+                {filterStatus === 'pending'
+                  ? 'All reports have been reviewed!'
                   : 'No lessons match your search criteria'}
               </p>
             </div>
@@ -464,11 +455,10 @@ const ReportedLessons = () => {
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                      currentPage === page
+                    className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === page
                         ? 'bg-cherry text-white'
                         : 'border border-gray-200 hover:bg-gray-50'
-                    }`}
+                      }`}
                   >
                     {page}
                   </button>
@@ -539,11 +529,10 @@ const ReportedLessons = () => {
                               <p className="text-xs text-text-secondary">{report.reporterEmail}</p>
                             </div>
                           </div>
-                          <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
-                            report.status === 'pending' 
-                              ? 'bg-amber-100 text-amber-700' 
+                          <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${report.status === 'pending'
+                              ? 'bg-amber-100 text-amber-700'
                               : 'bg-green-100 text-green-700'
-                          }`}>
+                            }`}>
                             {report.status}
                           </span>
                         </div>
@@ -601,7 +590,7 @@ const ReportedLessons = () => {
                   <p className="text-sm text-text-secondary">This action cannot be undone</p>
                 </div>
               </div>
-              
+
               <div className="bg-red-50 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
                   <img

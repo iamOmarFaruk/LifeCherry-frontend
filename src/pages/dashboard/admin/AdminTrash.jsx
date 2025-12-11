@@ -1,8 +1,8 @@
 // Admin Trash Management Page - LifeCherry
 import React, { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { 
-  HiOutlineTrash, 
+import {
+  HiOutlineTrash,
   HiOutlineArrowUturnLeft,
   HiOutlineXMark,
   HiOutlineExclamationTriangle,
@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import PageLoader from '../../components/shared/PageLoader';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import apiClient from '../../utils/apiClient';
+import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
 import useAuth from '../../hooks/useAuth';
 
 const formatDateTime = (value) => {
@@ -111,15 +112,11 @@ const AdminTrash = () => {
     <PageLoader>
       <div className="space-y-6">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-text flex items-center gap-3">
-            <div className="p-2 bg-red-50 rounded-lg">
-              <HiOutlineTrash className="w-7 h-7 text-red-600" />
-            </div>
-            Trash Management
-          </h1>
-          <p className="text-text-secondary text-sm mt-1">Manage deleted items. Restore or permanently delete them.</p>
-        </div>
+        <DashboardPageHeader
+          icon={HiOutlineTrash}
+          title="Trash Management"
+          description="Manage deleted items. Restore or permanently delete them."
+        />
 
         {error && (
           <div className="p-4 rounded-xl bg-red-50 text-red-700 border-2 border-red-200 text-sm font-medium">
@@ -138,17 +135,16 @@ const AdminTrash = () => {
               <button
                 key={filter.value}
                 onClick={() => setFilterType(filter.value)}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                  filterType === filter.value
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${filterType === filter.value
                     ? 'bg-cherry text-white shadow-lg'
                     : 'bg-gray-100 text-text-secondary border border-gray-200 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 {filter.label}
               </button>
             ))}
           </div>
-          
+
           {items.length > 0 && (
             <button
               onClick={handleEmptyTrash}
@@ -209,10 +205,10 @@ const AdminTrash = () => {
             items.map((item) => {
               const itemType = getItemTypeDetails(item.itemType);
               const ItemTypeIcon = itemType.icon;
-              
+
               return (
-                <div 
-                  key={item.id} 
+                <div
+                  key={item.id}
                   className="p-4 rounded-lg bg-white border-l-4 border-red-500 border-b-2 border-r border-gray-200 hover:shadow-md transition-all duration-200"
                 >
                   <div className="flex gap-4">

@@ -1,7 +1,7 @@
 // Manage Lessons Page - LifeCherry Admin
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { 
+import {
   HiOutlineBookOpen,
   HiOutlineMagnifyingGlass,
   HiOutlineFunnel,
@@ -22,13 +22,14 @@ import {
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import PageLoader from '../../../components/shared/PageLoader';
+import DashboardPageHeader from '../../../components/shared/DashboardPageHeader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
 import { lessons, categories } from '../../../data/lessons';
 import { reports } from '../../../data/reports';
 
 const ManageLessons = () => {
   useDocumentTitle('Manage Lessons');
-  
+
   // State
   const [lessonsData, setLessonsData] = useState(lessons);
   const [searchQuery, setSearchQuery] = useState('');
@@ -39,7 +40,7 @@ const ManageLessons = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
-  
+
   // Modal states
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showFeatureModal, setShowFeatureModal] = useState(false);
@@ -83,7 +84,7 @@ const ManageLessons = () => {
     }
 
     if (filterFeatured) {
-      result = result.filter(lesson => 
+      result = result.filter(lesson =>
         filterFeatured === 'featured' ? lesson.isFeatured : !lesson.isFeatured
       );
     }
@@ -139,7 +140,7 @@ const ManageLessons = () => {
   const confirmToggleFeatured = () => {
     setIsSubmitting(true);
     setTimeout(() => {
-      setLessonsData(prev => prev.map(l => 
+      setLessonsData(prev => prev.map(l =>
         l._id === selectedLesson._id ? { ...l, isFeatured: !l.isFeatured } : l
       ));
       toast.success(selectedLesson.isFeatured ? 'Removed from featured' : 'Added to featured!');
@@ -151,7 +152,7 @@ const ManageLessons = () => {
 
   // Handle mark as reviewed
   const handleMarkReviewed = (lesson) => {
-    setLessonsData(prev => prev.map(l => 
+    setLessonsData(prev => prev.map(l =>
       l._id === lesson._id ? { ...l, isReviewed: true } : l
     ));
     toast.success('Marked as reviewed');
@@ -195,17 +196,11 @@ const ManageLessons = () => {
     <PageLoader>
       <div className="space-y-6">
         {/* Page Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 bg-cherry-50 rounded-xl flex items-center justify-center">
-                <HiOutlineBookOpen className="w-5 h-5 text-cherry" />
-              </div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-text">Manage Lessons</h1>
-            </div>
-            <p className="text-text-secondary">View and manage all lessons on the platform</p>
-          </div>
-        </div>
+        <DashboardPageHeader
+          icon={HiOutlineBookOpen}
+          title="Manage Lessons"
+          description="View and manage all lessons on the platform"
+        />
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
@@ -285,9 +280,8 @@ const ManageLessons = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center gap-2 px-4 py-2.5 border rounded-xl transition-colors ${
-                  showFilters ? 'border-cherry bg-cherry-50 text-cherry' : 'border-gray-200 text-text-secondary hover:border-cherry'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2.5 border rounded-xl transition-colors ${showFilters ? 'border-cherry bg-cherry-50 text-cherry' : 'border-gray-200 text-text-secondary hover:border-cherry'
+                  }`}
               >
                 <HiOutlineFunnel className="w-5 h-5" />
                 Filters
@@ -496,11 +490,10 @@ const ManageLessons = () => {
                         </Link>
                         <button
                           onClick={() => handleToggleFeatured(lesson)}
-                          className={`p-2 rounded-lg transition-colors ${
-                            lesson.isFeatured 
-                              ? 'text-amber-600 bg-amber-50 hover:bg-amber-100' 
+                          className={`p-2 rounded-lg transition-colors ${lesson.isFeatured
+                              ? 'text-amber-600 bg-amber-50 hover:bg-amber-100'
                               : 'text-gray-400 hover:bg-gray-100 hover:text-amber-600'
-                          }`}
+                            }`}
                           title={lesson.isFeatured ? 'Remove from Featured' : 'Add to Featured'}
                         >
                           <HiOutlineSparkles className="w-5 h-5" />
@@ -559,11 +552,10 @@ const ManageLessons = () => {
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                      currentPage === page
+                    className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === page
                         ? 'bg-cherry text-white'
                         : 'border border-gray-200 hover:bg-gray-50'
-                    }`}
+                      }`}
                   >
                     {page}
                   </button>
@@ -585,12 +577,10 @@ const ManageLessons = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
             <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                  selectedLesson.isFeatured ? 'bg-gray-100' : 'bg-amber-100'
-                }`}>
-                  <HiOutlineSparkles className={`w-6 h-6 ${
-                    selectedLesson.isFeatured ? 'text-gray-600' : 'text-amber-600'
-                  }`} />
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${selectedLesson.isFeatured ? 'bg-gray-100' : 'bg-amber-100'
+                  }`}>
+                  <HiOutlineSparkles className={`w-6 h-6 ${selectedLesson.isFeatured ? 'text-gray-600' : 'text-amber-600'
+                    }`} />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-text">
@@ -599,7 +589,7 @@ const ManageLessons = () => {
                   <p className="text-sm text-text-secondary">Confirm this action</p>
                 </div>
               </div>
-              
+
               <div className="bg-gray-50 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
                   <img
@@ -615,7 +605,7 @@ const ManageLessons = () => {
               </div>
 
               <p className="text-text-secondary mb-6">
-                {selectedLesson.isFeatured 
+                {selectedLesson.isFeatured
                   ? 'This lesson will be removed from the featured section and will no longer appear in the homepage spotlight.'
                   : 'This lesson will be added to the featured section and will be highlighted on the homepage for all users to see.'}
               </p>
@@ -634,11 +624,10 @@ const ManageLessons = () => {
                 <button
                   onClick={confirmToggleFeatured}
                   disabled={isSubmitting}
-                  className={`flex-1 px-4 py-2.5 text-white rounded-xl font-medium transition-colors disabled:opacity-50 ${
-                    selectedLesson.isFeatured 
-                      ? 'bg-gray-600 hover:bg-gray-700' 
+                  className={`flex-1 px-4 py-2.5 text-white rounded-xl font-medium transition-colors disabled:opacity-50 ${selectedLesson.isFeatured
+                      ? 'bg-gray-600 hover:bg-gray-700'
                       : 'bg-amber-600 hover:bg-amber-700'
-                  }`}
+                    }`}
                 >
                   {isSubmitting ? 'Processing...' : 'Confirm'}
                 </button>
@@ -660,7 +649,7 @@ const ManageLessons = () => {
                   <p className="text-sm text-text-secondary">This action cannot be undone</p>
                 </div>
               </div>
-              
+
               <div className="bg-red-50 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
                   <img
