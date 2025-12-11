@@ -98,6 +98,8 @@ const ActivityLog = () => {
   const [filterType, setFilterType] = useState('all');
   const loadMoreRef = useRef();
 
+  const isPremium = userProfile?.isPremium || userProfile?.role === 'admin';
+
   const { 
     data, 
     isLoading, 
@@ -106,13 +108,13 @@ const ActivityLog = () => {
     isFetchingNextPage,
     error
   } = useInfiniteQuery({
-    queryKey: ['user-activity', filterType],
+    queryKey: ['user-activity', filterType, isPremium],
     enabled: !authLoading && !profileLoading,
     queryFn: async ({ pageParam = 1 }) => {
       const res = await apiClient.get('/audit/user', { 
         params: { 
           page: pageParam, 
-          limit: 6,
+          limit: isPremium ? 20 : 6,
           targetType: filterType === 'all' ? undefined : filterType 
         } 
       });
@@ -129,7 +131,6 @@ const ActivityLog = () => {
   });
 
   const allChanges = data?.pages.flatMap(page => page.changes) || [];
-  const isPremium = userProfile?.isPremium || userProfile?.role === 'admin';
   const totalCount = data?.pages[0]?.total || 0;
 
   // Infinite scroll observer
