@@ -304,7 +304,7 @@ const Profile = () => {
       )}
 
       {/* Profile Card */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-border p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           {/* Profile Photo */}
           <div className="relative group flex-shrink-0">
@@ -343,7 +343,7 @@ const Profile = () => {
           {/* Profile Info */}
           <div className="flex-1 text-center sm:text-left min-w-0 w-full">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-2">
-              <h2 className="text-2xl sm:text-3xl font-bold text-text truncate">{profile.name}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-text dark:text-white truncate">{profile.name}</h2>
               <button
                 onClick={openEditModal}
                 className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-cherry-50 dark:bg-cherry hover:bg-cherry-100 dark:hover:bg-cherry-dark text-cherry dark:text-white rounded-xl transition-colors text-sm font-medium whitespace-nowrap"
@@ -354,11 +354,11 @@ const Profile = () => {
             </div>
 
             <div className="flex flex-col gap-2 mb-4">
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary text-sm sm:text-base">
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary dark:text-gray-400 text-sm sm:text-base">
                 <HiOutlineEnvelope className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                 <span className="truncate">{profile.email}</span>
               </div>
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary text-sm sm:text-base">
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary dark:text-gray-400 text-sm sm:text-base">
                 <HiOutlineCalendarDays className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                 <span>Member since {formatDate(profile.createdAt)}</span>
               </div>
@@ -381,9 +381,9 @@ const Profile = () => {
         </div>
 
         {/* About Me Section */}
-        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border">
+        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base sm:text-lg font-bold text-text">About Me</h3>
+            <h3 className="text-base sm:text-lg font-bold text-text dark:text-white">About Me</h3>
           </div>
 
           {isEditingBio ? (
@@ -437,7 +437,7 @@ const Profile = () => {
                   <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
                     <HiOutlinePencilSquare className="w-5 h-5 sm:w-6 sm:h-6 text-cherry-300 group-hover:text-cherry" />
                   </div>
-                  <h4 className="text-text font-medium mb-1 text-sm sm:text-base">Write your bio</h4>
+                  <h4 className="text-text dark:text-white font-medium mb-1 text-sm sm:text-base">Write your bio</h4>
                   <p className="text-text-muted text-xs sm:text-sm">Share your story with the community</p>
                 </div>
               )}
@@ -446,61 +446,61 @@ const Profile = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border">
-          <div className="bg-cherry-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border dark:border-gray-700">
+          <div className="bg-cherry-50 dark:bg-cherry-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
             <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-cherry-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
               <HiOutlineBookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-cherry" />
             </div>
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-cherry mb-1">{stats.totalLessons}</div>
-            <div className="text-xs sm:text-sm text-text-secondary">Total Lessons</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Total Lessons</div>
           </div>
-          <div className="bg-green-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+          <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
             <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-green-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
               <HiOutlineEye className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
             </div>
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600 mb-1">{stats.publicLessons}</div>
-            <div className="text-xs sm:text-sm text-text-secondary">Public</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Public</div>
           </div>
-          <div className="bg-gray-100 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-gray-200 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineLockClosed className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+          <div className="bg-gray-100 dark:bg-gray-700 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineLockClosed className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
             </div>
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-600 mb-1">{stats.privateLessons}</div>
-            <div className="text-xs sm:text-sm text-text-secondary">Private</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-600 dark:text-gray-300 mb-1">{stats.privateLessons}</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Private</div>
           </div>
-          <div className="bg-amber-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+          <div className="bg-amber-50 dark:bg-amber-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
             <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-amber-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
               <HiOutlineStar className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />
             </div>
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-amber-600 mb-1">{stats.drafts}</div>
-            <div className="text-xs sm:text-sm text-text-secondary">Drafts</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Drafts</div>
           </div>
-          <div className="bg-red-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+          <div className="bg-red-50 dark:bg-red-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
             <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-red-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
               <HiOutlineHeart className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
             </div>
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-500 mb-1">{stats.totalLikes}</div>
-            <div className="text-xs sm:text-sm text-text-secondary">Likes Received</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Likes Received</div>
           </div>
-          <div className="bg-blue-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+          <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
             <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
               <HiOutlineBookmark className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
             </div>
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-1">{stats.totalFavorites}</div>
-            <div className="text-xs sm:text-sm text-text-secondary">Favorites</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Favorites</div>
           </div>
         </div>
 
         {/* Preferences */}
-        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border">
+        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base sm:text-lg font-bold text-text">Preferences</h3>
+            <h3 className="text-base sm:text-lg font-bold text-text dark:text-white">Preferences</h3>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-border p-4 sm:p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-border dark:border-gray-700 p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h4 className="font-medium text-text text-sm sm:text-base">Appearance</h4>
+                <h4 className="font-medium text-text dark:text-white text-sm sm:text-base">Appearance</h4>
                 <p className="text-xs sm:text-sm text-text-secondary mt-1">
                   Customize how LifeCherry looks on your device.
                 </p>
@@ -529,17 +529,17 @@ const Profile = () => {
         </div>
 
         {/* Danger Zone */}
-        <div className="mt-6 sm:mt-8 border-t border-border pt-6 sm:pt-8">
+        <div className="mt-6 sm:mt-8 border-t border-border dark:border-gray-700 pt-6 sm:pt-8">
           <h3 className="text-base sm:text-lg font-bold text-red-600 mb-3 sm:mb-4 flex items-center gap-2">
             <HiOutlineExclamationTriangle className="w-5 h-5" />
             Danger Zone
           </h3>
-          <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/20 rounded-xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+          <div className="bg-red-50 dark:bg-gray-900 border border-red-100 dark:border-gray-700 rounded-xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             {profile.role === 'admin' ? (
               <>
                 <div>
-                  <h4 className="font-medium text-red-900 text-sm sm:text-base">Delete Account</h4>
-                  <p className="text-xs sm:text-sm text-red-700 mt-1">
+                  <h4 className="font-medium text-red-900 dark:text-red-400 text-sm sm:text-base">Delete Account</h4>
+                  <p className="text-xs sm:text-sm text-red-700 dark:text-gray-300 mt-1">
                     Permanently delete your account and all associated data. This action cannot be undone.
                   </p>
                 </div>
@@ -553,8 +553,8 @@ const Profile = () => {
             ) : (
               <>
                 <div>
-                  <h4 className="font-medium text-red-900 text-sm sm:text-base">Disable Account</h4>
-                  <p className="text-xs sm:text-sm text-red-700 mt-1">
+                  <h4 className="font-medium text-red-900 dark:text-red-400 text-sm sm:text-base">Disable Account</h4>
+                  <p className="text-xs sm:text-sm text-red-700 dark:text-gray-300 mt-1">
                     Request to disable your account. Your profile and lessons will be hidden from public view.
                     Admin will review your request.
                   </p>
@@ -568,7 +568,7 @@ const Profile = () => {
                   <button
                     onClick={handleCancelDisable}
                     disabled={isDisabling}
-                    className="px-4 py-2 bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-medium disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto text-center"
+                    className="px-4 py-2 bg-white dark:bg-gray-800 border border-red-200 dark:border-gray-600 text-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-gray-700 transition-colors font-medium disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto text-center"
                   >
                     {isDisabling ? 'Processing...' : 'Cancel Request'}
                   </button>
@@ -592,11 +592,11 @@ const Profile = () => {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-xl font-bold text-text">Edit Profile</h3>
+            <div className="flex items-center justify-between p-6 border-b border-border dark:border-gray-700">
+              <h3 className="text-xl font-bold text-text dark:text-white">Edit Profile</h3>
               <button
                 onClick={() => setShowEditModal(false)}
-                className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors"
               >
                 <HiOutlineXMark className="w-5 h-5 text-text-secondary" />
               </button>
@@ -629,14 +629,14 @@ const Profile = () => {
                     <HiOutlineCamera className="w-4 h-4 text-white" />
                   </div>
                 </div>
-                <p className="text-xs text-text-secondary text-center">
+                <p className="text-xs text-text-secondary dark:text-gray-400 text-center">
                   Enter a URL for your profile photo
                 </p>
               </div>
 
               {/* Display Name */}
               <div>
-                <label className="block text-sm font-medium text-text mb-2">
+                <label className="block text-sm font-medium text-text dark:text-white mb-2">
                   Display Name <span className="text-cherry">*</span>
                 </label>
                 <input
@@ -645,14 +645,14 @@ const Profile = () => {
                   value={editFormData.name}
                   onChange={handleEditChange}
                   placeholder="Enter your name"
-                  className="w-full px-4 py-3 rounded-xl border border-border focus:border-cherry focus:ring-2 focus:ring-cherry/20 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-border dark:border-gray-600 bg-white dark:bg-gray-700 text-text dark:text-white focus:border-cherry focus:ring-2 focus:ring-cherry/20 outline-none transition-all"
                   required
                 />
               </div>
 
               {/* Photo URL */}
               <div>
-                <label className="block text-sm font-medium text-text mb-2">
+                <label className="block text-sm font-medium text-text dark:text-white mb-2">
                   Photo URL
                 </label>
                 <input
@@ -661,9 +661,9 @@ const Profile = () => {
                   value={editFormData.photoURL}
                   onChange={handleEditChange}
                   placeholder="https://example.com/photo.jpg"
-                  className="w-full px-4 py-3 rounded-xl border border-border focus:border-cherry focus:ring-2 focus:ring-cherry/20 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-border dark:border-gray-600 bg-white dark:bg-gray-700 text-text dark:text-white focus:border-cherry focus:ring-2 focus:ring-cherry/20 outline-none transition-all"
                 />
-                <p className="text-xs text-text-secondary mt-1.5">
+                <p className="text-xs text-text-secondary dark:text-gray-400 mt-1.5">
                   Paste a direct link to your profile image
                 </p>
               </div>
@@ -689,7 +689,7 @@ const Profile = () => {
 
               {/* Email (Readonly) */}
               <div>
-                <label className="block text-sm font-medium text-text mb-2">
+                <label className="block text-sm font-medium text-text dark:text-white mb-2">
                   Email Address
                 </label>
                 <div className="relative">
@@ -697,13 +697,13 @@ const Profile = () => {
                     type="email"
                     value={profile.email}
                     disabled
-                    className="w-full px-4 py-3 rounded-xl border border-border bg-gray-50 text-text-secondary cursor-not-allowed"
+                    className="w-full px-4 py-3 rounded-xl border border-border dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 text-text-secondary dark:text-gray-400 cursor-not-allowed"
                   />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
                     <HiOutlineLockClosed className="w-5 h-5 text-text-secondary" />
                   </div>
                 </div>
-                <p className="text-xs text-text-secondary mt-1.5">
+                <p className="text-xs text-text-secondary dark:text-gray-400 mt-1.5">
                   Email cannot be changed for security reasons
                 </p>
               </div>
@@ -713,7 +713,7 @@ const Profile = () => {
                 <button
                   type="button"
                   onClick={() => setShowEditModal(false)}
-                  className="flex-1 px-4 py-3 border border-border text-text-secondary rounded-xl hover:bg-gray-50 transition-colors font-medium"
+                  className="flex-1 px-4 py-3 border border-border dark:border-gray-600 text-text-secondary dark:text-gray-400 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
                 >
                   Cancel
                 </button>
@@ -755,13 +755,13 @@ const Profile = () => {
             </div>
 
             <form onSubmit={submitDisableRequest} className="p-6 space-y-4">
-              <p className="text-text-secondary">
+              <p className="text-text-secondary dark:text-gray-400">
                 We're sorry to see you go. Please let us know why you want to disable your account.
                 Your feedback helps us improve.
               </p>
 
               <div>
-                <label className="block text-sm font-medium text-text mb-2">
+                <label className="block text-sm font-medium text-text dark:text-white mb-2">
                   Reason for disabling <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -769,7 +769,7 @@ const Profile = () => {
                   onChange={(e) => setDisableReason(e.target.value)}
                   placeholder="I'm taking a break because..."
                   rows="4"
-                  className="w-full px-4 py-3 rounded-xl border border-border focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-none transition-all resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-border dark:border-gray-600 bg-white dark:bg-gray-700 text-text dark:text-white focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-none transition-all resize-none"
                   required
                 />
               </div>
@@ -781,7 +781,7 @@ const Profile = () => {
                     setShowDisableModal(false);
                     setDisableReason('');
                   }}
-                  className="flex-1 px-4 py-3 border border-border text-text-secondary rounded-xl hover:bg-gray-50 transition-colors font-medium"
+                  className="flex-1 px-4 py-3 border border-border dark:border-gray-600 text-text-secondary dark:text-gray-400 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
                 >
                   Cancel
                 </button>
@@ -807,7 +807,7 @@ const Profile = () => {
       {/* Delete Account Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md shadow-2xl">
             <div className="flex items-center gap-3 p-6 border-b border-border bg-red-50 rounded-t-2xl">
               <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
                 <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600" />
@@ -819,7 +819,7 @@ const Profile = () => {
             </div>
 
             <div className="p-6 space-y-4">
-              <p className="text-text-secondary">
+              <p className="text-text-secondary dark:text-gray-400">
                 Are you sure you want to delete your account? This will permanently remove your profile, lessons, comments, and all other data associated with your account.
               </p>
 
@@ -833,7 +833,7 @@ const Profile = () => {
                 <button
                   type="button"
                   onClick={() => setShowDeleteModal(false)}
-                  className="flex-1 px-4 py-3 border border-border text-text-secondary rounded-xl hover:bg-gray-50 transition-colors font-medium"
+                  className="flex-1 px-4 py-3 border border-border dark:border-gray-600 text-text-secondary dark:text-gray-400 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
                 >
                   Cancel
                 </button>
