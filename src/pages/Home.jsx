@@ -63,9 +63,11 @@ const Home = () => {
           name: lesson.creatorName || 'Unknown',
           photoURL: lesson.creatorPhoto,
           lessonsCount: 0,
+          totalViews: 0,
         };
       }
       acc[key].lessonsCount += 1;
+      acc[key].totalViews += (lesson.views || 0);
       return acc;
     }, {});
 
@@ -73,6 +75,12 @@ const Home = () => {
       .sort((a, b) => b.lessonsCount - a.lessonsCount)
       .slice(0, 5);
   }, [lessons]);
+
+  const formatViews = (views) => {
+    if (views >= 1000000) return (views / 1000000).toFixed(1) + 'm';
+    if (views >= 1000) return (views / 1000).toFixed(1) + 'k';
+    return views;
+  };
 
   return (
     <PageLoader>
@@ -216,9 +224,9 @@ const Home = () => {
       {/* Top Contributors Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-text-cherry">Top Contributors of the Week</h2>
-            <p className="text-text-secondary mt-2">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 tracking-tight">Top Contributors of the Week</h2>
+            <p className="text-text-secondary mt-4 max-w-xl mx-auto text-lg">
               Meet the amazing people sharing their wisdom
             </p>
           </div>
@@ -236,7 +244,7 @@ const Home = () => {
                   <img
                     src={user.photoURL || 'https://i.pravatar.cc/150?img=64'}
                     alt={user.name}
-                    className="w-20 h-20 rounded-full object-cover border-4 border-cherry-200"
+                    className="w-28 h-28 rounded-full object-cover border-4 border-cherry-200"
                   />
                   {index < 3 && (
                     <span className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
@@ -366,9 +374,9 @@ const Home = () => {
       <section className="relative py-24 overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80" 
-            alt="Background" 
+          <img
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80"
+            alt="Background"
             className="w-full h-full object-cover"
           />
           {/* Dark Overlay for Readability */}
@@ -384,7 +392,7 @@ const Home = () => {
                 Ready to Share Your Wisdom?
               </h2>
               <p className="text-white/90 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-                Join thousands of people who are preserving their life lessons and inspiring others. 
+                Join thousands of people who are preserving their life lessons and inspiring others.
                 Start your journey today.
               </p>
               <Link
