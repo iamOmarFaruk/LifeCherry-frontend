@@ -260,26 +260,7 @@ html {
   @apply text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm;
 }
 
-/* Text color utilities */
-.text-cherry {
-  color: #E63946;
-}
 
-.bg-cherry {
-  background-color: #E63946;
-}
-
-.border-cherry {
-  border-color: #E63946;
-}
-
-.hover\:text-cherry:hover {
-  color: #E63946;
-}
-
-.hover\:bg-cherry:hover {
-  background-color: #E63946;
-}
 
 /* Custom select arrow positioning */
 select {

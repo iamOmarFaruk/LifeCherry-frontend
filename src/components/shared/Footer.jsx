@@ -27,44 +27,44 @@ const Footer = () => {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 dark:bg-gray-800 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
+                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 dark:bg-gray-800 flex items-center justify-center transition-all duration-200 hover:bg-cherry [.dark_&]:!text-white"
               >
                 <FaFacebookF
                   size={18}
-                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:-rotate-3"
+                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:-rotate-3 [.dark_&]:!text-white"
                 />
               </a>
               <a
                 href="https://x.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 dark:bg-gray-800 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
+                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 dark:bg-gray-800 flex items-center justify-center transition-all duration-200 hover:bg-cherry [.dark_&]:!text-white"
               >
                 <FaXTwitter
                   size={18}
-                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:rotate-3"
+                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:rotate-3 [.dark_&]:!text-white"
                 />
               </a>
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 dark:bg-gray-800 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
+                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 dark:bg-gray-800 flex items-center justify-center transition-all duration-200 hover:bg-cherry [.dark_&]:!text-white"
               >
                 <FaInstagram
                   size={18}
-                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:-rotate-3"
+                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:-rotate-3 [.dark_&]:!text-white"
                 />
               </a>
               <a
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 dark:bg-gray-800 flex items-center justify-center transition-all duration-200 hover:bg-cherry"
+                className="social-icon group w-10 h-10 rounded-full bg-cherry-50 dark:bg-gray-800 flex items-center justify-center transition-all duration-200 hover:bg-cherry [.dark_&]:!text-white"
               >
                 <FaLinkedinIn
                   size={18}
-                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:rotate-3"
+                  className="text-cherry transition-transform duration-200 group-hover:!text-white group-hover:scale-110 group-hover:rotate-3 [.dark_&]:!text-white"
                 />
               </a>
             </div>
@@ -107,8 +107,8 @@ const Footer = () => {
             <ul className="space-y-3 text-text-secondary dark:text-gray-400">
               <li>
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cherry-50 dark:bg-gray-800 text-cherry">
-                    <FiMail />
+                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cherry-50 dark:bg-gray-800 text-cherry [.dark_&]:!text-white">
+                    <FiMail className="[.dark_&]:!text-white" />
                   </span>
                   <div>
                     <span className="block text-text-primary dark:text-white font-medium leading-tight">Email</span>
@@ -120,8 +120,8 @@ const Footer = () => {
               </li>
               <li>
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cherry-50 dark:bg-gray-800 text-cherry">
-                    <FiPhone />
+                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cherry-50 dark:bg-gray-800 text-cherry [.dark_&]:!text-white">
+                    <FiPhone className="[.dark_&]:!text-white" />
                   </span>
                   <div>
                     <span className="block text-text-primary dark:text-white font-medium leading-tight">Phone</span>
@@ -133,8 +133,8 @@ const Footer = () => {
               </li>
               <li>
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cherry-50 dark:bg-gray-800 text-cherry">
-                    <FiMapPin />
+                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cherry-50 dark:bg-gray-800 text-cherry [.dark_&]:!text-white">
+                    <FiMapPin className="[.dark_&]:!text-white" />
                   </span>
                   <div>
                     <span className="block text-text-primary dark:text-white font-medium leading-tight">Address</span>
@@ -147,7 +147,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-border dark:border-gray-800 flex justify-center items-center">
+        <div className="mt-12 pt-8 border-t border-border [.dark_&]:border-white/10 flex justify-center items-center">
           <p className="text-text-muted dark:text-gray-500 text-sm text-center">
             © {currentYear} LifeCherry. All rights reserved.
           </p>
