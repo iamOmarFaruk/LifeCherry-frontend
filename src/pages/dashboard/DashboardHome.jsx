@@ -199,8 +199,8 @@ const DashboardHome = () => {
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.lessonsChange >= 0
-                        ? 'text-green-600 bg-green-50'
-                        : 'text-red-600 bg-red-50'
+                      ? 'text-green-600 bg-green-50'
+                      : 'text-red-600 bg-red-50'
                       }`}>
                       {monthStats.lessonsChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
@@ -214,7 +214,7 @@ const DashboardHome = () => {
                 )}
               </div>
               <div className="w-11 h-11 bg-cherry-50 rounded-xl flex items-center justify-center group-hover:bg-cherry group-hover:scale-110 transition-all duration-300">
-                <HiOutlineBookOpen className="w-5 h-5 text-cherry group-hover:text-white transition-colors" />
+                <HiOutlineBookOpen className="w-5 h-5 text-cherry group-hover:!text-white transition-colors" />
               </div>
             </div>
           </div>
@@ -232,8 +232,8 @@ const DashboardHome = () => {
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.favoritesChange >= 0
-                        ? 'text-green-600 bg-green-50'
-                        : 'text-red-600 bg-red-50'
+                      ? 'text-green-600 bg-green-50'
+                      : 'text-red-600 bg-red-50'
                       }`}>
                       {monthStats.favoritesChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
@@ -265,8 +265,8 @@ const DashboardHome = () => {
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.likesChange >= 0
-                        ? 'text-green-600 bg-green-50'
-                        : 'text-red-600 bg-red-50'
+                      ? 'text-green-600 bg-green-50'
+                      : 'text-red-600 bg-red-50'
                       }`}>
                       {monthStats.likesChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
@@ -298,8 +298,8 @@ const DashboardHome = () => {
                 ) : (
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.viewsChange >= 0
-                        ? 'text-green-600 bg-green-50'
-                        : 'text-red-600 bg-red-50'
+                      ? 'text-green-600 bg-green-50'
+                      : 'text-red-600 bg-red-50'
                       }`}>
                       {monthStats.viewsChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
