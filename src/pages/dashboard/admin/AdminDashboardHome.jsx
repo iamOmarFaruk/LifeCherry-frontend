@@ -131,16 +131,16 @@ const AdminDashboardHome = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
                 <HiOutlineShieldCheck className="w-5 h-5 text-white" />
               </div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-text">
+              <h1 className="text-2xl lg:text-3xl font-bold text-text dark:text-white">
                 Admin Dashboard
               </h1>
             </div>
-            <p className="text-text-secondary">
+            <p className="text-text-secondary dark:text-gray-400">
               Welcome back, {adminUser.name}! Here's your platform overview.
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-text-secondary flex items-center gap-1">
+            <span className="text-sm text-text-secondary dark:text-gray-400 flex items-center gap-1">
               <HiOutlineClock className="w-4 h-4" />
               Last updated: Just now
             </span>
@@ -150,138 +150,138 @@ const AdminDashboardHome = () => {
         {/* Main Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {/* Total Users */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-muted mb-1">Total Users</p>
-                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalUsers}</h3>
+                <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Total Users</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text dark:text-white tracking-tight">{totalUsers}</h3>
                 <div className="flex items-center gap-2 mt-3">
-                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">
                     <HiOutlineArrowTrendingUp className="w-4 h-4" />
                     18%
                   </span>
-                  <span className="text-sm text-text-muted">this month</span>
+                  <span className="text-sm text-text-muted dark:text-gray-400">this month</span>
                 </div>
               </div>
-              <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
-                <HiOutlineUsers className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
+              <div className="w-11 h-11 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+                <HiOutlineUsers className="w-5 h-5 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300" />
               </div>
             </div>
           </div>
 
           {/* Total Lessons */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-muted mb-1">Total Lessons</p>
-                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{totalLessons}</h3>
+                <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Total Lessons</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text dark:text-white tracking-tight">{totalLessons}</h3>
                 <div className="flex items-center gap-2 mt-3">
-                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">
                     <HiOutlineArrowTrendingUp className="w-4 h-4" />
                     24%
                   </span>
-                  <span className="text-sm text-text-muted">this month</span>
+                  <span className="text-sm text-text-muted dark:text-gray-400">this month</span>
                 </div>
               </div>
-              <div className="w-11 h-11 bg-cherry-50 rounded-xl flex items-center justify-center group-hover:bg-cherry group-hover:scale-110 transition-all duration-300">
-                <HiOutlineBookOpen className="w-5 h-5 text-cherry-dark group-hover:text-white transition-colors duration-300" />
+              <div className="w-11 h-11 bg-cherry-50 dark:bg-cherry-900/20 rounded-xl flex items-center justify-center group-hover:bg-cherry group-hover:scale-110 transition-all duration-300">
+                <HiOutlineBookOpen className="w-5 h-5 text-cherry-dark dark:text-cherry-300 group-hover:text-white transition-colors duration-300" />
               </div>
             </div>
           </div>
 
           {/* Reported Lessons */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-muted mb-1">Pending Reports</p>
-                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{pendingReports}</h3>
+                <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Pending Reports</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text dark:text-white tracking-tight">{pendingReports}</h3>
                 <div className="flex items-center gap-2 mt-3">
-                  <span className="flex items-center gap-1 text-sm font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded-full">
                     <HiOutlineFlag className="w-4 h-4" />
                     Needs review
                   </span>
                 </div>
               </div>
-              <div className="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center group-hover:bg-amber-500 group-hover:scale-110 transition-all duration-300">
-                <HiOutlineFlag className="w-5 h-5 text-amber-600 group-hover:text-white transition-colors duration-300" />
+              <div className="w-11 h-11 bg-amber-50 dark:bg-amber-900/20 rounded-xl flex items-center justify-center group-hover:bg-amber-500 group-hover:scale-110 transition-all duration-300">
+                <HiOutlineFlag className="w-5 h-5 text-amber-600 dark:text-amber-400 group-hover:text-white transition-colors duration-300" />
               </div>
             </div>
           </div>
 
           {/* Today's Lessons */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-muted mb-1">Today's Lessons</p>
-                <h3 className="text-3xl lg:text-4xl font-bold text-text tracking-tight">{todaysLessons}</h3>
+                <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Today's Lessons</p>
+                <h3 className="text-3xl lg:text-4xl font-bold text-text dark:text-white tracking-tight">{todaysLessons}</h3>
                 <div className="flex items-center gap-2 mt-3">
-                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">
                     <HiOutlineArrowTrendingUp className="w-4 h-4" />
                     Active
                   </span>
                 </div>
               </div>
-              <div className="w-11 h-11 bg-green-50 rounded-xl flex items-center justify-center group-hover:bg-green-500 group-hover:scale-110 transition-all duration-300">
-                <HiOutlineCalendarDays className="w-5 h-5 text-green-600 group-hover:text-white transition-colors duration-300" />
+              <div className="w-11 h-11 bg-green-50 dark:bg-green-900/20 rounded-xl flex items-center justify-center group-hover:bg-green-500 group-hover:scale-110 transition-all duration-300">
+                <HiOutlineCalendarDays className="w-5 h-5 text-green-600 dark:text-green-400 group-hover:text-white transition-colors duration-300" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Revenue & Subscription Stats */}
-        <div className="bg-white rounded-2xl p-6 lg:p-8 border border-border shadow-sm">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 lg:p-8 border border-border dark:border-gray-700 shadow-sm">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-              <HiOutlineBanknotes className="w-6 h-6 text-green-600" />
+            <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center">
+              <HiOutlineBanknotes className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-text">Revenue & Subscriptions</h2>
-              <p className="text-text-secondary text-sm">Financial overview and subscription metrics</p>
+              <h2 className="text-xl font-bold text-text dark:text-white">Revenue & Subscriptions</h2>
+              <p className="text-text-secondary dark:text-gray-400 text-sm">Financial overview and subscription metrics</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Total Revenue */}
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border border-green-200">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-xl p-5 border border-green-200 dark:border-green-800">
               <div className="flex items-center gap-2 mb-2">
-                <HiOutlineBanknotes className="w-5 h-5 text-green-600" />
-                <p className="text-sm font-medium text-text-secondary">Total Revenue</p>
+                <HiOutlineBanknotes className="w-5 h-5 text-green-600 dark:text-green-400" />
+                <p className="text-sm font-medium text-text-secondary dark:text-gray-400">Total Revenue</p>
               </div>
-              <h3 className="text-3xl font-bold text-text mb-2">৳{totalRevenue.toLocaleString()}</h3>
-              <p className="text-xs text-text-muted">All-time earnings</p>
+              <h3 className="text-3xl font-bold text-text dark:text-white mb-2">৳{totalRevenue.toLocaleString()}</h3>
+              <p className="text-xs text-text-muted dark:text-gray-400">All-time earnings</p>
             </div>
 
             {/* Monthly Revenue */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-200">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl p-5 border border-blue-200 dark:border-blue-800">
               <div className="flex items-center gap-2 mb-2">
-                <HiOutlineCalendarDays className="w-5 h-5 text-blue-600" />
-                <p className="text-sm font-medium text-text-secondary">This Month</p>
+                <HiOutlineCalendarDays className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <p className="text-sm font-medium text-text-secondary dark:text-gray-400">This Month</p>
               </div>
-              <h3 className="text-3xl font-bold text-text mb-2">৳{monthlyRevenue.toLocaleString()}</h3>
-              <div className="flex items-center gap-1 text-xs text-green-600 font-medium">
+              <h3 className="text-3xl font-bold text-text dark:text-white mb-2">৳{monthlyRevenue.toLocaleString()}</h3>
+              <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400 font-medium">
                 <HiOutlineArrowTrendingUp className="w-3.5 h-3.5" />
                 <span>23% vs last month</span>
               </div>
             </div>
 
             {/* Premium Users */}
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-5 border border-amber-200">
+            <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 rounded-xl p-5 border border-amber-200 dark:border-amber-800">
               <div className="flex items-center gap-2 mb-2">
-                <HiOutlineStar className="w-5 h-5 text-amber-600" />
-                <p className="text-sm font-medium text-text-secondary">Premium Users</p>
+                <HiOutlineStar className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                <p className="text-sm font-medium text-text-secondary dark:text-gray-400">Premium Users</p>
               </div>
-              <h3 className="text-3xl font-bold text-text mb-2">{premiumUsers}</h3>
-              <p className="text-xs text-text-muted">{conversionRate}% conversion rate</p>
+              <h3 className="text-3xl font-bold text-text dark:text-white mb-2">{premiumUsers}</h3>
+              <p className="text-xs text-text-muted dark:text-gray-400">{conversionRate}% conversion rate</p>
             </div>
 
             {/* ARPU */}
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-5 border border-purple-200">
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl p-5 border border-purple-200 dark:border-purple-800">
               <div className="flex items-center gap-2 mb-2">
-                <HiOutlineReceiptPercent className="w-5 h-5 text-purple-600" />
-                <p className="text-sm font-medium text-text-secondary">Avg Revenue/User</p>
+                <HiOutlineReceiptPercent className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                <p className="text-sm font-medium text-text-secondary dark:text-gray-400">Avg Revenue/User</p>
               </div>
-              <h3 className="text-3xl font-bold text-text mb-2">৳{averageRevenuePerUser}</h3>
-              <p className="text-xs text-text-muted">Per user lifetime value</p>
+              <h3 className="text-3xl font-bold text-text dark:text-white mb-2">৳{averageRevenuePerUser}</h3>
+              <p className="text-xs text-text-muted dark:text-gray-400">Per user lifetime value</p>
             </div>
           </div>
         </div>
@@ -289,11 +289,11 @@ const AdminDashboardHome = () => {
         {/* Charts Section - Revenue, User & Lesson Growth */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Revenue Chart */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-lg font-bold text-text">Revenue Growth</h2>
-                <p className="text-sm text-text-secondary">Last 6 months revenue trend</p>
+                <h2 className="text-lg font-bold text-text dark:text-white">Revenue Growth</h2>
+                <p className="text-sm text-text-secondary dark:text-gray-400">Last 6 months revenue trend</p>
               </div>
               <div className="flex items-center gap-2 text-xs">
                 <span className="flex items-center gap-1.5">
@@ -308,7 +308,7 @@ const AdminDashboardHome = () => {
               {revenueData.map((data, index) => (
                 <div key={index} className="flex-1 flex flex-col items-center gap-2">
                   <div className="w-full flex flex-col items-center gap-1 h-32 justify-end">
-                    <span className="text-xs font-medium text-text">৳{(data.revenue / 1000).toFixed(0)}k</span>
+                    <span className="text-xs font-medium text-text dark:text-white">৳{(data.revenue / 1000).toFixed(0)}k</span>
                     <div
                       className="w-full max-w-10 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-lg transition-all duration-700 hover:from-emerald-600 hover:to-emerald-500 cursor-pointer relative group"
                       style={{
@@ -321,7 +321,7 @@ const AdminDashboardHome = () => {
                       </div>
                     </div>
                   </div>
-                  <span className="text-xs text-text-muted font-medium">{data.month}</span>
+                  <span className="text-xs text-text-muted dark:text-gray-400 font-medium">{data.month}</span>
                 </div>
               ))}
             </div>
@@ -330,20 +330,20 @@ const AdminDashboardHome = () => {
             <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
               <div>
                 <p className="text-2xl font-bold text-emerald-600">৳{totalRevenue.toLocaleString()}</p>
-                <p className="text-xs text-text-secondary">Total Revenue</p>
+                <p className="text-xs text-text-secondary dark:text-gray-400">Total Revenue</p>
               </div>
-              <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-3 py-1.5 rounded-full">
+              <span className="flex items-center gap-1 text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-3 py-1.5 rounded-full">
                 <HiOutlineArrowTrendingUp className="w-4 h-4" />
                 +23% growth
               </span>
             </div>
           </div>
           {/* User Growth Chart */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-lg font-bold text-text">User Growth</h2>
-                <p className="text-sm text-text-secondary">New registrations this week</p>
+                <h2 className="text-lg font-bold text-text dark:text-white">User Growth</h2>
+                <p className="text-sm text-text-secondary dark:text-gray-400">New registrations this week</p>
               </div>
               <div className="flex items-center gap-2 text-xs">
                 <span className="flex items-center gap-1.5">
@@ -358,7 +358,7 @@ const AdminDashboardHome = () => {
               {weeklyUserData.map((data, index) => (
                 <div key={index} className="flex-1 flex flex-col items-center gap-2">
                   <div className="w-full flex flex-col items-center gap-1 h-32 justify-end">
-                    <span className="text-xs font-medium text-text">{data.users}</span>
+                    <span className="text-xs font-medium text-text dark:text-white">{data.users}</span>
                     <div
                       className="w-full max-w-10 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg transition-all duration-700 hover:from-blue-600 hover:to-blue-500 cursor-pointer"
                       style={{
@@ -367,7 +367,7 @@ const AdminDashboardHome = () => {
                       }}
                     />
                   </div>
-                  <span className="text-xs text-text-muted font-medium">{data.day}</span>
+                  <span className="text-xs text-text-muted dark:text-gray-400 font-medium">{data.day}</span>
                 </div>
               ))}
             </div>
@@ -375,10 +375,10 @@ const AdminDashboardHome = () => {
             {/* Chart Summary */}
             <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
               <div>
-                <p className="text-2xl font-bold text-text">102</p>
-                <p className="text-xs text-text-secondary">Total this week</p>
+                <p className="text-2xl font-bold text-text dark:text-white">102</p>
+                <p className="text-xs text-text-secondary dark:text-gray-400">Total this week</p>
               </div>
-              <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-3 py-1.5 rounded-full">
+              <span className="flex items-center gap-1 text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-3 py-1.5 rounded-full">
                 <HiOutlineArrowTrendingUp className="w-4 h-4" />
                 +18% vs last week
               </span>
@@ -386,11 +386,11 @@ const AdminDashboardHome = () => {
           </div>
 
           {/* Lesson Growth Chart */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-lg font-bold text-text">Lesson Growth</h2>
-                <p className="text-sm text-text-secondary">New lessons this week</p>
+                <h2 className="text-lg font-bold text-text dark:text-white">Lesson Growth</h2>
+                <p className="text-sm text-text-secondary dark:text-gray-400">New lessons this week</p>
               </div>
               <div className="flex items-center gap-2 text-xs">
                 <span className="flex items-center gap-1.5">
@@ -405,7 +405,7 @@ const AdminDashboardHome = () => {
               {weeklyLessonData.map((data, index) => (
                 <div key={index} className="flex-1 flex flex-col items-center gap-2">
                   <div className="w-full flex flex-col items-center gap-1 h-32 justify-end">
-                    <span className="text-xs font-medium text-text">{data.lessons}</span>
+                    <span className="text-xs font-medium text-text dark:text-white">{data.lessons}</span>
                     <div
                       className="w-full max-w-10 bg-gradient-to-t from-cherry to-cherry-400 rounded-t-lg transition-all duration-700 hover:from-cherry-dark hover:to-cherry cursor-pointer"
                       style={{
@@ -414,7 +414,7 @@ const AdminDashboardHome = () => {
                       }}
                     />
                   </div>
-                  <span className="text-xs text-text-muted font-medium">{data.day}</span>
+                  <span className="text-xs text-text-muted dark:text-gray-400 font-medium">{data.day}</span>
                 </div>
               ))}
             </div>
@@ -422,10 +422,10 @@ const AdminDashboardHome = () => {
             {/* Chart Summary */}
             <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
               <div>
-                <p className="text-2xl font-bold text-text">54</p>
-                <p className="text-xs text-text-secondary">Total this week</p>
+                <p className="text-2xl font-bold text-text dark:text-white">54</p>
+                <p className="text-xs text-text-secondary dark:text-gray-400">Total this week</p>
               </div>
-              <span className="flex items-center gap-1 text-sm font-semibold text-green-600 bg-green-50 px-3 py-1.5 rounded-full">
+              <span className="flex items-center gap-1 text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-3 py-1.5 rounded-full">
                 <HiOutlineArrowTrendingUp className="w-4 h-4" />
                 +24% vs last week
               </span>
@@ -436,45 +436,45 @@ const AdminDashboardHome = () => {
         {/* Bottom Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Payments */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-lg font-bold text-text">Recent Payments</h2>
-              <span className="text-cherry text-sm font-medium">Last 24 hours</span>
+              <h2 className="text-lg font-bold text-text dark:text-white">Recent Payments</h2>
+              <span className="text-cherry dark:text-cherry-300 text-sm font-medium">Last 24 hours</span>
             </div>
             <div className="space-y-3">
               {recentPayments.map((payment) => (
-                <div key={payment.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                <div key={payment.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
                   <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${payment.status === 'completed' ? 'bg-green-100' : 'bg-amber-100'
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${payment.status === 'completed' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-amber-100 dark:bg-amber-900/30'
                       }`}>
-                      <HiOutlineCreditCard className={`w-5 h-5 ${payment.status === 'completed' ? 'text-green-600' : 'text-amber-600'
+                      <HiOutlineCreditCard className={`w-5 h-5 ${payment.status === 'completed' ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'
                         }`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-text truncate">{payment.userName}</p>
-                      <p className="text-xs text-text-secondary truncate">{payment.userEmail}</p>
+                      <p className="text-sm font-medium text-text dark:text-white truncate">{payment.userName}</p>
+                      <p className="text-xs text-text-secondary dark:text-gray-400 truncate">{payment.userEmail}</p>
                     </div>
                   </div>
                   <div className="text-right flex-shrink-0 ml-3">
-                    <p className="text-sm font-bold text-green-600">৳{payment.amount.toLocaleString()}</p>
-                    <p className="text-xs text-text-muted">{payment.date}</p>
+                    <p className="text-sm font-bold text-green-600 dark:text-green-400">৳{payment.amount.toLocaleString()}</p>
+                    <p className="text-xs text-text-muted dark:text-gray-400">{payment.date}</p>
                   </div>
                 </div>
               ))}
             </div>
             <div className="mt-5 pt-4 border-t border-border">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-text-secondary">Total Today</span>
-                <span className="font-bold text-text">৳{(recentPayments.filter(p => p.status === 'completed').length * 1500).toLocaleString()}</span>
+                <span className="text-text-secondary dark:text-gray-400">Total Today</span>
+                <span className="font-bold text-text dark:text-white">৳{(recentPayments.filter(p => p.status === 'completed').length * 1500).toLocaleString()}</span>
               </div>
             </div>
           </div>
 
           {/* Top Contributors */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-lg font-bold text-text">Top Contributors</h2>
-              <Link to="/dashboard/admin/manage-users" className="text-cherry text-sm font-medium hover:underline">
+              <h2 className="text-lg font-bold text-text dark:text-white">Top Contributors</h2>
+              <Link to="/dashboard/admin/manage-users" className="text-cherry dark:text-cherry-300 text-sm font-medium hover:underline">
                 View All
               </Link>
             </div>
@@ -490,17 +490,17 @@ const AdminDashboardHome = () => {
                     <span className={`absolute -top-1 -left-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold rounded-full ${index === 0 ? 'bg-amber-400 text-white' :
                       index === 1 ? 'bg-gray-400 text-white' :
                         index === 2 ? 'bg-amber-600 text-white' :
-                          'bg-gray-200 text-gray-600'
+                          'bg-gray-200 text-gray-600 dark:text-gray-400'
                       }`}>
                       {index + 1}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-text text-sm truncate">{user.name}</h4>
-                    <p className="text-xs text-text-secondary">{user.lessonsCount} lessons</p>
+                    <h4 className="font-medium text-text dark:text-white text-sm truncate">{user.name}</h4>
+                    <p className="text-xs text-text-secondary dark:text-gray-400">{user.lessonsCount} lessons</p>
                   </div>
                   {user.isPremium && (
-                    <span className="text-xs bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full">
+                    <span className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full">
                       ⭐ Premium
                     </span>
                   )}
@@ -513,73 +513,73 @@ const AdminDashboardHome = () => {
         {/* Second Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Quick Stats */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
-            <h2 className="text-lg font-bold text-text mb-5">Content Overview</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
+            <h2 className="text-lg font-bold text-text dark:text-white mb-5">Content Overview</h2>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-xl">
+              <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <HiOutlineEye className="w-5 h-5 text-green-600" />
+                  <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                    <HiOutlineEye className="w-5 h-5 text-green-600 dark:text-green-400" />
                   </div>
-                  <span className="font-medium text-text">Public Lessons</span>
+                  <span className="font-medium text-text dark:text-white">Public Lessons</span>
                 </div>
-                <span className="text-lg font-bold text-green-600">{publicLessons}</span>
+                <span className="text-lg font-bold text-green-600 dark:text-green-400">{publicLessons}</span>
               </div>
 
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <HiOutlineDocumentText className="w-5 h-5 text-gray-600" />
+                  <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                    <HiOutlineDocumentText className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                   </div>
-                  <span className="font-medium text-text">Private Lessons</span>
+                  <span className="font-medium text-text dark:text-white">Private Lessons</span>
                 </div>
-                <span className="text-lg font-bold text-gray-600">{privateLessons}</span>
+                <span className="text-lg font-bold text-gray-600 dark:text-gray-400">{privateLessons}</span>
               </div>
 
-              <div className="flex items-center justify-between p-3 bg-amber-50 rounded-xl">
+              <div className="flex items-center justify-between p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-                    <HiOutlineStar className="w-5 h-5 text-amber-600" />
+                  <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
+                    <HiOutlineStar className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                   </div>
-                  <span className="font-medium text-text">Premium Lessons</span>
+                  <span className="font-medium text-text dark:text-white">Premium Lessons</span>
                 </div>
-                <span className="text-lg font-bold text-amber-600">{premiumLessons}</span>
+                <span className="text-lg font-bold text-amber-600 dark:text-amber-400">{premiumLessons}</span>
               </div>
 
-              <div className="flex items-center justify-between p-3 bg-red-50 rounded-xl">
+              <div className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                    <HiOutlineFlag className="w-5 h-5 text-red-600" />
+                  <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                    <HiOutlineFlag className="w-5 h-5 text-red-600 dark:text-red-400" />
                   </div>
-                  <span className="font-medium text-text">Total Reports</span>
+                  <span className="font-medium text-text dark:text-white">Total Reports</span>
                 </div>
-                <span className="text-lg font-bold text-red-600">{totalReports}</span>
+                <span className="text-lg font-bold text-red-600 dark:text-red-400">{totalReports}</span>
               </div>
             </div>
           </div>
 
           {/* Recent Activity */}
-          <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm">
-            <h2 className="text-lg font-bold text-text mb-5">Recent Activity</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
+            <h2 className="text-lg font-bold text-text dark:text-white mb-5">Recent Activity</h2>
             <div className="space-y-4">
               {recentActivities.map((activity) => (
                 <div key={activity.id} className="flex items-start gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${activity.type === 'user' ? 'bg-blue-100' :
-                    activity.type === 'lesson' ? 'bg-cherry-50' :
-                      activity.type === 'report' ? 'bg-amber-100' :
-                        'bg-purple-100'
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${activity.type === 'user' ? 'bg-blue-100 dark:bg-blue-900/30' :
+                    activity.type === 'lesson' ? 'bg-cherry-50 dark:bg-cherry-900/20' :
+                      activity.type === 'report' ? 'bg-amber-100 dark:bg-amber-900/30' :
+                        'bg-purple-50 dark:bg-purple-900/30'
                     }`}>
-                    <activity.icon className={`w-4 h-4 ${activity.type === 'user' ? 'text-blue-600' :
-                      activity.type === 'lesson' ? 'text-cherry' :
-                        activity.type === 'report' ? 'text-amber-600' :
-                          'text-purple-600'
+                    <activity.icon className={`w-4 h-4 ${activity.type === 'user' ? 'text-blue-600 dark:text-blue-400' :
+                      activity.type === 'lesson' ? 'text-cherry dark:text-cherry-300' :
+                        activity.type === 'report' ? 'text-amber-600 dark:text-amber-400' :
+                          'text-purple-600 dark:text-purple-400'
                       }`} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-text">{activity.action}</p>
-                    <p className="text-xs text-text-secondary truncate">{activity.name}</p>
+                    <p className="text-sm text-text dark:text-white">{activity.action}</p>
+                    <p className="text-xs text-text-secondary dark:text-gray-400 truncate">{activity.name}</p>
                   </div>
-                  <span className="text-xs text-text-muted whitespace-nowrap">{activity.time}</span>
+                  <span className="text-xs text-text-muted dark:text-gray-400 whitespace-nowrap">{activity.time}</span>
                 </div>
               ))}
             </div>
