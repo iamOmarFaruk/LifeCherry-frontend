@@ -447,47 +447,47 @@ const Profile = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border dark:border-gray-700">
-          <div className="bg-cherry-50 dark:bg-cherry-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-cherry-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+          <div className="bg-cherry-50 dark:bg-gray-700 dark:border-l-4 dark:border-l-cherry rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-cherry-100 dark:bg-cherry/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
               <HiOutlineBookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-cherry" />
             </div>
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-cherry mb-1">{stats.totalLessons}</div>
-            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Total Lessons</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-300">Total Lessons</div>
           </div>
-          <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-green-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineEye className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+          <div className="bg-green-50 dark:bg-gray-700 dark:border-l-4 dark:border-l-green-500 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-green-100 dark:bg-green-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineEye className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400" />
             </div>
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600 mb-1">{stats.publicLessons}</div>
-            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Public</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600 dark:text-green-400 mb-1">{stats.publicLessons}</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-300">Public</div>
           </div>
-          <div className="bg-gray-100 dark:bg-gray-700 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+          <div className="bg-gray-100 dark:bg-gray-700 dark:border-l-4 dark:border-l-gray-400 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-gray-200 dark:bg-gray-500/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
               <HiOutlineLockClosed className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
             </div>
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-600 dark:text-gray-300 mb-1">{stats.privateLessons}</div>
-            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Private</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-600 dark:text-gray-200 mb-1">{stats.privateLessons}</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-300">Private</div>
           </div>
-          <div className="bg-amber-50 dark:bg-amber-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-amber-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineStar className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />
+          <div className="bg-amber-50 dark:bg-gray-700 dark:border-l-4 dark:border-l-amber-500 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-amber-100 dark:bg-amber-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineStar className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 dark:text-amber-400" />
             </div>
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-amber-600 mb-1">{stats.drafts}</div>
-            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Drafts</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-amber-600 dark:text-amber-400 mb-1">{stats.drafts}</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-300">Drafts</div>
           </div>
-          <div className="bg-red-50 dark:bg-red-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-red-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineHeart className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
+          <div className="bg-red-50 dark:bg-gray-700 dark:border-l-4 dark:border-l-red-500 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-red-100 dark:bg-red-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineHeart className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 dark:text-red-400" />
             </div>
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-500 mb-1">{stats.totalLikes}</div>
-            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Likes Received</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-500 dark:text-red-400 mb-1">{stats.totalLikes}</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-300">Likes Received</div>
           </div>
-          <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineBookmark className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+          <div className="bg-blue-50 dark:bg-gray-700 dark:border-l-4 dark:border-l-blue-500 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-blue-100 dark:bg-blue-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineBookmark className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
             </div>
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-1">{stats.totalFavorites}</div>
-            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-400">Favorites</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">{stats.totalFavorites}</div>
+            <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-300">Favorites</div>
           </div>
         </div>
 
