@@ -416,7 +416,7 @@ const LessonDetails = () => {
   if (loading) {
     return (
       <PageLoader>
-        <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white flex items-center justify-center text-text-secondary">
+        <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white dark:from-gray-900 dark:to-gray-950 flex items-center justify-center text-text-secondary dark:text-gray-400">
           Loading lesson...
         </div>
       </PageLoader>
@@ -428,13 +428,13 @@ const LessonDetails = () => {
   if (notFound) {
     return (
       <PageLoader>
-        <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white dark:from-gray-900 dark:to-gray-950 flex items-center justify-center">
           <div className="text-center max-w-md px-6">
-            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-red-50 text-red-600">
+            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400">
               <FiAlertCircle className="w-8 h-8" />
             </div>
-            <h1 className="text-3xl font-bold text-text-primary mb-2">Lesson Not Found</h1>
-            <p className="text-text-secondary mb-6">
+            <h1 className="text-3xl font-bold text-text-primary dark:text-white mb-2">Lesson Not Found</h1>
+            <p className="text-text-secondary dark:text-gray-400 mb-6">
               The lesson you're looking for doesn't exist, is private, or has been removed.
             </p>
             <Link
@@ -452,13 +452,13 @@ const LessonDetails = () => {
   if (error && !lesson) {
     return (
       <PageLoader>
-        <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white flex items-center justify-center text-center px-6">
+        <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white dark:from-gray-900 dark:to-gray-950 flex items-center justify-center text-center px-6">
           <div className="max-w-md">
-            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-amber-50 text-amber-600">
+            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
               <FiAlertCircle className="w-8 h-8" />
             </div>
-            <h1 className="text-2xl font-bold text-text-primary mb-2">Unable to load lesson</h1>
-            <p className="text-text-secondary mb-6">Please try again. If this keeps happening, check your connection or sign in.</p>
+            <h1 className="text-2xl font-bold text-text-primary dark:text-white mb-2">Unable to load lesson</h1>
+            <p className="text-text-secondary dark:text-gray-400 mb-6">Please try again. If this keeps happening, check your connection or sign in.</p>
             <Link
               to="/public-lessons"
               className="inline-flex items-center gap-2 px-6 py-3 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-colors"
@@ -479,7 +479,7 @@ const LessonDetails = () => {
 
   return (
     <PageLoader>
-      <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white">
+      <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-300">
         {/* Hero Section with Image */}
         <div className="relative h-[250px] md:h-[400px] lg:h-[450px]">
           <img
@@ -542,10 +542,10 @@ const LessonDetails = () => {
               onClick={handleLike}
               disabled={likeLoading || lesson?.creatorEmail === firebaseUser?.email}
               className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap ${lesson?.creatorEmail === firebaseUser?.email
-                  ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
-                  : isLiked
-                    ? 'bg-cherry text-white'
-                    : 'bg-gray-100 text-text-secondary hover:bg-cherry hover:text-white'
+                ? 'bg-gray-50 dark:bg-gray-800 text-text-muted dark:text-gray-500 cursor-not-allowed opacity-50'
+                : isLiked
+                  ? 'bg-cherry text-white'
+                  : 'bg-gray-100 dark:bg-gray-800 text-text-secondary dark:text-gray-300 hover:bg-cherry hover:text-white'
                 }`}
             >
               <FiHeart className={`w-3.5 h-3.5 md:w-4 md:h-4 ${isLiked ? 'fill-current' : ''}`} />
@@ -558,10 +558,10 @@ const LessonDetails = () => {
               onClick={handleSave}
               disabled={favoriteLoading || lesson?.creatorEmail === firebaseUser?.email}
               className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap ${lesson?.creatorEmail === firebaseUser?.email
-                  ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
-                  : isSaved
-                    ? 'bg-amber-500 text-white'
-                    : 'bg-gray-100 text-text-secondary hover:bg-amber-500 hover:text-white'
+                ? 'bg-gray-50 dark:bg-gray-800 text-text-muted dark:text-gray-500 cursor-not-allowed opacity-50'
+                : isSaved
+                  ? 'bg-amber-500 text-white'
+                  : 'bg-gray-100 dark:bg-gray-800 text-text-secondary dark:text-gray-300 hover:bg-amber-500 hover:text-white'
                 }`}
             >
               <FiBookmark className={`w-3.5 h-3.5 md:w-4 md:h-4 ${isSaved ? 'fill-current' : ''}`} />
@@ -570,13 +570,13 @@ const LessonDetails = () => {
             </button>
 
             {/* Views Count */}
-            <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-50 text-text-secondary text-xs md:text-sm font-medium whitespace-nowrap">
+            <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-50 dark:bg-gray-800 text-text-secondary dark:text-gray-300 text-xs md:text-sm font-medium whitespace-nowrap">
               <FiEye className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-500" />
               <span>{formatNumber(viewsCount)} Views</span>
             </div>
 
             {/* Comments Count */}
-            <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-50 text-text-secondary text-xs md:text-sm font-medium whitespace-nowrap">
+            <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-50 dark:bg-gray-800 text-text-secondary dark:text-gray-300 text-xs md:text-sm font-medium whitespace-nowrap">
               <FiMessageCircle className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-500" />
               <span>{commentsCount} {commentsCount === 1 ? 'Comment' : 'Comments'}</span>
             </div>
@@ -600,10 +600,10 @@ const LessonDetails = () => {
                 setShowReportModal(true);
               }}
               className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full font-medium text-xs md:text-sm transition-all whitespace-nowrap ${lesson?.creatorEmail === firebaseUser?.email
-                  ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
-                  : hasReported
-                    ? 'bg-red-100 text-red-600 cursor-not-allowed'
-                    : 'bg-gray-100 text-text-secondary hover:bg-red-100 hover:text-red-600 cursor-pointer'
+                ? 'bg-gray-50 dark:bg-gray-800 text-text-muted dark:text-gray-500 cursor-not-allowed opacity-50'
+                : hasReported
+                  ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 cursor-not-allowed'
+                  : 'bg-gray-100 dark:bg-gray-800 text-text-secondary dark:text-gray-300 hover:bg-red-100 dark:hover:bg-red-900/40 hover:text-red-600 dark:hover:text-red-400 cursor-pointer'
                 }`}
               disabled={hasReported || lesson?.creatorEmail === firebaseUser?.email}
             >
@@ -615,7 +615,7 @@ const LessonDetails = () => {
             <div className="relative">
               <button
                 onClick={() => setShowShareDropdown(!showShareDropdown)}
-                className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-100 text-text-secondary hover:bg-blue-100 hover:text-blue-600 transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap"
+                className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-100 dark:bg-gray-800 text-text-secondary dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap"
               >
                 <FiShare2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 <span>Share</span>
@@ -623,8 +623,8 @@ const LessonDetails = () => {
 
               {/* Share Dropdown */}
               {showShareDropdown && (
-                <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg border border-gray-100 p-3 z-50 min-w-[200px]">
-                  <p className="text-sm font-medium text-text-primary mb-3">Share this lesson</p>
+                <div className="absolute right-0 top-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-3 z-50 min-w-[200px]">
+                  <p className="text-sm font-medium text-text-primary dark:text-white mb-3">Share this lesson</p>
                   <div className="flex items-center gap-2 mb-3">
                     <FacebookShareButton url={shareUrl} hashtag="#LifeCherry">
                       <FacebookIcon size={32} round />
@@ -641,7 +641,7 @@ const LessonDetails = () => {
                   </div>
                   <button
                     onClick={copyToClipboard}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                   >
                     <FiShare2 className="w-4 h-4" />
                     Copy Link
@@ -662,13 +662,13 @@ const LessonDetails = () => {
               </div>
 
               {/* Lock Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center bg-white/80 rounded-2xl">
+              <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80 rounded-2xl">
                 <div className="text-center p-8">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-amber-100 rounded-full flex items-center justify-center">
-                    <FiLock className="w-8 h-8 text-amber-600" />
+                  <div className="w-16 h-16 mx-auto mb-4 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center">
+                    <FiLock className="w-8 h-8 text-amber-600 dark:text-amber-500" />
                   </div>
-                  <h3 className="text-xl font-bold text-text-primary mb-2">Premium Content</h3>
-                  <p className="text-text-secondary mb-4">
+                  <h3 className="text-xl font-bold text-text-primary dark:text-white mb-2">Premium Content</h3>
+                  <p className="text-text-secondary dark:text-gray-400 mb-4">
                     This lesson is available exclusively for premium members.
                   </p>
                   <Link
@@ -683,71 +683,71 @@ const LessonDetails = () => {
           ) : (
             <>
               {/* Lesson Metadata */}
-              <div className="bg-white rounded-2xl shadow-sm p-4 md:p-6 mb-8 border border-gray-100">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-4 md:p-6 mb-8 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                   <div className="flex items-center gap-2 md:gap-3">
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-cherry-50 flex items-center justify-center">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-cherry-50 dark:bg-cherry-900/30 flex items-center justify-center">
                       <FiCalendar className="w-4 h-4 md:w-5 md:h-5 text-cherry" />
                     </div>
                     <div>
-                      <span className="text-[10px] md:text-xs text-text-muted block">Created</span>
-                      <p className="font-semibold text-text-primary text-sm md:text-base">{formatShortDate(lesson.createdAt)}</p>
+                      <span className="text-[10px] md:text-xs text-text-muted dark:text-gray-500 block">Created</span>
+                      <p className="font-semibold text-text-primary dark:text-white text-sm md:text-base">{formatShortDate(lesson.createdAt)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 md:gap-3">
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center">
                       <FiEdit3 className="w-4 h-4 md:w-5 md:h-5 text-blue-500" />
                     </div>
                     <div>
-                      <span className="text-[10px] md:text-xs text-text-muted block">Last Updated</span>
-                      <p className="font-semibold text-text-primary text-sm md:text-base">{formatShortDate(lesson.updatedAt)}</p>
+                      <span className="text-[10px] md:text-xs text-text-muted dark:text-gray-500 block">Last Updated</span>
+                      <p className="font-semibold text-text-primary dark:text-white text-sm md:text-base">{formatShortDate(lesson.updatedAt)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 md:gap-3">
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-green-50 flex items-center justify-center">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-green-50 dark:bg-green-900/30 flex items-center justify-center">
                       <FiEye className="w-4 h-4 md:w-5 md:h-5 text-green-500" />
                     </div>
                     <div>
-                      <span className="text-[10px] md:text-xs text-text-muted block">Visibility</span>
-                      <p className="font-semibold text-text-primary text-sm md:text-base capitalize">{lesson.visibility}</p>
+                      <span className="text-[10px] md:text-xs text-text-muted dark:text-gray-500 block">Visibility</span>
+                      <p className="font-semibold text-text-primary dark:text-white text-sm md:text-base capitalize">{lesson.visibility}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 md:gap-3">
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-50 flex items-center justify-center">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center">
                       <FiClock className="w-4 h-4 md:w-5 md:h-5 text-amber-500" />
                     </div>
                     <div>
-                      <span className="text-[10px] md:text-xs text-text-muted block">Reading Time</span>
-                      <p className="font-semibold text-text-primary text-sm md:text-base">{readingTime} min</p>
+                      <span className="text-[10px] md:text-xs text-text-muted dark:text-gray-500 block">Reading Time</span>
+                      <p className="font-semibold text-text-primary dark:text-white text-sm md:text-base">{readingTime} min</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Lesson Content */}
-              <div className="prose prose-base md:prose-lg max-w-none mb-8">
-                <p className="text-base md:text-xl text-text-secondary leading-relaxed whitespace-pre-line">
+              <div className="prose prose-base md:prose-lg max-w-none mb-8 dark:prose-invert">
+                <p className="text-base md:text-xl text-text-secondary dark:text-gray-300 leading-relaxed whitespace-pre-line">
                   {lesson.description}
                 </p>
               </div>
 
               {/* Creator Card */}
-              <div className="bg-white rounded-2xl shadow-sm p-6 mb-12 border border-gray-100">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 mb-12 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <img
                     src={lesson.creatorPhoto}
                     alt={lesson.creatorName}
-                    className="w-16 h-16 rounded-full object-cover border-2 border-cherry-100"
+                    className="w-16 h-16 rounded-full object-cover border-2 border-cherry-100 dark:border-cherry-900/30"
                   />
                   <div className="flex-1">
-                    <p className="text-sm text-text-muted mb-1">Written by</p>
-                    <h3 className="text-xl font-bold text-text-primary mb-1">{lesson.creatorName}</h3>
-                    <p className="text-text-secondary text-sm flex items-center gap-2 mb-2">
+                    <p className="text-sm text-text-muted dark:text-gray-500 mb-1">Written by</p>
+                    <h3 className="text-xl font-bold text-text-primary dark:text-white mb-1">{lesson.creatorName}</h3>
+                    <p className="text-text-secondary dark:text-gray-400 text-sm flex items-center gap-2 mb-2">
                       <FiEdit3 className="w-4 h-4" />
                       {creatorLessonsCount} lessons created
                     </p>
                     {lesson.creatorBio && (
-                      <div className="text-text-secondary text-sm italic mt-3">
+                      <div className="text-text-secondary dark:text-gray-400 text-sm italic mt-3">
                         <div className="relative">
                           <div
                             className={`transition-all duration-500 ease-in-out overflow-hidden ${isBioExpanded ? 'max-h-[500px] opacity-100' : 'max-h-[2.6rem] opacity-90'
@@ -757,7 +757,7 @@ const LessonDetails = () => {
                           </div>
 
                           {!isBioExpanded && lesson.creatorBio.length > 100 && (
-                            <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none" />
+                            <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white dark:from-gray-800 via-white/90 dark:via-gray-800/90 to-transparent pointer-events-none" />
                           )}
                         </div>
 
@@ -783,7 +783,7 @@ const LessonDetails = () => {
 
               {/* Comments Section */}
               <div className="mb-12">
-                <h2 className="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
+                <h2 className="text-2xl font-bold text-text-primary dark:text-white mb-6 flex items-center gap-2">
                   <FiMessageCircle className="w-6 h-6" />
                   Comments & Discussion
                 </h2>
@@ -793,7 +793,7 @@ const LessonDetails = () => {
               {/* Related Lessons by Category */}
               {relatedByCategory.length > 0 && (
                 <div className="mb-12">
-                  <h2 className="text-2xl font-bold text-text-primary mb-6">Similar Lessons in {lesson.category}</h2>
+                  <h2 className="text-2xl font-bold text-text-primary dark:text-white mb-6">Similar Lessons in {lesson.category}</h2>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {relatedByCategory.slice(0, 6).map(relatedLesson => {
                       const isPremiumLocked = relatedLesson.accessLevel === 'premium' && !isUserPremium;

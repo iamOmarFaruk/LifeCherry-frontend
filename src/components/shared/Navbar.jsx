@@ -13,12 +13,12 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  
+
   // Handle scroll behavior
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       // Show navbar when scrolling up or at top
       if (currentScrollY < lastScrollY || currentScrollY < 100) {
         setIsVisible(true);
@@ -27,7 +27,7 @@ const Navbar = () => {
         setIsVisible(false);
         setIsDropdownOpen(false); // Close dropdown when hiding
       }
-      
+
       setLastScrollY(currentScrollY);
     };
 
@@ -41,12 +41,12 @@ const Navbar = () => {
 
   const user = firebaseUser
     ? {
-        name: userProfile?.name || firebaseUser.displayName || 'User',
-        email: firebaseUser.email,
-        photoURL: userProfile?.photoURL || providerPhotoURL,
-        isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
-        role: userProfile?.role || 'user',
-      }
+      name: userProfile?.name || firebaseUser.displayName || 'User',
+      email: firebaseUser.email,
+      photoURL: userProfile?.photoURL || providerPhotoURL,
+      isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
+      role: userProfile?.role || 'user',
+    }
     : null;
 
   const avatarFallback = user
@@ -77,16 +77,16 @@ const Navbar = () => {
   ];
 
   const activeClass = "text-cherry font-semibold";
-  const inactiveClass = "text-text-primary hover:text-cherry transition-colors";
+  const inactiveClass = "text-text-primary dark:text-gray-300 hover:text-cherry transition-colors";
 
   return (
-    <nav className={`bg-white/95 backdrop-blur-md border-b border-border fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+    <nav className={`bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-border dark:border-gray-800 fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <span className="text-2xl">🍒</span>
-            <span className="text-xl font-bold text-text-primary">LifeCherry</span>
+            <span className="text-xl font-bold text-text-primary dark:text-white">LifeCherry</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -100,7 +100,7 @@ const Navbar = () => {
                 {link.label}
               </NavLink>
             ))}
-            
+
             {authReady && user && privateLinks.map((link) => (
               <NavLink
                 key={link.path}
@@ -157,13 +157,12 @@ const Navbar = () => {
                   />
                   <div className="flex flex-col items-start">
                     <span className="text-sm font-medium text-text-primary leading-tight">{user.name.split(' ')[0]}</span>
-                    <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${
-                      user.role === 'admin' 
-                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
-                        : user.isPremium 
-                          ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' 
-                          : 'bg-indigo-100 text-indigo-700'
-                    }`}>
+                    <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.role === 'admin'
+                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
+                      : user.isPremium
+                        ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white'
+                        : 'bg-indigo-100 text-indigo-700'
+                      }`}>
                       {user.role === 'admin' ? 'Admin' : user.isPremium ? 'Premium' : 'Starter'}
                     </span>
                   </div>
@@ -177,7 +176,7 @@ const Navbar = () => {
                       <p className="font-semibold text-text-primary">{user.name}</p>
                       <p className="text-sm text-text-muted">{user.email}</p>
                     </div>
-                    
+
                     <Link
                       to="/dashboard/profile"
                       onClick={() => setIsDropdownOpen(false)}
@@ -186,7 +185,7 @@ const Navbar = () => {
                       <FiUser size={18} />
                       <span>Profile</span>
                     </Link>
-                    
+
                     <Link
                       to="/dashboard"
                       onClick={() => setIsDropdownOpen(false)}
@@ -195,9 +194,9 @@ const Navbar = () => {
                       <FiGrid size={18} />
                       <span>Dashboard</span>
                     </Link>
-                    
+
                     <hr className="my-2 border-border" />
-                    
+
                     <button
                       onClick={handleLogout}
                       className="flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 transition-colors w-full"
@@ -249,7 +248,7 @@ const Navbar = () => {
                   {link.label}
                 </NavLink>
               ))}
-              
+
               {user && privateLinks.map((link) => (
                 <NavLink
                   key={link.path}
@@ -300,18 +299,17 @@ const Navbar = () => {
                     />
                     <div>
                       <p className="font-semibold text-text-primary">{user.name}</p>
-                      <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${
-                        user.role === 'admin' 
-                          ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
-                          : user.isPremium 
-                            ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white' 
-                            : 'bg-gray-200 text-gray-600'
-                      }`}>
+                      <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.role === 'admin'
+                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
+                        : user.isPremium
+                          ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white'
+                          : 'bg-gray-200 text-gray-600'
+                        }`}>
                         {user.role === 'admin' ? 'Admin' : user.isPremium ? 'Premium' : 'Starter'}
                       </span>
                     </div>
                   </div>
-                  
+
                   <NavLink
                     to="/dashboard/profile"
                     onClick={() => setIsMenuOpen(false)}
@@ -319,7 +317,7 @@ const Navbar = () => {
                   >
                     Profile
                   </NavLink>
-                  
+
                   <NavLink
                     to="/dashboard"
                     onClick={() => setIsMenuOpen(false)}
@@ -327,7 +325,7 @@ const Navbar = () => {
                   >
                     Dashboard
                   </NavLink>
-                  
+
                   <button
                     onClick={handleLogout}
                     className="px-4 py-2.5 text-red-500 hover:bg-red-50 rounded-lg text-left"

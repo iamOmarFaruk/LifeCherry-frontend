@@ -179,7 +179,7 @@ const PublicLessons = () => {
 
   return (
     <PageLoader>
-      <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white">
+      <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-300">
         {error && (
           <div className="bg-red-50 text-red-700 px-4 py-3 text-center">{error}</div>
         )}
@@ -211,7 +211,7 @@ const PublicLessons = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
           {/* Search & Filter Bar */}
-          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm p-4 md:p-6 mb-6 md:mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-sm p-4 md:p-6 mb-6 md:mb-8 transition-colors duration-300">
             {/* Search Input */}
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-4">
               <div className="flex-1 relative">
@@ -221,14 +221,14 @@ const PublicLessons = () => {
                   placeholder="Search lessons by title or keyword..."
                   value={searchQuery}
                   onChange={(e) => handleFilterChange(setSearchQuery)(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry"
+                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry dark:text-white bg-white dark:bg-gray-900 dark:placeholder-gray-500"
                 />
               </div>
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all cursor-pointer ${showFilters || hasActiveFilters
                   ? 'bg-cherry text-white border-cherry'
-                  : 'bg-white text-text-secondary border-gray-200 hover:border-cherry'
+                  : 'bg-white dark:bg-gray-700 text-text-secondary dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-cherry'
                   }`}
               >
                 <FiFilter className="w-5 h-5" />
@@ -241,17 +241,17 @@ const PublicLessons = () => {
 
             {/* Filter Options */}
             {showFilters && (
-              <div className="pt-4 border-t border-gray-100">
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                   {/* Category Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-text-secondary mb-2">
+                    <label className="block text-sm font-medium text-text-secondary dark:text-gray-400 mb-2">
                       Category
                     </label>
                     <select
                       value={selectedCategory}
                       onChange={(e) => handleFilterChange(setSelectedCategory)(e.target.value)}
-                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white cursor-pointer"
+                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 dark:border-gray-700 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry dark:text-white bg-white dark:bg-gray-900 cursor-pointer"
                     >
                       <option value="">All Categories</option>
                       {categories.map(cat => (
@@ -262,13 +262,13 @@ const PublicLessons = () => {
 
                   {/* Emotional Tone Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-text-secondary mb-2">
+                    <label className="block text-sm font-medium text-text-secondary dark:text-gray-400 mb-2">
                       Emotional Tone
                     </label>
                     <select
                       value={selectedTone}
                       onChange={(e) => handleFilterChange(setSelectedTone)(e.target.value)}
-                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white cursor-pointer"
+                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 dark:border-gray-700 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry dark:text-white bg-white dark:bg-gray-900 cursor-pointer"
                     >
                       <option value="">All Tones</option>
                       {emotionalTones.map(tone => (
@@ -279,13 +279,13 @@ const PublicLessons = () => {
 
                   {/* Access Level Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-text-secondary mb-2">
+                    <label className="block text-sm font-medium text-text-secondary dark:text-gray-400 mb-2">
                       Access Level
                     </label>
                     <select
                       value={selectedAccessLevel}
                       onChange={(e) => handleFilterChange(setSelectedAccessLevel)(e.target.value)}
-                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white cursor-pointer"
+                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 dark:border-gray-700 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry dark:text-white bg-white dark:bg-gray-900 cursor-pointer"
                     >
                       <option value="">All Levels</option>
                       <option value="free">Free</option>
@@ -295,13 +295,13 @@ const PublicLessons = () => {
 
                   {/* Sort By */}
                   <div>
-                    <label className="block text-sm font-medium text-text-secondary mb-2">
+                    <label className="block text-sm font-medium text-text-secondary dark:text-gray-400 mb-2">
                       Sort By
                     </label>
                     <select
                       value={sortBy}
                       onChange={(e) => handleFilterChange(setSortBy)(e.target.value)}
-                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry bg-white cursor-pointer"
+                      className="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200 dark:border-gray-700 focus:border-cherry focus:ring-2 focus:ring-cherry-100 outline-none transition-all text-text-cherry dark:text-white bg-white dark:bg-gray-900 cursor-pointer"
                     >
                       <option value="newest">Newest First</option>
                       <option value="mostSaved">Most Saved</option>
@@ -314,8 +314,8 @@ const PublicLessons = () => {
                       onClick={clearFilters}
                       disabled={!hasActiveFilters}
                       className={`w-full px-4 py-3 rounded-xl flex items-center justify-center gap-2 transition-all ${hasActiveFilters
-                        ? 'bg-gray-100 text-text-secondary hover:bg-gray-200'
-                        : 'bg-gray-50 text-gray-400 cursor-not-allowed'
+                        ? 'bg-gray-100 dark:bg-gray-700 text-text-secondary dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                        : 'bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                         }`}
                     >
                       <FiX className="w-4 h-4" />
@@ -329,8 +329,8 @@ const PublicLessons = () => {
 
           {/* Results Count */}
           <div className="flex items-center justify-between mb-6">
-            <p className="text-text-secondary">
-              Showing <span className="font-semibold text-text-cherry">{filteredLessons.length}</span> lessons
+            <p className="text-text-secondary dark:text-gray-400">
+              Showing <span className="font-semibold text-text-cherry dark:text-white">{filteredLessons.length}</span> lessons
               {hasActiveFilters && (
                 <span className="text-text-muted"> (filtered)</span>
               )}
@@ -348,12 +348,12 @@ const PublicLessons = () => {
                 return (
                   <div
                     key={lesson._id}
-                    className={`relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 ${isPremiumLocked ? 'group' : ''
+                    className={`relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 ${isPremiumLocked ? 'group' : ''
                       }`}
                   >
                     {/* Premium Locked Overlay */}
                     {isPremiumLocked && (
-                      <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-4 md:p-6">
+                      <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-4 md:p-6">
                         <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-full flex items-center justify-center mb-3 md:mb-4">
                           <FiLock className="w-6 h-6 md:w-8 md:h-8 text-white" />
                         </div>
@@ -407,17 +407,17 @@ const PublicLessons = () => {
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-base md:text-lg font-semibold text-text-cherry mb-2 line-clamp-2">
+                      <h3 className="text-base md:text-lg font-semibold text-text-cherry dark:text-white mb-2 line-clamp-2">
                         {lesson.title}
                       </h3>
 
                       {/* Description Preview */}
-                      <p className="text-text-secondary text-sm mb-4 line-clamp-2">
+                      <p className="text-text-secondary dark:text-gray-400 text-sm mb-4 line-clamp-2">
                         {lesson.description}
                       </p>
 
                       {/* Creator Info & Stats */}
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
                         <div className="flex items-center gap-2">
                           <img
                             src={lesson.creatorPhoto}
@@ -425,17 +425,17 @@ const PublicLessons = () => {
                             className="w-8 h-8 rounded-full object-cover"
                           />
                           <div>
-                            <p className="text-sm font-medium text-text-cherry line-clamp-1">
+                            <p className="text-sm font-medium text-text-cherry dark:text-gray-200 line-clamp-1">
                               {lesson.creatorName}
                             </p>
-                            <p className="text-xs text-text-muted">
+                            <p className="text-xs text-text-muted dark:text-gray-500">
                               {formatDate(lesson.createdAt)}
                             </p>
                           </div>
                         </div>
 
                         {/* Stats */}
-                        <div className="flex items-center gap-3 text-text-muted text-sm">
+                        <div className="flex items-center gap-3 text-text-muted dark:text-gray-500 text-sm">
                           <span className="flex items-center gap-1">
                             <FiHeart className="w-4 h-4" />
                             {lesson.likesCount}
@@ -464,18 +464,18 @@ const PublicLessons = () => {
           ) : (
             /* No Results */
             <div className="text-center py-16">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FiSearch className="w-12 h-12 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-text-cherry mb-2">
+              <h3 className="text-xl font-semibold text-text-cherry dark:text-white mb-2">
                 No lessons found
               </h3>
-              <p className="text-text-secondary mb-6">
+              <p className="text-text-secondary dark:text-gray-400 mb-6">
                 Try adjusting your search or filter criteria
               </p>
               <button
                 onClick={clearFilters}
-                className="px-6 py-3 bg-cherry text-white font-medium rounded-xl hover:bg-cherry-dark transition-all"
+                className="px-6 py-3 bg-cherry text-white font-medium rounded-xl hover:bg-cherry-600 transition-all"
               >
                 Clear Filters
               </button>
@@ -490,8 +490,8 @@ const PublicLessons = () => {
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
                 className={`p-3 rounded-xl transition-all ${currentPage === 1
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-text-secondary hover:bg-cherry hover:text-white shadow-sm cursor-pointer'
+                  ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
+                  : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-white hover:bg-cherry hover:text-white shadow-sm cursor-pointer'
                   }`}
               >
                 <FiChevronLeft className="w-5 h-5" />
@@ -513,7 +513,7 @@ const PublicLessons = () => {
                         onClick={() => setCurrentPage(pageNum)}
                         className={`w-10 h-10 rounded-xl font-medium transition-all cursor-pointer ${currentPage === pageNum
                           ? 'bg-cherry text-white'
-                          : 'bg-white text-text-secondary hover:bg-cherry hover:text-white shadow-sm'
+                          : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-white hover:bg-cherry hover:text-white shadow-sm'
                           }`}
                       >
                         {pageNum}
@@ -524,7 +524,7 @@ const PublicLessons = () => {
                     pageNum === currentPage + 2
                   ) {
                     return (
-                      <span key={pageNum} className="px-2 text-text-muted">
+                      <span key={pageNum} className="px-2 text-text-muted dark:text-gray-500">
                         ...
                       </span>
                     );
@@ -538,8 +538,8 @@ const PublicLessons = () => {
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
                 className={`p-3 rounded-xl transition-all ${currentPage === totalPages
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-text-secondary hover:bg-cherry hover:text-white shadow-sm cursor-pointer'
+                  ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
+                  : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-white hover:bg-cherry hover:text-white shadow-sm cursor-pointer'
                   }`}
               >
                 <FiChevronRight className="w-5 h-5" />

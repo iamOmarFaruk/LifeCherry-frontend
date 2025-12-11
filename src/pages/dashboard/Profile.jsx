@@ -24,12 +24,14 @@ import {
 import toast from 'react-hot-toast';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import useAuth from '../../hooks/useAuth';
+import { useTheme } from '../../contexts/ThemeContext.jsx';
 import apiClient from '../../utils/apiClient';
 import Loading from '../../components/shared/Loading';
 import { emotionalTones } from '../../data/lessons';
 
 const Profile = () => {
   useDocumentTitle('My Profile');
+  const { theme, setTheme } = useTheme();
   const {
     firebaseUser,
     userProfile,
@@ -483,6 +485,43 @@ const Profile = () => {
             </div>
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-1">{stats.totalFavorites}</div>
             <div className="text-xs sm:text-sm text-text-secondary">Favorites</div>
+          </div>
+        </div>
+
+        {/* Preferences */}
+        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-base sm:text-lg font-bold text-text">Preferences</h3>
+          </div>
+
+          <div className="bg-white dark:bg-surface rounded-xl border border-border p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h4 className="font-medium text-text text-sm sm:text-base">Appearance</h4>
+                <p className="text-xs sm:text-sm text-text-secondary mt-1">
+                  Customize how LifeCherry looks on your device.
+                </p>
+              </div>
+              <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
+                {[
+                  { id: 'light', label: 'Light', icon: '☀️' },
+                  { id: 'system', label: 'System', icon: '💻' },
+                  { id: 'dark', label: 'Dark', icon: '🌙' }
+                ].map((mode) => (
+                  <button
+                    key={mode.id}
+                    onClick={() => setTheme(mode.id)}
+                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all flex items-center gap-2 ${theme === mode.id
+                      ? 'bg-white dark:bg-gray-600 text-cherry shadow-sm'
+                      : 'text-text-secondary hover:text-text dark:text-gray-400 dark:hover:text-gray-200'
+                      }`}
+                  >
+                    <span>{mode.icon}</span>
+                    <span className="hidden sm:inline">{mode.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 

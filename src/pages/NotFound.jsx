@@ -412,8 +412,8 @@ const NotFound = () => {
       <div className="text-center max-w-lg">
         {/* Lottie Animation */}
         <div className="w-64 h-64 mx-auto -mb-4">
-          <Lottie 
-            animationData={notFoundAnimation} 
+          <Lottie
+            animationData={notFoundAnimation}
             loop={true}
             className="w-full h-full"
           />
@@ -430,16 +430,16 @@ const NotFound = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-cherry text-white font-semibold rounded-xl hover:bg-cherry-dark transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
             <HiHome className="text-xl" />
             Back to Home
           </Link>
-          <button 
+          <button
             onClick={() => window.history.back()}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-cherry font-semibold rounded-xl border-2 border-cherry hover:bg-cherry-50 transition-all duration-300"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-transparent text-cherry dark:text-cherry-300 font-semibold rounded-xl border-2 border-cherry dark:border-cherry-300 hover:bg-cherry-50 dark:hover:bg-cherry-900/20 transition-all duration-300"
           >
             <HiArrowLeft className="text-xl" />
             Go Back
@@ -450,9 +450,9 @@ const NotFound = () => {
       {/* Cherry blossom wave decoration */}
       <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none">
         <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 100" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path 
-            d="M0 100L48 92C96 84 192 68 288 60C384 52 480 52 576 56C672 60 768 68 864 72C960 76 1056 76 1152 72C1248 68 1344 60 1392 56L1440 52V100H1392C1344 100 1248 100 1152 100C1056 100 960 100 864 100C768 100 672 100 576 100C480 100 384 100 288 100C192 100 96 100 48 100H0Z" 
-            fill="#FFEAEA"
+          <path
+            d="M0 100L48 92C96 84 192 68 288 60C384 52 480 52 576 56C672 60 768 68 864 72C960 76 1056 76 1152 72C1248 68 1344 60 1392 56L1440 52V100H1392C1344 100 1248 100 1152 100C1056 100 960 100 864 100C768 100 672 100 576 100C480 100 384 100 288 100C192 100 96 100 48 100H0Z"
+            className="fill-cherry-50 dark:fill-gray-800"
           />
         </svg>
       </div>

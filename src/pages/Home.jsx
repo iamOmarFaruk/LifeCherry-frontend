@@ -92,12 +92,12 @@ const Home = () => {
       <HeroSlider />
 
       {/* Featured Lessons Section */}
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-12 md:py-16 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 md:mb-10">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-text-cherry">Featured Lessons</h2>
-              <p className="text-text-secondary mt-1 md:mt-2 text-sm md:text-base">Handpicked wisdom from our community</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-text-cherry dark:text-white">Featured Lessons</h2>
+              <p className="text-text-secondary dark:text-gray-300 mt-1 md:mt-2 text-sm md:text-base">Handpicked wisdom from our community</p>
             </div>
             <Link to="/public-lessons?sort=mostSaved" className="text-cherry hover:underline flex items-center gap-1 text-sm font-medium">
               View All <FiArrowRight />
@@ -139,10 +139,10 @@ const Home = () => {
                     {lesson.emotionalTone}
                   </span>
                 </div>
-                <h3 className="text-lg md:text-xl font-semibold text-text-cherry mb-2 line-clamp-2">
+                <h3 className="text-lg md:text-xl font-semibold text-text-cherry dark:text-gray-100 mb-2 line-clamp-2">
                   {lesson.title}
                 </h3>
-                <p className="text-text-secondary text-sm mb-4 line-clamp-2">
+                <p className="text-text-secondary dark:text-gray-300 text-sm mb-4 line-clamp-2">
                   {lesson.description}
                 </p>
                 <div className="flex items-center justify-between">
@@ -152,7 +152,7 @@ const Home = () => {
                       alt={lesson.creatorName}
                       className="w-8 h-8 rounded-full object-cover"
                     />
-                    <span className="text-xs md:text-sm text-text-secondary">{lesson.creatorName}</span>
+                    <span className="text-xs md:text-sm text-text-secondary dark:text-gray-400">{lesson.creatorName}</span>
                   </div>
                   <Link
                     to={`/lessons/${lesson._id}`}
@@ -168,52 +168,52 @@ const Home = () => {
       </section>
 
       {/* Why Learning From Life Matters Section */}
-      <section className="py-12 md:py-16 bg-cherry-50">
+      <section className="py-12 md:py-16 bg-cherry-50 dark:bg-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-text-cherry">Why Learning From Life Matters</h2>
-            <p className="text-text-secondary mt-2 max-w-2xl mx-auto text-sm md:text-base">
+            <h2 className="text-2xl md:text-3xl font-bold text-text-cherry dark:text-cherry-300">Why Learning From Life Matters</h2>
+            <p className="text-text-secondary dark:text-gray-400 mt-2 max-w-2xl mx-auto text-sm md:text-base">
               Every experience holds a lesson. Here's why capturing and sharing them is powerful.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
-              <div className="w-14 h-14 bg-cherry-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
+              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiBookOpen className="w-7 h-7 text-cherry" />
               </div>
-              <h3 className="text-lg font-semibold text-text-cherry mb-2">Preserve Wisdom</h3>
-              <p className="text-text-secondary text-sm">
+              <h3 className="text-lg font-semibold text-text-cherry dark:text-cherry-300 mb-2">Preserve Wisdom</h3>
+              <p className="text-text-secondary dark:text-gray-300 text-sm">
                 Don't let valuable lessons fade away. Document them for yourself and future generations.
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
-              <div className="w-14 h-14 bg-cherry-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
+              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiHeart className="w-7 h-7 text-cherry" />
               </div>
-              <h3 className="text-lg font-semibold text-text-cherry mb-2">Mindful Reflection</h3>
-              <p className="text-text-secondary text-sm">
+              <h3 className="text-lg font-semibold text-text-cherry dark:text-cherry-300 mb-2">Mindful Reflection</h3>
+              <p className="text-text-secondary dark:text-gray-300 text-sm">
                 Writing about experiences deepens understanding and promotes personal growth.
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
-              <div className="w-14 h-14 bg-cherry-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
+              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiUsers className="w-7 h-7 text-cherry" />
               </div>
-              <h3 className="text-lg font-semibold text-text-cherry mb-2">Help Others</h3>
-              <p className="text-text-secondary text-sm">
+              <h3 className="text-lg font-semibold text-text-cherry dark:text-cherry-300 mb-2">Help Others</h3>
+              <p className="text-text-secondary dark:text-gray-300 text-sm">
                 Your story might be exactly what someone else needs to hear today.
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
-              <div className="w-14 h-14 bg-cherry-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
+              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiStar className="w-7 h-7 text-cherry" />
               </div>
-              <h3 className="text-lg font-semibold text-text-cherry mb-2">Build Community</h3>
-              <p className="text-text-secondary text-sm">
+              <h3 className="text-lg font-semibold text-text-cherry dark:text-cherry-300 mb-2">Build Community</h3>
+              <p className="text-text-secondary dark:text-gray-300 text-sm">
                 Connect with like-minded people who value growth and shared wisdom.
               </p>
             </div>
@@ -222,11 +222,11 @@ const Home = () => {
       </section>
 
       {/* Top Contributors Section */}
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-12 md:py-16 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">Top Contributors of the Week</h2>
-            <p className="text-text-secondary mt-2 md:mt-4 max-w-xl mx-auto text-base md:text-lg">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6 tracking-tight">Top Contributors of the Week</h2>
+            <p className="text-text-secondary dark:text-gray-400 mt-2 md:mt-4 max-w-xl mx-auto text-base md:text-lg">
               Meet the amazing people sharing their wisdom
             </p>
           </div>
@@ -261,12 +261,12 @@ const Home = () => {
       </section>
 
       {/* Most Saved Lessons Section */}
-      <section className="py-12 md:py-16 bg-gradient-to-br from-white to-cherry-50">
+      <section className="py-12 md:py-16 bg-gradient-to-br from-white to-cherry-50 dark:from-gray-900 dark:to-[#1a1012] transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 md:mb-10">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-text-cherry">Most Saved Lessons</h2>
-              <p className="text-text-secondary mt-1 md:mt-2 text-sm md:text-base">The lessons our community loves most</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-text-cherry dark:text-cherry-300">Most Saved Lessons</h2>
+              <p className="text-text-secondary dark:text-gray-400 mt-1 md:mt-2 text-sm md:text-base">The lessons our community loves most</p>
             </div>
             <Link to="/public-lessons?sort=mostSaved" className="text-cherry hover:underline flex items-center gap-1 text-sm font-medium">
               View All <FiArrowRight />
@@ -283,17 +283,17 @@ const Home = () => {
             {!loading && mostSavedLessons.map((lesson) => (
               <div
                 key={lesson._id}
-                className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
+                className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
               >
                 {lesson.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
-                  <div className="absolute inset-0 bg-white/85 backdrop-blur-sm z-10 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-white/85 dark:bg-gray-900/85 backdrop-blur-sm z-10 flex items-center justify-center">
                     <div className="text-center px-4 flex flex-col items-center gap-3">
-                      <div className="w-16 h-16 rounded-full bg-cherry-50 border border-cherry-100 flex items-center justify-center shadow-sm">
+                      <div className="w-16 h-16 rounded-full bg-cherry-50 dark:bg-cherry-900/30 border border-cherry-100 dark:border-cherry-800 flex items-center justify-center shadow-sm">
                         <FiLock className="text-cherry w-8 h-8" aria-hidden />
                       </div>
                       <div>
                         <span className="badge-premium text-xs inline-flex items-center gap-1 mb-2">⭐ Premium</span>
-                        <p className="text-lg font-semibold text-text-cherry">Upgrade to unlock this lesson</p>
+                        <p className="text-lg font-semibold text-text-cherry dark:text-cherry-300">Upgrade to unlock this lesson</p>
                       </div>
                       <Link
                         to="/pricing"
@@ -305,7 +305,7 @@ const Home = () => {
                   </div>
                 )}
 
-                <div className="mb-4 rounded-xl overflow-hidden h-44 bg-gradient-to-br from-cherry-50 to-white relative">
+                <div className="mb-4 rounded-xl overflow-hidden h-44 bg-gradient-to-br from-cherry-50 to-white dark:from-cherry-950 dark:to-gray-800 relative">
                   {lesson.image ? (
                     <img
                       src={lesson.image}
@@ -342,14 +342,14 @@ const Home = () => {
                     </span>
                   )}
                 </div>
-                <h3 className="text-lg font-semibold text-text-cherry mb-2 line-clamp-2">
+                <h3 className="text-lg font-semibold text-text-cherry dark:text-cherry-300 mb-2 line-clamp-2">
                   {lesson.title}
                 </h3>
-                <p className="text-text-secondary text-sm mb-4 line-clamp-2">
+                <p className="text-text-secondary dark:text-gray-400 text-sm mb-4 line-clamp-2">
                   {lesson.description}
                 </p>
                 <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-3 text-text-muted">
+                  <div className="flex items-center gap-3 text-text-muted dark:text-gray-500">
                     <span className="flex items-center gap-1">
                       ❤️ {lesson.likesCount}
                     </span>

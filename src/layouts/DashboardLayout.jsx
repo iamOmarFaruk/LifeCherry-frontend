@@ -81,7 +81,7 @@ const DashboardLayout = () => {
       className={({ isActive }) =>
         `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm ${isActive
           ? 'bg-cherry text-white shadow-lg shadow-cherry/20'
-          : 'text-text-secondary hover:bg-cherry-50 hover:text-cherry'
+          : 'text-text-secondary dark:text-gray-400 hover:bg-cherry-50 dark:hover:bg-gray-700 hover:text-cherry dark:hover:text-cherry-300'
         }`
       }
     >
@@ -103,28 +103,28 @@ const DashboardLayout = () => {
       {/* Sidebar - Fixed on desktop */}
       <aside className={`
         fixed inset-y-0 left-0 z-50
-        w-64 bg-white border-r border-border
+        w-64 bg-white dark:bg-gray-800 border-r border-border dark:border-gray-700
         transform transition-transform duration-300 ease-in-out
         flex flex-col h-screen
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Logo Section */}
-        <div className="p-4 border-b border-border flex-shrink-0 flex items-center justify-between">
+        <div className="p-4 border-b border-border dark:border-gray-700 flex-shrink-0 flex items-center justify-between">
           <NavLink to="/" className="flex items-center gap-2">
             <span className="text-2xl">🍒</span>
-            <span className="text-lg font-bold text-text">LifeCherry</span>
+            <span className="text-lg font-bold text-text dark:text-white">LifeCherry</span>
           </NavLink>
           {/* Close button for mobile sidebar */}
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-2 text-text-secondary hover:bg-gray-100 rounded-lg transition-colors"
+            className="lg:hidden p-2 text-text-secondary dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <HiOutlineXMark className="w-6 h-6" />
           </button>
         </div>
 
         {/* User Info */}
-        <div className="p-4 border-b border-border flex-shrink-0">
+        <div className="p-4 border-b border-border dark:border-gray-700 flex-shrink-0">
           {isLoading ? (
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gray-100 border border-border animate-pulse" />
@@ -141,8 +141,8 @@ const DashboardLayout = () => {
                 className="w-10 h-10 rounded-full object-cover border-2 border-cherry-100"
               />
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-text truncate text-sm">{user.name}</h3>
-                <p className="text-[11px] text-text-muted truncate">{user.email}</p>
+                <h3 className="font-semibold text-text dark:text-white truncate text-sm">{user.name}</h3>
+                <p className="text-[11px] text-text-muted dark:text-gray-400 truncate">{user.email}</p>
                 <div className="flex items-center gap-1.5 flex-wrap mt-1">
                   {isAdmin ? (
                     <span className="text-[10px] bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5">
@@ -153,7 +153,7 @@ const DashboardLayout = () => {
                       ⭐ Premium
                     </span>
                   ) : (
-                    <span className="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full font-medium">
+                    <span className="text-[10px] bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded-full font-medium">
                       Starter
                     </span>
                   )}
@@ -161,7 +161,7 @@ const DashboardLayout = () => {
               </div>
             </div>
           ) : (
-            <div className="flex flex-col gap-2 text-sm text-text-secondary">
+            <div className="flex flex-col gap-2 text-sm text-text-secondary dark:text-gray-400">
               <p>Redirecting to login…</p>
             </div>
           )}
@@ -169,13 +169,13 @@ const DashboardLayout = () => {
 
         {/* Admin View Toggle */}
         {isAdmin && (
-          <div className="px-3 py-2 border-b border-border bg-gray-50/50">
+          <div className="px-3 py-2 border-b border-border dark:border-gray-700 bg-gray-50/50 dark:bg-gray-700/50">
             <button
               onClick={toggleViewMode}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-text-secondary hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-border"
+              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-text-secondary dark:text-gray-300 hover:bg-white dark:hover:bg-gray-600 hover:shadow-sm transition-all border border-transparent hover:border-border dark:hover:border-gray-500"
             >
               <span>View as {viewMode === 'admin' ? 'User' : 'Admin'}</span>
-              <div className={`w-8 h-4 rounded-full relative transition-colors ${viewMode === 'admin' ? 'bg-cherry' : 'bg-gray-300'}`}>
+              <div className={`w-8 h-4 rounded-full relative transition-colors ${viewMode === 'admin' ? 'bg-cherry' : 'bg-gray-300 dark:bg-gray-500'}`}>
                 <div className={`absolute top-0.5 w-3 h-3 bg-white rounded-full shadow-sm transition-transform ${viewMode === 'admin' ? 'left-4.5' : 'left-0.5'}`} style={{ left: viewMode === 'admin' ? '18px' : '2px' }} />
               </div>
             </button>
@@ -192,10 +192,10 @@ const DashboardLayout = () => {
 
 
         {/* Back to Home - Always visible at bottom */}
-        <div className="p-3 border-t border-border bg-white flex-shrink-0">
+        <div className="p-3 border-t border-border dark:border-gray-700 bg-white dark:bg-gray-800 flex-shrink-0">
           <NavLink
             to="/"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-cherry-50 hover:text-cherry transition-all duration-200 text-sm"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary dark:text-gray-400 hover:bg-cherry-50 dark:hover:bg-gray-700 hover:text-cherry dark:hover:text-cherry-300 transition-all duration-200 text-sm"
           >
             <HiOutlineHome className="w-5 h-5" />
             <span className="font-medium">Back to Home</span>
@@ -206,16 +206,16 @@ const DashboardLayout = () => {
       {/* Main Content - Add left margin on desktop to account for fixed sidebar */}
       <div className="flex-1 flex flex-col min-h-screen lg:ml-64">
         {/* Top Bar (Mobile) */}
-        <header className="lg:hidden bg-white border-b border-border p-4 flex items-center justify-between sticky top-0 z-30">
+        <header className="lg:hidden bg-white dark:bg-gray-800 border-b border-border dark:border-gray-700 p-4 flex items-center justify-between sticky top-0 z-30 transition-colors duration-300">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
-            <HiOutlineBars3 className="w-6 h-6 text-text" />
+            <HiOutlineBars3 className="w-6 h-6 text-text dark:text-white" />
           </button>
           <NavLink to="/" className="flex items-center gap-2">
             <span className="text-2xl">🍒</span>
-            <span className="text-lg font-bold text-text">LifeCherry</span>
+            <span className="text-lg font-bold text-text dark:text-white">LifeCherry</span>
           </NavLink>
           <div className="w-10" /> {/* Spacer for centering */}
         </header>

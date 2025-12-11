@@ -24,7 +24,7 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #FFF8F8;
+  background: var(--color-bg);
   gap: 24px;
 
   .loading-text {

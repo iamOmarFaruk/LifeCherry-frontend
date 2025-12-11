@@ -74,36 +74,36 @@ const Register = () => {
 
   return (
     <PageLoader>
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-cherry-50 via-white to-cherry-100">
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-cherry-50 via-white to-cherry-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
         <div className="w-full max-w-md">
           {/* Logo & Header */}
           <div className="text-center mb-6 md:mb-8">
             <Link to="/" className="inline-flex items-center gap-2 mb-4 md:mb-6">
               <span className="text-3xl md:text-4xl">🍒</span>
-              <span className="text-xl md:text-2xl font-bold text-text-primary">LifeCherry</span>
+              <span className="text-xl md:text-2xl font-bold text-text-primary dark:text-white">LifeCherry</span>
             </Link>
-            <h1 className="text-2xl md:text-3xl font-bold text-text-primary mb-2">Create Account</h1>
-            <p className="text-text-secondary text-sm md:text-base">Start sharing your life lessons today</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-text-primary dark:text-white mb-2">Create Account</h1>
+            <p className="text-text-secondary dark:text-gray-400 text-sm md:text-base">Start sharing your life lessons today</p>
           </div>
 
           {/* Register Card */}
-          <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-8 border border-gray-100">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-8 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
             {/* Google Login Button */}
             <button
               onClick={handleGoogleLogin}
-              className="w-full flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 mb-6"
+              className="w-full flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-200 mb-6"
             >
               <FcGoogle size={24} />
-              <span className="font-medium text-text-primary">Continue with Google</span>
+              <span className="font-medium text-text-primary dark:text-white">Continue with Google</span>
             </button>
 
             {/* Divider */}
             <div className="relative mb-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200"></div>
+                <div className="w-full border-t border-gray-200 dark:border-gray-600"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-text-muted">or register with email</span>
+                <span className="px-4 bg-white dark:bg-gray-800 text-text-muted dark:text-gray-400">or register with email</span>
               </div>
             </div>
 
@@ -111,12 +111,12 @@ const Register = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name Input */}
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-text-primary mb-2">
+                <label htmlFor="name" className="block text-sm font-medium text-text-primary dark:text-gray-200 mb-2">
                   Full Name
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <FiUser className="text-text-muted" size={20} />
+                    <FiUser className="text-text-muted dark:text-gray-400" size={20} />
                   </div>
                   <input
                     type="text"
@@ -125,7 +125,7 @@ const Register = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Enter your full name"
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
+                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none bg-white dark:bg-gray-700 text-text-primary dark:text-white dark:placeholder-gray-400 transition-colors"
                     required
                   />
                 </div>
@@ -133,12 +133,12 @@ const Register = () => {
 
               {/* Email Input */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-text-primary dark:text-gray-200 mb-2">
                   Email Address
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <FiMail className="text-text-muted" size={20} />
+                    <FiMail className="text-text-muted dark:text-gray-400" size={20} />
                   </div>
                   <input
                     type="email"
@@ -147,7 +147,7 @@ const Register = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter your email"
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
+                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none bg-white dark:bg-gray-700 text-text-primary dark:text-white dark:placeholder-gray-400 transition-colors"
                     required
                   />
                 </div>
@@ -155,12 +155,12 @@ const Register = () => {
 
               {/* Photo URL Input */}
               <div>
-                <label htmlFor="photoURL" className="block text-sm font-medium text-text-primary mb-2">
+                <label htmlFor="photoURL" className="block text-sm font-medium text-text-primary dark:text-gray-200 mb-2">
                   Photo URL
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <FiImage className="text-text-muted" size={20} />
+                    <FiImage className="text-text-muted dark:text-gray-400" size={20} />
                   </div>
                   <input
                     type="url"
@@ -169,7 +169,7 @@ const Register = () => {
                     value={formData.photoURL}
                     onChange={handleChange}
                     placeholder="https://example.com/your-photo.jpg"
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
+                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none bg-white dark:bg-gray-700 text-text-primary dark:text-white dark:placeholder-gray-400 transition-colors"
                     required
                   />
                 </div>
@@ -177,12 +177,12 @@ const Register = () => {
 
               {/* Password Input */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-text-primary mb-2">
+                <label htmlFor="password" className="block text-sm font-medium text-text-primary dark:text-gray-200 mb-2">
                   Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <FiLock className="text-text-muted" size={20} />
+                    <FiLock className="text-text-muted dark:text-gray-400" size={20} />
                   </div>
                   <input
                     type={showPassword ? 'text' : 'password'}
@@ -191,13 +191,13 @@ const Register = () => {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="Create a strong password"
-                    className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
+                    className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none bg-white dark:bg-gray-700 text-text-primary dark:text-white dark:placeholder-gray-400 transition-colors"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-text-muted hover:text-text-primary transition-colors"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-text-muted dark:text-gray-400 hover:text-text-primary dark:hover:text-white transition-colors"
                   >
                     {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
                   </button>
@@ -206,15 +206,15 @@ const Register = () => {
                 {/* Password Requirements */}
                 {password.length > 0 && (
                   <div className="mt-3 space-y-1.5">
-                    <div className={`flex items-center gap-2 text-sm ${validations.hasUppercase ? 'text-green-600' : 'text-text-muted'}`}>
+                    <div className={`flex items-center gap-2 text-sm ${validations.hasUppercase ? 'text-green-600 dark:text-green-400' : 'text-text-muted dark:text-gray-500'}`}>
                       {validations.hasUppercase ? <FiCheck size={16} /> : <FiX size={16} />}
                       <span>At least one uppercase letter</span>
                     </div>
-                    <div className={`flex items-center gap-2 text-sm ${validations.hasLowercase ? 'text-green-600' : 'text-text-muted'}`}>
+                    <div className={`flex items-center gap-2 text-sm ${validations.hasLowercase ? 'text-green-600 dark:text-green-400' : 'text-text-muted dark:text-gray-500'}`}>
                       {validations.hasLowercase ? <FiCheck size={16} /> : <FiX size={16} />}
                       <span>At least one lowercase letter</span>
                     </div>
-                    <div className={`flex items-center gap-2 text-sm ${validations.hasMinLength ? 'text-green-600' : 'text-text-muted'}`}>
+                    <div className={`flex items-center gap-2 text-sm ${validations.hasMinLength ? 'text-green-600 dark:text-green-400' : 'text-text-muted dark:text-gray-500'}`}>
                       {validations.hasMinLength ? <FiCheck size={16} /> : <FiX size={16} />}
                       <span>Minimum 6 characters</span>
                     </div>
@@ -243,7 +243,7 @@ const Register = () => {
             </form>
 
             {/* Login Link */}
-            <p className="mt-6 text-center text-text-secondary">
+            <p className="mt-6 text-center text-text-secondary dark:text-gray-400">
               Already have an account?{' '}
               <Link to="/login" className="text-cherry font-semibold hover:underline">
                 Sign In
@@ -252,7 +252,7 @@ const Register = () => {
           </div>
 
           {/* Footer Text */}
-          <p className="mt-6 text-center text-sm text-text-muted">
+          <p className="mt-6 text-center text-sm text-text-muted dark:text-gray-500">
             By creating an account, you agree to our{' '}
             <Link to="/terms" className="text-cherry hover:underline">Terms</Link>
             {' '}and{' '}
