@@ -7,8 +7,13 @@
   themes: false;
 }
 
-/* LifeCherry Theme - Cherry Blossom */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-surface: var(--color-gray-900);
+
   /* Primary Cherry Colors */
   --color-cherry: #E63946;
   --color-cherry-light: #F4A3A8;

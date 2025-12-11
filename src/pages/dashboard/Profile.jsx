@@ -286,7 +286,7 @@ const Profile = () => {
           <HiOutlineUser className="w-10 h-10" />
           My Profile
         </h1>
-        <p className="text-gray-600">Manage your profile and view your public lessons</p>
+        <p className="text-gray-600 dark:text-gray-300">Manage your profile and view your public lessons</p>
       </div>
 
       {lessonsQuery.isError && (
@@ -304,7 +304,7 @@ const Profile = () => {
       )}
 
       {/* Profile Card */}
-      <div className="bg-white rounded-2xl border border-border p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-border p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           {/* Profile Photo */}
           <div className="relative group flex-shrink-0">
@@ -346,7 +346,7 @@ const Profile = () => {
               <h2 className="text-2xl sm:text-3xl font-bold text-text truncate">{profile.name}</h2>
               <button
                 onClick={openEditModal}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-cherry-50 hover:bg-cherry-100 text-cherry rounded-xl transition-colors text-sm font-medium whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-cherry-50 dark:bg-cherry hover:bg-cherry-100 dark:hover:bg-cherry-dark text-cherry dark:text-white rounded-xl transition-colors text-sm font-medium whitespace-nowrap"
               >
                 <HiOutlinePencilSquare className="w-4 h-4" />
                 <span>Edit Profile</span>
@@ -366,12 +366,12 @@ const Profile = () => {
 
             {/* Upgrade CTA for Free Users */}
             {!profile.isPremium && (
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm mt-2 bg-indigo-50 p-3 rounded-lg border border-indigo-100 sm:bg-transparent sm:p-0 sm:border-0">
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm mt-2 bg-indigo-50 dark:bg-indigo-900/20 p-3 rounded-lg border border-indigo-100 dark:border-indigo-800 sm:bg-transparent sm:p-0 sm:border-0">
                 <HiOutlineSparkles className="w-4 h-4 text-indigo-500 flex-shrink-0" />
                 <span className="text-text-secondary">Currently an Apprentice.</span>
                 <Link
                   to="/pricing"
-                  className="text-cherry font-semibold hover:underline bg-white px-2 py-0.5 rounded shadow-sm sm:bg-transparent sm:p-0 sm:shadow-none"
+                  className="text-cherry font-semibold hover:underline bg-white dark:bg-gray-800 px-2 py-0.5 rounded shadow-sm sm:bg-transparent sm:p-0 sm:shadow-none"
                 >
                   Prove you're a Master & Upgrade
                 </Link>
@@ -387,7 +387,7 @@ const Profile = () => {
           </div>
 
           {isEditingBio ? (
-            <div className="bg-white rounded-xl border-2 border-cherry-100 shadow-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-cherry-100 shadow-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
               <textarea
                 value={bioContent}
                 onChange={(e) => setBioContent(e.target.value)}
@@ -395,7 +395,7 @@ const Profile = () => {
                 className="w-full p-4 min-h-[150px] outline-none resize-y text-text leading-relaxed placeholder:text-gray-300 text-sm sm:text-base"
                 autoFocus
               />
-              <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
+              <div className="bg-gray-50 dark:bg-gray-900/50 px-4 py-3 flex items-center justify-between border-t border-gray-100 dark:border-gray-700">
                 <span className="text-xs text-text-secondary font-medium">
                   {bioContent.length}/500 characters
                 </span>
@@ -405,7 +405,7 @@ const Profile = () => {
                       setIsEditingBio(false);
                       setBioContent(profile.bio || '');
                     }}
-                    className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-text-secondary hover:bg-gray-200 rounded-lg transition-colors"
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-text-secondary hover:bg-gray-200 dark:hover:text-black rounded-lg transition-colors"
                   >
                     Cancel
                   </button>
@@ -424,17 +424,17 @@ const Profile = () => {
               className="group relative rounded-xl transition-all duration-200 cursor-text"
             >
               {profile.bio ? (
-                <div className="prose prose-sm max-w-none text-text-secondary leading-relaxed whitespace-pre-wrap p-3 sm:p-4 -ml-3 sm:-ml-4 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-100 text-sm sm:text-base">
+                <div className="prose prose-sm max-w-none text-text-secondary leading-relaxed whitespace-pre-wrap p-3 sm:p-4 -ml-3 sm:-ml-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 border border-transparent hover:border-gray-100 dark:hover:border-gray-700 text-sm sm:text-base">
                   {profile.bio}
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="p-2 bg-white rounded-lg shadow-sm border border-gray-100 text-text-secondary">
+                    <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 text-text-secondary">
                       <HiOutlinePencilSquare className="w-4 h-4" />
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="bg-gray-50 rounded-xl p-6 sm:p-8 text-center border-2 border-dashed border-gray-200 hover:border-cherry-200 hover:bg-cherry-50/30 transition-all cursor-pointer group">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 bg-white rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 sm:p-8 text-center border-2 border-dashed border-gray-200 dark:border-gray-700 hover:border-cherry-200 hover:bg-cherry-50/30 transition-all cursor-pointer group">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
                     <HiOutlinePencilSquare className="w-5 h-5 sm:w-6 sm:h-6 text-cherry-300 group-hover:text-cherry" />
                   </div>
                   <h4 className="text-text font-medium mb-1 text-sm sm:text-base">Write your bio</h4>
@@ -497,7 +497,7 @@ const Profile = () => {
             <h3 className="text-base sm:text-lg font-bold text-text">Preferences</h3>
           </div>
 
-          <div className="bg-white dark:bg-surface rounded-xl border border-border p-4 sm:p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-border p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h4 className="font-medium text-text text-sm sm:text-base">Appearance</h4>
@@ -534,7 +534,7 @@ const Profile = () => {
             <HiOutlineExclamationTriangle className="w-5 h-5" />
             Danger Zone
           </h3>
-          <div className="bg-red-50 border border-red-100 rounded-xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+          <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/20 rounded-xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             {profile.role === 'admin' ? (
               <>
                 <div>
@@ -590,7 +590,7 @@ const Profile = () => {
       {/* Edit Profile Modal */}
       {showEditModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl">
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-border">
               <h3 className="text-xl font-bold text-text">Edit Profile</h3>
@@ -743,7 +743,7 @@ const Profile = () => {
       {/* Disable Account Modal */}
       {showDisableModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md shadow-2xl">
             <div className="flex items-center gap-3 p-6 border-b border-border bg-red-50 rounded-t-2xl">
               <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
                 <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600" />
