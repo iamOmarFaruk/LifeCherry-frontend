@@ -398,10 +398,10 @@ const PublicLessons = () => {
                     <div className={`p-5 ${isPremiumLocked ? 'blur-sm' : ''}`}>
                       {/* Tags */}
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="px-3 py-1 bg-cherry-50 text-cherry text-xs font-medium rounded-full">
+                        <span className="px-3 py-1 bg-cherry text-white text-xs font-medium rounded-full">
                           {lesson.category}
                         </span>
-                        <span className="px-3 py-1 bg-gray-100 text-text-secondary text-xs font-medium rounded-full">
+                        <span className="px-3 py-1 bg-gray-100 dark:bg-gray-200 text-gray-800 text-xs font-medium rounded-full">
                           {lesson.emotionalTone}
                         </span>
                       </div>
@@ -435,7 +435,7 @@ const PublicLessons = () => {
                         </div>
 
                         {/* Stats */}
-                        <div className="flex items-center gap-3 text-text-muted dark:text-gray-500 text-sm">
+                        <div className="flex items-center gap-3 text-text-muted dark:text-gray-300 text-sm">
                           <span className="flex items-center gap-1">
                             <FiHeart className="w-4 h-4" />
                             {lesson.likesCount}
@@ -451,7 +451,7 @@ const PublicLessons = () => {
                       {!isPremiumLocked && (
                         <Link
                           to={`/lessons/${lesson._id}`}
-                          className="mt-4 block w-full text-center py-3 bg-cherry-50 text-cherry font-medium rounded-xl hover:bg-cherry hover:!text-white transition-all cursor-pointer"
+                          className="mt-4 block w-full text-center py-3 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-all cursor-pointer"
                         >
                           See Details
                         </Link>

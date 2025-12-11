@@ -143,7 +143,7 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center gap-3 px-3 py-1.5 rounded-full bg-gray-50 hover:bg-cherry-50 transition-colors border border-gray-200 shadow-sm"
+                  className="flex items-center gap-3 px-3 py-1.5 rounded-full bg-gray-50 dark:bg-gray-800 hover:bg-cherry-50 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700 shadow-sm"
                 >
                   <img
                     src={avatarUrl}
@@ -156,7 +156,7 @@ const Navbar = () => {
                     className="w-8 h-8 rounded-full object-cover border-2 border-cherry-200"
                   />
                   <div className="flex flex-col items-start">
-                    <span className="text-sm font-medium text-text-primary leading-tight">{user.name.split(' ')[0]}</span>
+                    <span className="text-sm font-medium text-text-primary dark:text-white leading-tight">{user.name.split(' ')[0]}</span>
                     <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.role === 'admin'
                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
                       : user.isPremium
@@ -166,21 +166,21 @@ const Navbar = () => {
                       {user.role === 'admin' ? 'Admin' : user.isPremium ? 'Premium' : 'Starter'}
                     </span>
                   </div>
-                  <FiChevronDown className={`text-text-secondary transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                  <FiChevronDown className={`text-text-secondary dark:text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-border py-2 z-50">
-                    <div className="px-4 py-3 border-b border-border">
-                      <p className="font-semibold text-text-primary">{user.name}</p>
-                      <p className="text-sm text-text-muted">{user.email}</p>
+                  <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-border dark:border-gray-700 py-2 z-50">
+                    <div className="px-4 py-3 border-b border-border dark:border-gray-700">
+                      <p className="font-semibold text-text-primary dark:text-white">{user.name}</p>
+                      <p className="text-sm text-text-muted dark:text-gray-400">{user.email}</p>
                     </div>
 
                     <Link
                       to="/dashboard/profile"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2.5 text-text-secondary hover:bg-cherry-50 hover:text-cherry transition-colors"
+                      className="flex items-center gap-3 px-4 py-2.5 text-text-secondary dark:text-gray-300 hover:bg-cherry-50 dark:hover:bg-gray-700 hover:text-cherry transition-colors"
                     >
                       <FiUser size={18} />
                       <span>Profile</span>
@@ -189,17 +189,17 @@ const Navbar = () => {
                     <Link
                       to="/dashboard"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2.5 text-text-secondary hover:bg-cherry-50 hover:text-cherry transition-colors"
+                      className="flex items-center gap-3 px-4 py-2.5 text-text-secondary dark:text-gray-300 hover:bg-cherry-50 dark:hover:bg-gray-700 hover:text-cherry transition-colors"
                     >
                       <FiGrid size={18} />
                       <span>Dashboard</span>
                     </Link>
 
-                    <hr className="my-2 border-border" />
+                    <hr className="my-2 border-border dark:border-gray-700" />
 
                     <button
                       onClick={handleLogout}
-                      className="flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 transition-colors w-full"
+                      className="flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors w-full"
                     >
                       <FiLogOut size={18} />
                       <span>Log Out</span>
