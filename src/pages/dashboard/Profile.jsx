@@ -19,7 +19,10 @@ import {
   HiOutlineSparkles,
   HiOutlineCalendarDays,
   HiOutlineBookmark,
-  HiOutlineShieldCheck
+  HiOutlineShieldCheck,
+  HiOutlineSun,
+  HiOutlineMoon,
+  HiOutlineComputerDesktop
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
@@ -504,9 +507,9 @@ const Profile = () => {
               </div>
               <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
                 {[
-                  { id: 'light', label: 'Light', icon: '☀️' },
-                  { id: 'system', label: 'System', icon: '💻' },
-                  { id: 'dark', label: 'Dark', icon: '🌙' }
+                  { id: 'light', label: 'Light', icon: HiOutlineSun },
+                  { id: 'system', label: 'System', icon: HiOutlineComputerDesktop },
+                  { id: 'dark', label: 'Dark', icon: HiOutlineMoon }
                 ].map((mode) => (
                   <button
                     key={mode.id}
@@ -516,7 +519,7 @@ const Profile = () => {
                       : 'text-text-secondary hover:text-text dark:text-gray-400 dark:hover:text-gray-200'
                       }`}
                   >
-                    <span>{mode.icon}</span>
+                    <span><mode.icon className="w-4 h-4" /></span>
                     <span className="hidden sm:inline">{mode.label}</span>
                   </button>
                 ))}
