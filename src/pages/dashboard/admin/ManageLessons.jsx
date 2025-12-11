@@ -204,65 +204,65 @@ const ManageLessons = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-          <div className="bg-white rounded-xl p-4 border border-border">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-cherry-50 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-cherry-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
                 <HiOutlineBookOpen className="w-5 h-5 text-cherry" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.total}</p>
-                <p className="text-xs text-text-secondary">Total</p>
+                <p className="text-2xl font-bold text-text dark:text-white">{stats.total}</p>
+                <p className="text-xs text-text-secondary dark:text-gray-400">Total</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-border">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
-                <HiOutlineGlobeAlt className="w-5 h-5 text-green-600" />
+              <div className="w-10 h-10 bg-green-50 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+                <HiOutlineGlobeAlt className="w-5 h-5 text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.public}</p>
-                <p className="text-xs text-text-secondary">Public</p>
+                <p className="text-2xl font-bold text-text dark:text-white">{stats.public}</p>
+                <p className="text-xs text-text-secondary dark:text-gray-400">Public</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-border">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center">
-                <HiOutlineLockClosed className="w-5 h-5 text-gray-600" />
+              <div className="w-10 h-10 bg-gray-50 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                <HiOutlineLockClosed className="w-5 h-5 text-gray-600 dark:text-gray-300" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.private}</p>
-                <p className="text-xs text-text-secondary">Private</p>
+                <p className="text-2xl font-bold text-text dark:text-white">{stats.private}</p>
+                <p className="text-xs text-text-secondary dark:text-gray-400">Private</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-border">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center">
-                <HiOutlineSparkles className="w-5 h-5 text-amber-600" />
+              <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center">
+                <HiOutlineSparkles className="w-5 h-5 text-amber-600 dark:text-amber-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.featured}</p>
-                <p className="text-xs text-text-secondary">Featured</p>
+                <p className="text-2xl font-bold text-text dark:text-white">{stats.featured}</p>
+                <p className="text-xs text-text-secondary dark:text-gray-400">Featured</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-border">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
-                <HiOutlineFlag className="w-5 h-5 text-red-600" />
+              <div className="w-10 h-10 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
+                <HiOutlineFlag className="w-5 h-5 text-red-600 dark:text-red-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.flagged}</p>
-                <p className="text-xs text-text-secondary">Flagged</p>
+                <p className="text-2xl font-bold text-text dark:text-white">{stats.flagged}</p>
+                <p className="text-xs text-text-secondary dark:text-gray-400">Flagged</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-2xl border border-border p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 p-4">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
             <div className="relative flex-1">
@@ -272,7 +272,7 @@ const ManageLessons = () => {
                 placeholder="Search by title or creator..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none"
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl focus:border-cherry focus:ring-0 focus:outline-none"
               />
             </div>
 
@@ -280,7 +280,7 @@ const ManageLessons = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center gap-2 px-4 py-2.5 border rounded-xl transition-colors ${showFilters ? 'border-cherry bg-cherry-50 text-cherry' : 'border-gray-200 text-text-secondary hover:border-cherry'
+                className={`flex items-center gap-2 px-4 py-2.5 border rounded-xl transition-colors ${showFilters ? 'border-cherry bg-cherry-50 text-cherry' : 'border-gray-200 dark:border-gray-700 text-text-secondary dark:text-gray-300 hover:border-cherry'
                   }`}
               >
                 <HiOutlineFunnel className="w-5 h-5" />
@@ -301,13 +301,13 @@ const ManageLessons = () => {
 
           {/* Expanded Filters */}
           {showFilters && (
-            <div className="mt-4 pt-4 border-t border-border grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="mt-4 pt-4 border-t border-border dark:border-gray-700 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Category</label>
+                <label className="block text-sm font-medium text-text dark:text-white mb-1">Category</label>
                 <select
                   value={filterCategory}
                   onChange={(e) => setFilterCategory(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
                 >
                   <option value="">All Categories</option>
                   {categories.map(cat => (
@@ -316,11 +316,11 @@ const ManageLessons = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Visibility</label>
+                <label className="block text-sm font-medium text-text dark:text-white mb-1">Visibility</label>
                 <select
                   value={filterVisibility}
                   onChange={(e) => setFilterVisibility(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
                 >
                   <option value="">All</option>
                   <option value="public">Public</option>
@@ -328,11 +328,11 @@ const ManageLessons = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Access Level</label>
+                <label className="block text-sm font-medium text-text dark:text-white mb-1">Access Level</label>
                 <select
                   value={filterAccessLevel}
                   onChange={(e) => setFilterAccessLevel(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
                 >
                   <option value="">All</option>
                   <option value="free">Free</option>
@@ -340,11 +340,11 @@ const ManageLessons = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Featured</label>
+                <label className="block text-sm font-medium text-text dark:text-white mb-1">Featured</label>
                 <select
                   value={filterFeatured}
                   onChange={(e) => setFilterFeatured(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
                 >
                   <option value="">All</option>
                   <option value="featured">Featured Only</option>
@@ -352,11 +352,11 @@ const ManageLessons = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Sort By</label>
+                <label className="block text-sm font-medium text-text dark:text-white mb-1">Sort By</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
                 >
                   <option value="newest">Newest</option>
                   <option value="oldest">Oldest</option>
@@ -370,34 +370,34 @@ const ManageLessons = () => {
         </div>
 
         {/* Lessons Table */}
-        <div className="bg-white rounded-2xl border border-border overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-border">
+              <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-border dark:border-gray-700">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                     Lesson
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                     Creator
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                     Stats
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                     Created
                   </th>
-                  <th className="px-6 py-4 text-right text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                  <th className="px-6 py-4 text-right text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <tbody className="divide-y divide-border dark:divide-gray-700">
                 {paginatedLessons.map((lesson) => (
-                  <tr key={lesson._id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={lesson._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <img
@@ -406,13 +406,13 @@ const ManageLessons = () => {
                           className="w-12 h-12 rounded-lg object-cover"
                         />
                         <div className="max-w-xs">
-                          <h4 className="font-medium text-text truncate">{lesson.title}</h4>
+                          <h4 className="font-medium text-text dark:text-white truncate">{lesson.title}</h4>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs bg-cherry-50 text-cherry px-2 py-0.5 rounded-full">
+                            <span className="text-xs bg-cherry-50 dark:bg-red-900/30 text-cherry dark:text-red-300 px-2 py-0.5 rounded-full">
                               {lesson.category}
                             </span>
                             {lesson.isFeatured && (
-                              <span className="text-xs bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                              <span className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300 px-2 py-0.5 rounded-full flex items-center gap-0.5">
                                 <HiOutlineSparkles className="w-3 h-3" /> Featured
                               </span>
                             )}
@@ -428,8 +428,8 @@ const ManageLessons = () => {
                           className="w-8 h-8 rounded-full object-cover"
                         />
                         <div>
-                          <p className="text-sm font-medium text-text">{lesson.creatorName}</p>
-                          <p className="text-xs text-text-secondary">{lesson.creatorEmail}</p>
+                          <p className="text-sm font-medium text-text dark:text-white">{lesson.creatorName}</p>
+                          <p className="text-xs text-text-secondary dark:text-gray-400">{lesson.creatorEmail}</p>
                         </div>
                       </div>
                     </td>
@@ -464,18 +464,18 @@ const ManageLessons = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3 text-sm">
-                        <span className="flex items-center gap-1 text-text-secondary">
+                        <span className="flex items-center gap-1 text-text-secondary dark:text-gray-400">
                           <HiOutlineHeart className="w-4 h-4 text-red-400" />
                           {lesson.likesCount}
                         </span>
-                        <span className="flex items-center gap-1 text-text-secondary">
+                        <span className="flex items-center gap-1 text-text-secondary dark:text-gray-400">
                           <HiOutlineBookmark className="w-4 h-4 text-blue-400" />
                           {lesson.favoritesCount}
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-sm text-text-secondary">
+                      <span className="text-sm text-text-secondary dark:text-gray-400">
                         {formatDate(lesson.createdAt)}
                       </span>
                     </td>
@@ -491,8 +491,8 @@ const ManageLessons = () => {
                         <button
                           onClick={() => handleToggleFeatured(lesson)}
                           className={`p-2 rounded-lg transition-colors ${lesson.isFeatured
-                              ? 'text-amber-600 bg-amber-50 hover:bg-amber-100'
-                              : 'text-gray-400 hover:bg-gray-100 hover:text-amber-600'
+                            ? 'text-amber-600 bg-amber-50 hover:bg-amber-100'
+                            : 'text-gray-400 hover:bg-gray-100 hover:text-amber-600'
                             }`}
                           title={lesson.isFeatured ? 'Remove from Featured' : 'Add to Featured'}
                         >
@@ -536,15 +536,15 @@ const ManageLessons = () => {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="px-6 py-4 border-t border-border flex items-center justify-between">
-              <p className="text-sm text-text-secondary">
+            <div className="px-6 py-4 border-t border-border dark:border-gray-700 flex items-center justify-between">
+              <p className="text-sm text-text-secondary dark:text-gray-400">
                 Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredLessons.length)} of {filteredLessons.length} lessons
               </p>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-2 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <HiOutlineChevronLeft className="w-5 h-5" />
                 </button>
@@ -553,8 +553,8 @@ const ManageLessons = () => {
                     key={page}
                     onClick={() => setCurrentPage(page)}
                     className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === page
-                        ? 'bg-cherry text-white'
-                        : 'border border-gray-200 hover:bg-gray-50'
+                      ? 'bg-cherry text-white'
+                      : 'border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300'
                       }`}
                   >
                     {page}
@@ -563,7 +563,7 @@ const ManageLessons = () => {
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
-                  className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-2 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <HiOutlineChevronRight className="w-5 h-5" />
                 </button>
@@ -575,22 +575,22 @@ const ManageLessons = () => {
         {/* Feature Toggle Modal */}
         {showFeatureModal && selectedLesson && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${selectedLesson.isFeatured ? 'bg-gray-100' : 'bg-amber-100'
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${selectedLesson.isFeatured ? 'bg-gray-100 dark:bg-gray-700' : 'bg-amber-100 dark:bg-amber-900/30'
                   }`}>
-                  <HiOutlineSparkles className={`w-6 h-6 ${selectedLesson.isFeatured ? 'text-gray-600' : 'text-amber-600'
+                  <HiOutlineSparkles className={`w-6 h-6 ${selectedLesson.isFeatured ? 'text-gray-600 dark:text-gray-300' : 'text-amber-600 dark:text-amber-400'
                     }`} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-text">
+                  <h3 className="text-lg font-bold text-text dark:text-white">
                     {selectedLesson.isFeatured ? 'Remove from Featured' : 'Add to Featured'}
                   </h3>
-                  <p className="text-sm text-text-secondary">Confirm this action</p>
+                  <p className="text-sm text-text-secondary dark:text-gray-400">Confirm this action</p>
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-xl p-4 mb-6">
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
                   <img
                     src={selectedLesson.image}
@@ -598,8 +598,8 @@ const ManageLessons = () => {
                     className="w-16 h-16 rounded-lg object-cover"
                   />
                   <div>
-                    <h4 className="font-semibold text-text line-clamp-1">{selectedLesson.title}</h4>
-                    <p className="text-sm text-text-secondary">by {selectedLesson.creatorName}</p>
+                    <h4 className="font-semibold text-text dark:text-white line-clamp-1">{selectedLesson.title}</h4>
+                    <p className="text-sm text-text-secondary dark:text-gray-400">by {selectedLesson.creatorName}</p>
                   </div>
                 </div>
               </div>
@@ -617,7 +617,7 @@ const ManageLessons = () => {
                     setSelectedLesson(null);
                   }}
                   disabled={isSubmitting}
-                  className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl font-medium text-text hover:bg-gray-50 transition-colors disabled:opacity-50"
+                  className="flex-1 px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-xl font-medium text-text dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
@@ -625,8 +625,8 @@ const ManageLessons = () => {
                   onClick={confirmToggleFeatured}
                   disabled={isSubmitting}
                   className={`flex-1 px-4 py-2.5 text-white rounded-xl font-medium transition-colors disabled:opacity-50 ${selectedLesson.isFeatured
-                      ? 'bg-gray-600 hover:bg-gray-700'
-                      : 'bg-amber-600 hover:bg-amber-700'
+                    ? 'bg-gray-600 hover:bg-gray-700'
+                    : 'bg-amber-600 hover:bg-amber-700'
                     }`}
                 >
                   {isSubmitting ? 'Processing...' : 'Confirm'}
@@ -639,18 +639,18 @@ const ManageLessons = () => {
         {/* Delete Modal */}
         {showDeleteModal && selectedLesson && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600" />
+                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
+                  <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-text">Delete Lesson</h3>
-                  <p className="text-sm text-text-secondary">This action cannot be undone</p>
+                  <h3 className="text-lg font-bold text-text dark:text-white">Delete Lesson</h3>
+                  <p className="text-sm text-text-secondary dark:text-gray-400">This action cannot be undone</p>
                 </div>
               </div>
 
-              <div className="bg-red-50 rounded-xl p-4 mb-6">
+              <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
                   <img
                     src={selectedLesson.image}
@@ -658,8 +658,8 @@ const ManageLessons = () => {
                     className="w-16 h-16 rounded-lg object-cover"
                   />
                   <div>
-                    <h4 className="font-semibold text-text line-clamp-1">{selectedLesson.title}</h4>
-                    <p className="text-sm text-text-secondary">by {selectedLesson.creatorName}</p>
+                    <h4 className="font-semibold text-text dark:text-white line-clamp-1">{selectedLesson.title}</h4>
+                    <p className="text-sm text-text-secondary dark:text-gray-400">by {selectedLesson.creatorName}</p>
                   </div>
                 </div>
               </div>
@@ -674,7 +674,7 @@ const ManageLessons = () => {
                     setShowDeleteModal(false);
                     setSelectedLesson(null);
                   }}
-                  className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl font-medium text-text hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-xl font-medium text-text dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   Cancel
                 </button>

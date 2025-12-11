@@ -5,6 +5,7 @@ import { auth } from '../firebase/firebase.config';
 import apiClient, { setAuthToken } from '../utils/apiClient';
 import toast from 'react-hot-toast';
 import AuthContext from '../contexts/AuthContext';
+import AccountDisabledModal from '../components/modals/AccountDisabledModal';
 
 const provider = new GoogleAuthProvider();
 
@@ -15,6 +16,10 @@ const AuthProvider = ({ children }) => {
   const [authLoading, setAuthLoading] = useState(true);
   const [authInitialized, setAuthInitialized] = useState(false);
   const [viewMode, setViewMode] = useState(() => localStorage.getItem('viewMode') || 'user'); // 'user' or 'admin'
+
+  // State for archived account modal
+  const [archivedAccountData, setArchivedAccountData] = useState(null);
+  const [showDisabledModal, setShowDisabledModal] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
@@ -52,40 +57,32 @@ const AuthProvider = ({ children }) => {
       await apiClient.post('/users', payload);
       await profileQuery.refetch();
     } catch (error) {
-      if (error.response?.status === 403 && error.response?.data?.archivedAt) {
-        const { message, contact } = error.response.data;
+      if (error.response?.status === 403 && error.response?.data?.isArchived) {
+        const data = error.response.data;
         await signOut(auth);
         setAuthToken(null);
         setToken(null);
-        
-        toast.error(
-          (t) => (
-            <div className="min-w-[250px]">
-              <p className="font-bold text-red-600">{message}</p>
-              {error.response.data.archivedAt && (
-                <p className="text-xs text-gray-500 mt-1 mb-2">
-                  Archived on {new Date(error.response.data.archivedAt).toLocaleDateString()}
-                </p>
-              )}
-              <p className="text-sm mt-2 text-gray-600">Contact Admin to enable it:</p>
-              <div className="mt-1 p-2 bg-gray-50 rounded text-sm">
-                <p>📞 {contact.phone}</p>
-                <p>✉️ {contact.email}</p>
-              </div>
-              <button 
-                onClick={() => toast.dismiss(t.id)}
-                className="mt-2 text-xs text-gray-400 hover:text-gray-600"
-              >
-                Dismiss
-              </button>
-            </div>
-          ),
-          { duration: 10000, position: 'top-center' }
-        );
-        throw new Error(message);
+
+        // Set archived account data to show modal
+        setArchivedAccountData({
+          archiveReason: data.archiveReason,
+          archivedAt: data.archivedAt,
+          hasRequestedReactivation: data.hasRequestedReactivation,
+          reactivationRequestDate: data.reactivationRequestDate,
+          userEmail: data.userEmail,
+          userName: data.userName,
+        });
+        setShowDisabledModal(true);
+
+        throw new Error(data.message);
       }
       throw error;
     }
+  };
+
+  const handleCloseDisabledModal = () => {
+    setShowDisabledModal(false);
+    setArchivedAccountData(null);
   };
 
   const register = async ({ name, email, password, photoURL }) => {
@@ -212,6 +209,25 @@ const AuthProvider = ({ children }) => {
     toggleViewMode,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+
+      {/* Account Disabled Modal */}
+      {archivedAccountData && (
+        <AccountDisabledModal
+          isOpen={showDisabledModal}
+          onClose={handleCloseDisabledModal}
+          archiveReason={archivedAccountData.archiveReason}
+          archivedAt={archivedAccountData.archivedAt}
+          hasRequestedReactivation={archivedAccountData.hasRequestedReactivation}
+          reactivationRequestDate={archivedAccountData.reactivationRequestDate}
+          userEmail={archivedAccountData.userEmail}
+          userName={archivedAccountData.userName}
+        />
+      )}
+    </AuthContext.Provider>
+  );
 };
 export default AuthProvider;
+
