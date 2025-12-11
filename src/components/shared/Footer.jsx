@@ -147,11 +147,10 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-border dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-text-muted dark:text-gray-500 text-sm">
+        <div className="mt-12 pt-8 border-t border-border dark:border-gray-800 flex justify-center items-center">
+          <p className="text-text-muted dark:text-gray-500 text-sm text-center">
             © {currentYear} LifeCherry. All rights reserved.
           </p>
-          <div className="flex gap-6" />
         </div>
       </div>
     </footer>
