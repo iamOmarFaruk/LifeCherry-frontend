@@ -40,6 +40,7 @@ import ManageLessons from './pages/dashboard/admin/ManageLessons';
 import ReportedLessons from './pages/dashboard/admin/ReportedLessons';
 import AdminProfile from './pages/dashboard/admin/AdminProfile';
 import AdminActivity from './pages/dashboard/admin/AdminActivity';
+import AdminTrash from './pages/dashboard/admin/AdminTrash';
 
 // Create router
 const router = createBrowserRouter([
@@ -147,6 +148,10 @@ const router = createBrowserRouter([
       {
         path: 'admin/profile',
         element: <AdminProfile />
+      },
+      {
+        path: 'admin/trash',
+        element: <AdminTrash />
       }
     ]
   },
