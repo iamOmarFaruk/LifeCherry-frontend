@@ -92,14 +92,14 @@ const Home = () => {
       <HeroSlider />
 
       {/* Featured Lessons Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-10">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 md:mb-10">
             <div>
-              <h2 className="text-3xl font-bold text-text-cherry">Featured Lessons</h2>
-              <p className="text-text-secondary mt-2">Handpicked wisdom from our community</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-text-cherry">Featured Lessons</h2>
+              <p className="text-text-secondary mt-1 md:mt-2 text-sm md:text-base">Handpicked wisdom from our community</p>
             </div>
-            <Link to="/public-lessons?sort=mostSaved" className="text-cherry hover:underline flex items-center gap-1">
+            <Link to="/public-lessons?sort=mostSaved" className="text-cherry hover:underline flex items-center gap-1 text-sm font-medium">
               View All <FiArrowRight />
             </Link>
           </div>
@@ -139,7 +139,7 @@ const Home = () => {
                     {lesson.emotionalTone}
                   </span>
                 </div>
-                <h3 className="text-xl font-semibold text-text-cherry mb-2 line-clamp-2">
+                <h3 className="text-lg md:text-xl font-semibold text-text-cherry mb-2 line-clamp-2">
                   {lesson.title}
                 </h3>
                 <p className="text-text-secondary text-sm mb-4 line-clamp-2">
@@ -152,7 +152,7 @@ const Home = () => {
                       alt={lesson.creatorName}
                       className="w-8 h-8 rounded-full object-cover"
                     />
-                    <span className="text-sm text-text-secondary">{lesson.creatorName}</span>
+                    <span className="text-xs md:text-sm text-text-secondary">{lesson.creatorName}</span>
                   </div>
                   <Link
                     to={`/lessons/${lesson._id}`}
@@ -168,11 +168,11 @@ const Home = () => {
       </section>
 
       {/* Why Learning From Life Matters Section */}
-      <section className="py-16 bg-cherry-50">
+      <section className="py-12 md:py-16 bg-cherry-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-text-cherry">Why Learning From Life Matters</h2>
-            <p className="text-text-secondary mt-2 max-w-2xl mx-auto">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-text-cherry">Why Learning From Life Matters</h2>
+            <p className="text-text-secondary mt-2 max-w-2xl mx-auto text-sm md:text-base">
               Every experience holds a lesson. Here's why capturing and sharing them is powerful.
             </p>
           </div>
@@ -222,16 +222,16 @@ const Home = () => {
       </section>
 
       {/* Top Contributors Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 tracking-tight">Top Contributors of the Week</h2>
-            <p className="text-text-secondary mt-4 max-w-xl mx-auto text-lg">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">Top Contributors of the Week</h2>
+            <p className="text-text-secondary mt-2 md:mt-4 max-w-xl mx-auto text-base md:text-lg">
               Meet the amazing people sharing their wisdom
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8">
+          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
             {loading && (
               <div className="text-text-secondary">Loading contributors...</div>
             )}
@@ -239,21 +239,21 @@ const Home = () => {
               <div className="text-text-secondary">No contributors yet.</div>
             )}
             {!loading && topContributors.map((user, index) => (
-              <div key={user.creatorEmail || user.name || index} className="text-center">
+              <div key={user.creatorEmail || user.name || index} className="text-center w-36 md:w-auto">
                 <div className="relative inline-block">
                   <img
                     src={user.photoURL || 'https://i.pravatar.cc/150?img=64'}
                     alt={user.name}
-                    className="w-28 h-28 rounded-full object-cover border-4 border-cherry-200"
+                    className="w-20 h-20 md:w-28 md:h-28 rounded-full object-cover border-4 border-cherry-200"
                   />
                   {index < 3 && (
-                    <span className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <span className="absolute -top-2 -right-2 w-6 h-6 md:w-8 md:h-8 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-xs md:text-sm">
                       {index + 1}
                     </span>
                   )}
                 </div>
-                <h4 className="font-semibold text-text-cherry mt-3">{user.name}</h4>
-                <p className="text-text-muted text-sm">{user.lessonsCount} lessons</p>
+                <h4 className="font-semibold text-text-cherry mt-2 md:mt-3 text-sm md:text-base truncate px-2">{user.name}</h4>
+                <p className="text-text-muted text-xs md:text-sm">{user.lessonsCount} lessons</p>
               </div>
             ))}
           </div>
@@ -261,14 +261,14 @@ const Home = () => {
       </section>
 
       {/* Most Saved Lessons Section */}
-      <section className="py-16 bg-gradient-to-br from-white to-cherry-50">
+      <section className="py-12 md:py-16 bg-gradient-to-br from-white to-cherry-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-10">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 md:mb-10">
             <div>
-              <h2 className="text-3xl font-bold text-text-cherry">Most Saved Lessons</h2>
-              <p className="text-text-secondary mt-2">The lessons our community loves most</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-text-cherry">Most Saved Lessons</h2>
+              <p className="text-text-secondary mt-1 md:mt-2 text-sm md:text-base">The lessons our community loves most</p>
             </div>
-            <Link to="/public-lessons?sort=mostSaved" className="text-cherry hover:underline flex items-center gap-1">
+            <Link to="/public-lessons?sort=mostSaved" className="text-cherry hover:underline flex items-center gap-1 text-sm font-medium">
               View All <FiArrowRight />
             </Link>
           </div>
@@ -371,7 +371,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-24 overflow-hidden">
+      <section className="relative py-16 md:py-24 overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
@@ -388,16 +388,16 @@ const Home = () => {
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {!firebaseUser ? (
             <>
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+              <h2 className="text-2xl md:text-5xl font-bold text-white mb-4 md:mb-6 tracking-tight">
                 Ready to Share Your Wisdom?
               </h2>
-              <p className="text-white/90 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-white/90 text-base md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed">
                 Join thousands of people who are preserving their life lessons and inspiring others.
                 Start your journey today.
               </p>
               <Link
                 to="/register"
-                className="inline-flex items-center gap-2 bg-white text-cherry-700 font-bold px-8 py-4 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-50 hover:scale-105 transition-all duration-300"
+                className="inline-flex items-center gap-2 bg-white text-cherry-700 font-bold px-6 py-3 md:px-8 md:py-4 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-50 hover:scale-105 transition-all duration-300 text-sm md:text-base"
               >
                 Create Your Account
                 <FiArrowRight className="w-5 h-5" />
@@ -405,16 +405,16 @@ const Home = () => {
             </>
           ) : (!userProfile?.isPremium && userProfile?.role !== 'admin') ? (
             <>
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+              <h2 className="text-2xl md:text-5xl font-bold text-white mb-4 md:mb-6 tracking-tight">
                 Unlock Your Full Potential
               </h2>
-              <p className="text-white/90 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-white/90 text-base md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed">
                 Upgrade to Premium to access exclusive lessons, advanced analytics, and unlimited content.
                 Take your growth to the next level.
               </p>
               <Link
                 to="/pricing"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 text-white font-bold px-8 py-4 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 text-white font-bold px-6 py-3 md:px-8 md:py-4 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 text-sm md:text-base"
               >
                 Upgrade to Premium
                 <FiStar className="w-5 h-5 fill-current" />
@@ -422,15 +422,15 @@ const Home = () => {
             </>
           ) : (
             <>
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+              <h2 className="text-2xl md:text-5xl font-bold text-white mb-4 md:mb-6 tracking-tight">
                 Continue Your Journey
               </h2>
-              <p className="text-white/90 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-white/90 text-base md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed">
                 You have full access to all premium content. Keep learning and sharing your wisdom with the world.
               </p>
               <Link
                 to="/dashboard"
-                className="inline-flex items-center gap-2 bg-white text-cherry-700 font-bold px-8 py-4 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-50 hover:scale-105 transition-all duration-300"
+                className="inline-flex items-center gap-2 bg-white text-cherry-700 font-bold px-6 py-3 md:px-8 md:py-4 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-50 hover:scale-105 transition-all duration-300 text-sm md:text-base"
               >
                 Go to Dashboard
                 <FiArrowRight className="w-5 h-5" />
