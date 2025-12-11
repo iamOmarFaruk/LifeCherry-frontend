@@ -19,6 +19,7 @@ import Loading from '../../components/shared/Loading';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import apiClient from '../../utils/apiClient';
 import useAuth from '../../hooks/useAuth';
+import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
 
 const formatDateTime = (value) => {
   const date = new Date(value);
@@ -37,37 +38,37 @@ const getActionDetails = (action) => {
     'create': {
       icon: HiOutlineCheckCircle,
       label: 'Created',
-      bg: 'bg-green-50',
+      bg: 'bg-green-50 dark:bg-green-900/30',
       border: 'border-l-4 border-green-500',
-      badge: 'bg-green-100 text-green-800'
+      badge: 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300'
     },
     'update': {
       icon: HiOutlinePencilSquare,
       label: 'Updated',
-      bg: 'bg-blue-50',
+      bg: 'bg-blue-50 dark:bg-blue-900/30',
       border: 'border-l-4 border-blue-500',
-      badge: 'bg-blue-100 text-blue-800'
+      badge: 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300'
     },
     'delete': {
       icon: HiOutlineTrash,
       label: 'Deleted',
-      bg: 'bg-red-50',
+      bg: 'bg-red-50 dark:bg-red-900/30',
       border: 'border-l-4 border-red-500',
-      badge: 'bg-red-100 text-red-800'
+      badge: 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300'
     },
     'view': {
       icon: HiOutlineEye,
       label: 'Viewed',
-      bg: 'bg-gray-50',
+      bg: 'bg-gray-50 dark:bg-gray-700',
       border: 'border-l-4 border-gray-500',
-      badge: 'bg-gray-100 text-gray-800'
+      badge: 'bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200'
     },
     'report': {
       icon: HiOutlineFlag,
       label: 'Reported',
-      bg: 'bg-red-50',
-      border: 'border-l-4 border-red-500',
-      badge: 'bg-red-100 text-red-800'
+      bg: 'bg-amber-50 dark:bg-amber-900/30',
+      border: 'border-l-4 border-amber-500',
+      badge: 'bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300'
     },
   };
   return details[action] || details.update;
@@ -182,16 +183,14 @@ const ActivityLog = () => {
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
         {/* Header */}
-        <div className="mb-6 lg:mb-8">
-          <h1 className="text-2xl lg:text-4xl font-bold text-cherry mb-2 flex items-center gap-2 lg:gap-3">
-            <HiOutlineClipboardDocumentList className="w-8 h-8 lg:w-10 lg:h-10 flex-shrink-0" />
-            Activity Log
-          </h1>
-          <p className="text-sm lg:text-base text-gray-600">View all actions and changes across your account</p>
-        </div>
+        <DashboardPageHeader
+          icon={HiOutlineClipboardDocumentList}
+          title="Activity Log"
+          description="View all actions and changes across your account"
+        />
 
         {/* Filter Tabs */}
-        <div className="flex gap-2 flex-wrap p-2 lg:p-3 bg-gray-50 rounded-xl border border-gray-200">
+        <div className="flex gap-2 flex-wrap p-2 lg:p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
           {[
             { value: 'all', label: 'All Activity' },
             { value: 'lesson', label: 'Lessons' },
@@ -201,8 +200,8 @@ const ActivityLog = () => {
               key={filter.value}
               onClick={() => setFilterType(filter.value)}
               className={`px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all duration-200 flex items-center gap-2 flex-1 sm:flex-none justify-center ${filterType === filter.value
-                  ? 'bg-cherry text-white shadow-lg'
-                  : 'bg-white text-text-secondary border border-gray-200 hover:bg-gray-100'
+                ? 'bg-cherry text-white shadow-lg'
+                : 'bg-white dark:bg-gray-700 text-text-secondary dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600'
                 }`}
             >
               {filter.label}
@@ -213,66 +212,66 @@ const ActivityLog = () => {
         {/* Stats Summary */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
           {/* Total - Full width on mobile */}
-          <div className="col-span-2 lg:col-span-1 bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+          <div className="col-span-2 lg:col-span-1 bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700 hover:shadow-md transition-all duration-300 group">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <HiOutlineClipboardDocumentList className="w-6 h-6 text-gray-600" />
+              <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <HiOutlineClipboardDocumentList className="w-6 h-6 text-gray-600 dark:text-gray-300" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{stats.total}</p>
-                <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Total Actions</p>
+                <p className="text-2xl font-bold text-text dark:text-white">{stats.total}</p>
+                <p className="text-xs font-medium text-text-secondary dark:text-gray-400 uppercase tracking-wider">Total Actions</p>
               </div>
             </div>
           </div>
 
           {/* Created */}
-          <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700 hover:shadow-md transition-all duration-300 group">
             <div className="flex items-center gap-3 lg:gap-4">
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-green-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <HiOutlineCheckCircle className="w-5 h-5 lg:w-6 lg:h-6 text-green-600" />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-green-50 dark:bg-green-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <HiOutlineCheckCircle className="w-5 h-5 lg:w-6 lg:h-6 text-green-600 dark:text-green-400" />
               </div>
               <div className="min-w-0">
-                <p className="text-xl lg:text-2xl font-bold text-text">{stats.created}</p>
-                <p className="text-[10px] lg:text-xs font-medium text-text-secondary uppercase tracking-wider truncate">Created</p>
+                <p className="text-xl lg:text-2xl font-bold text-text dark:text-white">{stats.created}</p>
+                <p className="text-[10px] lg:text-xs font-medium text-text-secondary dark:text-gray-400 uppercase tracking-wider truncate">Created</p>
               </div>
             </div>
           </div>
 
           {/* Updated */}
-          <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700 hover:shadow-md transition-all duration-300 group">
             <div className="flex items-center gap-3 lg:gap-4">
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <HiOutlinePencilSquare className="w-5 h-5 lg:w-6 lg:h-6 text-blue-600" />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-blue-50 dark:bg-blue-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <HiOutlinePencilSquare className="w-5 h-5 lg:w-6 lg:h-6 text-blue-600 dark:text-blue-400" />
               </div>
               <div className="min-w-0">
-                <p className="text-xl lg:text-2xl font-bold text-text">{stats.updated}</p>
-                <p className="text-[10px] lg:text-xs font-medium text-text-secondary uppercase tracking-wider truncate">Updated</p>
+                <p className="text-xl lg:text-2xl font-bold text-text dark:text-white">{stats.updated}</p>
+                <p className="text-[10px] lg:text-xs font-medium text-text-secondary dark:text-gray-400 uppercase tracking-wider truncate">Updated</p>
               </div>
             </div>
           </div>
 
           {/* Reported */}
-          <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700 hover:shadow-md transition-all duration-300 group">
             <div className="flex items-center gap-3 lg:gap-4">
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-amber-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <HiOutlineFlag className="w-5 h-5 lg:w-6 lg:h-6 text-amber-600" />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-amber-50 dark:bg-amber-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <HiOutlineFlag className="w-5 h-5 lg:w-6 lg:h-6 text-amber-600 dark:text-amber-400" />
               </div>
               <div className="min-w-0">
-                <p className="text-xl lg:text-2xl font-bold text-text">{stats.reported}</p>
-                <p className="text-[10px] lg:text-xs font-medium text-text-secondary uppercase tracking-wider truncate">Reported</p>
+                <p className="text-xl lg:text-2xl font-bold text-text dark:text-white">{stats.reported}</p>
+                <p className="text-[10px] lg:text-xs font-medium text-text-secondary dark:text-gray-400 uppercase tracking-wider truncate">Reported</p>
               </div>
             </div>
           </div>
 
           {/* Deleted */}
-          <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700 hover:shadow-md transition-all duration-300 group">
             <div className="flex items-center gap-3 lg:gap-4">
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <HiOutlineTrash className="w-5 h-5 lg:w-6 lg:h-6 text-red-600" />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-50 dark:bg-red-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <HiOutlineTrash className="w-5 h-5 lg:w-6 lg:h-6 text-red-600 dark:text-red-400" />
               </div>
               <div className="min-w-0">
-                <p className="text-xl lg:text-2xl font-bold text-text">{stats.deleted}</p>
-                <p className="text-[10px] lg:text-xs font-medium text-text-secondary uppercase tracking-wider truncate">Deleted</p>
+                <p className="text-xl lg:text-2xl font-bold text-text dark:text-white">{stats.deleted}</p>
+                <p className="text-[10px] lg:text-xs font-medium text-text-secondary dark:text-gray-400 uppercase tracking-wider truncate">Deleted</p>
               </div>
             </div>
           </div>
@@ -291,12 +290,12 @@ const ActivityLog = () => {
               </div>
             </div>
           ) : displayedChanges.length === 0 ? (
-            <div className="p-12 text-center bg-white rounded-2xl border border-border">
-              <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="p-12 text-center bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700">
+              <div className="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
                 <HiOutlineClipboardDocumentList className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-lg font-semibold text-text mb-1">No activity found</h3>
-              <p className="text-text-secondary">Your recent actions will appear here</p>
+              <h3 className="text-lg font-semibold text-text dark:text-white mb-1">No activity found</h3>
+              <p className="text-text-secondary dark:text-gray-400">Your recent actions will appear here</p>
             </div>
           ) : (
             <>
@@ -309,7 +308,7 @@ const ActivityLog = () => {
                 return (
                   <div
                     key={change.id}
-                    className={`bg-white p-3 lg:p-4 rounded-xl border border-border hover:shadow-md transition-all duration-200 group ${actionDetails.border}`}
+                    className={`bg-white dark:bg-gray-800 p-3 lg:p-4 rounded-xl border border-border dark:border-gray-700 hover:shadow-md transition-all duration-200 group ${actionDetails.border}`}
                   >
                     <div className="flex items-start gap-3 lg:gap-4">
                       {/* Icon */}
@@ -334,13 +333,13 @@ const ActivityLog = () => {
                           </span>
                         </div>
 
-                        <p className="text-sm lg:text-base text-text font-medium leading-relaxed">
+                        <p className="text-sm lg:text-base text-text dark:text-white font-medium leading-relaxed">
                           {change.summary}
                         </p>
 
                         {/* Metadata/Details */}
                         {change.metadata && (
-                          <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-100 text-xs lg:text-sm text-text-secondary overflow-hidden">
+                          <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600 text-xs lg:text-sm text-text-secondary dark:text-gray-300 overflow-hidden">
                             {change.metadata.detailedChanges && Array.isArray(change.metadata.detailedChanges) ? (
                               <div className="space-y-1">
                                 {change.metadata.detailedChanges.map((detail, idx) => (
@@ -350,12 +349,12 @@ const ActivityLog = () => {
                                     </span>
                                     {detail.from !== undefined && detail.to !== undefined ? (
                                       <>
-                                        <span className="text-gray-400">- from</span>
-                                        <span className="font-medium text-text bg-white px-1.5 py-0.5 rounded border border-gray-200 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.from)}>
+                                        <span className="text-gray-400 dark:text-gray-500">- from</span>
+                                        <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.from)}>
                                           {String(detail.from)}
                                         </span>
-                                        <span className="text-gray-400">to</span>
-                                        <span className="font-medium text-text bg-white px-1.5 py-0.5 rounded border border-gray-200 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.to)}>
+                                        <span className="text-gray-400 dark:text-gray-500">to</span>
+                                        <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.to)}>
                                           {String(detail.to)}
                                         </span>
                                       </>
