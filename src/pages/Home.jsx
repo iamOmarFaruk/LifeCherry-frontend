@@ -5,6 +5,7 @@ import { FiArrowRight, FiBookOpen, FiHeart, FiUsers, FiStar, FiLock, FiImage } f
 import apiClient from '../utils/apiClient';
 import HeroSlider from '../components/home/HeroSlider';
 import PageLoader from '../components/shared/PageLoader';
+import SectionHeader from '../components/shared/SectionHeader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import useAuth from '../hooks/useAuth';
 
@@ -168,52 +169,50 @@ const Home = () => {
       </section>
 
       {/* Why Learning From Life Matters Section */}
-      <section className="py-12 md:py-16 bg-cherry-50 dark:bg-gray-800 transition-colors duration-300">
+      <section className="py-12 md:py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-text-cherry dark:text-cherry-300">Why Learning From Life Matters</h2>
-            <p className="text-text-secondary dark:text-gray-400 mt-2 max-w-2xl mx-auto text-sm md:text-base">
-              Every experience holds a lesson. Here's why capturing and sharing them is powerful.
-            </p>
-          </div>
+          <SectionHeader
+            title="Why Learning From Life Matters"
+            subtitle="Every experience holds a lesson. Here's why capturing and sharing them is powerful."
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
-              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 text-center border border-gray-100 dark:border-gray-600">
+              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiBookOpen className="w-7 h-7 text-cherry" />
               </div>
-              <h3 className="text-lg font-semibold text-text-cherry dark:text-cherry-300 mb-2">Preserve Wisdom</h3>
-              <p className="text-text-secondary dark:text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Preserve Wisdom</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
                 Don't let valuable lessons fade away. Document them for yourself and future generations.
               </p>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
-              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 text-center border border-gray-100 dark:border-gray-600">
+              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiHeart className="w-7 h-7 text-cherry" />
               </div>
-              <h3 className="text-lg font-semibold text-text-cherry dark:text-cherry-300 mb-2">Mindful Reflection</h3>
-              <p className="text-text-secondary dark:text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Mindful Reflection</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
                 Writing about experiences deepens understanding and promotes personal growth.
               </p>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
-              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 text-center border border-gray-100 dark:border-gray-600">
+              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiUsers className="w-7 h-7 text-cherry" />
               </div>
-              <h3 className="text-lg font-semibold text-text-cherry dark:text-cherry-300 mb-2">Help Others</h3>
-              <p className="text-text-secondary dark:text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Help Others</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
                 Your story might be exactly what someone else needs to hear today.
               </p>
             </div>
 
-            <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
-              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 text-center border border-gray-100 dark:border-gray-600">
+              <div className="w-14 h-14 bg-cherry-100 dark:bg-cherry-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiStar className="w-7 h-7 text-cherry" />
               </div>
-              <h3 className="text-lg font-semibold text-text-cherry dark:text-cherry-300 mb-2">Build Community</h3>
-              <p className="text-text-secondary dark:text-gray-300 text-sm">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Build Community</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
                 Connect with like-minded people who value growth and shared wisdom.
               </p>
             </div>
@@ -224,12 +223,10 @@ const Home = () => {
       {/* Top Contributors Section */}
       <section className="py-12 md:py-16 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6 tracking-tight">Top Contributors of the Week</h2>
-            <p className="text-text-secondary dark:text-gray-400 mt-2 md:mt-4 max-w-xl mx-auto text-base md:text-lg">
-              Meet the amazing people sharing their wisdom
-            </p>
-          </div>
+          <SectionHeader
+            title="Top Contributors of the Week"
+            subtitle="Meet the amazing people sharing their wisdom"
+          />
 
           <div className="flex flex-wrap justify-center gap-6 md:gap-8">
             {loading && (
