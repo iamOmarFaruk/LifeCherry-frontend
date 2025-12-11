@@ -1,5 +1,5 @@
 // Manage Lessons Page - LifeCherry Admin
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   HiOutlineBookOpen,
@@ -18,20 +18,24 @@ import {
   HiOutlineExclamationTriangle,
   HiOutlineFlag,
   HiOutlineHeart,
-  HiOutlineBookmark
+  HiOutlineBookmark,
+  HiOutlineArrowPath
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import PageLoader from '../../../components/shared/PageLoader';
 import DashboardPageHeader from '../../../components/shared/DashboardPageHeader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
-import { lessons, categories } from '../../../data/lessons';
-import { reports } from '../../../data/reports';
+import useAuth from '../../../hooks/useAuth';
+import apiClient from '../../../utils/apiClient';
+import { categories } from '../../../data/lessons';
 
 const ManageLessons = () => {
   useDocumentTitle('Manage Lessons');
+  const { authLoading } = useAuth();
 
   // State
-  const [lessonsData, setLessonsData] = useState(lessons);
+  const [lessonsData, setLessonsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterVisibility, setFilterVisibility] = useState('');
@@ -39,7 +43,18 @@ const ManageLessons = () => {
   const [filterFeatured, setFilterFeatured] = useState('');
   const [sortBy, setSortBy] = useState('newest');
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const [showFilters, setShowFilters] = useState(false);
+
+  // Stats
+  const [stats, setStats] = useState({
+    total: 0,
+    public: 0,
+    private: 0,
+    featured: 0,
+    flagged: 0
+  });
 
   // Modal states
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -49,76 +64,69 @@ const ManageLessons = () => {
 
   const ITEMS_PER_PAGE = 10;
 
-  // Get report count for lesson
-  const getReportCount = (lessonId) => {
-    return reports.filter(r => r.lessonId === lessonId).length;
+  useEffect(() => {
+    if (!authLoading) {
+      fetchStats();
+    }
+  }, [authLoading]);
+
+  useEffect(() => {
+    if (authLoading) return;
+
+    // Debounce search
+    const timer = setTimeout(() => {
+      fetchLessons();
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery, filterCategory, filterVisibility, filterAccessLevel, filterFeatured, sortBy, currentPage, authLoading]);
+
+  const fetchStats = async () => {
+    try {
+      const res = await apiClient.get('/lessons/stats');
+      setStats(res.data);
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+    }
   };
 
-  // Filter and search
-  const filteredLessons = useMemo(() => {
-    let result = lessonsData.map(lesson => ({
-      ...lesson,
-      reportCount: getReportCount(lesson._id)
-    }));
-
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(
-        lesson =>
-          lesson.title.toLowerCase().includes(query) ||
-          lesson.creatorName.toLowerCase().includes(query) ||
-          lesson.creatorEmail.toLowerCase().includes(query)
-      );
+  const getSortParam = (sortOption) => {
+    switch (sortOption) {
+      case 'newest': return '-createdAt';
+      case 'oldest': return 'createdAt';
+      case 'title': return 'title';
+      case 'likes': return '-likesCount';
+      case 'reports': return '-reportCount';
+      default: return '-createdAt';
     }
+  };
 
-    if (filterCategory) {
-      result = result.filter(lesson => lesson.category === filterCategory);
+  const fetchLessons = async () => {
+    setIsLoading(true);
+    try {
+      const params = {
+        page: currentPage,
+        limit: ITEMS_PER_PAGE,
+        sort: getSortParam(sortBy),
+        search: searchQuery,
+        category: filterCategory,
+        visibility: filterVisibility || 'all',
+        accessLevel: filterAccessLevel,
+      };
+
+      if (filterFeatured === 'featured') params.isFeatured = true;
+      if (filterFeatured === 'not-featured') params.isFeatured = false;
+
+      const res = await apiClient.get('/lessons', { params });
+      setLessonsData(res.data.lessons);
+      setTotalPages(Math.ceil(res.data.total / ITEMS_PER_PAGE));
+      setTotalItems(res.data.total);
+    } catch (error) {
+      console.error('Fetch lessons error:', error);
+      toast.error('Failed to load lessons');
+    } finally {
+      setIsLoading(false);
     }
-
-    if (filterVisibility) {
-      result = result.filter(lesson => lesson.visibility === filterVisibility);
-    }
-
-    if (filterAccessLevel) {
-      result = result.filter(lesson => lesson.accessLevel === filterAccessLevel);
-    }
-
-    if (filterFeatured) {
-      result = result.filter(lesson =>
-        filterFeatured === 'featured' ? lesson.isFeatured : !lesson.isFeatured
-      );
-    }
-
-    // Sort
-    switch (sortBy) {
-      case 'newest':
-        result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        break;
-      case 'oldest':
-        result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-        break;
-      case 'title':
-        result.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case 'likes':
-        result.sort((a, b) => b.likesCount - a.likesCount);
-        break;
-      case 'reports':
-        result.sort((a, b) => b.reportCount - a.reportCount);
-        break;
-      default:
-        break;
-    }
-
-    return result;
-  }, [lessonsData, searchQuery, filterCategory, filterVisibility, filterAccessLevel, filterFeatured, sortBy]);
-
-  // Pagination
-  const totalPages = Math.ceil(filteredLessons.length / ITEMS_PER_PAGE);
-  const paginatedLessons = filteredLessons.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  };
 
   // Format date
   const formatDate = (dateString) => {
@@ -137,37 +145,81 @@ const ManageLessons = () => {
   };
 
   // Confirm toggle featured
-  const confirmToggleFeatured = () => {
+  const confirmToggleFeatured = async () => {
+    if (!selectedLesson) return;
     setIsSubmitting(true);
-    setTimeout(() => {
+    try {
+      const newStatus = !selectedLesson.isFeatured;
+      await apiClient.patch(`/lessons/${selectedLesson._id}`, { isFeatured: newStatus });
+
+      // Optimistic update
       setLessonsData(prev => prev.map(l =>
-        l._id === selectedLesson._id ? { ...l, isFeatured: !l.isFeatured } : l
+        l._id === selectedLesson._id ? { ...l, isFeatured: newStatus } : l
       ));
-      toast.success(selectedLesson.isFeatured ? 'Removed from featured' : 'Added to featured!');
+
+      toast.success(newStatus ? 'Added to featured!' : 'Removed from featured');
       setShowFeatureModal(false);
       setSelectedLesson(null);
+      fetchStats();
+    } catch (error) {
+      toast.error('Failed to update status');
+    } finally {
       setIsSubmitting(false);
-    }, 800);
+    }
   };
 
   // Handle mark as reviewed
-  const handleMarkReviewed = (lesson) => {
-    setLessonsData(prev => prev.map(l =>
-      l._id === lesson._id ? { ...l, isReviewed: true } : l
-    ));
-    toast.success('Marked as reviewed');
+  const handleMarkReviewed = async (lesson) => {
+    try {
+      await apiClient.patch(`/lessons/${lesson._id}`, { isReviewed: true });
+      setLessonsData(prev => prev.map(l =>
+        l._id === lesson._id ? { ...l, isReviewed: true } : l
+      ));
+      toast.success('Marked as reviewed');
+    } catch (error) {
+      toast.error('Failed to mark as reviewed');
+    }
   };
 
   // Handle delete lesson
-  const handleDeleteLesson = () => {
+  const handleDeleteLesson = async () => {
+    if (!selectedLesson) return;
     setIsSubmitting(true);
-    setTimeout(() => {
-      setLessonsData(prev => prev.filter(l => l._id !== selectedLesson._id));
+    try {
+      await apiClient.delete(`/lessons/${selectedLesson._id}`);
+
       toast.success('Lesson deleted successfully');
       setShowDeleteModal(false);
       setSelectedLesson(null);
+
+      // If deleting the last item on page, go back one page if possible
+      if (lessonsData.length === 1 && currentPage > 1) {
+        setCurrentPage(prev => prev - 1);
+      } else {
+        fetchLessons();
+      }
+      fetchStats();
+    } catch (error) {
+      toast.error('Failed to delete lesson');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
+  };
+
+  // Handle sync report counts
+  const handleSyncData = async () => {
+    setIsSubmitting(true);
+    try {
+      const res = await apiClient.post('/lessons/sync-counts');
+      toast.success(res.data.message || 'System data synchronized');
+      fetchStats();
+      fetchLessons();
+    } catch (error) {
+      console.error('Sync error:', error);
+      toast.error('Failed to sync data');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Clear filters
@@ -183,24 +235,25 @@ const ManageLessons = () => {
 
   const hasActiveFilters = searchQuery || filterCategory || filterVisibility || filterAccessLevel || filterFeatured || sortBy !== 'newest';
 
-  // Stats
-  const stats = {
-    total: lessonsData.length,
-    public: lessonsData.filter(l => l.visibility === 'public').length,
-    private: lessonsData.filter(l => l.visibility === 'private').length,
-    featured: lessonsData.filter(l => l.isFeatured).length,
-    flagged: lessonsData.filter(l => getReportCount(l._id) > 0).length
-  };
-
   return (
     <PageLoader>
       <div className="space-y-6">
-        {/* Page Header */}
-        <DashboardPageHeader
-          icon={HiOutlineBookOpen}
-          title="Manage Lessons"
-          description="View and manage all lessons on the platform"
-        />
+        {/* Page Header & Actions */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <DashboardPageHeader
+            icon={HiOutlineBookOpen}
+            title="Manage Lessons"
+            description="View and manage all lessons on the platform"
+          />
+          <button
+            onClick={handleSyncData}
+            disabled={isSubmitting}
+            className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-medium text-text dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 shadow-sm"
+          >
+            <HiOutlineArrowPath className={`w-4 h-4 ${isSubmitting ? 'animate-spin' : ''}`} />
+            {isSubmitting ? 'Syncing...' : 'Sync Data'}
+          </button>
+        </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
@@ -310,8 +363,8 @@ const ManageLessons = () => {
                   className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none text-sm"
                 >
                   <option value="">All Categories</option>
-                  {categories.map(cat => (
-                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                  {categories.map((cat, idx) => (
+                    <option key={idx} value={cat}>{cat}</option>
                   ))}
                 </select>
               </div>
@@ -396,149 +449,164 @@ const ManageLessons = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border dark:divide-gray-700">
-                {paginatedLessons.map((lesson) => (
-                  <tr key={lesson._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={lesson.image}
-                          alt={lesson.title}
-                          className="w-12 h-12 rounded-lg object-cover"
-                        />
-                        <div className="max-w-xs">
-                          <h4 className="font-medium text-text dark:text-white truncate">{lesson.title}</h4>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs bg-cherry-50 dark:bg-red-900/30 text-cherry dark:text-red-300 px-2 py-0.5 rounded-full">
-                              {lesson.category}
-                            </span>
-                            {lesson.isFeatured && (
-                              <span className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300 px-2 py-0.5 rounded-full flex items-center gap-0.5">
-                                <HiOutlineSparkles className="w-3 h-3" /> Featured
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <img
-                          src={lesson.creatorPhoto}
-                          alt={lesson.creatorName}
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
-                        <div>
-                          <p className="text-sm font-medium text-text dark:text-white">{lesson.creatorName}</p>
-                          <p className="text-xs text-text-secondary dark:text-gray-400">{lesson.creatorEmail}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col gap-1.5">
-                        <div className="flex items-center gap-2">
-                          {lesson.visibility === 'public' ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">
-                              <HiOutlineGlobeAlt className="w-3 h-3" />
-                              Public
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
-                              <HiOutlineLockClosed className="w-3 h-3" />
-                              Private
-                            </span>
-                          )}
-                          {lesson.accessLevel === 'premium' && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
-                              <HiOutlineStar className="w-3 h-3" />
-                              Premium
-                            </span>
-                          )}
-                        </div>
-                        {lesson.reportCount > 0 && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-700 text-xs font-medium rounded-full w-fit">
-                            <HiOutlineFlag className="w-3 h-3" />
-                            {lesson.reportCount} {lesson.reportCount === 1 ? 'Report' : 'Reports'}
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3 text-sm">
-                        <span className="flex items-center gap-1 text-text-secondary dark:text-gray-400">
-                          <HiOutlineHeart className="w-4 h-4 text-red-400" />
-                          {lesson.likesCount}
-                        </span>
-                        <span className="flex items-center gap-1 text-text-secondary dark:text-gray-400">
-                          <HiOutlineBookmark className="w-4 h-4 text-blue-400" />
-                          {lesson.favoritesCount}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-text-secondary dark:text-gray-400">
-                        {formatDate(lesson.createdAt)}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link
-                          to={`/lessons/${lesson._id}`}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                          title="View Lesson"
-                        >
-                          <HiOutlineEye className="w-5 h-5" />
-                        </Link>
-                        <button
-                          onClick={() => handleToggleFeatured(lesson)}
-                          className={`p-2 rounded-lg transition-colors ${lesson.isFeatured
-                            ? 'text-amber-600 bg-amber-50 hover:bg-amber-100'
-                            : 'text-gray-400 hover:bg-gray-100 hover:text-amber-600'
-                            }`}
-                          title={lesson.isFeatured ? 'Remove from Featured' : 'Add to Featured'}
-                        >
-                          <HiOutlineSparkles className="w-5 h-5" />
-                        </button>
-                        {!lesson.isReviewed && (
-                          <button
-                            onClick={() => handleMarkReviewed(lesson)}
-                            className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                            title="Mark as Reviewed"
-                          >
-                            <HiOutlineCheckCircle className="w-5 h-5" />
-                          </button>
-                        )}
-                        <button
-                          onClick={() => {
-                            setSelectedLesson(lesson);
-                            setShowDeleteModal(true);
-                          }}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          title="Delete Lesson"
-                        >
-                          <HiOutlineTrash className="w-5 h-5" />
-                        </button>
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={6} className="px-6 py-12 text-center">
+                      <div className="inline-flex items-center gap-2">
+                        <svg className="animate-spin h-5 w-5 text-cherry" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        <span className="text-text-secondary dark:text-gray-400 font-medium">Loading lessons...</span>
                       </div>
                     </td>
                   </tr>
-                ))}
+                ) : lessonsData.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="px-6 py-12 text-center">
+                      <HiOutlineBookOpen className="w-12 h-12 text-text-muted mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold text-text dark:text-white mb-2">No lessons found</h3>
+                      <p className="text-text-secondary dark:text-gray-400">Try adjusting your search or filters</p>
+                    </td>
+                  </tr>
+                ) : (
+                  lessonsData.map((lesson) => (
+                    <tr key={lesson._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={lesson.image}
+                            alt={lesson.title}
+                            className="w-12 h-12 rounded-lg object-cover"
+                          />
+                          <div className="max-w-xs">
+                            <h4 className="font-medium text-text dark:text-white truncate">{lesson.title}</h4>
+                            <div className="flex items-center gap-2 mt-1">
+                              {lesson.category && (
+                                <span className="text-xs bg-cherry-50 dark:bg-red-900/30 text-cherry dark:text-red-300 px-2 py-0.5 rounded-full">
+                                  {lesson.category}
+                                </span>
+                              )}
+                              {lesson.isFeatured && (
+                                <span className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300 px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                                  <HiOutlineSparkles className="w-3 h-3" /> Featured
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={lesson.creatorPhoto || `https://ui-avatars.com/api/?name=${encodeURIComponent(lesson.creatorName)}&background=random`}
+                            alt={lesson.creatorName}
+                            className="w-8 h-8 rounded-full object-cover"
+                          />
+                          <div>
+                            <p className="text-sm font-medium text-text dark:text-white">{lesson.creatorName}</p>
+                            <p className="text-xs text-text-secondary dark:text-gray-400">{lesson.creatorEmail}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col gap-1.5">
+                          <div className="flex items-center gap-2">
+                            {lesson.visibility === 'public' ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                                <HiOutlineGlobeAlt className="w-3 h-3" />
+                                Public
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                                <HiOutlineLockClosed className="w-3 h-3" />
+                                Private
+                              </span>
+                            )}
+                            {lesson.accessLevel === 'premium' && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
+                                <HiOutlineStar className="w-3 h-3" />
+                                Premium
+                              </span>
+                            )}
+                          </div>
+                          {lesson.reportCount > 0 && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-700 text-xs font-medium rounded-full w-fit">
+                              <HiOutlineFlag className="w-3 h-3" />
+                              {lesson.reportCount} {lesson.reportCount === 1 ? 'Report' : 'Reports'}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3 text-sm">
+                          <span className="flex items-center gap-1 text-text-secondary dark:text-gray-400">
+                            <HiOutlineHeart className="w-4 h-4 text-red-400" />
+                            {lesson.likesCount}
+                          </span>
+                          <span className="flex items-center gap-1 text-text-secondary dark:text-gray-400">
+                            <HiOutlineBookmark className="w-4 h-4 text-blue-400" />
+                            {lesson.favoritesCount}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-sm text-text-secondary dark:text-gray-400">
+                          {formatDate(lesson.createdAt)}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <Link
+                            to={`/lessons/${lesson._id}`}
+                            className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
+                            title="View Lesson"
+                          >
+                            <HiOutlineEye className="w-5 h-5" />
+                          </Link>
+                          <button
+                            onClick={() => handleToggleFeatured(lesson)}
+                            className={`p-2 rounded-lg transition-colors ${lesson.isFeatured
+                              ? 'text-amber-600 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/30 dark:hover:bg-amber-900/50'
+                              : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-amber-600'
+                              }`}
+                            title={lesson.isFeatured ? 'Remove from Featured' : 'Add to Featured'}
+                          >
+                            <HiOutlineSparkles className="w-5 h-5" />
+                          </button>
+                          {!lesson.isReviewed && (
+                            <button
+                              onClick={() => handleMarkReviewed(lesson)}
+                              className="p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/30 rounded-lg transition-colors"
+                              title="Mark as Reviewed"
+                            >
+                              <HiOutlineCheckCircle className="w-5 h-5" />
+                            </button>
+                          )}
+                          <button
+                            onClick={() => {
+                              setSelectedLesson(lesson);
+                              setShowDeleteModal(true);
+                            }}
+                            className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                            title="Delete Lesson"
+                          >
+                            <HiOutlineTrash className="w-5 h-5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
-
-          {/* Empty State */}
-          {paginatedLessons.length === 0 && (
-            <div className="text-center py-12">
-              <HiOutlineBookOpen className="w-12 h-12 text-text-muted mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text mb-2">No lessons found</h3>
-              <p className="text-text-secondary">Try adjusting your search or filters</p>
-            </div>
-          )}
 
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="px-6 py-4 border-t border-border dark:border-gray-700 flex items-center justify-between">
               <p className="text-sm text-text-secondary dark:text-gray-400">
-                Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredLessons.length)} of {filteredLessons.length} lessons
+                Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of {totalItems} lessons
               </p>
               <div className="flex items-center gap-2">
                 <button
@@ -548,18 +616,25 @@ const ManageLessons = () => {
                 >
                   <HiOutlineChevronLeft className="w-5 h-5" />
                 </button>
-                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => i + 1).map(page => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === page
-                      ? 'bg-cherry text-white'
-                      : 'border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300'
-                      }`}
-                  >
-                    {page}
-                  </button>
-                ))}
+                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                  let page;
+                  if (totalPages <= 5) page = i + 1;
+                  else if (currentPage <= 3) page = i + 1;
+                  else if (currentPage >= totalPages - 2) page = totalPages - 4 + i;
+                  else page = currentPage - 2 + i;
+                  return (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === page
+                        ? 'bg-cherry text-white'
+                        : 'border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300'
+                        }`}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
@@ -606,8 +681,8 @@ const ManageLessons = () => {
 
               <p className="text-text-secondary mb-6">
                 {selectedLesson.isFeatured
-                  ? 'This lesson will be removed from the featured section and will no longer appear in the homepage spotlight.'
-                  : 'This lesson will be added to the featured section and will be highlighted on the homepage for all users to see.'}
+                  ? 'This lesson will be removed from the featured section.'
+                  : 'This lesson will be added to the featured section and highlighted on the homepage.'}
               </p>
 
               <div className="flex gap-3">
@@ -665,7 +740,7 @@ const ManageLessons = () => {
               </div>
 
               <p className="text-text-secondary mb-6">
-                Are you sure you want to delete this lesson? This will permanently remove all associated data including comments and reports.
+                Are you sure you want to delete this lesson? This will move it to trash.
               </p>
 
               <div className="flex gap-3">
