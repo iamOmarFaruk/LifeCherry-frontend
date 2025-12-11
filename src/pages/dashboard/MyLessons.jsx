@@ -468,52 +468,52 @@ const MyLessons = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white rounded-2xl shadow-sm border border-border p-5">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 p-5">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-cherry-50 rounded-xl">
-                <HiOutlineBookOpen className="w-6 h-6 text-cherry" />
+              <div className="p-3 bg-cherry-50 dark:bg-cherry-900/20 rounded-xl">
+                <HiOutlineBookOpen className="w-6 h-6 text-cherry dark:text-cherry-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">{lessonsData.length}</p>
-                <p className="text-sm text-text-muted">Total Lessons</p>
+                <p className="text-2xl font-bold text-text dark:text-white">{lessonsData.length}</p>
+                <p className="text-sm text-text-muted dark:text-gray-400">Total Lessons</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-border p-5">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 p-5">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-green-50 rounded-xl">
-                <HiOutlineGlobeAlt className="w-6 h-6 text-green-600" />
+              <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
+                <HiOutlineGlobeAlt className="w-6 h-6 text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">
+                <p className="text-2xl font-bold text-text dark:text-white">
                   {lessonsData.filter(l => l.visibility === 'public').length}
                 </p>
-                <p className="text-sm text-text-muted">Public Lessons</p>
+                <p className="text-sm text-text-muted dark:text-gray-400">Public Lessons</p>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-border p-5">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 p-5">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-amber-50 rounded-xl">
+              <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
                 <HiOutlineStar className="w-6 h-6 text-amber-500" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-text">
+                <p className="text-2xl font-bold text-text dark:text-white">
                   {lessonsData.filter(l => l.accessLevel === 'premium').length}
                 </p>
-                <p className="text-sm text-text-muted">Premium Lessons</p>
+                <p className="text-sm text-text-muted dark:text-gray-400">Premium Lessons</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Search & Filter Bar */}
-        <div className="bg-white rounded-2xl shadow-sm border border-border p-4 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 p-4 mb-6">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
             <div className="flex-1 relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <HiOutlineMagnifyingGlass className="text-text-muted w-5 h-5" />
+                <HiOutlineMagnifyingGlass className="text-text-muted dark:text-gray-400 w-5 h-5" />
               </div>
               <input
                 type="text"
@@ -523,19 +523,19 @@ const MyLessons = () => {
                   setCurrentPage(1);
                 }}
                 placeholder="Search lessons by title or description..."
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors bg-white dark:bg-gray-900 text-text dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
 
             {/* Filter Toggles */}
             <div className="flex gap-3">
               {/* View Mode Toggle */}
-              <div className="hidden sm:flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+              <div className="hidden sm:flex items-center border-2 border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
                 <button
                   onClick={() => handleViewModeChange('list')}
                   className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'list'
                     ? 'bg-cherry text-white'
-                    : 'bg-white text-text-secondary hover:bg-gray-50'
+                    : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
                     }`}
                   title="List View"
                 >
@@ -545,7 +545,7 @@ const MyLessons = () => {
                   onClick={() => handleViewModeChange('grid')}
                   className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'grid'
                     ? 'bg-cherry text-white'
-                    : 'bg-white text-text-secondary hover:bg-gray-50'
+                    : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
                     }`}
                   title="Grid View"
                 >
@@ -556,8 +556,8 @@ const MyLessons = () => {
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className={`inline-flex items-center gap-2 px-4 py-3 border-2 rounded-xl font-medium transition-all duration-200 cursor-pointer ${showFilters || hasActiveFilters
-                  ? 'border-cherry bg-cherry-50 text-cherry'
-                  : 'border-gray-200 text-text-secondary hover:border-gray-300'
+                  ? 'border-cherry bg-cherry-50 dark:bg-cherry-900/20 text-cherry dark:text-cherry-400'
+                  : 'border-gray-200 dark:border-gray-700 text-text-secondary dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
               >
                 <HiOutlineFunnel className="w-5 h-5" />
@@ -570,7 +570,7 @@ const MyLessons = () => {
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center gap-2 px-4 py-3 border-2 border-gray-200 rounded-xl font-medium text-text-secondary hover:border-gray-300 transition-all duration-200 cursor-pointer"
+                  className="inline-flex items-center gap-2 px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl font-medium text-text-secondary dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 cursor-pointer"
                 >
                   <HiOutlineXMark className="w-5 h-5" />
                   Clear
@@ -581,16 +581,16 @@ const MyLessons = () => {
 
           {/* Expandable Filters */}
           {showFilters && (
-            <div className="mt-4 pt-4 border-t border-border grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="mt-4 pt-4 border-t border-border dark:border-gray-700 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-text mb-2">Category</label>
+                <label className="block text-sm font-semibold text-text dark:text-gray-300 mb-2">Category</label>
                 <select
                   value={filterCategory}
                   onChange={(e) => {
                     setFilterCategory(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors bg-white appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors bg-white dark:bg-gray-900 text-text dark:text-white appearance-none cursor-pointer"
                 >
                   <option value="">All Categories</option>
                   {categories.map(cat => (
@@ -599,14 +599,14 @@ const MyLessons = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-text mb-2">Visibility</label>
+                <label className="block text-sm font-semibold text-text dark:text-gray-300 mb-2">Visibility</label>
                 <select
                   value={filterVisibility}
                   onChange={(e) => {
                     setFilterVisibility(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors bg-white appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors bg-white dark:bg-gray-900 text-text dark:text-white appearance-none cursor-pointer"
                 >
                   <option value="">All Visibility</option>
                   <option value="public">Public</option>
@@ -618,12 +618,12 @@ const MyLessons = () => {
         </div>
 
         {/* Lessons Table */}
-        <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 overflow-hidden">
           {filteredLessons.length === 0 ? (
             <div className="p-12 text-center">
-              <HiOutlineBookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-text mb-2">No lessons found</h3>
-              <p className="text-text-muted mb-6">
+              <HiOutlineBookOpen className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-text dark:text-white mb-2">No lessons found</h3>
+              <p className="text-text-muted dark:text-gray-400 mb-6">
                 {hasActiveFilters
                   ? 'Try adjusting your filters or search query'
                   : "You haven't created any lessons yet"
@@ -648,7 +648,7 @@ const MyLessons = () => {
                     {paginatedLessons.map((lesson) => (
                       <div
                         key={lesson._id}
-                        className="bg-white rounded-xl border border-border hover:shadow-lg transition-all duration-300 overflow-hidden group"
+                        className="bg-white dark:bg-gray-800 rounded-xl border border-border dark:border-gray-700 hover:shadow-lg transition-all duration-300 overflow-hidden group"
                       >
                         {/* Image */}
                         <div className="relative h-40 overflow-hidden">
@@ -659,7 +659,7 @@ const MyLessons = () => {
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-cherry-50 to-cherry-100 flex items-center justify-center">
+                            <div className="w-full h-full bg-gradient-to-br from-cherry-50 to-cherry-100 dark:from-cherry-900/20 dark:to-cherry-900/40 flex items-center justify-center">
                               <HiOutlineBookOpen className="w-12 h-12 text-cherry" />
                             </div>
                           )}
@@ -685,7 +685,7 @@ const MyLessons = () => {
                           )}
                           {/* Category Badge */}
                           <div className="absolute bottom-2 left-2">
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/90 backdrop-blur-sm text-cherry">
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-cherry">
                               {lesson.category}
                             </span>
                           </div>
@@ -693,13 +693,13 @@ const MyLessons = () => {
 
                         {/* Content */}
                         <div className="p-4">
-                          <h3 className="font-semibold text-text mb-1 line-clamp-1 group-hover:text-cherry transition-colors">
+                          <h3 className="font-semibold text-text dark:text-white mb-1 line-clamp-1 group-hover:text-cherry transition-colors">
                             {lesson.title}
                           </h3>
-                          <p className="text-sm text-text-muted mb-2">{lesson.emotionalTone}</p>
+                          <p className="text-sm text-text-muted dark:text-text-muted-dark mb-2 dark:text-gray-400">{lesson.emotionalTone}</p>
 
                           {/* Stats */}
-                          <div className="flex items-center gap-3 text-sm text-text-muted mb-3">
+                          <div className="flex items-center gap-3 text-sm text-text-muted dark:text-text-muted-dark mb-3 dark:text-gray-400">
                             <span className="flex items-center gap-1">
                               <HiOutlineHeart className="w-4 h-4 text-red-400" />
                               {lesson.likesCount}
@@ -715,7 +715,7 @@ const MyLessons = () => {
                           <div className="flex items-center gap-2">
                             <Link
                               to={`/lessons/${lesson._id}`}
-                              className="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-all duration-200 cursor-pointer text-sm"
+                              className="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 cursor-pointer text-sm"
                             >
                               <HiOutlineEye className="w-4 h-4" />
                               View
@@ -746,21 +746,21 @@ const MyLessons = () => {
               {viewMode === 'list' && (
                 <div className="hidden lg:block overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-gray-50 border-b border-border">
+                    <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-border dark:border-gray-700">
                       <tr>
-                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Lesson</th>
-                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Category</th>
-                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Visibility</th>
-                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Access</th>
-                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Stats</th>
-                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Created</th>
-                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Updated</th>
-                        <th className="text-right px-6 py-4 text-sm font-semibold text-text">Actions</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text dark:text-gray-200">Lesson</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text dark:text-gray-200">Category</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text dark:text-gray-200">Visibility</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text dark:text-gray-200">Access</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text dark:text-gray-200">Stats</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text dark:text-gray-200">Created</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text dark:text-gray-200">Updated</th>
+                        <th className="text-right px-6 py-4 text-sm font-semibold text-text dark:text-gray-200">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-border">
+                    <tbody className="divide-y divide-border dark:divide-gray-700">
                       {paginatedLessons.map((lesson) => (
-                        <tr key={lesson._id} className="hover:bg-gray-50 transition-colors">
+                        <tr key={lesson._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
                           {/* Lesson Info */}
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
@@ -771,15 +771,15 @@ const MyLessons = () => {
                                   className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
                                 />
                               ) : (
-                                <div className="w-12 h-12 rounded-lg bg-cherry-50 flex items-center justify-center flex-shrink-0">
+                                <div className="w-12 h-12 rounded-lg bg-cherry-50 dark:bg-cherry-900/20 flex items-center justify-center flex-shrink-0">
                                   <HiOutlineBookOpen className="w-6 h-6 text-cherry" />
                                 </div>
                               )}
                               <div className="min-w-0">
-                                <h3 className="font-semibold text-text truncate max-w-[200px]">
+                                <h3 className="font-semibold text-text dark:text-white truncate max-w-[200px]">
                                   {lesson.title}
                                 </h3>
-                                <p className="text-sm text-text-muted truncate max-w-[200px]">
+                                <p className="text-sm text-text-muted dark:text-gray-400 truncate max-w-[200px]">
                                   {lesson.emotionalTone}
                                 </p>
                               </div>
@@ -788,7 +788,7 @@ const MyLessons = () => {
 
                           {/* Category */}
                           <td className="px-6 py-4">
-                            <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium bg-cherry-50 text-cherry whitespace-nowrap">
+                            <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium bg-cherry-50 dark:bg-cherry-900/20 text-cherry dark:text-cherry-400 whitespace-nowrap">
                               {lesson.category}
                             </span>
                           </td>
