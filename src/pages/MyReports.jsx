@@ -7,6 +7,8 @@ import PageLoader from '../components/shared/PageLoader';
 import Loading from '../components/shared/Loading';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import useAuth from '../hooks/useAuth';
+import DashboardPageHeader from '../components/shared/DashboardPageHeader';
+import { HiOutlineFlag } from 'react-icons/hi2';
 
 const MyReports = () => {
   useDocumentTitle('My Reports - LifeCherry');
@@ -28,12 +30,12 @@ const MyReports = () => {
       const params = filter !== 'all' ? { status: filter } : {};
       const { data } = await reportAPI.getUserReports(params);
       setReports(data.reports || []);
-      
+
       // Fetch all reports for stats calculation if not already loaded
       if (allReports.length === 0) {
         const { data: allData } = await reportAPI.getUserReports({});
         setAllReports(allData.reports || []);
-        
+
         // Calculate stats from all reports
         const statusCounts = (allData.reports || []).reduce((acc, report) => {
           acc[report.status] = (acc[report.status] || 0) + 1;
@@ -122,34 +124,34 @@ const MyReports = () => {
   const getStatusIcon = (status) => {
     switch (status) {
       case 'pending':
-        return <FiClock className="w-5 h-5 text-yellow-600" />;
+        return <FiClock className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />;
       case 'reviewing':
-        return <FiEye className="w-5 h-5 text-blue-600" />;
+        return <FiEye className="w-5 h-5 text-blue-600 dark:text-blue-400" />;
       case 'resolved':
-        return <FiCheck className="w-5 h-5 text-green-600" />;
+        return <FiCheck className="w-5 h-5 text-green-600 dark:text-green-400" />;
       case 'rejected':
-        return <FiX className="w-5 h-5 text-red-600" />;
+        return <FiX className="w-5 h-5 text-red-600 dark:text-red-400" />;
       case 'withdrawn':
-        return <FiAlertCircle className="w-5 h-5 text-gray-600" />;
+        return <FiAlertCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />;
       default:
-        return <FiClock className="w-5 h-5 text-gray-600" />;
+        return <FiClock className="w-5 h-5 text-gray-600 dark:text-gray-400" />;
     }
   };
 
   const getStatusColor = (status) => {
     switch (status) {
       case 'pending':
-        return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+        return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-700';
       case 'reviewing':
-        return 'bg-blue-100 text-blue-700 border-blue-200';
+        return 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700';
       case 'resolved':
-        return 'bg-green-100 text-green-700 border-green-200';
+        return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-700';
       case 'rejected':
-        return 'bg-red-100 text-red-700 border-red-200';
+        return 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700';
       case 'withdrawn':
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600';
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600';
     }
   };
 
@@ -186,7 +188,7 @@ const MyReports = () => {
   if (loading) {
     return (
       <PageLoader>
-        <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           Loading reports...
         </div>
       </PageLoader>
@@ -195,138 +197,134 @@ const MyReports = () => {
 
   return (
     <PageLoader>
-      <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white py-12">
-        <div className="container mx-auto px-4 max-w-6xl">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
-              <FiFlag className="w-10 h-10" />
-              My Reports
-            </h1>
-            <p className="text-gray-600">View and manage your reported lessons</p>
-          </div>
+      <div className="space-y-6 lg:space-y-8">
+        {/* Header */}
+        <DashboardPageHeader
+          icon={HiOutlineFlag}
+          title="My Reports"
+          description="View and manage your reported lessons"
+        />
 
-          {/* Filters */}
-          <div className="bg-white rounded-2xl shadow-sm p-4 mb-6">
-            <div className="flex flex-wrap gap-2">
-              {filters.map((f) => (
-                <button
-                  key={f.value}
-                  onClick={() => setFilter(f.value)}
-                  className={`px-4 py-2 rounded-xl font-semibold transition-all ${
-                    filter === f.value
-                      ? 'bg-gradient-to-r from-cherry to-cherry-dark text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+        {/* Filters */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 p-4">
+          <div className="flex flex-wrap gap-2">
+            {filters.map((f) => (
+              <button
+                key={f.value}
+                onClick={() => setFilter(f.value)}
+                className={`px-4 py-2 rounded-xl font-semibold transition-all ${filter === f.value
+                    ? 'bg-gradient-to-r from-cherry to-cherry-dark text-white shadow-lg'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
-                >
-                  {f.label} {f.count > 0 && `(${f.count})`}
-                </button>
-              ))}
-            </div>
+              >
+                {f.label} {f.count > 0 && `(${f.count})`}
+              </button>
+            ))}
           </div>
-
-          {/* Reports List */}
-          {tabLoading ? (
-            <div className="bg-white rounded-2xl shadow-sm p-12 flex flex-col items-center justify-center gap-4">
-              <div className="relative w-16 h-16">
-                {/* Outer rotating circle */}
-                <div className="absolute inset-0 border-4 border-cherry/20 rounded-full"></div>
-                {/* Inner rotating gradient circle */}
-                <div className="absolute inset-0 border-4 border-transparent border-t-cherry border-r-cherry rounded-full animate-spin"></div>
-                {/* Center cherry icon */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-6 h-6 bg-gradient-to-br from-cherry to-cherry-dark rounded-full animate-pulse shadow-lg"></div>
-                </div>
-              </div>
-              <p className="text-sm text-gray-500 font-medium">Loading reports...</p>
-            </div>
-          ) : reports.length === 0 ? (
-            <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
-              <FiFlag className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-              <h3 className="text-xl font-bold text-gray-700 mb-2">No reports found</h3>
-              <p className="text-gray-500">
-                {filter !== 'all'
-                  ? `You don't have any ${filter} reports`
-                  : "You haven't reported any lessons yet"}
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {reports.map((report) => (
-                <div
-                  key={report._id}
-                  className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow p-6"
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <Link
-                        to={`/lessons/${report.lessonId?._id}`}
-                        className="group"
-                      >
-                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-cherry transition-colors mb-2">
-                          {report.lessonId?.title || 'Lesson removed'}
-                        </h3>
-                      </Link>
-                      <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
-                        <span className="flex items-center gap-1">
-                          {getStatusIcon(report.status)}
-                          <span className={`px-3 py-1 rounded-full font-semibold border ${getStatusColor(report.status)}`}>
-                            {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
-                          </span>
-                        </span>
-                        <span>•</span>
-                        <span>{getReasonLabel(report.reason)}</span>
-                        <span>•</span>
-                        <span>{formatDate(report.createdAt)}</span>
-                      </div>
-                    </div>
-                    {(report.status === 'pending' || report.status === 'reviewing') && (
-                      <button
-                        onClick={() => handleWithdraw(report._id, report.lessonId?.title || 'this lesson')}
-                        className="px-4 py-2 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 font-semibold transition-colors"
-                      >
-                        Withdraw
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="bg-gray-50 rounded-xl p-4 mb-4">
-                    <p className="text-sm font-semibold text-gray-700 mb-1">Your report:</p>
-                    <p className="text-gray-600">{report.description}</p>
-                  </div>
-
-                  {report.adminMessage && (
-                    <div className="bg-cherry-50 border-l-4 border-cherry rounded-xl p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <p className="text-sm font-semibold text-cherry">
-                          Admin Response by {report.reviewerName}:
-                        </p>
-                        <span className="text-xs text-gray-500">
-                          {formatDate(report.reviewedAt)}
-                        </span>
-                      </div>
-                      <p className="text-gray-700">{report.adminMessage}</p>
-                    </div>
-                  )}
-
-                  {report.lessonId && (
-                    <div className="mt-4 flex items-center gap-2">
-                      <Link
-                        to={`/lessons/${report.lessonId._id}`}
-                        className="text-cherry hover:text-cherry-dark font-semibold text-sm flex items-center gap-1"
-                      >
-                        View Lesson →
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
+
+        {/* Reports List */}
+        {tabLoading ? (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 p-12 flex flex-col items-center justify-center gap-4">
+            <div className="relative w-16 h-16">
+              {/* Outer rotating circle */}
+              <div className="absolute inset-0 border-4 border-cherry/20 rounded-full"></div>
+              {/* Inner rotating gradient circle */}
+              <div className="absolute inset-0 border-4 border-transparent border-t-cherry border-r-cherry rounded-full animate-spin"></div>
+              {/* Center cherry icon */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-6 h-6 bg-gradient-to-br from-cherry to-cherry-dark rounded-full animate-pulse shadow-lg"></div>
+              </div>
+            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Loading reports...</p>
+          </div>
+        ) : reports.length === 0 ? (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 p-12 text-center">
+            <FiFlag className="w-16 h-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
+            <h3 className="text-xl font-bold text-gray-700 dark:text-white mb-2">No reports found</h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              {filter !== 'all'
+                ? `You don't have any ${filter} reports`
+                : "You haven't reported any lessons yet"}
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {reports.map((report) => (
+              <div
+                key={report._id}
+                className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 hover:shadow-md transition-shadow p-6"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <Link
+                      to={`/lessons/${report.lessonId?._id}`}
+                      className="group"
+                    >
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-cherry transition-colors mb-2">
+                        {report.lessonId?.title || 'Lesson removed'}
+                      </h3>
+                    </Link>
+                    <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
+                      <span className="flex items-center gap-1">
+                        {getStatusIcon(report.status)}
+                        <span className={`px-3 py-1 rounded-full font-semibold border ${getStatusColor(report.status)}`}>
+                          {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+                        </span>
+                      </span>
+                      <span className="dark:text-gray-500">•</span>
+                      <span>{getReasonLabel(report.reason)}</span>
+                      <span className="dark:text-gray-500">•</span>
+                      <span>{formatDate(report.createdAt)}</span>
+                    </div>
+                  </div>
+                  {(report.status === 'pending' || report.status === 'reviewing') && (
+                    <button
+                      onClick={() => handleWithdraw(report._id, report.lessonId?.title || 'this lesson')}
+                      className="px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-xl hover:bg-red-200 dark:hover:bg-red-900/50 font-semibold transition-colors"
+                    >
+                      Withdraw
+                    </button>
+                  )}
+                </div>
+
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 mb-4">
+                  <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Your report:</p>
+                  <p className="text-gray-600 dark:text-gray-400">{report.description}</p>
+                </div>
+
+                {report.adminMessage && (
+                  <div className="bg-cherry-50 dark:bg-cherry-900/20 border-l-4 border-cherry rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <p className="text-sm font-semibold text-cherry dark:text-cherry-light">
+                        Admin Response by {report.reviewerName}:
+                      </p>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {formatDate(report.reviewedAt)}
+                      </span>
+                    </div>
+                    <p className="text-gray-700 dark:text-gray-300">{report.adminMessage}</p>
+                  </div>
+                )}
+
+                {report.lessonId && (
+                  <div className="mt-4 flex items-center gap-2">
+                    <Link
+                      to={`/lessons/${report.lessonId._id}`}
+                      className="text-cherry hover:text-cherry-dark dark:hover:text-cherry-light font-semibold text-sm flex items-center gap-1"
+                    >
+                      View Lesson →
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </PageLoader>
   );
 };
 
 export default MyReports;
+
