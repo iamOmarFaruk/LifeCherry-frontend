@@ -142,7 +142,7 @@ const ManageUsers = () => {
       />
 
       {/* Search and Filters */}
-      <div className="bg-white rounded-2xl border border-border p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 p-4 transition-colors">
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Search */}
           <div className="relative flex-1">
@@ -152,7 +152,7 @@ const ManageUsers = () => {
               placeholder="Search by name or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl focus:border-cherry focus:ring-0 focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 transition-colors"
             />
           </div>
 
@@ -160,7 +160,7 @@ const ManageUsers = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-2 px-4 py-2.5 border rounded-xl transition-colors ${showFilters ? 'border-cherry bg-cherry-50 text-cherry' : 'border-gray-200 text-text-secondary hover:border-cherry'
+              className={`flex items-center gap-2 px-4 py-2.5 border rounded-xl transition-colors ${showFilters ? 'border-cherry bg-cherry-50 text-cherry dark:bg-cherry-900/20' : 'border-gray-200 dark:border-gray-700 text-text-secondary dark:text-gray-300 hover:border-cherry dark:hover:border-cherry'
                 }`}
             >
               <HiOutlineFunnel className="w-5 h-5" />
@@ -181,13 +181,13 @@ const ManageUsers = () => {
 
         {/* Expanded Filters */}
         {showFilters && (
-          <div className="mt-4 pt-4 border-t border-border grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="mt-4 pt-4 border-t border-border dark:border-gray-700 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-text mb-1">Role</label>
+              <label className="block text-sm font-medium text-text dark:text-gray-300 mb-1">Role</label>
               <select
                 value={filterRole}
                 onChange={(e) => setFilterRole(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
               >
                 <option value="">All Roles</option>
                 <option value="user">User</option>
@@ -195,11 +195,11 @@ const ManageUsers = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-text mb-1">Plan</label>
+              <label className="block text-sm font-medium text-text dark:text-gray-300 mb-1">Plan</label>
               <select
                 value={filterPremium}
                 onChange={(e) => setFilterPremium(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
               >
                 <option value="">All Plans</option>
                 <option value="premium">Premium</option>
@@ -207,11 +207,11 @@ const ManageUsers = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-text mb-1">Status</label>
+              <label className="block text-sm font-medium text-text dark:text-gray-300 mb-1">Status</label>
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
               >
                 <option value="">All Status</option>
                 <option value="active">Active</option>
@@ -224,31 +224,31 @@ const ManageUsers = () => {
       </div>
 
       {/* Users Table */}
-      <div className="bg-white rounded-2xl border border-border overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-border dark:border-gray-700 overflow-hidden transition-colors">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-border">
+            <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-border dark:border-gray-700">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                   User
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                   Role
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                   Joined
                 </th>
-                <th className="px-6 py-4 text-right text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                <th className="px-6 py-4 text-right text-xs font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-border dark:divide-gray-700">
               {usersData.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <img
@@ -257,19 +257,19 @@ const ManageUsers = () => {
                         className="w-10 h-10 rounded-full object-cover"
                       />
                       <div>
-                        <h4 className="font-medium text-text">{user.name}</h4>
-                        <p className="text-sm text-text-secondary">{user.email}</p>
+                        <h4 className="font-medium text-text dark:text-white">{user.name}</h4>
+                        <p className="text-sm text-text-secondary dark:text-gray-400">{user.email}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     {user.role === 'admin' ? (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium rounded-full">
                         <HiOutlineShieldCheck className="w-3.5 h-3.5" />
                         Admin
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium rounded-full">
                         User
                       </span>
                     )}
@@ -290,7 +290,7 @@ const ManageUsers = () => {
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-sm text-text-secondary">
+                    <span className="text-sm text-text-secondary dark:text-gray-400">
                       {formatDate(user.createdAt)}
                     </span>
                   </td>
@@ -302,7 +302,7 @@ const ManageUsers = () => {
                             setSelectedUser(user);
                             handleManageStatus('restore');
                           }}
-                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                          className="p-2 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors"
                           title="Restore User"
                         >
                           <HiOutlineArrowPath className="w-5 h-5" />
@@ -313,7 +313,7 @@ const ManageUsers = () => {
                             setSelectedUser(user);
                             setShowArchiveModal(true);
                           }}
-                          className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+                          className="p-2 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
                           title="Archive User"
                         >
                           <HiOutlineArchiveBox className="w-5 h-5" />
@@ -326,7 +326,7 @@ const ManageUsers = () => {
                             setSelectedUser(user);
                             setShowPromoteModal(true);
                           }}
-                          className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                          className="p-2 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors"
                           title="Promote to Admin"
                         >
                           <HiOutlineShieldCheck className="w-5 h-5" />
@@ -334,7 +334,7 @@ const ManageUsers = () => {
                       ) : (
                         <button
                           onClick={() => handleDemoteFromAdmin(user)}
-                          className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                          className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 rounded-lg transition-colors"
                           title="Demote to User"
                         >
                           <HiOutlineShieldCheck className="w-5 h-5" />
@@ -351,23 +351,23 @@ const ManageUsers = () => {
         {/* Empty State */}
         {usersData.length === 0 && (
           <div className="text-center py-12">
-            <HiOutlineUsers className="w-12 h-12 text-text-muted mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-text mb-2">No users found</h3>
-            <p className="text-text-secondary">Try adjusting your search or filters</p>
+            <HiOutlineUsers className="w-12 h-12 text-text-muted dark:text-gray-600 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-text dark:text-white mb-2">No users found</h3>
+            <p className="text-text-secondary dark:text-gray-400">Try adjusting your search or filters</p>
           </div>
         )}
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="px-6 py-4 border-t border-border flex items-center justify-between">
-            <p className="text-sm text-text-secondary">
+          <div className="px-6 py-4 border-t border-border dark:border-gray-700 flex items-center justify-between">
+            <p className="text-sm text-text-secondary dark:text-gray-400">
               Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, data?.total || 0)} of {data?.total || 0} users
             </p>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <HiOutlineChevronLeft className="w-5 h-5" />
               </button>
@@ -376,8 +376,8 @@ const ManageUsers = () => {
                   key={page}
                   onClick={() => setCurrentPage(page)}
                   className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === page
-                      ? 'bg-cherry text-white'
-                      : 'border border-gray-200 hover:bg-gray-50'
+                    ? 'bg-cherry text-white'
+                    : 'border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
                     }`}
                 >
                   {page}
@@ -386,7 +386,7 @@ const ManageUsers = () => {
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <HiOutlineChevronRight className="w-5 h-5" />
               </button>
@@ -398,18 +398,18 @@ const ManageUsers = () => {
       {/* Archive Modal */}
       {showArchiveModal && selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-xl transition-colors">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
-                <HiOutlineArchiveBox className="w-6 h-6 text-amber-600" />
+              <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center">
+                <HiOutlineArchiveBox className="w-6 h-6 text-amber-600 dark:text-amber-500" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-text">Archive User</h3>
-                <p className="text-sm text-text-secondary">This will hide their profile and lessons</p>
+                <h3 className="text-lg font-bold text-text dark:text-white">Archive User</h3>
+                <p className="text-sm text-text-secondary dark:text-gray-400">This will hide their profile and lessons</p>
               </div>
             </div>
 
-            <div className="bg-amber-50 rounded-xl p-4 mb-6">
+            <div className="bg-amber-50 dark:bg-amber-900/10 rounded-xl p-4 mb-6">
               <div className="flex items-center gap-3">
                 <img
                   src={selectedUser.photoURL}
@@ -417,13 +417,13 @@ const ManageUsers = () => {
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <h4 className="font-semibold text-text">{selectedUser.name}</h4>
-                  <p className="text-sm text-text-secondary">{selectedUser.email}</p>
+                  <h4 className="font-semibold text-text dark:text-white">{selectedUser.name}</h4>
+                  <p className="text-sm text-text-secondary dark:text-gray-400">{selectedUser.email}</p>
                 </div>
               </div>
             </div>
 
-            <p className="text-text-secondary mb-6">
+            <p className="text-text-secondary dark:text-gray-300 mb-6">
               Are you sure you want to archive <strong>{selectedUser.name}</strong>?
               They will not be able to login, and their content will be hidden from public view.
             </p>
@@ -434,7 +434,7 @@ const ManageUsers = () => {
                   setShowArchiveModal(false);
                   setSelectedUser(null);
                 }}
-                className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl font-medium text-text hover:bg-gray-50 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-xl font-medium text-text dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 Cancel
               </button>
@@ -453,18 +453,18 @@ const ManageUsers = () => {
       {/* Promote Modal */}
       {showPromoteModal && selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-xl transition-colors">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                <HiOutlineShieldCheck className="w-6 h-6 text-purple-600" />
+              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center">
+                <HiOutlineShieldCheck className="w-6 h-6 text-purple-600 dark:text-purple-500" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-text">Promote to Admin</h3>
-                <p className="text-sm text-text-secondary">This action can be reversed</p>
+                <h3 className="text-lg font-bold text-text dark:text-white">Promote to Admin</h3>
+                <p className="text-sm text-text-secondary dark:text-gray-400">This action can be reversed</p>
               </div>
             </div>
 
-            <div className="bg-purple-50 rounded-xl p-4 mb-6">
+            <div className="bg-purple-50 dark:bg-purple-900/10 rounded-xl p-4 mb-6">
               <div className="flex items-center gap-3">
                 <img
                   src={selectedUser.photoURL}
@@ -472,13 +472,13 @@ const ManageUsers = () => {
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <h4 className="font-semibold text-text">{selectedUser.name}</h4>
-                  <p className="text-sm text-text-secondary">{selectedUser.email}</p>
+                  <h4 className="font-semibold text-text dark:text-white">{selectedUser.name}</h4>
+                  <p className="text-sm text-text-secondary dark:text-gray-400">{selectedUser.email}</p>
                 </div>
               </div>
             </div>
 
-            <p className="text-text-secondary mb-6">
+            <p className="text-text-secondary dark:text-gray-300 mb-6">
               Are you sure you want to promote <strong>{selectedUser.name}</strong> to Admin?
               They will have access to all admin features.
             </p>
@@ -489,7 +489,7 @@ const ManageUsers = () => {
                   setShowPromoteModal(false);
                   setSelectedUser(null);
                 }}
-                className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl font-medium text-text hover:bg-gray-50 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-xl font-medium text-text dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 Cancel
               </button>
