@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { 
+import {
   HiOutlineHeart,
   HiOutlineEye,
   HiOutlineTrash,
@@ -31,14 +31,14 @@ const MyFavorites = () => {
   useDocumentTitle('My Favorites');
   const { firebaseUser, userProfile } = useAuth();
   const userEmail = firebaseUser?.email?.toLowerCase();
-  
+
   // State
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterEmotionalTone, setFilterEmotionalTone] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
-  
+
   const ITEMS_PER_PAGE = 8;
 
   // Fetch favorites
@@ -62,7 +62,7 @@ const MyFavorites = () => {
   const favorites = data?.lessons || [];
   const totalItems = data?.total || 0;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-  
+
   // View mode state with localStorage persistence
   const [viewMode, setViewMode] = useState(() => {
     const saved = localStorage.getItem('favoritesViewMode');
@@ -74,7 +74,7 @@ const MyFavorites = () => {
     setViewMode(mode);
     localStorage.setItem('favoritesViewMode', mode);
   };
-  
+
   // Modal states
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedFavorite, setSelectedFavorite] = useState(null);
@@ -99,7 +99,7 @@ const MyFavorites = () => {
   const handleRemoveFavorite = async () => {
     if (!selectedFavorite) return;
     setIsSubmitting(true);
-    
+
     try {
       await apiClient.post(`/lessons/${selectedFavorite._id}/favorite`);
       await refetch();
@@ -165,22 +165,20 @@ const MyFavorites = () => {
               <div className="hidden sm:flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
                 <button
                   onClick={() => handleViewModeChange('list')}
-                  className={`p-3 transition-all duration-200 cursor-pointer ${
-                    viewMode === 'list'
+                  className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'list'
                       ? 'bg-cherry text-white'
                       : 'bg-white text-text-secondary hover:bg-gray-50'
-                  }`}
+                    }`}
                   title="List View"
                 >
                   <HiOutlineListBullet className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => handleViewModeChange('grid')}
-                  className={`p-3 transition-all duration-200 cursor-pointer ${
-                    viewMode === 'grid'
+                  className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'grid'
                       ? 'bg-cherry text-white'
                       : 'bg-white text-text-secondary hover:bg-gray-50'
-                  }`}
+                    }`}
                   title="Grid View"
                 >
                   <HiOutlineSquares2X2 className="w-5 h-5" />
@@ -189,11 +187,10 @@ const MyFavorites = () => {
 
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`inline-flex items-center gap-2 px-4 py-3 border-2 rounded-xl font-medium transition-all duration-200 cursor-pointer ${
-                  showFilters || hasActiveFilters
+                className={`inline-flex items-center gap-2 px-4 py-3 border-2 rounded-xl font-medium transition-all duration-200 cursor-pointer ${showFilters || hasActiveFilters
                     ? 'border-cherry bg-cherry-50 text-cherry'
                     : 'border-gray-200 text-text-secondary hover:border-gray-300'
-                }`}
+                  }`}
               >
                 <HiOutlineFunnel className="w-5 h-5" />
                 Filters
@@ -264,7 +261,7 @@ const MyFavorites = () => {
               <HiOutlineBookmark className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-text mb-2">No favorites found</h3>
               <p className="text-text-muted mb-6">
-                {hasActiveFilters 
+                {hasActiveFilters
                   ? 'Try adjusting your filters or search query'
                   : "You haven't saved any lessons yet"
                 }
@@ -286,15 +283,15 @@ const MyFavorites = () => {
                 <div className="p-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {favorites.map((fav) => (
-                      <div 
-                        key={fav._id} 
+                      <div
+                        key={fav._id}
                         className="bg-white rounded-xl border border-border hover:shadow-lg transition-all duration-300 overflow-hidden group"
                       >
                         {/* Image */}
                         <div className="relative h-40 overflow-hidden">
                           {fav.image ? (
-                            <img 
-                              src={fav.image} 
+                            <img
+                              src={fav.image}
                               alt={fav.title}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
@@ -330,22 +327,21 @@ const MyFavorites = () => {
                           {/* Creator & Tone */}
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">
-                              <img 
-                                src={fav.creatorPhoto} 
+                              <img
+                                src={fav.creatorPhoto}
                                 alt={fav.creatorName}
                                 className="w-6 h-6 rounded-full object-cover border border-gray-200"
                               />
                               <span className="text-xs text-text-muted truncate max-w-[80px]">{fav.creatorName}</span>
                             </div>
-                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                              fav.emotionalTone === 'Motivational' 
-                                ? 'bg-green-50 text-green-600' 
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${fav.emotionalTone === 'Motivational'
+                                ? 'bg-green-50 text-green-600'
                                 : fav.emotionalTone === 'Sad'
                                   ? 'bg-blue-50 text-blue-600'
                                   : fav.emotionalTone === 'Realization'
                                     ? 'bg-purple-50 text-purple-600'
                                     : 'bg-amber-50 text-amber-600'
-                            }`}>
+                              }`}>
                               {fav.emotionalTone}
                             </span>
                           </div>
@@ -377,133 +373,132 @@ const MyFavorites = () => {
               {/* List View - Desktop Table */}
               {viewMode === 'list' && (
                 <div className="hidden lg:block overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b border-border">
-                    <tr>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Lesson</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Category</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Emotional Tone</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Creator</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Added On</th>
-                      <th className="text-right px-6 py-4 text-sm font-semibold text-text">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border">
-                    {favorites.map((fav) => (
-                      <tr key={fav._id} className="hover:bg-gray-50 transition-colors">
-                        {/* Lesson Info */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="relative">
-                              {fav.image ? (
-                                <img 
-                                  src={fav.image} 
-                                  alt={fav.title}
-                                  className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-                                />
-                              ) : (
-                                <div className="w-12 h-12 rounded-lg bg-cherry-50 flex items-center justify-center flex-shrink-0">
-                                  <HiOutlineBookOpen className="w-6 h-6 text-cherry" />
-                                </div>
-                              )}
-                              {fav.accessLevel === 'premium' && (
-                                <div className="absolute -top-1 -right-1 w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
-                                  <HiOutlineStar className="w-3 h-3 text-white" />
-                                </div>
-                              )}
-                            </div>
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-2">
-                                <h3 className="font-semibold text-text truncate max-w-[200px]">
-                                  {fav.title}
-                                </h3>
-                                {fav.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
-                                  <HiOutlineLockClosed className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b border-border">
+                      <tr>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Lesson</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Category</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Emotional Tone</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Creator</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Added On</th>
+                        <th className="text-right px-6 py-4 text-sm font-semibold text-text">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {favorites.map((fav) => (
+                        <tr key={fav._id} className="hover:bg-gray-50 transition-colors">
+                          {/* Lesson Info */}
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              <div className="relative">
+                                {fav.image ? (
+                                  <img
+                                    src={fav.image}
+                                    alt={fav.title}
+                                    className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
+                                  />
+                                ) : (
+                                  <div className="w-12 h-12 rounded-lg bg-cherry-50 flex items-center justify-center flex-shrink-0">
+                                    <HiOutlineBookOpen className="w-6 h-6 text-cherry" />
+                                  </div>
+                                )}
+                                {fav.accessLevel === 'premium' && (
+                                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
+                                    <HiOutlineStar className="w-3 h-3 text-white" />
+                                  </div>
                                 )}
                               </div>
-                              <p className="text-sm text-text-muted truncate max-w-[200px]">
-                                {fav.description.substring(0, 60)}...
-                              </p>
+                              <div className="min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <h3 className="font-semibold text-text truncate max-w-[200px]">
+                                    {fav.title}
+                                  </h3>
+                                  {fav.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
+                                    <HiOutlineLockClosed className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                                  )}
+                                </div>
+                                <p className="text-sm text-text-muted truncate max-w-[200px]">
+                                  {fav.description.substring(0, 60)}...
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                        </td>
+                          </td>
 
-                        {/* Category */}
-                        <td className="px-6 py-4">
-                          <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium bg-cherry-50 text-cherry whitespace-nowrap">
-                            {fav.category}
-                          </span>
-                        </td>
+                          {/* Category */}
+                          <td className="px-6 py-4">
+                            <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium bg-cherry-50 text-cherry whitespace-nowrap">
+                              {fav.category}
+                            </span>
+                          </td>
 
-                        {/* Emotional Tone */}
-                        <td className="px-6 py-4">
-                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                            fav.emotionalTone === 'Motivational' 
-                              ? 'bg-green-50 text-green-600' 
-                              : fav.emotionalTone === 'Sad'
-                                ? 'bg-blue-50 text-blue-600'
-                                : fav.emotionalTone === 'Realization'
-                                  ? 'bg-purple-50 text-purple-600'
-                                  : 'bg-amber-50 text-amber-600'
-                          }`}>
-                            {fav.emotionalTone}
-                          </span>
-                        </td>
+                          {/* Emotional Tone */}
+                          <td className="px-6 py-4">
+                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${fav.emotionalTone === 'Motivational'
+                                ? 'bg-green-50 text-green-600'
+                                : fav.emotionalTone === 'Sad'
+                                  ? 'bg-blue-50 text-blue-600'
+                                  : fav.emotionalTone === 'Realization'
+                                    ? 'bg-purple-50 text-purple-600'
+                                    : 'bg-amber-50 text-amber-600'
+                              }`}>
+                              {fav.emotionalTone}
+                            </span>
+                          </td>
 
-                        {/* Creator */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <img 
-                              src={fav.creatorPhoto} 
-                              alt={fav.creatorName}
-                              className="w-8 h-8 rounded-full object-cover border border-gray-200"
-                            />
-                            <span className="text-sm text-text">{fav.creatorName}</span>
-                          </div>
-                        </td>
+                          {/* Creator */}
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={fav.creatorPhoto}
+                                alt={fav.creatorName}
+                                className="w-8 h-8 rounded-full object-cover border border-gray-200"
+                              />
+                              <span className="text-sm text-text">{fav.creatorName}</span>
+                            </div>
+                          </td>
 
-                        {/* Added Date */}
-                        <td className="px-6 py-4">
-                          <span className="text-sm text-text-muted whitespace-nowrap">
-                            {formatDate(fav.createdAt)}
-                          </span>
-                        </td>
+                          {/* Added Date */}
+                          <td className="px-6 py-4">
+                            <span className="text-sm text-text-muted whitespace-nowrap">
+                              {formatDate(fav.createdAt)}
+                            </span>
+                          </td>
 
-                        {/* Actions */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center justify-end gap-2">
-                            <Link
-                              to={`/lessons/${fav._id}`}
-                              className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
-                              title="View Details"
-                            >
-                              <HiOutlineEye className="w-4 h-4" />
-                            </Link>
-                            <button
-                              onClick={() => openRemoveModal(fav)}
-                              className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200 cursor-pointer"
-                              title="Remove from Favorites"
-                            >
-                              <HiOutlineTrash className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                          {/* Actions */}
+                          <td className="px-6 py-4">
+                            <div className="flex items-center justify-end gap-2">
+                              <Link
+                                to={`/lessons/${fav._id}`}
+                                className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
+                                title="View Details"
+                              >
+                                <HiOutlineEye className="w-4 h-4" />
+                              </Link>
+                              <button
+                                onClick={() => openRemoveModal(fav)}
+                                className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                                title="Remove from Favorites"
+                              >
+                                <HiOutlineTrash className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
 
               {/* Mobile Cards */}
               <div className="lg:hidden divide-y divide-border">
                 {favorites.map((fav) => (
-                  <div key={fav._id} className="p-4">
+                  <div key={fav._id} className="p-4 bg-white rounded-xl mb-4 border border-border shadow-sm">
                     <div className="flex gap-3 mb-4">
                       <div className="relative">
                         {fav.image ? (
-                          <img 
-                            src={fav.image} 
+                          <img
+                            src={fav.image}
                             alt={fav.title}
                             className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
                           />
@@ -513,32 +508,31 @@ const MyFavorites = () => {
                           </div>
                         )}
                         {fav.accessLevel === 'premium' && (
-                          <div className="absolute -top-1 -right-1 w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center">
-                            <HiOutlineStar className="w-3.5 h-3.5 text-white" />
+                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
+                            <HiOutlineStar className="w-3 h-3 text-white" />
                           </div>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-text truncate">{fav.title}</h3>
+                          <h3 className="font-semibold text-text truncate text-sm sm:text-base">{fav.title}</h3>
                           {fav.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
-                            <HiOutlineLockClosed className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                            <HiOutlineLockClosed className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
                           )}
                         </div>
-                        <p className="text-sm text-text-muted line-clamp-1">{fav.description}</p>
-                        <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-cherry-50 text-cherry">
+                        <p className="text-xs text-text-muted line-clamp-2 mt-0.5">{fav.description}</p>
+                        <div className="flex items-center gap-2 mt-2 flex-wrap">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-cherry-50 text-cherry">
                             {fav.category}
                           </span>
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                            fav.emotionalTone === 'Motivational' 
-                              ? 'bg-green-50 text-green-600' 
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${fav.emotionalTone === 'Motivational'
+                              ? 'bg-green-50 text-green-600'
                               : fav.emotionalTone === 'Sad'
                                 ? 'bg-blue-50 text-blue-600'
                                 : fav.emotionalTone === 'Realization'
                                   ? 'bg-purple-50 text-purple-600'
                                   : 'bg-amber-50 text-amber-600'
-                          }`}>
+                            }`}>
                             {fav.emotionalTone}
                           </span>
                         </div>
@@ -546,14 +540,14 @@ const MyFavorites = () => {
                     </div>
 
                     {/* Mobile Creator & Date */}
-                    <div className="flex items-center justify-between gap-4 mb-4">
+                    <div className="flex items-center justify-between gap-4 mb-4 bg-gray-50 rounded-lg p-3">
                       <div className="flex items-center gap-2">
-                        <img 
-                          src={fav.creatorPhoto} 
+                        <img
+                          src={fav.creatorPhoto}
                           alt={fav.creatorName}
                           className="w-6 h-6 rounded-full object-cover border border-gray-200"
                         />
-                        <span className="text-sm text-text-muted">{fav.creatorName}</span>
+                        <span className="text-xs text-text-muted truncate max-w-[100px]">{fav.creatorName}</span>
                       </div>
                       <span className="text-xs text-text-muted">Added {formatDate(fav.createdAt)}</span>
                     </div>
@@ -562,16 +556,17 @@ const MyFavorites = () => {
                     <div className="flex items-center gap-2">
                       <Link
                         to={`/lessons/${fav._id}`}
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-all duration-200 cursor-pointer text-sm"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-all duration-200 cursor-pointer text-xs sm:text-sm"
                       >
                         <HiOutlineEye className="w-4 h-4" />
-                        View Details
+                        View
                       </Link>
                       <button
                         onClick={() => openRemoveModal(fav)}
-                        className="p-2 bg-red-100 text-red-600 rounded-xl hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                        className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                        title="Remove"
                       >
-                        <HiOutlineTrash className="w-5 h-5" />
+                        <HiOutlineTrash className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -580,28 +575,27 @@ const MyFavorites = () => {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="px-6 py-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <p className="text-sm text-text-muted">
+                <div className="px-4 py-4 md:px-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <p className="text-xs sm:text-sm text-text-muted text-center sm:text-left">
                     Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of {totalItems} favorites
                   </p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
                     <button
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={currentPage === 1}
-                      className="p-2 rounded-lg border border-border hover:bg-gray-50 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-1.5 sm:p-2 rounded-lg border border-border hover:bg-gray-50 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <HiOutlineChevronLeft className="w-5 h-5" />
+                      <HiOutlineChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
-                    
+
                     {[...Array(totalPages)].map((_, i) => (
                       <button
                         key={i + 1}
                         onClick={() => setCurrentPage(i + 1)}
-                        className={`w-10 h-10 rounded-lg font-medium transition-all duration-200 cursor-pointer ${
-                          currentPage === i + 1
+                        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg font-medium transition-all duration-200 cursor-pointer text-xs sm:text-sm ${currentPage === i + 1
                             ? 'bg-cherry text-white'
                             : 'hover:bg-gray-50'
-                        }`}
+                          }`}
                       >
                         {i + 1}
                       </button>
@@ -610,9 +604,9 @@ const MyFavorites = () => {
                     <button
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                       disabled={currentPage === totalPages}
-                      className="p-2 rounded-lg border border-border hover:bg-gray-50 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-1.5 sm:p-2 rounded-lg border border-border hover:bg-gray-50 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <HiOutlineChevronRight className="w-5 h-5" />
+                      <HiOutlineChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                   </div>
                 </div>

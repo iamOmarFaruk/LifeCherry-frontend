@@ -2,12 +2,12 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { 
-  FiHeart, 
-  FiBookmark, 
-  FiMessageCircle, 
-  FiShare2, 
-  FiCalendar, 
+import {
+  FiHeart,
+  FiBookmark,
+  FiMessageCircle,
+  FiShare2,
+  FiCalendar,
   FiLock,
   FiSend,
   FiSmile,
@@ -40,7 +40,7 @@ const LessonDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { firebaseUser, userProfile, authLoading } = useAuth();
-  
+
   const [lesson, setLesson] = useState(null);
   const [allLessons, setAllLessons] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -83,7 +83,7 @@ const LessonDetails = () => {
         setLesson(data?.lesson || null);
         setLikesCount(data?.lesson?.likesCount || 0);
         setFavoritesCount(data?.lesson?.favoritesCount || 0);
-        
+
         // Check if current user has already liked/favorited
         if (firebaseUser?.email && data?.lesson) {
           const userEmail = firebaseUser.email.toLowerCase();
@@ -176,9 +176,9 @@ const LessonDetails = () => {
     if (!lesson) return [];
     const categoryIds = relatedByCategory.map(l => l._id);
     return allLessons
-      .filter(l => 
-        l.emotionalTone === lesson.emotionalTone && 
-        l._id !== id && 
+      .filter(l =>
+        l.emotionalTone === lesson.emotionalTone &&
+        l._id !== id &&
         l.visibility === 'public' &&
         !categoryIds.includes(l._id)
       )
@@ -243,7 +243,7 @@ const LessonDetails = () => {
       }
 
       const total = elapsedRef.current + (visibilityStartRef.current ? Date.now() - visibilityStartRef.current : 0);
-      
+
       if (total >= targetMs && !hasRecordedViewRef.current) {
         hasRecordedViewRef.current = true;
         recordView();
@@ -290,7 +290,7 @@ const LessonDetails = () => {
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now - date) / 1000);
-    
+
     if (diffInSeconds < 60) return 'Just now';
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
     if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
@@ -385,7 +385,7 @@ const LessonDetails = () => {
       content: newComment,
       createdAt: new Date().toISOString()
     };
-    
+
     setComments([newCommentObj, ...comments]);
     setNewComment('');
   };
@@ -437,8 +437,8 @@ const LessonDetails = () => {
             <p className="text-text-secondary mb-6">
               The lesson you're looking for doesn't exist, is private, or has been removed.
             </p>
-            <Link 
-              to="/public-lessons" 
+            <Link
+              to="/public-lessons"
               className="inline-flex items-center gap-2 px-6 py-3 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-colors"
             >
               ← Back to Lessons
@@ -459,8 +459,8 @@ const LessonDetails = () => {
             </div>
             <h1 className="text-2xl font-bold text-text-primary mb-2">Unable to load lesson</h1>
             <p className="text-text-secondary mb-6">Please try again. If this keeps happening, check your connection or sign in.</p>
-            <Link 
-              to="/public-lessons" 
+            <Link
+              to="/public-lessons"
               className="inline-flex items-center gap-2 px-6 py-3 bg-cherry text-white rounded-xl hover:bg-cherry-dark transition-colors"
             >
               ← Back to Lessons
@@ -481,9 +481,9 @@ const LessonDetails = () => {
     <PageLoader>
       <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white">
         {/* Hero Section with Image */}
-        <div className="relative h-[300px] md:h-[400px] lg:h-[450px]">
-          <img 
-            src={lesson.image} 
+        <div className="relative h-[250px] md:h-[400px] lg:h-[450px]">
+          <img
+            src={lesson.image}
             alt={lesson.title}
             className="w-full h-full object-cover"
           />
@@ -492,30 +492,30 @@ const LessonDetails = () => {
 
           {/* Title & Meta on Image */}
           <div className="absolute bottom-0 left-0 right-0">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 md:pb-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4 md:pb-8">
               {/* Breadcrumb */}
-              <nav className="flex items-center gap-2 text-sm text-white/70 mb-4 flex-wrap">
+              <nav className="flex items-center gap-2 text-xs md:text-sm text-white/70 mb-2 md:mb-4 flex-wrap">
                 <Link to="/" className="hover:text-white transition-colors">Home</Link>
                 <span>/</span>
                 <Link to="/public-lessons" className="hover:text-white transition-colors">Public Lessons</Link>
                 <span>/</span>
                 <span className="text-white line-clamp-1">{lesson.title}</span>
               </nav>
-              
+
               {/* Title */}
-              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 leading-tight">
                 {lesson.title}
               </h1>
 
               {/* Category & Tone Badges */}
               <div className="flex flex-wrap items-center gap-2">
-                <button 
+                <button
                   onClick={() => navigate(`/public-lessons?category=${encodeURIComponent(lesson.category)}`)}
                   className="px-3 py-1 bg-cherry text-white rounded-full text-sm font-medium hover:bg-cherry-dark transition-colors cursor-pointer"
                 >
                   {lesson.category}
                 </button>
-                <button 
+                <button
                   onClick={() => navigate(`/public-lessons?emotionalTone=${encodeURIComponent(lesson.emotionalTone)}`)}
                   className={`px-3 py-1 rounded-full text-sm font-medium hover:opacity-80 transition-opacity cursor-pointer ${getToneColor(lesson.emotionalTone)}`}
                 >
@@ -535,56 +535,54 @@ const LessonDetails = () => {
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Action Buttons - All in One Line */}
-          <div className="flex flex-wrap items-center gap-3 py-4 border-y border-gray-100 mb-8">
+          {/* Action Buttons - Scrollable on mobile */}
+          <div className="flex items-center gap-3 py-4 border-y border-gray-100 mb-6 md:mb-8 overflow-x-auto no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
             {/* Like Button with Count */}
-            <button 
+            <button
               onClick={handleLike}
               disabled={likeLoading || lesson?.creatorEmail === firebaseUser?.email}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all cursor-pointer font-medium text-sm ${
-                lesson?.creatorEmail === firebaseUser?.email 
+              className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap ${lesson?.creatorEmail === firebaseUser?.email
                   ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
-                  : isLiked 
-                    ? 'bg-cherry text-white' 
+                  : isLiked
+                    ? 'bg-cherry text-white'
                     : 'bg-gray-100 text-text-secondary hover:bg-cherry hover:text-white'
-              }`}
+                }`}
             >
-              <FiHeart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+              <FiHeart className={`w-3.5 h-3.5 md:w-4 md:h-4 ${isLiked ? 'fill-current' : ''}`} />
               <span>{isLiked ? 'Liked' : 'Like'}</span>
               <span className="font-semibold">{formatNumber(likesCount)}</span>
             </button>
 
             {/* Save Button with Count */}
-            <button 
+            <button
               onClick={handleSave}
               disabled={favoriteLoading || lesson?.creatorEmail === firebaseUser?.email}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all cursor-pointer font-medium text-sm ${
-                lesson?.creatorEmail === firebaseUser?.email
+              className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap ${lesson?.creatorEmail === firebaseUser?.email
                   ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
-                  : isSaved 
-                    ? 'bg-amber-500 text-white' 
+                  : isSaved
+                    ? 'bg-amber-500 text-white'
                     : 'bg-gray-100 text-text-secondary hover:bg-amber-500 hover:text-white'
-              }`}
+                }`}
             >
-              <FiBookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
+              <FiBookmark className={`w-3.5 h-3.5 md:w-4 md:h-4 ${isSaved ? 'fill-current' : ''}`} />
               <span>{isSaved ? 'Saved' : 'Save'}</span>
               <span className="font-semibold">{formatNumber(favoritesCount)}</span>
             </button>
 
             {/* Views Count */}
-            <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-50 text-text-secondary text-sm font-medium">
-              <FiEye className="w-4 h-4 text-blue-500" />
+            <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-50 text-text-secondary text-xs md:text-sm font-medium whitespace-nowrap">
+              <FiEye className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-500" />
               <span>{formatNumber(viewsCount)} Views</span>
             </div>
 
             {/* Comments Count */}
-            <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-50 text-text-secondary text-sm font-medium">
-              <FiMessageCircle className="w-4 h-4 text-green-500" />
+            <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-50 text-text-secondary text-xs md:text-sm font-medium whitespace-nowrap">
+              <FiMessageCircle className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-500" />
               <span>{commentsCount} {commentsCount === 1 ? 'Comment' : 'Comments'}</span>
             </div>
 
             {/* Report Button */}
-            <button 
+            <button
               onClick={() => {
                 if (!isLoggedIn) {
                   toast.error('Please login to report');
@@ -601,48 +599,47 @@ const LessonDetails = () => {
                 }
                 setShowReportModal(true);
               }}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-full font-medium text-sm transition-all ${
-                lesson?.creatorEmail === firebaseUser?.email
+              className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full font-medium text-xs md:text-sm transition-all whitespace-nowrap ${lesson?.creatorEmail === firebaseUser?.email
                   ? 'bg-gray-50 text-text-muted cursor-not-allowed opacity-50'
                   : hasReported
                     ? 'bg-red-100 text-red-600 cursor-not-allowed'
                     : 'bg-gray-100 text-text-secondary hover:bg-red-100 hover:text-red-600 cursor-pointer'
-              }`}
+                }`}
               disabled={hasReported || lesson?.creatorEmail === firebaseUser?.email}
             >
-              <FiFlag className="w-4 h-4" />
+              <FiFlag className="w-3.5 h-3.5 md:w-4 md:h-4" />
               <span className="hidden sm:inline">{hasReported ? 'Reported' : 'Report'}</span>
             </button>
 
             {/* Share Button with Dropdown */}
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setShowShareDropdown(!showShareDropdown)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-100 text-text-secondary hover:bg-blue-100 hover:text-blue-600 transition-all cursor-pointer font-medium text-sm"
+                className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-100 text-text-secondary hover:bg-blue-100 hover:text-blue-600 transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap"
               >
-                <FiShare2 className="w-4 h-4" />
+                <FiShare2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 <span>Share</span>
               </button>
-              
+
               {/* Share Dropdown */}
               {showShareDropdown && (
-                <div className="absolute left-0 top-full mt-2 bg-white rounded-xl shadow-lg border border-gray-100 p-3 z-50 min-w-[200px]">
+                <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg border border-gray-100 p-3 z-50 min-w-[200px]">
                   <p className="text-sm font-medium text-text-primary mb-3">Share this lesson</p>
                   <div className="flex items-center gap-2 mb-3">
                     <FacebookShareButton url={shareUrl} hashtag="#LifeCherry">
-                      <FacebookIcon size={40} round />
+                      <FacebookIcon size={32} round />
                     </FacebookShareButton>
                     <TwitterShareButton url={shareUrl} title={shareTitle}>
-                      <XIcon size={40} round />
+                      <XIcon size={32} round />
                     </TwitterShareButton>
                     <LinkedinShareButton url={shareUrl} title={shareTitle}>
-                      <LinkedinIcon size={40} round />
+                      <LinkedinIcon size={32} round />
                     </LinkedinShareButton>
                     <WhatsappShareButton url={shareUrl} title={shareTitle}>
-                      <WhatsappIcon size={40} round />
+                      <WhatsappIcon size={32} round />
                     </WhatsappShareButton>
                   </div>
-                  <button 
+                  <button
                     onClick={copyToClipboard}
                     className="w-full flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                   >
@@ -663,7 +660,7 @@ const LessonDetails = () => {
                   {lesson.description.substring(0, 200)}...
                 </p>
               </div>
-              
+
               {/* Lock Overlay */}
               <div className="absolute inset-0 flex items-center justify-center bg-white/80 rounded-2xl">
                 <div className="text-center p-8">
@@ -674,7 +671,7 @@ const LessonDetails = () => {
                   <p className="text-text-secondary mb-4">
                     This lesson is available exclusively for premium members.
                   </p>
-                  <Link 
+                  <Link
                     to="/pricing"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl font-semibold hover:from-amber-600 hover:to-amber-700 transition-all"
                   >
@@ -686,50 +683,50 @@ const LessonDetails = () => {
           ) : (
             <>
               {/* Lesson Metadata */}
-              <div className="bg-white rounded-2xl shadow-sm p-6 mb-8 border border-gray-100">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-cherry-50 flex items-center justify-center">
-                      <FiCalendar className="w-5 h-5 text-cherry" />
+              <div className="bg-white rounded-2xl shadow-sm p-4 md:p-6 mb-8 border border-gray-100">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-cherry-50 flex items-center justify-center">
+                      <FiCalendar className="w-4 h-4 md:w-5 md:h-5 text-cherry" />
                     </div>
                     <div>
-                      <span className="text-xs text-text-muted block">Created</span>
-                      <p className="font-semibold text-text-primary">{formatShortDate(lesson.createdAt)}</p>
+                      <span className="text-[10px] md:text-xs text-text-muted block">Created</span>
+                      <p className="font-semibold text-text-primary text-sm md:text-base">{formatShortDate(lesson.createdAt)}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-                      <FiEdit3 className="w-5 h-5 text-blue-500" />
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                      <FiEdit3 className="w-4 h-4 md:w-5 md:h-5 text-blue-500" />
                     </div>
                     <div>
-                      <span className="text-xs text-text-muted block">Last Updated</span>
-                      <p className="font-semibold text-text-primary">{formatShortDate(lesson.updatedAt)}</p>
+                      <span className="text-[10px] md:text-xs text-text-muted block">Last Updated</span>
+                      <p className="font-semibold text-text-primary text-sm md:text-base">{formatShortDate(lesson.updatedAt)}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
-                      <FiEye className="w-5 h-5 text-green-500" />
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-green-50 flex items-center justify-center">
+                      <FiEye className="w-4 h-4 md:w-5 md:h-5 text-green-500" />
                     </div>
                     <div>
-                      <span className="text-xs text-text-muted block">Visibility</span>
-                      <p className="font-semibold text-text-primary capitalize">{lesson.visibility}</p>
+                      <span className="text-[10px] md:text-xs text-text-muted block">Visibility</span>
+                      <p className="font-semibold text-text-primary text-sm md:text-base capitalize">{lesson.visibility}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center">
-                      <FiClock className="w-5 h-5 text-amber-500" />
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-50 flex items-center justify-center">
+                      <FiClock className="w-4 h-4 md:w-5 md:h-5 text-amber-500" />
                     </div>
                     <div>
-                      <span className="text-xs text-text-muted block">Reading Time</span>
-                      <p className="font-semibold text-text-primary">{readingTime} min</p>
+                      <span className="text-[10px] md:text-xs text-text-muted block">Reading Time</span>
+                      <p className="font-semibold text-text-primary text-sm md:text-base">{readingTime} min</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Lesson Content */}
-              <div className="prose prose-lg max-w-none mb-8">
-                <p className="text-lg md:text-xl text-text-secondary leading-relaxed whitespace-pre-line">
+              <div className="prose prose-base md:prose-lg max-w-none mb-8">
+                <p className="text-base md:text-xl text-text-secondary leading-relaxed whitespace-pre-line">
                   {lesson.description}
                 </p>
               </div>
@@ -737,8 +734,8 @@ const LessonDetails = () => {
               {/* Creator Card */}
               <div className="bg-white rounded-2xl shadow-sm p-6 mb-12 border border-gray-100">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                  <img 
-                    src={lesson.creatorPhoto} 
+                  <img
+                    src={lesson.creatorPhoto}
                     alt={lesson.creatorName}
                     className="w-16 h-16 rounded-full object-cover border-2 border-cherry-100"
                   />
@@ -752,21 +749,20 @@ const LessonDetails = () => {
                     {lesson.creatorBio && (
                       <div className="text-text-secondary text-sm italic mt-3">
                         <div className="relative">
-                          <div 
-                            className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                              isBioExpanded ? 'max-h-[500px] opacity-100' : 'max-h-[2.6rem] opacity-90'
-                            }`}
+                          <div
+                            className={`transition-all duration-500 ease-in-out overflow-hidden ${isBioExpanded ? 'max-h-[500px] opacity-100' : 'max-h-[2.6rem] opacity-90'
+                              }`}
                           >
                             <p>"{lesson.creatorBio}"</p>
                           </div>
-                          
+
                           {!isBioExpanded && lesson.creatorBio.length > 100 && (
                             <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none" />
                           )}
                         </div>
 
                         {lesson.creatorBio.length > 100 && (
-                          <button 
+                          <button
                             onClick={() => setIsBioExpanded(!isBioExpanded)}
                             className="text-cherry font-medium text-xs mt-1 hover:underline focus:outline-none flex items-center gap-1 transition-colors"
                           >
@@ -776,7 +772,7 @@ const LessonDetails = () => {
                       </div>
                     )}
                   </div>
-                  <Link 
+                  <Link
                     to={`/profile/${lesson.creatorEmail}`}
                     className="px-5 py-2.5 border-2 border-cherry text-cherry rounded-xl font-medium hover:bg-cherry hover:!text-white transition-all"
                   >
@@ -805,7 +801,7 @@ const LessonDetails = () => {
                       const CardContent = () => (
                         <>
                           <div className="relative h-40 overflow-hidden">
-                            <img 
+                            <img
                               src={relatedLesson.image}
                               alt={relatedLesson.title}
                               className={`w-full h-full object-cover transition-transform duration-300 ${isPremiumLocked ? 'blur-sm' : 'group-hover:scale-105'}`}
@@ -838,7 +834,7 @@ const LessonDetails = () => {
 
                       if (isPremiumLocked) {
                         return (
-                          <div 
+                          <div
                             key={relatedLesson._id}
                             className="relative bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100"
                           >
@@ -866,7 +862,7 @@ const LessonDetails = () => {
                       }
 
                       return (
-                        <Link 
+                        <Link
                           key={relatedLesson._id}
                           to={`/lessons/${relatedLesson._id}`}
                           className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
@@ -886,11 +882,11 @@ const LessonDetails = () => {
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {similarByTone.slice(0, 6).map(similarLesson => {
                       const isPremiumLocked = similarLesson.accessLevel === 'premium' && !isUserPremium;
-                      
+
                       const CardContent = () => (
                         <>
                           <div className="relative h-40 overflow-hidden">
-                            <img 
+                            <img
                               src={similarLesson.image}
                               alt={similarLesson.title}
                               className={`w-full h-full object-cover transition-transform duration-300 ${isPremiumLocked ? 'blur-sm' : 'group-hover:scale-105'}`}
@@ -928,7 +924,7 @@ const LessonDetails = () => {
 
                       if (isPremiumLocked) {
                         return (
-                          <div 
+                          <div
                             key={similarLesson._id}
                             className="relative bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100"
                           >
@@ -956,7 +952,7 @@ const LessonDetails = () => {
                       }
 
                       return (
-                        <Link 
+                        <Link
                           key={similarLesson._id}
                           to={`/lessons/${similarLesson._id}`}
                           className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
@@ -969,25 +965,25 @@ const LessonDetails = () => {
                 </div>
               )}
             </>
-            )}
+          )}
 
-            {/* Report Modal */}
-            {showReportModal && (
-              <ReportModal
-                lessonId={id}
-                lessonTitle={lesson?.title}
-                onClose={() => setShowReportModal(false)}
-                onReported={handleReportSubmitted}
-              />
-            )}
+          {/* Report Modal */}
+          {showReportModal && (
+            <ReportModal
+              lessonId={id}
+              lessonTitle={lesson?.title}
+              onClose={() => setShowReportModal(false)}
+              onReported={handleReportSubmitted}
+            />
+          )}
 
-            {/* Click outside to close share dropdown */}
-            {showShareDropdown && (
-              <div 
-                className="fixed inset-0 z-40" 
-                onClick={() => setShowShareDropdown(false)}
-              />
-            )}
+          {/* Click outside to close share dropdown */}
+          {showShareDropdown && (
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setShowShareDropdown(false)}
+            />
+          )}
         </div>
       </div>
     </PageLoader>

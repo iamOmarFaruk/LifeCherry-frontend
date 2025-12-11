@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { 
+import {
   HiOutlineUser,
   HiOutlineEnvelope,
   HiOutlinePencilSquare,
@@ -299,49 +299,49 @@ const Profile = () => {
       )}
 
       {/* Profile Card */}
-      <div className="bg-white rounded-2xl border border-border p-6 sm:p-8 mb-8">
+      <div className="bg-white rounded-2xl border border-border p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           {/* Profile Photo */}
-          <div className="relative group">
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-4 border-cherry-100 shadow-lg">
+          <div className="relative group flex-shrink-0">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-2xl overflow-hidden border-4 border-cherry-100 shadow-lg">
               {profile.photoURL ? (
-                <img 
-                  src={profile.photoURL} 
+                <img
+                  src={profile.photoURL}
                   alt={profile.name}
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <div className="w-full h-full bg-cherry-100 flex items-center justify-center">
-                  <HiOutlineUser className="w-12 h-12 text-cherry-300" />
+                  <HiOutlineUser className="w-10 h-10 lg:w-12 lg:h-12 text-cherry-300" />
                 </div>
               )}
             </div>
             {/* User Status Badge */}
             {profile.role === 'admin' ? (
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-white z-10">
-                <HiOutlineShieldCheck className="w-3.5 h-3.5" />
+              <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-lg flex items-center gap-1 border-2 border-white z-10">
+                <HiOutlineShieldCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>Admin</span>
               </div>
             ) : profile.isPremium ? (
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-white z-10">
-                <HiOutlineStar className="w-3.5 h-3.5" />
+              <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-lg flex items-center gap-1 border-2 border-white z-10">
+                <HiOutlineStar className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>Premium</span>
               </div>
             ) : (
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-white z-10">
-                <HiOutlineSparkles className="w-3.5 h-3.5" />
+              <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-lg flex items-center gap-1 border-2 border-white z-10">
+                <HiOutlineSparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>Starter</span>
               </div>
             )}
           </div>
 
           {/* Profile Info */}
-          <div className="flex-1 text-center sm:text-left">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-              <h2 className="text-2xl sm:text-3xl font-bold text-text">{profile.name}</h2>
+          <div className="flex-1 text-center sm:text-left min-w-0 w-full">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-2">
+              <h2 className="text-2xl sm:text-3xl font-bold text-text truncate">{profile.name}</h2>
               <button
                 onClick={openEditModal}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-cherry-50 hover:bg-cherry-100 text-cherry rounded-xl transition-colors text-sm font-medium"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-cherry-50 hover:bg-cherry-100 text-cherry rounded-xl transition-colors text-sm font-medium whitespace-nowrap"
               >
                 <HiOutlinePencilSquare className="w-4 h-4" />
                 <span>Edit Profile</span>
@@ -349,24 +349,24 @@ const Profile = () => {
             </div>
 
             <div className="flex flex-col gap-2 mb-4">
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary">
-                <HiOutlineEnvelope className="w-5 h-5" />
-                <span>{profile.email}</span>
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary text-sm sm:text-base">
+                <HiOutlineEnvelope className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                <span className="truncate">{profile.email}</span>
               </div>
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary">
-                <HiOutlineCalendarDays className="w-5 h-5" />
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-text-secondary text-sm sm:text-base">
+                <HiOutlineCalendarDays className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                 <span>Member since {formatDate(profile.createdAt)}</span>
               </div>
             </div>
 
             {/* Upgrade CTA for Free Users */}
             {!profile.isPremium && (
-              <div className="flex items-center gap-2 text-sm mt-1">
-                <HiOutlineSparkles className="w-4 h-4 text-indigo-500" />
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm mt-2 bg-indigo-50 p-3 rounded-lg border border-indigo-100 sm:bg-transparent sm:p-0 sm:border-0">
+                <HiOutlineSparkles className="w-4 h-4 text-indigo-500 flex-shrink-0" />
                 <span className="text-text-secondary">Currently an Apprentice.</span>
-                <Link 
-                  to="/pricing" 
-                  className="text-cherry font-semibold hover:underline"
+                <Link
+                  to="/pricing"
+                  className="text-cherry font-semibold hover:underline bg-white px-2 py-0.5 rounded shadow-sm sm:bg-transparent sm:p-0 sm:shadow-none"
                 >
                   Prove you're a Master & Upgrade
                 </Link>
@@ -376,18 +376,18 @@ const Profile = () => {
         </div>
 
         {/* About Me Section */}
-        <div className="mt-8 pt-8 border-t border-border">
+        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold text-text">About Me</h3>
+            <h3 className="text-base sm:text-lg font-bold text-text">About Me</h3>
           </div>
-          
+
           {isEditingBio ? (
             <div className="bg-white rounded-xl border-2 border-cherry-100 shadow-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
               <textarea
                 value={bioContent}
                 onChange={(e) => setBioContent(e.target.value)}
                 placeholder="Tell us a little about yourself..."
-                className="w-full p-4 min-h-[150px] outline-none resize-y text-text leading-relaxed placeholder:text-gray-300"
+                className="w-full p-4 min-h-[150px] outline-none resize-y text-text leading-relaxed placeholder:text-gray-300 text-sm sm:text-base"
                 autoFocus
               />
               <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
@@ -400,13 +400,13 @@ const Profile = () => {
                       setIsEditingBio(false);
                       setBioContent(profile.bio || '');
                     }}
-                    className="px-4 py-2 text-sm font-medium text-text-secondary hover:bg-gray-200 rounded-lg transition-colors"
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-text-secondary hover:bg-gray-200 rounded-lg transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSaveBio}
-                    className="px-4 py-2 text-sm font-bold text-white bg-cherry hover:bg-cherry-dark rounded-lg shadow-sm transition-all hover:shadow-md active:scale-95"
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-white bg-cherry hover:bg-cherry-dark rounded-lg shadow-sm transition-all hover:shadow-md active:scale-95"
                   >
                     Save Bio
                   </button>
@@ -414,12 +414,12 @@ const Profile = () => {
               </div>
             </div>
           ) : (
-            <div 
+            <div
               onClick={() => setIsEditingBio(true)}
               className="group relative rounded-xl transition-all duration-200 cursor-text"
             >
               {profile.bio ? (
-                <div className="prose prose-sm max-w-none text-text-secondary leading-relaxed whitespace-pre-wrap p-4 -ml-4 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-100">
+                <div className="prose prose-sm max-w-none text-text-secondary leading-relaxed whitespace-pre-wrap p-3 sm:p-4 -ml-3 sm:-ml-4 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-100 text-sm sm:text-base">
                   {profile.bio}
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="p-2 bg-white rounded-lg shadow-sm border border-gray-100 text-text-secondary">
@@ -428,12 +428,12 @@ const Profile = () => {
                   </div>
                 </div>
               ) : (
-                <div className="bg-gray-50 rounded-xl p-8 text-center border-2 border-dashed border-gray-200 hover:border-cherry-200 hover:bg-cherry-50/30 transition-all cursor-pointer group">
-                  <div className="w-12 h-12 mx-auto mb-3 bg-white rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                    <HiOutlinePencilSquare className="w-6 h-6 text-cherry-300 group-hover:text-cherry" />
+                <div className="bg-gray-50 rounded-xl p-6 sm:p-8 text-center border-2 border-dashed border-gray-200 hover:border-cherry-200 hover:bg-cherry-50/30 transition-all cursor-pointer group">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 bg-white rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                    <HiOutlinePencilSquare className="w-5 h-5 sm:w-6 sm:h-6 text-cherry-300 group-hover:text-cherry" />
                   </div>
-                  <h4 className="text-text font-medium mb-1">Write your bio</h4>
-                  <p className="text-text-muted text-sm">Share your story with the community</p>
+                  <h4 className="text-text font-medium mb-1 text-sm sm:text-base">Write your bio</h4>
+                  <p className="text-text-muted text-xs sm:text-sm">Share your story with the community</p>
                 </div>
               )}
             </div>
@@ -441,69 +441,69 @@ const Profile = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-8 pt-8 border-t border-border">
-          <div className="bg-cherry-50 rounded-xl p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-10 h-10 mx-auto mb-2 bg-cherry-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineBookOpen className="w-5 h-5 text-cherry" />
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border">
+          <div className="bg-cherry-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-cherry-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineBookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-cherry" />
             </div>
-            <div className="text-2xl sm:text-3xl font-bold text-cherry mb-1">{stats.totalLessons}</div>
-            <div className="text-sm text-text-secondary">Total Lessons</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-cherry mb-1">{stats.totalLessons}</div>
+            <div className="text-xs sm:text-sm text-text-secondary">Total Lessons</div>
           </div>
-          <div className="bg-green-50 rounded-xl p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-10 h-10 mx-auto mb-2 bg-green-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineEye className="w-5 h-5 text-green-600" />
+          <div className="bg-green-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-green-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineEye className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
             </div>
-            <div className="text-2xl sm:text-3xl font-bold text-green-600 mb-1">{stats.publicLessons}</div>
-            <div className="text-sm text-text-secondary">Public</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600 mb-1">{stats.publicLessons}</div>
+            <div className="text-xs sm:text-sm text-text-secondary">Public</div>
           </div>
-          <div className="bg-gray-100 rounded-xl p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-10 h-10 mx-auto mb-2 bg-gray-200 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineLockClosed className="w-5 h-5 text-gray-600" />
+          <div className="bg-gray-100 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-gray-200 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineLockClosed className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
             </div>
-            <div className="text-2xl sm:text-3xl font-bold text-gray-600 mb-1">{stats.privateLessons}</div>
-            <div className="text-sm text-text-secondary">Private</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-600 mb-1">{stats.privateLessons}</div>
+            <div className="text-xs sm:text-sm text-text-secondary">Private</div>
           </div>
-          <div className="bg-amber-50 rounded-xl p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-10 h-10 mx-auto mb-2 bg-amber-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineStar className="w-5 h-5 text-amber-500" />
+          <div className="bg-amber-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-amber-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineStar className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />
             </div>
-            <div className="text-2xl sm:text-3xl font-bold text-amber-600 mb-1">{stats.drafts}</div>
-            <div className="text-sm text-text-secondary">Drafts</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-amber-600 mb-1">{stats.drafts}</div>
+            <div className="text-xs sm:text-sm text-text-secondary">Drafts</div>
           </div>
-          <div className="bg-red-50 rounded-xl p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-10 h-10 mx-auto mb-2 bg-red-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineHeart className="w-5 h-5 text-red-500" />
+          <div className="bg-red-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-red-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineHeart className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
             </div>
-            <div className="text-2xl sm:text-3xl font-bold text-red-500 mb-1">{stats.totalLikes}</div>
-            <div className="text-sm text-text-secondary">Likes Received</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-500 mb-1">{stats.totalLikes}</div>
+            <div className="text-xs sm:text-sm text-text-secondary">Likes Received</div>
           </div>
-          <div className="bg-blue-50 rounded-xl p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-10 h-10 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineBookmark className="w-5 h-5 text-blue-600" />
+          <div className="bg-blue-50 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineBookmark className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
             </div>
-            <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-1">{stats.totalFavorites}</div>
-            <div className="text-sm text-text-secondary">Favorites</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-1">{stats.totalFavorites}</div>
+            <div className="text-xs sm:text-sm text-text-secondary">Favorites</div>
           </div>
         </div>
 
         {/* Danger Zone */}
-        <div className="mt-8 border-t border-border pt-8">
-          <h3 className="text-lg font-bold text-red-600 mb-4 flex items-center gap-2">
+        <div className="mt-6 sm:mt-8 border-t border-border pt-6 sm:pt-8">
+          <h3 className="text-base sm:text-lg font-bold text-red-600 mb-3 sm:mb-4 flex items-center gap-2">
             <HiOutlineExclamationTriangle className="w-5 h-5" />
             Danger Zone
           </h3>
-          <div className="bg-red-50 border border-red-100 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="bg-red-50 border border-red-100 rounded-xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             {profile.role === 'admin' ? (
               <>
                 <div>
-                  <h4 className="font-medium text-red-900">Delete Account</h4>
-                  <p className="text-sm text-red-700 mt-1">
+                  <h4 className="font-medium text-red-900 text-sm sm:text-base">Delete Account</h4>
+                  <p className="text-xs sm:text-sm text-red-700 mt-1">
                     Permanently delete your account and all associated data. This action cannot be undone.
                   </p>
                 </div>
                 <button
                   onClick={() => setShowDeleteModal(true)}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium text-sm sm:text-base w-full sm:w-auto text-center"
                 >
                   Delete Permanently
                 </button>
@@ -511,13 +511,13 @@ const Profile = () => {
             ) : (
               <>
                 <div>
-                  <h4 className="font-medium text-red-900">Disable Account</h4>
-                  <p className="text-sm text-red-700 mt-1">
+                  <h4 className="font-medium text-red-900 text-sm sm:text-base">Disable Account</h4>
+                  <p className="text-xs sm:text-sm text-red-700 mt-1">
                     Request to disable your account. Your profile and lessons will be hidden from public view.
                     Admin will review your request.
                   </p>
                   {profile.status === 'disable_requested' && (
-                    <p className="text-sm font-medium text-amber-600 mt-2">
+                    <p className="text-xs sm:text-sm font-medium text-amber-600 mt-2">
                       Request submitted on {new Date(profile.disableRequestDate).toLocaleDateString()}
                     </p>
                   )}
@@ -526,7 +526,7 @@ const Profile = () => {
                   <button
                     onClick={handleCancelDisable}
                     disabled={isDisabling}
-                    className="px-4 py-2 bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-medium disabled:opacity-50"
+                    className="px-4 py-2 bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-medium disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto text-center"
                   >
                     {isDisabling ? 'Processing...' : 'Cancel Request'}
                   </button>
@@ -534,7 +534,7 @@ const Profile = () => {
                   <button
                     onClick={handleRequestDisable}
                     disabled={isDisabling}
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50"
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto text-center"
                   >
                     {isDisabling ? 'Processing...' : 'Request Disable'}
                   </button>
@@ -567,8 +567,8 @@ const Profile = () => {
                 <div className="relative">
                   <div className="w-24 h-24 rounded-2xl overflow-hidden border-4 border-cherry-100">
                     {editFormData.photoURL ? (
-                      <img 
-                        src={editFormData.photoURL} 
+                      <img
+                        src={editFormData.photoURL}
                         alt="Profile preview"
                         className="w-full h-full object-cover"
                         onError={(e) => {
@@ -714,7 +714,7 @@ const Profile = () => {
 
             <form onSubmit={submitDisableRequest} className="p-6 space-y-4">
               <p className="text-text-secondary">
-                We're sorry to see you go. Please let us know why you want to disable your account. 
+                We're sorry to see you go. Please let us know why you want to disable your account.
                 Your feedback helps us improve.
               </p>
 

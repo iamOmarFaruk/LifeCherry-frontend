@@ -1,7 +1,7 @@
 // Add Lesson Page - LifeCherry Dashboard
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { 
+import {
   HiOutlinePencilSquare,
   HiOutlinePhoto,
   HiOutlineSparkles,
@@ -56,7 +56,7 @@ const AddLesson = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     if (!formData.title.trim()) {
       toast.error('Please enter a lesson title');
@@ -89,10 +89,10 @@ const AddLesson = () => {
       };
 
       const response = await apiClient.post('/lessons', payload);
-      
+
       if (response.data?.lesson) {
         toast.success('Life lesson published successfully! 🎉');
-        
+
         // Reset form
         setFormData({
           title: '',
@@ -122,18 +122,18 @@ const AddLesson = () => {
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
-            <HiOutlinePencilSquare className="w-10 h-10" />
+        <div className="mb-6 lg:mb-8">
+          <h1 className="text-2xl lg:text-4xl font-bold text-cherry mb-2 flex items-center gap-2 lg:gap-3">
+            <HiOutlinePencilSquare className="w-8 h-8 lg:w-10 lg:h-10 flex-shrink-0" />
             Add New Life Lesson
           </h1>
-          <p className="text-gray-600">Share your wisdom and insights with the community</p>
+          <p className="text-sm lg:text-base text-gray-600">Share your wisdom and insights with the community</p>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-border p-6 lg:p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            
+        <div className="bg-white rounded-2xl shadow-sm border border-border p-4 lg:p-8">
+          <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-6">
+
             {/* Lesson Title */}
             <div>
               <label htmlFor="title" className="block text-sm font-semibold text-text mb-2">
@@ -150,7 +150,7 @@ const AddLesson = () => {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="e.g., The Power of Saying No"
-                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
+                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors text-sm lg:text-base"
                   maxLength={100}
                 />
               </div>
@@ -169,14 +169,14 @@ const AddLesson = () => {
                 onChange={handleChange}
                 placeholder="Share your life lesson in detail. What happened? What did you learn? How can others benefit from this wisdom?"
                 rows={6}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors resize-none"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors resize-none text-sm lg:text-base"
                 maxLength={2000}
               />
               <p className="mt-1 text-xs text-text-muted text-right">{formData.description.length}/2000 characters</p>
             </div>
 
             {/* Category & Emotional Tone - Two Columns */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {/* Category */}
               <div>
                 <label htmlFor="category" className="block text-sm font-semibold text-text mb-2">
@@ -187,7 +187,7 @@ const AddLesson = () => {
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors bg-white appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors bg-white appearance-none cursor-pointer text-sm lg:text-base"
                 >
                   <option value="">Select a category</option>
                   {categories.map(cat => (
@@ -206,7 +206,7 @@ const AddLesson = () => {
                   name="emotionalTone"
                   value={formData.emotionalTone}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors bg-white appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors bg-white appearance-none cursor-pointer text-sm lg:text-base"
                 >
                   <option value="">Select emotional tone</option>
                   {emotionalTones.map(tone => (
@@ -235,7 +235,7 @@ const AddLesson = () => {
                   value={formData.image}
                   onChange={handleChange}
                   placeholder="https://example.com/image.jpg"
-                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors"
+                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cherry focus:ring-0 focus:outline-none transition-colors text-sm lg:text-base"
                 />
               </div>
               <p className="mt-1 text-xs text-text-muted">
@@ -245,10 +245,10 @@ const AddLesson = () => {
               {/* Image Preview */}
               {formData.image && (
                 <div className="mt-3">
-                  <img 
-                    src={formData.image} 
-                    alt="Preview" 
-                    className="w-full max-w-md h-48 object-cover rounded-xl border border-border"
+                  <img
+                    src={formData.image}
+                    alt="Preview"
+                    className="w-full max-w-md h-40 lg:h-48 object-cover rounded-xl border border-border"
                     onError={(e) => e.target.style.display = 'none'}
                   />
                 </div>
@@ -256,7 +256,7 @@ const AddLesson = () => {
             </div>
 
             {/* Visibility & Access Level - Two Columns */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {/* Visibility */}
               <div>
                 <label className="block text-sm font-semibold text-text mb-2">
@@ -265,29 +265,27 @@ const AddLesson = () => {
                     Visibility
                   </span>
                 </label>
-                <div className="flex gap-3">
+                <div className="flex gap-2 lg:gap-3">
                   <button
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, visibility: 'public' }))}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                      formData.visibility === 'public'
+                    className={`flex-1 flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer text-sm lg:text-base ${formData.visibility === 'public'
                         ? 'border-cherry bg-cherry-50 text-cherry'
                         : 'border-gray-200 text-text-secondary hover:border-gray-300'
-                    }`}
+                      }`}
                   >
-                    <HiOutlineGlobeAlt className="w-5 h-5" />
+                    <HiOutlineGlobeAlt className="w-4 h-4 lg:w-5 lg:h-5" />
                     <span className="font-medium">Public</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, visibility: 'private' }))}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                      formData.visibility === 'private'
+                    className={`flex-1 flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer text-sm lg:text-base ${formData.visibility === 'private'
                         ? 'border-cherry bg-cherry-50 text-cherry'
                         : 'border-gray-200 text-text-secondary hover:border-gray-300'
-                    }`}
+                      }`}
                   >
-                    <HiOutlineLockClosed className="w-5 h-5" />
+                    <HiOutlineLockClosed className="w-4 h-4 lg:w-5 lg:h-5" />
                     <span className="font-medium">Private</span>
                   </button>
                 </div>
@@ -301,37 +299,35 @@ const AddLesson = () => {
                     Access Level
                   </span>
                 </label>
-                <div className="flex gap-3">
+                <div className="flex gap-2 lg:gap-3">
                   <button
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, accessLevel: 'free' }))}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                      formData.accessLevel === 'free'
+                    className={`flex-1 flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer text-sm lg:text-base ${formData.accessLevel === 'free'
                         ? 'border-cherry bg-cherry-50 text-cherry'
                         : 'border-gray-200 text-text-secondary hover:border-gray-300'
-                    }`}
+                      }`}
                   >
-                    <HiOutlineLockOpen className="w-5 h-5" />
+                    <HiOutlineLockOpen className="w-4 h-4 lg:w-5 lg:h-5" />
                     <span className="font-medium">Free</span>
                   </button>
-                  
-                  <div 
-                    className={`flex-1 ${(!userProfile?.isPremium && userProfile?.role !== 'admin') ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}`} 
+
+                  <div
+                    className={`flex-1 ${(!userProfile?.isPremium && userProfile?.role !== 'admin') ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}`}
                     data-tip="Upgrade to Premium to create paid lessons"
                   >
                     <button
                       type="button"
                       onClick={() => (userProfile?.isPremium || userProfile?.role === 'admin') && setFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
                       disabled={!userProfile?.isPremium && userProfile?.role !== 'admin'}
-                      className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
-                        (!userProfile?.isPremium && userProfile?.role !== 'admin')
+                      className={`w-full flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 text-sm lg:text-base ${(!userProfile?.isPremium && userProfile?.role !== 'admin')
                           ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
                           : formData.accessLevel === 'premium'
                             ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
                             : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
-                      }`}
+                        }`}
                     >
-                      <HiOutlineStar className="w-5 h-5" />
+                      <HiOutlineStar className="w-4 h-4 lg:w-5 lg:h-5" />
                       <span className="font-medium">Premium</span>
                     </button>
                   </div>

@@ -1,7 +1,7 @@
 // My Lessons Page - LifeCherry Dashboard
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
+import {
   HiOutlineBookOpen,
   HiOutlineEye,
   HiOutlinePencilSquare,
@@ -63,7 +63,7 @@ const MyLessons = () => {
       setLessonsData(lessonsQuery.data);
     }
   }, [lessonsQuery.data]);
-  
+
   // View mode state with localStorage persistence
   const [viewMode, setViewMode] = useState(() => {
     const saved = localStorage.getItem('myLessonsViewMode');
@@ -75,7 +75,7 @@ const MyLessons = () => {
     setViewMode(mode);
     localStorage.setItem('myLessonsViewMode', mode);
   };
-  
+
   // Modal states
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -155,8 +155,8 @@ const MyLessons = () => {
       queryClient.setQueryData(['my-lessons', userEmail], (prev) =>
         Array.isArray(prev)
           ? prev.map((lesson) =>
-              lesson._id === matchId || lesson.id === matchId ? { ...lesson, ...updated } : lesson
-            )
+            lesson._id === matchId || lesson.id === matchId ? { ...lesson, ...updated } : lesson
+          )
           : prev
       );
     },
@@ -185,7 +185,7 @@ const MyLessons = () => {
   const handleVisibilityChange = (lessonId, currentVisibility, newVisibility) => {
     const lesson = lessonsData.find(l => l._id === lessonId);
     const lessonTitle = lesson?.title || 'This lesson';
-    
+
     // Define warning messages based on visibility change
     const warningMessages = {
       public: {
@@ -238,11 +238,10 @@ const MyLessons = () => {
                   }
                 );
               }}
-              className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${
-                newVisibility === 'public'
+              className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${newVisibility === 'public'
                   ? 'bg-green-500 hover:bg-green-600'
                   : 'bg-gray-700 hover:bg-gray-800'
-              }`}
+                }`}
             >
               Confirm
             </button>
@@ -332,11 +331,10 @@ const MyLessons = () => {
                   }
                 );
               }}
-              className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${
-                newAccessLevel === 'premium'
+              className={`px-3 py-1.5 text-sm font-medium text-white rounded-lg transition-colors ${newAccessLevel === 'premium'
                   ? 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600'
                   : 'bg-green-500 hover:bg-green-600'
-              }`}
+                }`}
             >
               Confirm
             </button>
@@ -381,7 +379,7 @@ const MyLessons = () => {
   // Handle update lesson
   const handleUpdateLesson = async (e) => {
     e.preventDefault();
-    
+
     if (!editFormData.title.trim()) {
       toast.error('Please enter a lesson title');
       return;
@@ -419,7 +417,7 @@ const MyLessons = () => {
         setShowDeleteModal(false);
         setSelectedLesson(null);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setIsSubmitting(false));
   };
 
@@ -539,22 +537,20 @@ const MyLessons = () => {
               <div className="hidden sm:flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
                 <button
                   onClick={() => handleViewModeChange('list')}
-                  className={`p-3 transition-all duration-200 cursor-pointer ${
-                    viewMode === 'list'
+                  className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'list'
                       ? 'bg-cherry text-white'
                       : 'bg-white text-text-secondary hover:bg-gray-50'
-                  }`}
+                    }`}
                   title="List View"
                 >
                   <HiOutlineListBullet className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => handleViewModeChange('grid')}
-                  className={`p-3 transition-all duration-200 cursor-pointer ${
-                    viewMode === 'grid'
+                  className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'grid'
                       ? 'bg-cherry text-white'
                       : 'bg-white text-text-secondary hover:bg-gray-50'
-                  }`}
+                    }`}
                   title="Grid View"
                 >
                   <HiOutlineSquares2X2 className="w-5 h-5" />
@@ -563,11 +559,10 @@ const MyLessons = () => {
 
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`inline-flex items-center gap-2 px-4 py-3 border-2 rounded-xl font-medium transition-all duration-200 cursor-pointer ${
-                  showFilters || hasActiveFilters
+                className={`inline-flex items-center gap-2 px-4 py-3 border-2 rounded-xl font-medium transition-all duration-200 cursor-pointer ${showFilters || hasActiveFilters
                     ? 'border-cherry bg-cherry-50 text-cherry'
                     : 'border-gray-200 text-text-secondary hover:border-gray-300'
-                }`}
+                  }`}
               >
                 <HiOutlineFunnel className="w-5 h-5" />
                 Filters
@@ -633,7 +628,7 @@ const MyLessons = () => {
               <HiOutlineBookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-text mb-2">No lessons found</h3>
               <p className="text-text-muted mb-6">
-                {hasActiveFilters 
+                {hasActiveFilters
                   ? 'Try adjusting your filters or search query'
                   : "You haven't created any lessons yet"
                 }
@@ -655,15 +650,15 @@ const MyLessons = () => {
                 <div className="p-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {paginatedLessons.map((lesson) => (
-                      <div 
-                        key={lesson._id} 
+                      <div
+                        key={lesson._id}
                         className="bg-white rounded-xl border border-border hover:shadow-lg transition-all duration-300 overflow-hidden group"
                       >
                         {/* Image */}
                         <div className="relative h-40 overflow-hidden">
                           {lesson.image ? (
-                            <img 
-                              src={lesson.image} 
+                            <img
+                              src={lesson.image}
                               alt={lesson.title}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
@@ -674,11 +669,10 @@ const MyLessons = () => {
                           )}
                           {/* Visibility & Access Badges */}
                           <div className="absolute top-2 left-2 flex gap-1">
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${
-                              lesson.visibility === 'public' 
-                                ? 'bg-green-100 text-green-600' 
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${lesson.visibility === 'public'
+                                ? 'bg-green-100 text-green-600'
                                 : 'bg-gray-700 text-white'
-                            }`}>
+                              }`}>
                               {lesson.visibility === 'public' ? (
                                 <HiOutlineGlobeAlt className="w-3 h-3" />
                               ) : (
@@ -754,188 +748,184 @@ const MyLessons = () => {
 
               {/* List View - Desktop Table */}
               {viewMode === 'list' && (
-              <div className="hidden lg:block overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b border-border">
-                    <tr>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Lesson</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Category</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Visibility</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Access</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Stats</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Created</th>
-                      <th className="text-left px-6 py-4 text-sm font-semibold text-text">Updated</th>
-                      <th className="text-right px-6 py-4 text-sm font-semibold text-text">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border">
-                    {paginatedLessons.map((lesson) => (
-                      <tr key={lesson._id} className="hover:bg-gray-50 transition-colors">
-                        {/* Lesson Info */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            {lesson.image ? (
-                              <img 
-                                src={lesson.image} 
-                                alt={lesson.title}
-                                className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-                              />
-                            ) : (
-                              <div className="w-12 h-12 rounded-lg bg-cherry-50 flex items-center justify-center flex-shrink-0">
-                                <HiOutlineBookOpen className="w-6 h-6 text-cherry" />
+                <div className="hidden lg:block overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b border-border">
+                      <tr>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Lesson</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Category</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Visibility</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Access</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Stats</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Created</th>
+                        <th className="text-left px-6 py-4 text-sm font-semibold text-text">Updated</th>
+                        <th className="text-right px-6 py-4 text-sm font-semibold text-text">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {paginatedLessons.map((lesson) => (
+                        <tr key={lesson._id} className="hover:bg-gray-50 transition-colors">
+                          {/* Lesson Info */}
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              {lesson.image ? (
+                                <img
+                                  src={lesson.image}
+                                  alt={lesson.title}
+                                  className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
+                                />
+                              ) : (
+                                <div className="w-12 h-12 rounded-lg bg-cherry-50 flex items-center justify-center flex-shrink-0">
+                                  <HiOutlineBookOpen className="w-6 h-6 text-cherry" />
+                                </div>
+                              )}
+                              <div className="min-w-0">
+                                <h3 className="font-semibold text-text truncate max-w-[200px]">
+                                  {lesson.title}
+                                </h3>
+                                <p className="text-sm text-text-muted truncate max-w-[200px]">
+                                  {lesson.emotionalTone}
+                                </p>
                               </div>
-                            )}
-                            <div className="min-w-0">
-                              <h3 className="font-semibold text-text truncate max-w-[200px]">
-                                {lesson.title}
-                              </h3>
-                              <p className="text-sm text-text-muted truncate max-w-[200px]">
-                                {lesson.emotionalTone}
-                              </p>
                             </div>
-                          </div>
-                        </td>
+                          </td>
 
-                        {/* Category */}
-                        <td className="px-6 py-4">
-                          <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium bg-cherry-50 text-cherry whitespace-nowrap">
-                            {lesson.category}
-                          </span>
-                        </td>
+                          {/* Category */}
+                          <td className="px-6 py-4">
+                            <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium bg-cherry-50 text-cherry whitespace-nowrap">
+                              {lesson.category}
+                            </span>
+                          </td>
 
-                        {/* Visibility Toggle */}
-                        <td className="px-6 py-4">
-                          <div className="flex gap-1">
-                            <button
-                              onClick={() => lesson.visibility !== 'public' && handleVisibilityChange(lesson._id, lesson.visibility, 'public')}
-                              className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
-                                lesson.visibility === 'public'
-                                  ? 'bg-green-100 text-green-600'
-                                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                              }`}
-                              title="Public"
-                            >
-                              <HiOutlineGlobeAlt className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => lesson.visibility !== 'private' && handleVisibilityChange(lesson._id, lesson.visibility, 'private')}
-                              className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
-                                lesson.visibility === 'private'
-                                  ? 'bg-gray-700 text-white'
-                                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                              }`}
-                              title="Private"
-                            >
-                              <HiOutlineLockClosed className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
-
-                        {/* Access Level Toggle */}
-                        <td className="px-6 py-4">
-                          <div className="flex gap-1">
-                            <button
-                              onClick={() => lesson.accessLevel !== 'free' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'free')}
-                              className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
-                                lesson.accessLevel === 'free'
-                                  ? 'bg-blue-100 text-blue-600'
-                                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                              }`}
-                              title="Free"
-                            >
-                              <HiOutlineLockOpen className="w-4 h-4" />
-                            </button>
-                            <div 
-                              className={!isPremium ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''} 
-                              data-tip="Upgrade to Premium to create paid lessons"
-                            >
+                          {/* Visibility Toggle */}
+                          <td className="px-6 py-4">
+                            <div className="flex gap-1">
                               <button
-                                onClick={() => lesson.accessLevel !== 'premium' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'premium')}
-                                disabled={!isPremium}
-                                className={`p-2 rounded-lg transition-all duration-200 ${
-                                  !isPremium 
-                                    ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
-                                    : lesson.accessLevel === 'premium'
-                                      ? 'bg-amber-100 text-amber-600 cursor-pointer'
-                                      : 'bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer'
-                                }`}
-                                title={isPremium ? 'Premium' : ''}
+                                onClick={() => lesson.visibility !== 'public' && handleVisibilityChange(lesson._id, lesson.visibility, 'public')}
+                                className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'public'
+                                    ? 'bg-green-100 text-green-600'
+                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                  }`}
+                                title="Public"
                               >
-                                <HiOutlineStar className="w-4 h-4" />
+                                <HiOutlineGlobeAlt className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => lesson.visibility !== 'private' && handleVisibilityChange(lesson._id, lesson.visibility, 'private')}
+                                className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'private'
+                                    ? 'bg-gray-700 text-white'
+                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                  }`}
+                                title="Private"
+                              >
+                                <HiOutlineLockClosed className="w-4 h-4" />
                               </button>
                             </div>
-                          </div>
-                        </td>
+                          </td>
 
-                        {/* Stats */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3 text-sm text-text-muted">
-                            <span className="flex items-center gap-1">
-                              <HiOutlineHeart className="w-4 h-4 text-red-400" />
-                              {lesson.likesCount}
+                          {/* Access Level Toggle */}
+                          <td className="px-6 py-4">
+                            <div className="flex gap-1">
+                              <button
+                                onClick={() => lesson.accessLevel !== 'free' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'free')}
+                                className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.accessLevel === 'free'
+                                    ? 'bg-blue-100 text-blue-600'
+                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                  }`}
+                                title="Free"
+                              >
+                                <HiOutlineLockOpen className="w-4 h-4" />
+                              </button>
+                              <div
+                                className={!isPremium ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}
+                                data-tip="Upgrade to Premium to create paid lessons"
+                              >
+                                <button
+                                  onClick={() => lesson.accessLevel !== 'premium' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'premium')}
+                                  disabled={!isPremium}
+                                  className={`p-2 rounded-lg transition-all duration-200 ${!isPremium
+                                      ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
+                                      : lesson.accessLevel === 'premium'
+                                        ? 'bg-amber-100 text-amber-600 cursor-pointer'
+                                        : 'bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer'
+                                    }`}
+                                  title={isPremium ? 'Premium' : ''}
+                                >
+                                  <HiOutlineStar className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* Stats */}
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3 text-sm text-text-muted">
+                              <span className="flex items-center gap-1">
+                                <HiOutlineHeart className="w-4 h-4 text-red-400" />
+                                {lesson.likesCount}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <HiOutlineBookmark className="w-4 h-4 text-amber-400" />
+                                {lesson.favoritesCount}
+                              </span>
+                            </div>
+                          </td>
+
+                          {/* Created Date */}
+                          <td className="px-6 py-4">
+                            <span className="text-sm text-text-muted whitespace-nowrap">
+                              {formatDate(lesson.createdAt)}
                             </span>
-                            <span className="flex items-center gap-1">
-                              <HiOutlineBookmark className="w-4 h-4 text-amber-400" />
-                              {lesson.favoritesCount}
+                          </td>
+
+                          {/* Updated Date */}
+                          <td className="px-6 py-4">
+                            <span className="text-sm text-text-muted whitespace-nowrap">
+                              {lesson.updatedAt ? formatDate(lesson.updatedAt) : '—'}
                             </span>
-                          </div>
-                        </td>
+                          </td>
 
-                        {/* Created Date */}
-                        <td className="px-6 py-4">
-                          <span className="text-sm text-text-muted whitespace-nowrap">
-                            {formatDate(lesson.createdAt)}
-                          </span>
-                        </td>
-
-                        {/* Updated Date */}
-                        <td className="px-6 py-4">
-                          <span className="text-sm text-text-muted whitespace-nowrap">
-                            {lesson.updatedAt ? formatDate(lesson.updatedAt) : '—'}
-                          </span>
-                        </td>
-
-                        {/* Actions */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center justify-end gap-2">
-                            <Link
-                              to={`/lessons/${lesson._id}`}
-                              className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
-                              title="View Details"
-                            >
-                              <HiOutlineEye className="w-4 h-4" />
-                            </Link>
-                            <button
-                              onClick={() => openEditModal(lesson)}
-                              className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition-all duration-200 cursor-pointer"
-                              title="Edit"
-                            >
-                              <HiOutlinePencilSquare className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => openDeleteModal(lesson)}
-                              className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200 cursor-pointer"
-                              title="Delete"
-                            >
-                              <HiOutlineTrash className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                          {/* Actions */}
+                          <td className="px-6 py-4">
+                            <div className="flex items-center justify-end gap-2">
+                              <Link
+                                to={`/lessons/${lesson._id}`}
+                                className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
+                                title="View Details"
+                              >
+                                <HiOutlineEye className="w-4 h-4" />
+                              </Link>
+                              <button
+                                onClick={() => openEditModal(lesson)}
+                                className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition-all duration-200 cursor-pointer"
+                                title="Edit"
+                              >
+                                <HiOutlinePencilSquare className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => openDeleteModal(lesson)}
+                                className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                                title="Delete"
+                              >
+                                <HiOutlineTrash className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
 
               {/* Mobile Cards */}
               <div className="lg:hidden divide-y divide-border">
                 {paginatedLessons.map((lesson) => (
-                  <div key={lesson._id} className="p-4">
+                  <div key={lesson._id} className="p-4 bg-white rounded-xl mb-4 border border-border shadow-sm">
                     <div className="flex gap-3 mb-4">
                       {lesson.image ? (
-                        <img 
-                          src={lesson.image} 
+                        <img
+                          src={lesson.image}
                           alt={lesson.title}
                           className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
                         />
@@ -945,45 +935,51 @@ const MyLessons = () => {
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-text truncate">{lesson.title}</h3>
-                        <p className="text-sm text-text-muted">{lesson.emotionalTone}</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-cherry-50 text-cherry">
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-semibold text-text truncate text-sm sm:text-base">{lesson.title}</h3>
+                          {lesson.accessLevel === 'premium' && (
+                            <span className="flex-shrink-0">
+                              <HiOutlineStar className="w-4 h-4 text-amber-500" />
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-text-muted mt-0.5 line-clamp-1">{lesson.emotionalTone}</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-cherry-50 text-cherry">
                             {lesson.category}
                           </span>
-                          <span className="text-xs text-text-muted">{formatDate(lesson.createdAt)}</span>
+                          <span className="text-[10px] text-text-muted">{formatDate(lesson.createdAt)}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Mobile Stats & Toggles */}
-                    <div className="flex items-center justify-between gap-4 mb-4">
-                      <div className="flex items-center gap-4 text-sm text-text-muted">
+                    <div className="flex items-center justify-between gap-2 mb-4 bg-gray-50 rounded-lg p-3">
+                      <div className="flex items-center gap-3 text-xs text-text-muted">
                         <span className="flex items-center gap-1">
-                          <HiOutlineHeart className="w-4 h-4 text-red-400" />
+                          <HiOutlineHeart className="w-3.5 h-3.5 text-red-400" />
                           {lesson.likesCount}
                         </span>
                         <span className="flex items-center gap-1">
-                          <HiOutlineBookmark className="w-4 h-4 text-amber-400" />
+                          <HiOutlineBookmark className="w-3.5 h-3.5 text-amber-400" />
                           {lesson.favoritesCount}
                         </span>
                       </div>
-                      
+
                       <div className="flex items-center gap-2">
                         {/* Visibility */}
                         <button
                           onClick={() => handleVisibilityChange(lesson._id, lesson.visibility, lesson.visibility === 'public' ? 'private' : 'public')}
-                          className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${
-                            lesson.visibility === 'public'
+                          className={`p-1.5 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'public'
                               ? 'bg-green-100 text-green-600'
                               : 'bg-gray-700 text-white'
-                          }`}
+                            }`}
                           title={lesson.visibility === 'public' ? 'Public' : 'Private'}
                         >
                           {lesson.visibility === 'public' ? (
-                            <HiOutlineGlobeAlt className="w-4 h-4" />
+                            <HiOutlineGlobeAlt className="w-3.5 h-3.5" />
                           ) : (
-                            <HiOutlineLockClosed className="w-4 h-4" />
+                            <HiOutlineLockClosed className="w-3.5 h-3.5" />
                           )}
                         </button>
 
@@ -991,19 +987,18 @@ const MyLessons = () => {
                         <button
                           onClick={() => isPremium && handleAccessLevelChange(lesson._id, lesson.accessLevel, lesson.accessLevel === 'free' ? 'premium' : 'free')}
                           disabled={!isPremium}
-                          className={`p-2 rounded-lg transition-all duration-200 ${
-                            !isPremium 
+                          className={`p-1.5 rounded-lg transition-all duration-200 ${!isPremium
                               ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
                               : lesson.accessLevel === 'premium'
                                 ? 'bg-amber-100 text-amber-600 cursor-pointer'
                                 : 'bg-blue-100 text-blue-600 cursor-pointer'
-                          }`}
+                            }`}
                           title={lesson.accessLevel === 'free' ? 'Free' : 'Premium'}
                         >
                           {lesson.accessLevel === 'premium' ? (
-                            <HiOutlineStar className="w-4 h-4" />
+                            <HiOutlineStar className="w-3.5 h-3.5" />
                           ) : (
-                            <HiOutlineLockOpen className="w-4 h-4" />
+                            <HiOutlineLockOpen className="w-3.5 h-3.5" />
                           )}
                         </button>
                       </div>
@@ -1013,23 +1008,23 @@ const MyLessons = () => {
                     <div className="flex items-center gap-2">
                       <Link
                         to={`/lessons/${lesson._id}`}
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-all duration-200 cursor-pointer text-sm"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-all duration-200 cursor-pointer text-xs sm:text-sm"
                       >
                         <HiOutlineEye className="w-4 h-4" />
                         View
                       </Link>
                       <button
                         onClick={() => openEditModal(lesson)}
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 font-medium rounded-xl hover:bg-blue-200 transition-all duration-200 cursor-pointer text-sm"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-blue-100 text-blue-600 font-medium rounded-lg hover:bg-blue-200 transition-all duration-200 cursor-pointer text-xs sm:text-sm"
                       >
                         <HiOutlinePencilSquare className="w-4 h-4" />
                         Edit
                       </button>
                       <button
                         onClick={() => openDeleteModal(lesson)}
-                        className="p-2 bg-red-100 text-red-600 rounded-xl hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                        className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all duration-200 cursor-pointer"
                       >
-                        <HiOutlineTrash className="w-5 h-5" />
+                        <HiOutlineTrash className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -1038,28 +1033,27 @@ const MyLessons = () => {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="px-6 py-4 border-t border-border flex items-center justify-between">
-                  <p className="text-sm text-text-muted">
+                <div className="px-4 py-4 md:px-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <p className="text-xs sm:text-sm text-text-muted text-center sm:text-left">
                     Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredLessons.length)} of {filteredLessons.length} lessons
                   </p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
                     <button
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={currentPage === 1}
-                      className="p-2 rounded-lg border border-border hover:bg-gray-50 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-1.5 sm:p-2 rounded-lg border border-border hover:bg-gray-50 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <HiOutlineChevronLeft className="w-5 h-5" />
+                      <HiOutlineChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
-                    
+
                     {[...Array(totalPages)].map((_, i) => (
                       <button
                         key={i + 1}
                         onClick={() => setCurrentPage(i + 1)}
-                        className={`w-10 h-10 rounded-lg font-medium transition-all duration-200 cursor-pointer ${
-                          currentPage === i + 1
+                        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg font-medium transition-all duration-200 cursor-pointer text-xs sm:text-sm ${currentPage === i + 1
                             ? 'bg-cherry text-white'
                             : 'hover:bg-gray-50'
-                        }`}
+                          }`}
                       >
                         {i + 1}
                       </button>
@@ -1068,9 +1062,9 @@ const MyLessons = () => {
                     <button
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                       disabled={currentPage === totalPages}
-                      className="p-2 rounded-lg border border-border hover:bg-gray-50 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-1.5 sm:p-2 rounded-lg border border-border hover:bg-gray-50 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <HiOutlineChevronRight className="w-5 h-5" />
+                      <HiOutlineChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                   </div>
                 </div>
@@ -1252,11 +1246,10 @@ const MyLessons = () => {
                       <button
                         type="button"
                         onClick={() => setEditFormData(prev => ({ ...prev, visibility: 'public' }))}
-                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                          editFormData.visibility === 'public'
+                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${editFormData.visibility === 'public'
                             ? 'border-cherry bg-cherry-50 text-cherry'
                             : 'border-gray-200 text-text-secondary hover:border-gray-300'
-                        }`}
+                          }`}
                       >
                         <HiOutlineGlobeAlt className="w-4 h-4" />
                         Public
@@ -1264,11 +1257,10 @@ const MyLessons = () => {
                       <button
                         type="button"
                         onClick={() => setEditFormData(prev => ({ ...prev, visibility: 'private' }))}
-                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                          editFormData.visibility === 'private'
+                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${editFormData.visibility === 'private'
                             ? 'border-cherry bg-cherry-50 text-cherry'
                             : 'border-gray-200 text-text-secondary hover:border-gray-300'
-                        }`}
+                          }`}
                       >
                         <HiOutlineLockClosed className="w-4 h-4" />
                         Private
@@ -1281,30 +1273,28 @@ const MyLessons = () => {
                       <button
                         type="button"
                         onClick={() => setEditFormData(prev => ({ ...prev, accessLevel: 'free' }))}
-                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                          editFormData.accessLevel === 'free'
+                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${editFormData.accessLevel === 'free'
                             ? 'border-cherry bg-cherry-50 text-cherry'
                             : 'border-gray-200 text-text-secondary hover:border-gray-300'
-                        }`}
+                          }`}
                       >
                         <HiOutlineLockOpen className="w-4 h-4" />
                         Free
                       </button>
-                      <div 
-                        className={`flex-1 ${!isPremium ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}`} 
+                      <div
+                        className={`flex-1 ${!isPremium ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}`}
                         data-tip="Upgrade to Premium to create paid lessons"
                       >
                         <button
                           type="button"
                           onClick={() => isPremium && setEditFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
                           disabled={!isPremium}
-                          className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 ${
-                            !isPremium 
+                          className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 ${!isPremium
                               ? 'opacity-50 cursor-not-allowed border-gray-200 text-text-muted'
                               : editFormData.accessLevel === 'premium'
                                 ? 'border-amber-400 bg-amber-50 text-amber-600 cursor-pointer'
                                 : 'border-gray-200 text-text-secondary hover:border-gray-300 cursor-pointer'
-                          }`}
+                            }`}
                         >
                           <HiOutlineStar className="w-4 h-4" />
                           Premium

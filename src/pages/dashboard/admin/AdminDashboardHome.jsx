@@ -1,7 +1,7 @@
 // Admin Dashboard Home - LifeCherry Admin
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
+import {
   HiOutlineUsers,
   HiOutlineBookOpen,
   HiOutlineFlag,
@@ -28,7 +28,7 @@ import { reports } from '../../../data/reports';
 
 const AdminDashboardHome = () => {
   useDocumentTitle('Admin Dashboard');
-  
+
   // Admin user info
   const adminUser = {
     name: 'Omar Faruk',
@@ -50,7 +50,7 @@ const AdminDashboardHome = () => {
     const lessonDate = new Date(l.createdAt);
     return lessonDate.toDateString() === today.toDateString();
   }).length || 3; // Fallback for demo
-  
+
   // Subscription & Revenue Stats
   const premiumUsers = users.filter(u => u.isPremium).length;
   const conversionRate = ((premiumUsers / totalUsers) * 100).toFixed(1);
@@ -58,7 +58,7 @@ const AdminDashboardHome = () => {
   const totalRevenue = premiumUsers * premiumPrice;
   const monthlyRevenue = Math.floor(totalRevenue * 0.15); // Mock 15% came this month
   const averageRevenuePerUser = Math.floor(totalRevenue / totalUsers);
-  
+
   // Revenue data for chart (last 6 months)
   const revenueData = [
     { month: 'Jul', revenue: 45000, subscriptions: 30 },
@@ -69,7 +69,7 @@ const AdminDashboardHome = () => {
     { month: 'Dec', revenue: monthlyRevenue, subscriptions: premiumUsers },
   ];
   const maxRevenue = Math.max(...revenueData.map(d => d.revenue));
-  
+
   // Recent payments (mock data)
   const recentPayments = [
     { id: 1, userName: 'Alice Johnson', userEmail: 'alice@example.com', amount: 1500, status: 'completed', date: '2 mins ago', paymentMethod: 'Stripe' },
@@ -78,7 +78,7 @@ const AdminDashboardHome = () => {
     { id: 4, userName: 'Diana Prince', userEmail: 'diana@example.com', amount: 1500, status: 'completed', date: '3 hours ago', paymentMethod: 'Stripe' },
     { id: 5, userName: 'Ethan Hunt', userEmail: 'ethan@example.com', amount: 1500, status: 'pending', date: '5 hours ago', paymentMethod: 'Stripe' },
   ];
-  
+
   // Most active contributors (mock data based on lessons)
   const contributors = users
     .map(user => ({
@@ -148,7 +148,7 @@ const AdminDashboardHome = () => {
         </div>
 
         {/* Main Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {/* Total Users */}
           <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
@@ -302,16 +302,16 @@ const AdminDashboardHome = () => {
                 </span>
               </div>
             </div>
-            
+
             {/* Revenue Bar Chart */}
             <div className="flex items-end justify-between gap-3 h-40">
               {revenueData.map((data, index) => (
                 <div key={index} className="flex-1 flex flex-col items-center gap-2">
                   <div className="w-full flex flex-col items-center gap-1 h-32 justify-end">
                     <span className="text-xs font-medium text-text">৳{(data.revenue / 1000).toFixed(0)}k</span>
-                    <div 
+                    <div
                       className="w-full max-w-10 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-lg transition-all duration-700 hover:from-emerald-600 hover:to-emerald-500 cursor-pointer relative group"
-                      style={{ 
+                      style={{
                         height: `${(data.revenue / maxRevenue) * 100}%`,
                         animation: `growUp 0.8s ease-out ${index * 0.1}s both`
                       }}
@@ -352,16 +352,16 @@ const AdminDashboardHome = () => {
                 </span>
               </div>
             </div>
-            
+
             {/* Bar Chart */}
             <div className="flex items-end justify-between gap-3 h-40">
               {weeklyUserData.map((data, index) => (
                 <div key={index} className="flex-1 flex flex-col items-center gap-2">
                   <div className="w-full flex flex-col items-center gap-1 h-32 justify-end">
                     <span className="text-xs font-medium text-text">{data.users}</span>
-                    <div 
+                    <div
                       className="w-full max-w-10 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg transition-all duration-700 hover:from-blue-600 hover:to-blue-500 cursor-pointer"
-                      style={{ 
+                      style={{
                         height: `${(data.users / maxUsers) * 100}%`,
                         animation: `growUp 0.8s ease-out ${index * 0.1}s both`
                       }}
@@ -399,16 +399,16 @@ const AdminDashboardHome = () => {
                 </span>
               </div>
             </div>
-            
+
             {/* Bar Chart */}
             <div className="flex items-end justify-between gap-3 h-40">
               {weeklyLessonData.map((data, index) => (
                 <div key={index} className="flex-1 flex flex-col items-center gap-2">
                   <div className="w-full flex flex-col items-center gap-1 h-32 justify-end">
                     <span className="text-xs font-medium text-text">{data.lessons}</span>
-                    <div 
+                    <div
                       className="w-full max-w-10 bg-gradient-to-t from-cherry to-cherry-400 rounded-t-lg transition-all duration-700 hover:from-cherry-dark hover:to-cherry cursor-pointer"
-                      style={{ 
+                      style={{
                         height: `${(data.lessons / maxLessons) * 100}%`,
                         animation: `growUp 0.8s ease-out ${index * 0.1}s both`
                       }}
@@ -445,12 +445,10 @@ const AdminDashboardHome = () => {
               {recentPayments.map((payment) => (
                 <div key={payment.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                   <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                      payment.status === 'completed' ? 'bg-green-100' : 'bg-amber-100'
-                    }`}>
-                      <HiOutlineCreditCard className={`w-5 h-5 ${
-                        payment.status === 'completed' ? 'text-green-600' : 'text-amber-600'
-                      }`} />
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${payment.status === 'completed' ? 'bg-green-100' : 'bg-amber-100'
+                      }`}>
+                      <HiOutlineCreditCard className={`w-5 h-5 ${payment.status === 'completed' ? 'text-green-600' : 'text-amber-600'
+                        }`} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-text truncate">{payment.userName}</p>
@@ -484,17 +482,16 @@ const AdminDashboardHome = () => {
               {contributors.map((user, index) => (
                 <div key={user._id} className="flex items-center gap-3">
                   <div className="relative">
-                    <img 
-                      src={user.photoURL} 
+                    <img
+                      src={user.photoURL}
                       alt={user.name}
                       className="w-10 h-10 rounded-full object-cover"
                     />
-                    <span className={`absolute -top-1 -left-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold rounded-full ${
-                      index === 0 ? 'bg-amber-400 text-white' :
+                    <span className={`absolute -top-1 -left-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold rounded-full ${index === 0 ? 'bg-amber-400 text-white' :
                       index === 1 ? 'bg-gray-400 text-white' :
-                      index === 2 ? 'bg-amber-600 text-white' :
-                      'bg-gray-200 text-gray-600'
-                    }`}>
+                        index === 2 ? 'bg-amber-600 text-white' :
+                          'bg-gray-200 text-gray-600'
+                      }`}>
                       {index + 1}
                     </span>
                   </div>
@@ -528,7 +525,7 @@ const AdminDashboardHome = () => {
                 </div>
                 <span className="text-lg font-bold text-green-600">{publicLessons}</span>
               </div>
-              
+
               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
@@ -538,7 +535,7 @@ const AdminDashboardHome = () => {
                 </div>
                 <span className="text-lg font-bold text-gray-600">{privateLessons}</span>
               </div>
-              
+
               <div className="flex items-center justify-between p-3 bg-amber-50 rounded-xl">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
@@ -548,7 +545,7 @@ const AdminDashboardHome = () => {
                 </div>
                 <span className="text-lg font-bold text-amber-600">{premiumLessons}</span>
               </div>
-              
+
               <div className="flex items-center justify-between p-3 bg-red-50 rounded-xl">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
@@ -567,18 +564,16 @@ const AdminDashboardHome = () => {
             <div className="space-y-4">
               {recentActivities.map((activity) => (
                 <div key={activity.id} className="flex items-start gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                    activity.type === 'user' ? 'bg-blue-100' :
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${activity.type === 'user' ? 'bg-blue-100' :
                     activity.type === 'lesson' ? 'bg-cherry-50' :
-                    activity.type === 'report' ? 'bg-amber-100' :
-                    'bg-purple-100'
-                  }`}>
-                    <activity.icon className={`w-4 h-4 ${
-                      activity.type === 'user' ? 'text-blue-600' :
+                      activity.type === 'report' ? 'bg-amber-100' :
+                        'bg-purple-100'
+                    }`}>
+                    <activity.icon className={`w-4 h-4 ${activity.type === 'user' ? 'text-blue-600' :
                       activity.type === 'lesson' ? 'text-cherry' :
-                      activity.type === 'report' ? 'text-amber-600' :
-                      'text-purple-600'
-                    }`} />
+                        activity.type === 'report' ? 'text-amber-600' :
+                          'text-purple-600'
+                      }`} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-text">{activity.action}</p>
@@ -594,7 +589,7 @@ const AdminDashboardHome = () => {
         {/* Quick Actions */}
         <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-6 lg:p-8 text-white">
           <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link
               to="/dashboard/admin/manage-users"
               className="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/20 rounded-xl transition-colors"

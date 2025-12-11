@@ -40,10 +40,10 @@ const Pricing = () => {
 
   const user = firebaseUser
     ? {
-        name: userProfile?.name || firebaseUser.displayName || 'User',
-        email: firebaseUser.email,
-        isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
-      }
+      name: userProfile?.name || firebaseUser.displayName || 'User',
+      email: firebaseUser.email,
+      isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
+    }
     : null;
 
   const handleUpgrade = async () => {
@@ -212,36 +212,36 @@ const Pricing = () => {
     <PageLoader>
       <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-cherry-50 via-white to-cherry-100">
         {/* Header Section */}
-        <section className="py-16 px-4">
+        <section className="py-10 md:py-16 px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <span className="inline-flex items-center gap-2 bg-cherry-100 text-cherry px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <FiZap className="w-4 h-4" />
+            <span className="inline-flex items-center gap-2 bg-cherry-100 text-cherry px-4 py-2 rounded-full text-xs md:text-sm font-medium mb-4 md:mb-6">
+              <FiZap className="w-3.5 h-3.5 md:w-4 md:h-4" />
               Upgrade Your Experience
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
+            <h1 className="text-3xl md:text-5xl font-bold text-text-primary mb-3 md:mb-4">
               Unlock Premium Features
             </h1>
-            <p className="text-text-secondary text-lg max-w-2xl mx-auto">
+            <p className="text-text-secondary text-base md:text-lg max-w-2xl mx-auto">
               Get unlimited access to all lessons, create premium content, and join our exclusive community of wisdom seekers.
             </p>
           </div>
         </section>
 
         {/* Pricing Cards Section */}
-        <section className="pb-16 px-4">
+        <section className="pb-10 md:pb-16 px-4">
           <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               {/* Free Plan Card */}
-              <div className="bg-white rounded-3xl shadow-lg p-8 border border-gray-100 relative">
-                <div className="mb-6">
-                  <h3 className="text-xl font-bold text-text-primary mb-2">Free Plan</h3>
-                  <p className="text-text-secondary text-sm">Perfect for getting started</p>
+              <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8 border border-gray-100 relative order-2 md:order-1">
+                <div className="mb-4 md:mb-6">
+                  <h3 className="text-lg md:text-xl font-bold text-text-primary mb-1 md:mb-2">Free Plan</h3>
+                  <p className="text-text-secondary text-xs md:text-sm">Perfect for getting started</p>
                 </div>
-                <div className="mb-6">
-                  <span className="text-4xl font-bold text-text-primary">৳0</span>
-                  <span className="text-text-muted ml-2">forever</span>
+                <div className="mb-4 md:mb-6">
+                  <span className="text-3xl md:text-4xl font-bold text-text-primary">৳0</span>
+                  <span className="text-text-muted ml-2 text-sm md:text-base">forever</span>
                 </div>
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-sm md:text-base">
                   <li className="flex items-center gap-3">
                     <FiCheck className="w-5 h-5 text-success flex-shrink-0" />
                     <span className="text-text-secondary">Up to 10 lessons</span>
@@ -269,33 +269,33 @@ const Pricing = () => {
                 </ul>
                 <button
                   disabled
-                  className="w-full py-3 rounded-full border-2 border-gray-200 text-text-muted font-medium cursor-not-allowed"
+                  className="w-full py-3 rounded-full border-2 border-gray-200 text-text-muted font-medium cursor-not-allowed text-sm md:text-base"
                 >
                   Current Plan
                 </button>
               </div>
 
               {/* Premium Plan Card */}
-              <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-cherry relative overflow-hidden">
+              <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 border-2 border-cherry relative overflow-hidden order-1 md:order-2">
                 {/* Popular Badge */}
                 <div className="absolute top-0 right-0">
-                  <div className="bg-gradient-to-r from-cherry to-cherry-dark text-white px-6 py-2 text-sm font-semibold transform rotate-0 origin-top-right rounded-bl-xl">
+                  <div className="bg-gradient-to-r from-cherry to-cherry-dark text-white px-4 md:px-6 py-1.5 md:py-2 text-xs md:text-sm font-semibold transform rotate-0 origin-top-right rounded-bl-xl">
                     <span className="flex items-center gap-1">
-                      <FiStar className="w-4 h-4" /> Most Popular
+                      <FiStar className="w-3.5 h-3.5 md:w-4 md:h-4" /> Most Popular
                     </span>
                   </div>
                 </div>
 
-                <div className="mb-6 mt-4">
-                  <h3 className="text-xl font-bold text-text-primary mb-2">Premium Plan</h3>
-                  <p className="text-text-secondary text-sm">For serious wisdom seekers</p>
+                <div className="mb-4 md:mb-6 mt-2 md:mt-4">
+                  <h3 className="text-lg md:text-xl font-bold text-text-primary mb-1 md:mb-2">Premium Plan</h3>
+                  <p className="text-text-secondary text-xs md:text-sm">For serious wisdom seekers</p>
                 </div>
-                <div className="mb-6">
-                  <span className="text-4xl font-bold text-cherry">৳1,500</span>
-                  <span className="text-text-muted ml-2">one-time payment</span>
-                  <p className="text-sm text-success font-medium mt-1">Lifetime access!</p>
+                <div className="mb-4 md:mb-6">
+                  <span className="text-3xl md:text-4xl font-bold text-cherry">৳1,500</span>
+                  <span className="text-text-muted ml-2 text-sm md:text-base">one-time payment</span>
+                  <p className="text-xs md:text-sm text-success font-medium mt-1">Lifetime access!</p>
                 </div>
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-sm md:text-base">
                   <li className="flex items-center gap-3">
                     <FiCheck className="w-5 h-5 text-success flex-shrink-0" />
                     <span className="text-text-secondary font-medium">Unlimited lessons</span>
@@ -324,7 +324,7 @@ const Pricing = () => {
                 <button
                   onClick={handleUpgrade}
                   disabled={isLoading}
-                  className="w-full btn-capsule py-3 text-lg font-semibold disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full btn-capsule py-3 text-base md:text-lg font-semibold disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -347,20 +347,20 @@ const Pricing = () => {
         </section>
 
         {/* Feature Comparison Table */}
-        <section className="py-16 px-4 bg-white">
+        <section className="py-10 md:py-16 px-4 bg-white">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-text-primary mb-4">Compare Plans</h2>
-              <p className="text-text-secondary">See what's included in each plan</p>
+            <div className="text-center mb-8 md:mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-2 md:mb-4">Compare Plans</h2>
+              <p className="text-text-secondary text-sm md:text-base">See what's included in each plan</p>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl md:rounded-2xl border border-gray-200 overflow-hidden text-sm md:text-base">
               {/* Table Header */}
               <div className="grid grid-cols-3 bg-cherry-50">
-                <div className="p-4 font-semibold text-text-primary">Feature</div>
-                <div className="p-4 font-semibold text-text-primary text-center">Free</div>
-                <div className="p-4 font-semibold text-cherry text-center flex items-center justify-center gap-2">
-                  <FiStar className="w-4 h-4" /> Premium
+                <div className="p-3 md:p-4 font-semibold text-text-primary">Feature</div>
+                <div className="p-3 md:p-4 font-semibold text-text-primary text-center">Free</div>
+                <div className="p-3 md:p-4 font-semibold text-cherry text-center flex items-center justify-center gap-1 md:gap-2">
+                  <FiStar className="w-3.5 h-3.5 md:w-4 md:h-4" /> Premium
                 </div>
               </div>
 
@@ -368,26 +368,26 @@ const Pricing = () => {
               {features.map((item, index) => (
                 <div
                   key={index}
-                  className={`grid grid-cols-3 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-t border-gray-100`}
+                  className={`grid grid-cols-3 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-t border-gray-100 items-center`}
                 >
-                  <div className="p-4 text-text-primary font-medium">{item.feature}</div>
-                  <div className="p-4 text-center flex items-center justify-center">
+                  <div className="p-3 md:p-4 text-text-primary font-medium">{item.feature}</div>
+                  <div className="p-3 md:p-4 text-center flex items-center justify-center">
                     {item.freeIcon ? (
                       <div className="flex flex-col items-center">
-                        <FiCheck className="w-5 h-5 text-success" />
+                        <FiCheck className="w-4 h-4 md:w-5 md:h-5 text-success" />
                         {typeof item.free === 'string' && (
-                          <span className="text-xs text-text-muted mt-1">{item.free}</span>
+                          <span className="text-[10px] md:text-xs text-text-muted mt-1 hidden sm:block">{item.free}</span>
                         )}
                       </div>
                     ) : (
-                      <FiX className="w-5 h-5 text-text-muted" />
+                      <FiX className="w-4 h-4 md:w-5 md:h-5 text-text-muted" />
                     )}
                   </div>
-                  <div className="p-4 text-center flex items-center justify-center">
+                  <div className="p-3 md:p-4 text-center flex items-center justify-center">
                     <div className="flex flex-col items-center">
-                      <FiCheck className="w-5 h-5 text-success" />
+                      <FiCheck className="w-4 h-4 md:w-5 md:h-5 text-success" />
                       {typeof item.premium === 'string' && (
-                        <span className="text-xs text-cherry mt-1">{item.premium}</span>
+                        <span className="text-[10px] md:text-xs text-cherry mt-1 hidden sm:block">{item.premium}</span>
                       )}
                     </div>
                   </div>
@@ -398,21 +398,21 @@ const Pricing = () => {
         </section>
 
         {/* Benefits Section */}
-        <section className="py-16 px-4 bg-cherry-50">
+        <section className="py-10 md:py-16 px-4 bg-cherry-50">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-text-primary mb-4">Why Go Premium?</h2>
-              <p className="text-text-secondary">Unlock the full potential of LifeCherry</p>
+            <div className="text-center mb-8 md:mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-2 md:mb-4">Why Go Premium?</h2>
+              <p className="text-text-secondary text-sm md:text-base">Unlock the full potential of LifeCherry</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {benefits.map((benefit, index) => (
-                <div key={index} className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
-                  <div className="w-14 h-14 bg-cherry-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <benefit.icon className="w-7 h-7 text-cherry" />
+                <div key={index} className="bg-white p-5 md:p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center">
+                  <div className="w-12 h-12 md:w-14 md:h-14 bg-cherry-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                    <benefit.icon className="w-6 h-6 md:w-7 md:h-7 text-cherry" />
                   </div>
-                  <h3 className="text-lg font-semibold text-text-primary mb-2">{benefit.title}</h3>
-                  <p className="text-text-secondary text-sm">{benefit.description}</p>
+                  <h3 className="text-base md:text-lg font-semibold text-text-primary mb-1 md:mb-2">{benefit.title}</h3>
+                  <p className="text-text-secondary text-xs md:text-sm">{benefit.description}</p>
                 </div>
               ))}
             </div>
@@ -420,39 +420,39 @@ const Pricing = () => {
         </section>
 
         {/* Trust Section */}
-        <section className="py-16 px-4 bg-white">
+        <section className="py-10 md:py-16 px-4 bg-white">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <FiShield className="w-6 h-6 text-success" />
-              <span className="text-lg font-semibold text-text-primary">Secure Payment</span>
+            <div className="flex items-center justify-center gap-2 mb-3 md:mb-4">
+              <FiShield className="w-5 h-5 md:w-6 md:h-6 text-success" />
+              <span className="text-base md:text-lg font-semibold text-text-primary">Secure Payment</span>
             </div>
-            <p className="text-text-secondary mb-8">
+            <p className="text-text-secondary text-sm md:text-base mb-6 md:mb-8 px-4">
               Your payment is processed securely through Stripe. We never store your card details.
             </p>
 
             {/* Trust Badges */}
-            <div className="flex flex-wrap items-center justify-center gap-8">
+            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
               <div className="flex items-center gap-2 text-text-muted">
-                <FiShield className="w-5 h-5" />
-                <span className="text-sm">SSL Secured</span>
+                <FiShield className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="text-xs md:text-sm">SSL Secured</span>
               </div>
               <div className="flex items-center gap-2 text-text-muted">
-                <FiCheck className="w-5 h-5" />
-                <span className="text-sm">Money-back Guarantee</span>
+                <FiCheck className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="text-xs md:text-sm">Money-back Guarantee</span>
               </div>
               <div className="flex items-center gap-2 text-text-muted">
-                <FiHeart className="w-5 h-5" />
-                <span className="text-sm">Lifetime Access</span>
+                <FiHeart className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="text-xs md:text-sm">Lifetime Access</span>
               </div>
             </div>
           </div>
         </section>
 
         {/* FAQ Section */}
-        <section className="py-16 px-4 bg-cherry-50">
+        <section className="py-10 md:py-16 px-4 bg-cherry-50">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-text-primary mb-4">Frequently Asked Questions</h2>
+            <div className="text-center mb-8 md:mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-2 md:mb-4">Frequently Asked Questions</h2>
             </div>
 
             <div className="space-y-3">
@@ -460,22 +460,20 @@ const Pricing = () => {
                 <div key={index} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
                   <button
                     onClick={() => toggleFaq(index)}
-                    className={`w-full flex items-center justify-between px-5 py-4 text-left cursor-pointer transition-colors ${
-                      openFaq === index ? 'bg-cherry-50' : 'hover:bg-gray-50'
-                    }`}
+                    className={`w-full flex items-center justify-between px-4 md:px-5 py-3 md:py-4 text-left cursor-pointer transition-colors ${openFaq === index ? 'bg-cherry-50' : 'hover:bg-gray-50'
+                      }`}
                   >
-                    <h3 className="font-semibold text-text-primary text-[15px]">{faq.question}</h3>
+                    <h3 className="font-semibold text-text-primary text-sm md:text-[15px] pr-4">{faq.question}</h3>
                     <FiChevronDown
-                      className={`w-5 h-5 text-cherry flex-shrink-0 transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`}
+                      className={`w-4 h-4 md:w-5 md:h-5 text-cherry flex-shrink-0 transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`}
                     />
                   </button>
                   <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      openFaq === index ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
-                    }`}
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaq === index ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                      }`}
                   >
-                    <div className="px-5 pb-4 pt-0 border-t border-gray-100">
-                      <p className="text-text-secondary text-sm leading-relaxed pt-3">{faq.answer}</p>
+                    <div className="px-4 md:px-5 pb-3 md:pb-4 pt-0 border-t border-gray-100">
+                      <p className="text-text-secondary text-xs md:text-sm leading-relaxed pt-3">{faq.answer}</p>
                     </div>
                   </div>
                 </div>

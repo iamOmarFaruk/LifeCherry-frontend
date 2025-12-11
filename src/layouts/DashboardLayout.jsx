@@ -1,10 +1,10 @@
 // Dashboard Layout - LifeCherry
 import React, { useEffect, useMemo, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  HiOutlineHome, 
-  HiOutlinePlusCircle, 
-  HiOutlineBookOpen, 
+import {
+  HiOutlineHome,
+  HiOutlinePlusCircle,
+  HiOutlineBookOpen,
   HiOutlineHeart,
   HiOutlineUser,
   HiOutlineBars3,
@@ -36,17 +36,17 @@ const DashboardLayout = () => {
 
   const user = firebaseUser
     ? {
-        name: userProfile?.name || firebaseUser.displayName || 'User',
-        email: firebaseUser.email,
-        photoURL: userProfile?.photoURL || providerPhotoURL,
-        isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
-        role: userProfile?.role || 'user',
-      }
+      name: userProfile?.name || firebaseUser.displayName || 'User',
+      email: firebaseUser.email,
+      photoURL: userProfile?.photoURL || providerPhotoURL,
+      isPremium: !!userProfile?.isPremium || userProfile?.role === 'admin',
+      role: userProfile?.role || 'user',
+    }
     : null;
 
   const isLoading = authLoading || profileLoading || !authInitialized;
   const isAdmin = user?.role === 'admin';
-  
+
   // User menu items
   const userMenuItems = [
     { name: 'Dashboard', path: '/dashboard', icon: HiOutlineHome, end: true },
@@ -69,7 +69,7 @@ const DashboardLayout = () => {
     { name: 'Admin Profile', path: '/dashboard/admin/profile', icon: HiOutlineUser },
   ];
 
-  const menuItems = isAdmin 
+  const menuItems = isAdmin
     ? (viewMode === 'admin' ? adminMenuItems : userMenuItems)
     : userMenuItems;
 
@@ -79,10 +79,9 @@ const DashboardLayout = () => {
       end={item.end}
       onClick={() => setSidebarOpen(false)}
       className={({ isActive }) =>
-        `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm ${
-          isActive
-            ? 'bg-cherry text-white shadow-lg shadow-cherry/20'
-            : 'text-text-secondary hover:bg-cherry-50 hover:text-cherry'
+        `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm ${isActive
+          ? 'bg-cherry text-white shadow-lg shadow-cherry/20'
+          : 'text-text-secondary hover:bg-cherry-50 hover:text-cherry'
         }`
       }
     >
@@ -95,7 +94,7 @@ const DashboardLayout = () => {
     <div className="min-h-screen bg-bg">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
@@ -110,11 +109,18 @@ const DashboardLayout = () => {
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Logo Section */}
-        <div className="p-5 border-b border-border flex-shrink-0">
+        <div className="p-4 border-b border-border flex-shrink-0 flex items-center justify-between">
           <NavLink to="/" className="flex items-center gap-2">
             <span className="text-2xl">🍒</span>
             <span className="text-lg font-bold text-text">LifeCherry</span>
           </NavLink>
+          {/* Close button for mobile sidebar */}
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden p-2 text-text-secondary hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <HiOutlineXMark className="w-6 h-6" />
+          </button>
         </div>
 
         {/* User Info */}
@@ -129,8 +135,8 @@ const DashboardLayout = () => {
             </div>
           ) : user ? (
             <div className="flex items-center gap-3">
-              <img 
-                src={user.photoURL || `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(user.name || 'User')}`} 
+              <img
+                src={user.photoURL || `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(user.name || 'User')}`}
                 alt={user.name}
                 className="w-10 h-10 rounded-full object-cover border-2 border-cherry-100"
               />
@@ -201,7 +207,7 @@ const DashboardLayout = () => {
       <div className="flex-1 flex flex-col min-h-screen lg:ml-64">
         {/* Top Bar (Mobile) */}
         <header className="lg:hidden bg-white border-b border-border p-4 flex items-center justify-between sticky top-0 z-30">
-          <button 
+          <button
             onClick={() => setSidebarOpen(true)}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >

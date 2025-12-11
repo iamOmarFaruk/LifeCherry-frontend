@@ -185,7 +185,7 @@ const DashboardHome = () => {
         )}
 
         {/* Stats Cards - Professional Design */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {/* Total Lessons */}
           <div className="bg-white rounded-2xl p-5 lg:p-6 border border-border shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">

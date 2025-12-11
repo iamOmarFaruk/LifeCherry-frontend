@@ -2,8 +2,8 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { 
-  HiOutlineClipboardDocumentList, 
+import {
+  HiOutlineClipboardDocumentList,
   HiOutlinePencilSquare,
   HiOutlineTrash,
   HiOutlineEye,
@@ -34,37 +34,37 @@ const formatDateTime = (value) => {
 
 const getActionDetails = (action) => {
   const details = {
-    'create': { 
-      icon: HiOutlineCheckCircle, 
-      label: 'Created', 
+    'create': {
+      icon: HiOutlineCheckCircle,
+      label: 'Created',
       bg: 'bg-green-50',
       border: 'border-l-4 border-green-500',
       badge: 'bg-green-100 text-green-800'
     },
-    'update': { 
-      icon: HiOutlinePencilSquare, 
-      label: 'Updated', 
+    'update': {
+      icon: HiOutlinePencilSquare,
+      label: 'Updated',
       bg: 'bg-blue-50',
       border: 'border-l-4 border-blue-500',
       badge: 'bg-blue-100 text-blue-800'
     },
-    'delete': { 
-      icon: HiOutlineTrash, 
-      label: 'Deleted', 
+    'delete': {
+      icon: HiOutlineTrash,
+      label: 'Deleted',
       bg: 'bg-red-50',
       border: 'border-l-4 border-red-500',
       badge: 'bg-red-100 text-red-800'
     },
-    'view': { 
-      icon: HiOutlineEye, 
-      label: 'Viewed', 
+    'view': {
+      icon: HiOutlineEye,
+      label: 'Viewed',
       bg: 'bg-gray-50',
       border: 'border-l-4 border-gray-500',
       badge: 'bg-gray-100 text-gray-800'
     },
-    'report': { 
-      icon: HiOutlineFlag, 
-      label: 'Reported', 
+    'report': {
+      icon: HiOutlineFlag,
+      label: 'Reported',
       bg: 'bg-red-50',
       border: 'border-l-4 border-red-500',
       badge: 'bg-red-100 text-red-800'
@@ -100,23 +100,23 @@ const ActivityLog = () => {
 
   const isPremium = userProfile?.isPremium || userProfile?.role === 'admin';
 
-  const { 
-    data, 
-    isLoading, 
-    fetchNextPage, 
-    hasNextPage, 
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
     isFetchingNextPage,
     error
   } = useInfiniteQuery({
     queryKey: ['user-activity', filterType, isPremium],
     enabled: !authLoading && !profileLoading,
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await apiClient.get('/audit/user', { 
-        params: { 
-          page: pageParam, 
+      const res = await apiClient.get('/audit/user', {
+        params: {
+          page: pageParam,
           limit: isPremium ? 20 : 6,
-          targetType: filterType === 'all' ? undefined : filterType 
-        } 
+          targetType: filterType === 'all' ? undefined : filterType
+        }
       });
       return res.data;
     },
@@ -182,16 +182,16 @@ const ActivityLog = () => {
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-cherry mb-2 flex items-center gap-3">
-            <HiOutlineClipboardDocumentList className="w-10 h-10" />
+        <div className="mb-6 lg:mb-8">
+          <h1 className="text-2xl lg:text-4xl font-bold text-cherry mb-2 flex items-center gap-2 lg:gap-3">
+            <HiOutlineClipboardDocumentList className="w-8 h-8 lg:w-10 lg:h-10 flex-shrink-0" />
             Activity Log
           </h1>
-          <p className="text-gray-600">View all actions and changes across your account</p>
+          <p className="text-sm lg:text-base text-gray-600">View all actions and changes across your account</p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex gap-2 flex-wrap p-3 bg-gray-50 rounded-xl border border-gray-200">
+        <div className="flex gap-2 flex-wrap p-2 lg:p-3 bg-gray-50 rounded-xl border border-gray-200">
           {[
             { value: 'all', label: 'All Activity' },
             { value: 'lesson', label: 'Lessons' },
@@ -200,11 +200,10 @@ const ActivityLog = () => {
             <button
               key={filter.value}
               onClick={() => setFilterType(filter.value)}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center gap-2 ${
-                filterType === filter.value
+              className={`px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all duration-200 flex items-center gap-2 flex-1 sm:flex-none justify-center ${filterType === filter.value
                   ? 'bg-cherry text-white shadow-lg'
                   : 'bg-white text-text-secondary border border-gray-200 hover:bg-gray-100'
-              }`}
+                }`}
             >
               {filter.label}
             </button>
@@ -212,68 +211,68 @@ const ActivityLog = () => {
         </div>
 
         {/* Stats Summary */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {/* Total */}
-          <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
+          {/* Total - Full width on mobile */}
+          <div className="col-span-2 lg:col-span-1 bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <HiOutlineClipboardDocumentList className="w-6 h-6 text-gray-600" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-text">{stats.total}</p>
-                <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Total</p>
+                <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Total Actions</p>
               </div>
             </div>
           </div>
 
           {/* Created */}
           <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <HiOutlineCheckCircle className="w-6 h-6 text-green-600" />
+            <div className="flex items-center gap-3 lg:gap-4">
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-green-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <HiOutlineCheckCircle className="w-5 h-5 lg:w-6 lg:h-6 text-green-600" />
               </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{stats.created}</p>
-                <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Created</p>
+              <div className="min-w-0">
+                <p className="text-xl lg:text-2xl font-bold text-text">{stats.created}</p>
+                <p className="text-[10px] lg:text-xs font-medium text-text-secondary uppercase tracking-wider truncate">Created</p>
               </div>
             </div>
           </div>
 
           {/* Updated */}
           <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <HiOutlinePencilSquare className="w-6 h-6 text-blue-600" />
+            <div className="flex items-center gap-3 lg:gap-4">
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <HiOutlinePencilSquare className="w-5 h-5 lg:w-6 lg:h-6 text-blue-600" />
               </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{stats.updated}</p>
-                <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Updated</p>
+              <div className="min-w-0">
+                <p className="text-xl lg:text-2xl font-bold text-text">{stats.updated}</p>
+                <p className="text-[10px] lg:text-xs font-medium text-text-secondary uppercase tracking-wider truncate">Updated</p>
               </div>
             </div>
           </div>
 
           {/* Reported */}
           <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <HiOutlineFlag className="w-6 h-6 text-amber-600" />
+            <div className="flex items-center gap-3 lg:gap-4">
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-amber-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <HiOutlineFlag className="w-5 h-5 lg:w-6 lg:h-6 text-amber-600" />
               </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{stats.reported}</p>
-                <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Reported</p>
+              <div className="min-w-0">
+                <p className="text-xl lg:text-2xl font-bold text-text">{stats.reported}</p>
+                <p className="text-[10px] lg:text-xs font-medium text-text-secondary uppercase tracking-wider truncate">Reported</p>
               </div>
             </div>
           </div>
 
           {/* Deleted */}
           <div className="bg-white rounded-xl p-4 border border-border hover:shadow-md transition-all duration-300 group">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <HiOutlineTrash className="w-6 h-6 text-red-600" />
+            <div className="flex items-center gap-3 lg:gap-4">
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <HiOutlineTrash className="w-5 h-5 lg:w-6 lg:h-6 text-red-600" />
               </div>
-              <div>
-                <p className="text-2xl font-bold text-text">{stats.deleted}</p>
-                <p className="text-xs font-medium text-text-secondary uppercase tracking-wider">Deleted</p>
+              <div className="min-w-0">
+                <p className="text-xl lg:text-2xl font-bold text-text">{stats.deleted}</p>
+                <p className="text-[10px] lg:text-xs font-medium text-text-secondary uppercase tracking-wider truncate">Deleted</p>
               </div>
             </div>
           </div>
@@ -308,40 +307,40 @@ const ActivityLog = () => {
                 const TargetIcon = targetDetails.icon;
 
                 return (
-                  <div 
-                    key={change.id} 
-                    className={`bg-white p-4 rounded-xl border border-border hover:shadow-md transition-all duration-200 group ${actionDetails.border}`}
+                  <div
+                    key={change.id}
+                    className={`bg-white p-3 lg:p-4 rounded-xl border border-border hover:shadow-md transition-all duration-200 group ${actionDetails.border}`}
                   >
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-3 lg:gap-4">
                       {/* Icon */}
-                      <div className={`p-3 rounded-xl ${actionDetails.bg} group-hover:scale-110 transition-transform duration-300`}>
-                        <ActionIcon className={`w-6 h-6 ${actionDetails.badge.split(' ')[1]}`} />
+                      <div className={`p-2 lg:p-3 rounded-xl ${actionDetails.bg} group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
+                        <ActionIcon className={`w-5 h-5 lg:w-6 lg:h-6 ${actionDetails.badge.split(' ')[1]}`} />
                       </div>
 
                       {/* Content */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-4 mb-1">
+                        <div className="flex flex-wrap items-center justify-between gap-y-1 gap-x-4 mb-1">
                           <div className="flex items-center gap-2">
-                            <span className={`px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide ${actionDetails.badge}`}>
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] lg:text-xs font-bold uppercase tracking-wide ${actionDetails.badge}`}>
                               {actionDetails.label}
                             </span>
-                            <span className="text-sm font-medium text-text-secondary flex items-center gap-1">
-                              <TargetIcon className={`w-4 h-4 ${targetDetails.color}`} />
+                            <span className="text-xs lg:text-sm font-medium text-text-secondary flex items-center gap-1">
+                              <TargetIcon className={`w-3.5 h-3.5 ${targetDetails.color}`} />
                               {targetDetails.label}
                             </span>
                           </div>
-                          <span className="text-xs font-medium text-text-muted whitespace-nowrap">
+                          <span className="text-[10px] lg:text-xs font-medium text-text-muted whitespace-nowrap ml-auto">
                             {formatDateTime(change.createdAt)}
                           </span>
                         </div>
-                        
-                        <p className="text-text font-medium leading-relaxed">
+
+                        <p className="text-sm lg:text-base text-text font-medium leading-relaxed">
                           {change.summary}
                         </p>
-                        
+
                         {/* Metadata/Details */}
                         {change.metadata && (
-                          <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-100 text-sm text-text-secondary">
+                          <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-100 text-xs lg:text-sm text-text-secondary overflow-hidden">
                             {change.metadata.detailedChanges && Array.isArray(change.metadata.detailedChanges) ? (
                               <div className="space-y-1">
                                 {change.metadata.detailedChanges.map((detail, idx) => (
@@ -352,11 +351,11 @@ const ActivityLog = () => {
                                     {detail.from !== undefined && detail.to !== undefined ? (
                                       <>
                                         <span className="text-gray-400">- from</span>
-                                        <span className="font-medium text-text bg-white px-1.5 py-0.5 rounded border border-gray-200 max-w-[150px] truncate" title={String(detail.from)}>
+                                        <span className="font-medium text-text bg-white px-1.5 py-0.5 rounded border border-gray-200 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.from)}>
                                           {String(detail.from)}
                                         </span>
                                         <span className="text-gray-400">to</span>
-                                        <span className="font-medium text-text bg-white px-1.5 py-0.5 rounded border border-gray-200 max-w-[150px] truncate" title={String(detail.to)}>
+                                        <span className="font-medium text-text bg-white px-1.5 py-0.5 rounded border border-gray-200 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.to)}>
                                           {String(detail.to)}
                                         </span>
                                       </>
@@ -371,8 +370,8 @@ const ActivityLog = () => {
                                 {Object.entries(change.metadata).map(([key, value]) => {
                                   if (key === 'fields' || key === 'detailedChanges') return null;
                                   return (
-                                    <div key={key} className="flex items-center gap-2">
-                                      <span className="font-medium text-text-muted capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                                    <div key={key} className="flex items-center gap-2 max-w-full">
+                                      <span className="font-medium text-text-muted capitalize flex-shrink-0">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
                                       <span className="truncate">{String(value)}</span>
                                     </div>
                                   );
@@ -399,8 +398,8 @@ const ActivityLog = () => {
                       const TargetIcon = targetDetails.icon;
 
                       return (
-                        <div 
-                          key={dummy.id} 
+                        <div
+                          key={dummy.id}
                           className={`bg-white p-4 rounded-xl border border-border ${actionDetails.border}`}
                         >
                           <div className="flex items-start gap-4">
@@ -469,7 +468,7 @@ const ActivityLog = () => {
                       <span className="text-sm font-medium text-text-secondary">Loading more history...</span>
                     </div>
                   ) : error ? (
-                    <button 
+                    <button
                       onClick={() => fetchNextPage()}
                       className="px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
                     >
