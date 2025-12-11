@@ -169,14 +169,14 @@ const DashboardLayout = () => {
 
         {/* Admin View Toggle */}
         {isAdmin && (
-          <div className="px-3 py-2 border-b border-border bg-gray-50 dark:bg-gray-900">
+          <div className="px-3 py-2 border-b border-border dark:border-gray-700">
             <button
               onClick={toggleViewMode}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-text-secondary dark:text-white hover:bg-white dark:hover:bg-gray-800 hover:shadow-sm transition-all border border-transparent hover:border-border"
+              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-text-secondary dark:text-gray-400 bg-transparent dark:bg-transparent hover:text-text dark:hover:text-white transition-all border border-transparent hover:border-border dark:hover:border-gray-700"
             >
               <span>View as {viewMode === 'admin' ? 'User' : 'Admin'}</span>
-              <div className={`w-8 h-4 rounded-full relative transition-colors ${viewMode === 'admin' ? 'bg-cherry' : 'bg-gray-300 dark:bg-gray-600'}`}>
-                <div className={`absolute top-0.5 w-3 h-3 bg-white rounded-full shadow-sm transition-transform ${viewMode === 'admin' ? 'left-4.5' : 'left-0.5'}`} style={{ left: viewMode === 'admin' ? '18px' : '2px' }} />
+              <div className={`w-8 h-4 rounded-full relative transition-colors ${viewMode === 'admin' ? 'bg-cherry' : 'bg-gray-200 dark:bg-gray-600'}`}>
+                <div className={`absolute top-0.5 w-3 h-3 rounded-full shadow-sm transition-transform ${viewMode === 'admin' ? 'left-4.5 bg-white' : 'left-0.5 bg-white dark:bg-cherry'}`} style={{ left: viewMode === 'admin' ? '18px' : '2px' }} />
               </div>
             </button>
           </div>
