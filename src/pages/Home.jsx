@@ -11,12 +11,16 @@ import useAuth from '../hooks/useAuth';
 
 const Home = () => {
   useDocumentTitle('Home');
-  const { firebaseUser, userProfile } = useAuth();
+  const { firebaseUser, userProfile, authInitialized } = useAuth();
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Wait for authentication to be initialized before fetching lessons
+    // This ensures premium/admin users get the correct content on first load
+    if (!authInitialized) return;
+
     let isMounted = true;
     const fetchLessons = async () => {
       try {
@@ -38,7 +42,7 @@ const Home = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [authInitialized, firebaseUser]);
 
   const featuredLessons = useMemo(() => {
     if (!lessons.length) return [];
