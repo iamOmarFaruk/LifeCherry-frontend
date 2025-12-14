@@ -32,6 +32,14 @@ import {
 import PageLoader from '../components/shared/PageLoader';
 import CommentSection from '../components/shared/CommentSection';
 import ReportModal from '../components/shared/ReportModal';
+import {
+  PremiumLikeButton,
+  PremiumCommentButton,
+  PremiumSaveButton,
+  PremiumShareButton,
+  PremiumReportButton,
+  PremiumViewsDisplay
+} from '../components/shared/PremiumInteractionButtons';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import apiClient, { reportAPI } from '../utils/apiClient';
 import useAuth from '../hooks/useAuth';
@@ -535,54 +543,45 @@ const LessonDetails = () => {
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Action Buttons - Scrollable on mobile */}
-          <div className="flex items-center gap-3 py-4 border-y border-gray-100 mb-6 md:mb-8 overflow-x-auto no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-            {/* Like Button with Count */}
-            <button
+          {/* Premium Action Buttons - Scrollable on mobile */}
+          <div className="flex items-center gap-3 py-5 border-y border-gray-200/50 dark:border-gray-700/50 mb-6 md:mb-8 overflow-x-auto no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+            {/* Premium Like Button with Heart Burst Animation */}
+            <PremiumLikeButton
+              isLiked={isLiked}
+              likesCount={likesCount}
               onClick={handleLike}
               disabled={likeLoading || lesson?.creatorEmail === firebaseUser?.email}
-              className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap ${lesson?.creatorEmail === firebaseUser?.email
-                ? 'bg-gray-50 dark:bg-gray-800 text-text-muted dark:text-gray-500 cursor-not-allowed opacity-50'
-                : isLiked
-                  ? 'bg-cherry text-white'
-                  : 'bg-gray-100 dark:bg-gray-800 text-text-secondary dark:text-gray-300 hover:bg-cherry hover:text-white'
-                }`}
-            >
-              <FiHeart className={`w-3.5 h-3.5 md:w-4 md:h-4 ${isLiked ? 'fill-current' : ''}`} />
-              <span>{isLiked ? 'Liked' : 'Like'}</span>
-              <span className="font-semibold">{formatNumber(likesCount)}</span>
-            </button>
+              formatNumber={formatNumber}
+            />
 
-            {/* Save Button with Count */}
-            <button
+            {/* Premium Save Button with Star Burst Animation */}
+            <PremiumSaveButton
+              isSaved={isSaved}
+              favoritesCount={favoritesCount}
               onClick={handleSave}
               disabled={favoriteLoading || lesson?.creatorEmail === firebaseUser?.email}
-              className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap ${lesson?.creatorEmail === firebaseUser?.email
-                ? 'bg-gray-50 dark:bg-gray-800 text-text-muted dark:text-gray-500 cursor-not-allowed opacity-50'
-                : isSaved
-                  ? 'bg-amber-500 text-white'
-                  : 'bg-gray-100 dark:bg-gray-800 text-text-secondary dark:text-gray-300 hover:bg-amber-500 hover:text-white'
-                }`}
-            >
-              <FiBookmark className={`w-3.5 h-3.5 md:w-4 md:h-4 ${isSaved ? 'fill-current' : ''}`} />
-              <span>{isSaved ? 'Saved' : 'Save'}</span>
-              <span className="font-semibold">{formatNumber(favoritesCount)}</span>
-            </button>
+              formatNumber={formatNumber}
+            />
 
-            {/* Views Count */}
-            <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-50 dark:bg-gray-800 text-text-secondary dark:text-gray-300 text-xs md:text-sm font-medium whitespace-nowrap">
-              <FiEye className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-500" />
-              <span>{formatNumber(viewsCount)} Views</span>
-            </div>
+            {/* Premium Views Display with Eye Blink */}
+            <PremiumViewsDisplay
+              viewsCount={viewsCount}
+              formatNumber={formatNumber}
+            />
 
-            {/* Comments Count */}
-            <div className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-50 dark:bg-gray-800 text-text-secondary dark:text-gray-300 text-xs md:text-sm font-medium whitespace-nowrap">
-              <FiMessageCircle className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-500" />
-              <span>{commentsCount} {commentsCount === 1 ? 'Comment' : 'Comments'}</span>
-            </div>
+            {/* Premium Comment Button with Bubble Animation */}
+            <PremiumCommentButton
+              commentsCount={commentsCount}
+              onClick={() => {
+                // Scroll to comments section
+                document.querySelector('#comments-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              formatNumber={formatNumber}
+            />
 
-            {/* Report Button */}
-            <button
+            {/* Premium Report Button with Flag Wave */}
+            <PremiumReportButton
+              hasReported={hasReported}
               onClick={() => {
                 if (!isLoggedIn) {
                   toast.error('Please login to report');
@@ -599,49 +598,40 @@ const LessonDetails = () => {
                 }
                 setShowReportModal(true);
               }}
-              className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full font-medium text-xs md:text-sm transition-all whitespace-nowrap ${lesson?.creatorEmail === firebaseUser?.email
-                ? 'bg-gray-50 dark:bg-gray-800 text-text-muted dark:text-gray-500 cursor-not-allowed opacity-50'
-                : hasReported
-                  ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 cursor-not-allowed'
-                  : 'bg-gray-100 dark:bg-gray-800 text-text-secondary dark:text-gray-300 hover:bg-red-100 dark:hover:bg-red-900/40 hover:text-red-600 dark:hover:text-red-400 cursor-pointer'
-                }`}
-              disabled={hasReported || lesson?.creatorEmail === firebaseUser?.email}
-            >
-              <FiFlag className="w-3.5 h-3.5 md:w-4 md:h-4" />
-              <span className="hidden sm:inline">{hasReported ? 'Reported' : 'Report'}</span>
-            </button>
+              disabled={lesson?.creatorEmail === firebaseUser?.email}
+            />
 
-            {/* Share Button with Dropdown */}
+            {/* Premium Share Button with Ripple Effect */}
             <div className="relative">
-              <button
+              <PremiumShareButton
                 onClick={() => setShowShareDropdown(!showShareDropdown)}
-                className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full bg-gray-100 dark:bg-gray-800 text-text-secondary dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-all cursor-pointer font-medium text-xs md:text-sm whitespace-nowrap"
-              >
-                <FiShare2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                <span>Share</span>
-              </button>
+                isOpen={showShareDropdown}
+              />
 
-              {/* Share Dropdown */}
+              {/* Share Dropdown - Enhanced styling */}
               {showShareDropdown && (
-                <div className="absolute right-0 top-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-3 z-50 min-w-[200px]">
-                  <p className="text-sm font-medium text-text-primary dark:text-white mb-3">Share this lesson</p>
-                  <div className="flex items-center gap-2 mb-3">
-                    <FacebookShareButton url={shareUrl} hashtag="#LifeCherry">
-                      <FacebookIcon size={32} round />
+                <div className="absolute right-0 top-full mt-3 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 p-4 z-50 min-w-[240px] animate-fade-in">
+                  <p className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <FiShare2 className="w-4 h-4 text-blue-500" />
+                    Share this lesson
+                  </p>
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <FacebookShareButton url={shareUrl} hashtag="#LifeCherry" className="hover:scale-110 transition-transform">
+                      <FacebookIcon size={40} round />
                     </FacebookShareButton>
-                    <TwitterShareButton url={shareUrl} title={shareTitle}>
-                      <XIcon size={32} round />
+                    <TwitterShareButton url={shareUrl} title={shareTitle} className="hover:scale-110 transition-transform">
+                      <XIcon size={40} round />
                     </TwitterShareButton>
-                    <LinkedinShareButton url={shareUrl} title={shareTitle}>
-                      <LinkedinIcon size={32} round />
+                    <LinkedinShareButton url={shareUrl} title={shareTitle} className="hover:scale-110 transition-transform">
+                      <LinkedinIcon size={40} round />
                     </LinkedinShareButton>
-                    <WhatsappShareButton url={shareUrl} title={shareTitle}>
-                      <WhatsappIcon size={32} round />
+                    <WhatsappShareButton url={shareUrl} title={shareTitle} className="hover:scale-110 transition-transform">
+                      <WhatsappIcon size={40} round />
                     </WhatsappShareButton>
                   </div>
                   <button
                     onClick={copyToClipboard}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:from-blue-50 hover:to-blue-100 dark:hover:from-blue-900/30 dark:hover:to-blue-800/30 hover:text-blue-600 dark:hover:text-blue-400 transition-all font-medium cursor-pointer"
                   >
                     <FiShare2 className="w-4 h-4" />
                     Copy Link
@@ -650,6 +640,7 @@ const LessonDetails = () => {
               )}
             </div>
           </div>
+
 
           {/* Premium Lock Overlay */}
           {isPremiumLocked ? (
@@ -782,7 +773,7 @@ const LessonDetails = () => {
               </div>
 
               {/* Comments Section */}
-              <div className="mb-12">
+              <div id="comments-section" className="mb-12 scroll-mt-8">
                 <h2 className="text-2xl font-bold text-text-primary dark:text-white mb-6 flex items-center gap-2">
                   <FiMessageCircle className="w-6 h-6" />
                   Comments & Discussion

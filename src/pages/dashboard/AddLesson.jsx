@@ -1,6 +1,7 @@
 // Add Lesson Page - LifeCherry Dashboard
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import Lottie from 'lottie-react';
 import {
   HiOutlinePencilSquare,
   HiOutlinePhoto,
@@ -18,6 +19,7 @@ import useDocumentTitle from '../../hooks/useDocumentTitle';
 import useAuth from '../../hooks/useAuth';
 import apiClient from '../../utils/apiClient';
 import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
+import createLessonAnimation from '../../assets/animations/createLessonAnimation';
 
 const AddLesson = () => {
   useDocumentTitle('Add Lesson');
@@ -122,12 +124,58 @@ const AddLesson = () => {
   return (
     <PageLoader>
       <div className="space-y-6 lg:space-y-8">
-        {/* Page Header */}
-        <DashboardPageHeader
-          icon={HiOutlinePencilSquare}
-          title="Add New Life Lesson"
-          description="Share your wisdom and insights with the community"
-        />
+        {/* Animated Hero Section with Lottie */}
+        <div className="relative overflow-hidden bg-gradient-to-br from-cherry-50 via-white to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-3xl border border-cherry-100 dark:border-gray-700 shadow-lg">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-cherry/10 to-transparent rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-pink-500/10 to-transparent rounded-full blur-2xl" />
+
+          <div className="relative flex flex-col lg:flex-row items-center justify-between p-6 lg:p-10">
+            {/* Left content */}
+            <div className="flex-1 text-center lg:text-left mb-6 lg:mb-0 z-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 bg-cherry/10 dark:bg-cherry/20 rounded-full">
+                <HiOutlineSparkles className="w-4 h-4 text-cherry animate-pulse" />
+                <span className="text-xs font-semibold text-cherry uppercase tracking-wide">Share Your Story</span>
+              </div>
+
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3">
+                Add New Life Lesson
+              </h1>
+
+              <p className="text-base lg:text-lg text-gray-600 dark:text-gray-300 max-w-lg">
+                Every experience holds wisdom. Share yours and inspire others on their journey.
+              </p>
+
+              {/* Quick stats */}
+              <div className="flex flex-wrap gap-4 mt-6 justify-center lg:justify-start">
+                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span>Ready to inspire</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                  <HiOutlineGlobeAlt className="w-4 h-4" />
+                  <span>Share with community</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Lottie Animation */}
+            <div className="relative w-56 h-56 lg:w-72 lg:h-72 flex-shrink-0">
+              {/* Glow effect behind animation */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cherry/20 to-pink-500/20 rounded-full blur-2xl animate-pulse" />
+
+              <Lottie
+                animationData={createLessonAnimation}
+                loop={true}
+                className="relative w-full h-full drop-shadow-xl"
+              />
+            </div>
+          </div>
+
+          {/* Bottom decorative wave */}
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cherry/30 to-transparent" />
+        </div>
+
 
         {/* Form Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border dark:border-gray-700 p-4 lg:p-8">
