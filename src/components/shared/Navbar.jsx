@@ -162,7 +162,7 @@ const Navbar = () => {
                 aria-label={`Current theme: ${theme}. Click to change.`}
               >
                 {theme === 'light' && <HiOutlineSun className="w-5 h-5 text-amber-500" />}
-                {theme === 'dark' && <HiOutlineMoon className="w-5 h-5 text-indigo-400" />}
+                {theme === 'dark' && <HiOutlineMoon className="w-5 h-5 text-cherry" />}
                 {theme === 'system' && <HiOutlineComputerDesktop className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
               </button>
               {/* Tooltip */}
@@ -204,7 +204,7 @@ const Navbar = () => {
                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
                       : user.isPremium
                         ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white'
-                        : 'bg-indigo-100 text-indigo-700'
+                        : 'bg-cherry-100 text-cherry-700'
                       }`}>
                       {user.role === 'admin' ? 'Admin' : user.isPremium ? 'Premium' : 'Starter'}
                     </span>

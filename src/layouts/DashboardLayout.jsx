@@ -153,7 +153,7 @@ const DashboardLayout = () => {
                       ⭐ Premium
                     </span>
                   ) : (
-                    <span className="text-[10px] bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded-full font-medium">
+                    <span className="text-[10px] bg-cherry-100 dark:bg-cherry/20 text-cherry-700 dark:text-cherry-300 px-1.5 py-0.5 rounded-full font-medium">
                       Starter
                     </span>
                   )}

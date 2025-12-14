@@ -332,7 +332,7 @@ const Profile = () => {
                 <span>Premium</span>
               </div>
             ) : (
-              <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-lg flex items-center gap-1 border-2 border-white z-10">
+              <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-gradient-to-r from-cherry-500 to-cherry-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-lg flex items-center gap-1 border-2 border-white z-10">
                 <HiOutlineSparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>Starter</span>
               </div>
