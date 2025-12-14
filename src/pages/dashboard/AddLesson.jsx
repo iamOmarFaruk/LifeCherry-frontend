@@ -258,7 +258,7 @@ const AddLesson = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {/* Visibility */}
               <div>
-                <label className="block text-sm font-semibold text-text dark:text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-text dark:text-white mb-2">
                   <span className="flex items-center gap-2">
                     <HiOutlineEye className="w-4 h-4" />
                     Visibility
@@ -269,8 +269,8 @@ const AddLesson = () => {
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, visibility: 'public' }))}
                     className={`flex-1 flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer text-sm lg:text-base ${formData.visibility === 'public'
-                      ? 'border-cherry bg-cherry-50 dark:bg-cherry-900/20 text-cherry dark:text-cherry-400'
-                      : 'border-gray-200 dark:border-gray-700 text-text-secondary dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-cherry bg-cherry-50 dark:bg-cherry dark:border-cherry text-cherry dark:text-white'
+                      : 'border-gray-200 dark:border-gray-600 text-text-secondary dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500'
                       }`}
                   >
                     <HiOutlineGlobeAlt className="w-4 h-4 lg:w-5 lg:h-5" />
@@ -280,8 +280,8 @@ const AddLesson = () => {
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, visibility: 'private' }))}
                     className={`flex-1 flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer text-sm lg:text-base ${formData.visibility === 'private'
-                      ? 'border-cherry bg-cherry-50 dark:bg-cherry-900/20 text-cherry dark:text-cherry-400'
-                      : 'border-gray-200 dark:border-gray-700 text-text-secondary dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-cherry bg-cherry-50 dark:bg-cherry dark:border-cherry text-cherry dark:text-white'
+                      : 'border-gray-200 dark:border-gray-600 text-text-secondary dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500'
                       }`}
                   >
                     <HiOutlineLockClosed className="w-4 h-4 lg:w-5 lg:h-5" />
@@ -292,7 +292,7 @@ const AddLesson = () => {
 
               {/* Access Level */}
               <div>
-                <label className="block text-sm font-semibold text-text dark:text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-text dark:text-white mb-2">
                   <span className="flex items-center gap-2">
                     <HiOutlineSparkles className="w-4 h-4" />
                     Access Level
@@ -303,8 +303,8 @@ const AddLesson = () => {
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, accessLevel: 'free' }))}
                     className={`flex-1 flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 cursor-pointer text-sm lg:text-base ${formData.accessLevel === 'free'
-                      ? 'border-cherry bg-cherry-50 dark:bg-cherry-900/20 text-cherry dark:text-cherry-400'
-                      : 'border-gray-200 dark:border-gray-700 text-text-secondary dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-cherry bg-cherry-50 dark:bg-cherry dark:border-cherry text-cherry dark:text-white'
+                      : 'border-gray-200 dark:border-gray-600 text-text-secondary dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500'
                       }`}
                   >
                     <HiOutlineLockOpen className="w-4 h-4 lg:w-5 lg:h-5" />
@@ -320,10 +320,10 @@ const AddLesson = () => {
                       onClick={() => (userProfile?.isPremium || userProfile?.role === 'admin') && setFormData(prev => ({ ...prev, accessLevel: 'premium' }))}
                       disabled={!userProfile?.isPremium && userProfile?.role !== 'admin'}
                       className={`w-full flex items-center justify-center gap-2 px-3 lg:px-4 py-3 rounded-xl border-2 transition-all duration-200 text-sm lg:text-base ${(!userProfile?.isPremium && userProfile?.role !== 'admin')
-                        ? 'opacity-50 cursor-not-allowed border-gray-200 dark:border-gray-700 text-text-muted'
+                        ? 'opacity-50 cursor-not-allowed border-gray-200 dark:border-gray-600 text-text-muted dark:text-gray-500'
                         : formData.accessLevel === 'premium'
-                          ? 'border-amber-400 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 cursor-pointer'
-                          : 'border-gray-200 dark:border-gray-700 text-text-secondary dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 cursor-pointer'
+                          ? 'border-amber-400 bg-amber-50 dark:bg-amber-500 dark:border-amber-500 text-amber-600 dark:text-white cursor-pointer'
+                          : 'border-gray-200 dark:border-gray-600 text-text-secondary dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500 cursor-pointer'
                         }`}
                     >
                       <HiOutlineStar className="w-4 h-4 lg:w-5 lg:h-5" />
@@ -335,11 +335,11 @@ const AddLesson = () => {
             </div>
 
             {/* Info Box */}
-            <div className="flex items-start gap-3 p-4 bg-cherry-50 dark:bg-cherry-900/10 border border-cherry-100 dark:border-cherry-900/30 rounded-xl">
-              <HiOutlineInformationCircle className="w-6 h-6 text-cherry dark:text-cherry-400 flex-shrink-0 mt-0.5" />
-              <div className="text-sm text-text-secondary dark:text-gray-300">
-                <p className="font-medium text-text dark:text-white mb-1">Sharing Tips:</p>
-                <ul className="list-disc list-inside space-y-1 text-text-muted dark:text-gray-400">
+            <div className="flex items-start gap-3 p-4 bg-cherry-50 dark:bg-gray-800 border border-cherry-100 dark:border-gray-700 rounded-xl">
+              <HiOutlineInformationCircle className="w-6 h-6 text-cherry dark:text-cherry flex-shrink-0 mt-0.5" />
+              <div className="text-sm">
+                <p className="font-semibold text-text dark:text-white mb-1">Sharing Tips:</p>
+                <ul className="list-disc list-inside space-y-1 text-text-muted dark:text-gray-200">
                   <li>Be authentic and share real experiences</li>
                   <li>Focus on the lesson learned, not just the story</li>
                   <li>Consider how others can apply this wisdom</li>
