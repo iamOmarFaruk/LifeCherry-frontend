@@ -2,17 +2,40 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { HiMenu, HiX } from 'react-icons/hi';
+import { HiOutlineSun, HiOutlineMoon, HiOutlineComputerDesktop } from 'react-icons/hi2';
 import { FiChevronDown, FiLogOut, FiUser, FiGrid } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { firebaseUser, userProfile, authLoading, authInitialized, profileLoading, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Theme modes configuration
+  const themeModes = [
+    { id: 'light', icon: HiOutlineSun, label: 'Light Mode' },
+    { id: 'system', icon: HiOutlineComputerDesktop, label: 'System' },
+    { id: 'dark', icon: HiOutlineMoon, label: 'Dark Mode' }
+  ];
+
+  // Get current theme icon based on theme setting
+  const getCurrentThemeIcon = () => {
+    const currentMode = themeModes.find(m => m.id === theme) || themeModes[0];
+    return currentMode.icon;
+  };
+
+  // Cycle through themes
+  const cycleTheme = () => {
+    const currentIndex = themeModes.findIndex(m => m.id === theme);
+    const nextIndex = (currentIndex + 1) % themeModes.length;
+    setTheme(themeModes[nextIndex].id);
+  };
 
   // Handle scroll behavior
   useEffect(() => {
@@ -130,7 +153,27 @@ const Navbar = () => {
           </div>
 
           {/* Auth Buttons / User Menu */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
+            {/* Theme Toggle Button */}
+            <div className="relative group">
+              <button
+                onClick={cycleTheme}
+                className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-cherry-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:scale-105 active:scale-95"
+                aria-label={`Current theme: ${theme}. Click to change.`}
+              >
+                {theme === 'light' && <HiOutlineSun className="w-5 h-5 text-amber-500" />}
+                {theme === 'dark' && <HiOutlineMoon className="w-5 h-5 text-indigo-400" />}
+                {theme === 'system' && <HiOutlineComputerDesktop className="w-5 h-5 text-gray-600 dark:text-gray-300" />}
+              </button>
+              {/* Tooltip */}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                {theme === 'light' && 'Light Mode'}
+                {theme === 'dark' && 'Dark Mode'}
+                {theme === 'system' && 'System'}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-gray-900 dark:border-b-gray-700" />
+              </div>
+            </div>
+
             {!authReady ? (
               <div className="flex items-center gap-3" aria-label="Loading user">
                 <div className="w-10 h-10 rounded-full bg-gray-100 border border-border animate-pulse" />
@@ -222,19 +265,19 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-cherry-50 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-cherry-50 dark:hover:bg-gray-800 transition-colors"
           >
             {isMenuOpen ? (
-              <HiX className="w-6 h-6 text-text-primary" />
+              <HiX className="w-6 h-6 text-text-primary dark:text-white" />
             ) : (
-              <HiMenu className="w-6 h-6 text-text-primary" />
+              <HiMenu className="w-6 h-6 text-text-primary dark:text-white" />
             )}
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+          <div className="md:hidden py-4 border-t border-border dark:border-gray-700">
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <NavLink
@@ -242,7 +285,7 @@ const Navbar = () => {
                   to={link.path}
                   onClick={() => setIsMenuOpen(false)}
                   className={({ isActive }) =>
-                    `px-4 py-2.5 rounded-lg ${isActive ? 'bg-cherry-50 text-cherry font-semibold' : 'text-text-secondary hover:bg-cherry-50'}`
+                    `px-4 py-2.5 rounded-lg ${isActive ? 'bg-cherry-50 dark:bg-cherry/10 text-cherry font-semibold' : 'text-text-secondary dark:text-gray-300 hover:bg-cherry-50 dark:hover:bg-gray-800'}`
                   }
                 >
                   {link.label}
@@ -255,7 +298,7 @@ const Navbar = () => {
                   to={link.path}
                   onClick={() => setIsMenuOpen(false)}
                   className={({ isActive }) =>
-                    `px-4 py-2.5 rounded-lg ${isActive ? 'bg-cherry-50 text-cherry font-semibold' : 'text-text-secondary hover:bg-cherry-50'}`
+                    `px-4 py-2.5 rounded-lg ${isActive ? 'bg-cherry-50 dark:bg-cherry/10 text-cherry font-semibold' : 'text-text-secondary dark:text-gray-300 hover:bg-cherry-50 dark:hover:bg-gray-800'}`
                   }
                 >
                   {link.label}
@@ -267,14 +310,38 @@ const Navbar = () => {
                   to="/pricing"
                   onClick={() => setIsMenuOpen(false)}
                   className={({ isActive }) =>
-                    `px-4 py-2.5 rounded-lg ${isActive ? 'bg-cherry-50 text-cherry font-semibold' : 'text-text-secondary hover:bg-cherry-50'}`
+                    `px-4 py-2.5 rounded-lg ${isActive ? 'bg-cherry-50 dark:bg-cherry/10 text-cherry font-semibold' : 'text-text-secondary dark:text-gray-300 hover:bg-cherry-50 dark:hover:bg-gray-800'}`
                   }
                 >
                   Pricing
                 </NavLink>
               )}
 
-              <hr className="my-2 border-border" />
+              <hr className="my-2 border-border dark:border-gray-700" />
+
+              {/* Mobile Theme Toggle */}
+              <div className="px-4 py-3">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-text-primary dark:text-white">Appearance</span>
+                </div>
+                <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+                  {themeModes.map((mode) => (
+                    <button
+                      key={mode.id}
+                      onClick={() => setTheme(mode.id)}
+                      className={`flex-1 px-3 py-2 text-xs font-medium rounded-lg transition-all flex items-center justify-center gap-1.5 ${theme === mode.id
+                        ? 'bg-white dark:bg-gray-700 text-cherry dark:text-white shadow-sm'
+                        : 'text-text-secondary dark:text-gray-400 hover:text-text-primary dark:hover:text-gray-200'
+                        }`}
+                    >
+                      <mode.icon className="w-4 h-4" />
+                      <span>{mode.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <hr className="my-2 border-border dark:border-gray-700" />
 
               {!authReady ? (
                 <div className="flex items-center gap-3 px-4 py-2">
@@ -298,7 +365,7 @@ const Navbar = () => {
                       className="w-10 h-10 rounded-full object-cover border-2 border-cherry-200"
                     />
                     <div>
-                      <p className="font-semibold text-text-primary">{user.name}</p>
+                      <p className="font-semibold text-text-primary dark:text-white">{user.name}</p>
                       <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${user.role === 'admin'
                         ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
                         : user.isPremium
@@ -313,7 +380,7 @@ const Navbar = () => {
                   <NavLink
                     to="/dashboard/profile"
                     onClick={() => setIsMenuOpen(false)}
-                    className="px-4 py-2.5 text-text-secondary hover:bg-cherry-50 rounded-lg"
+                    className="px-4 py-2.5 text-text-secondary dark:text-gray-300 hover:bg-cherry-50 dark:hover:bg-gray-800 rounded-lg"
                   >
                     Profile
                   </NavLink>
@@ -321,14 +388,14 @@ const Navbar = () => {
                   <NavLink
                     to="/dashboard"
                     onClick={() => setIsMenuOpen(false)}
-                    className="px-4 py-2.5 text-text-secondary hover:bg-cherry-50 rounded-lg"
+                    className="px-4 py-2.5 text-text-secondary dark:text-gray-300 hover:bg-cherry-50 dark:hover:bg-gray-800 rounded-lg"
                   >
                     Dashboard
                   </NavLink>
 
                   <button
                     onClick={handleLogout}
-                    className="px-4 py-2.5 text-red-500 hover:bg-red-50 rounded-lg text-left"
+                    className="px-4 py-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-left w-full"
                   >
                     Log Out
                   </button>
