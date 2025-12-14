@@ -117,7 +117,28 @@ const Home = () => {
               <div className="col-span-full text-center text-text-secondary">No lessons available yet.</div>
             )}
             {!loading && featuredLessons.map((lesson) => (
-              <div key={lesson._id} className="glass-card hover:shadow-xl transition-shadow">
+              <div key={lesson._id} className="glass-card hover:shadow-xl transition-shadow relative overflow-hidden">
+                {/* Premium Content Lock Overlay for non-premium users */}
+                {lesson.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
+                  <div className="absolute inset-0 bg-white/85 dark:bg-gray-900/85 backdrop-blur-sm z-10 flex items-center justify-center rounded-2xl">
+                    <div className="text-center px-4 flex flex-col items-center gap-3">
+                      <div className="w-16 h-16 rounded-full bg-cherry-50 dark:bg-cherry-900/30 border border-cherry-100 dark:border-cherry-800 flex items-center justify-center shadow-sm">
+                        <FiLock className="text-cherry w-8 h-8" aria-hidden />
+                      </div>
+                      <div>
+                        <span className="badge-premium text-xs inline-flex items-center gap-1 mb-2">⭐ Premium</span>
+                        <p className="text-lg font-semibold text-text-cherry dark:text-cherry-300">Upgrade to unlock this lesson</p>
+                      </div>
+                      <Link
+                        to="/pricing"
+                        className="px-4 py-2 bg-cherry text-white text-sm font-semibold rounded-full shadow hover:bg-cherry-600 transition-colors"
+                      >
+                        Upgrade Now
+                      </Link>
+                    </div>
+                  </div>
+                )}
+
                 <div className="relative">
                   <img
                     src={lesson.image}

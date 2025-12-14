@@ -204,7 +204,7 @@ const Navbar = () => {
                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
                       : user.isPremium
                         ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white'
-                        : 'bg-cherry-100 text-cherry-700'
+                        : 'bg-gradient-to-r from-cherry to-cherry-dark text-white'
                       }`}>
                       {user.role === 'admin' ? 'Admin' : user.isPremium ? 'Premium' : 'Starter'}
                     </span>
@@ -370,7 +370,7 @@ const Navbar = () => {
                         ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
                         : user.isPremium
                           ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white'
-                          : 'bg-gray-200 text-gray-600'
+                          : 'bg-gradient-to-r from-cherry to-cherry-dark text-white'
                         }`}>
                         {user.role === 'admin' ? 'Admin' : user.isPremium ? 'Premium' : 'Starter'}
                       </span>
