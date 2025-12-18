@@ -28,6 +28,7 @@ import useDocumentTitle from '../../../hooks/useDocumentTitle';
 import useAuth from '../../../hooks/useAuth';
 import apiClient from '../../../utils/apiClient';
 import { categories } from '../../../data/lessons';
+import Tooltip from '../../../components/shared/Tooltip';
 
 const ManageLessons = () => {
   useDocumentTitle('Manage Lessons');
@@ -557,42 +558,46 @@ const ManageLessons = () => {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-2">
-                          <Link
-                            to={`/lessons/${lesson._id}`}
-                            className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
-                            title="View Lesson"
-                          >
-                            <HiOutlineEye className="w-5 h-5" />
-                          </Link>
-                          <button
-                            onClick={() => handleToggleFeatured(lesson)}
-                            className={`p-2 rounded-lg transition-colors ${lesson.isFeatured
-                              ? 'text-amber-600 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/30 dark:hover:bg-amber-900/50'
-                              : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-amber-600'
-                              }`}
-                            title={lesson.isFeatured ? 'Remove from Featured' : 'Add to Featured'}
-                          >
-                            <HiOutlineSparkles className="w-5 h-5" />
-                          </button>
-                          {!lesson.isReviewed && (
-                            <button
-                              onClick={() => handleMarkReviewed(lesson)}
-                              className="p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/30 rounded-lg transition-colors"
-                              title="Mark as Reviewed"
+                          <Tooltip content="View Lesson">
+                            <Link
+                              to={`/lessons/${lesson._id}`}
+                              className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
                             >
-                              <HiOutlineCheckCircle className="w-5 h-5" />
+                              <HiOutlineEye className="w-5 h-5" />
+                            </Link>
+                          </Tooltip>
+                          <Tooltip content={lesson.isFeatured ? 'Remove from Featured' : 'Add to Featured'}>
+                            <button
+                              onClick={() => handleToggleFeatured(lesson)}
+                              className={`p-2 rounded-lg transition-colors ${lesson.isFeatured
+                                ? 'text-amber-600 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/30 dark:hover:bg-amber-900/50'
+                                : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-amber-600'
+                                }`}
+                            >
+                              <HiOutlineSparkles className="w-5 h-5" />
                             </button>
+                          </Tooltip>
+                          {!lesson.isReviewed && (
+                            <Tooltip content="Mark as Reviewed">
+                              <button
+                                onClick={() => handleMarkReviewed(lesson)}
+                                className="p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/30 rounded-lg transition-colors"
+                              >
+                                <HiOutlineCheckCircle className="w-5 h-5" />
+                              </button>
+                            </Tooltip>
                           )}
-                          <button
-                            onClick={() => {
-                              setSelectedLesson(lesson);
-                              setShowDeleteModal(true);
-                            }}
-                            className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
-                            title="Delete Lesson"
-                          >
-                            <HiOutlineTrash className="w-5 h-5" />
-                          </button>
+                          <Tooltip content="Delete Lesson">
+                            <button
+                              onClick={() => {
+                                setSelectedLesson(lesson);
+                                setShowDeleteModal(true);
+                              }}
+                              className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                            >
+                              <HiOutlineTrash className="w-5 h-5" />
+                            </button>
+                          </Tooltip>
                         </div>
                       </td>
                     </tr>

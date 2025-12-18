@@ -32,6 +32,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useAuth from '../../hooks/useAuth';
 import apiClient from '../../utils/apiClient';
 import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
+import Tooltip from '../../components/shared/Tooltip';
 
 const MyLessons = () => {
   useDocumentTitle('My Lessons');
@@ -531,26 +532,28 @@ const MyLessons = () => {
             <div className="flex gap-3">
               {/* View Mode Toggle */}
               <div className="hidden sm:flex items-center border-2 border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
-                <button
-                  onClick={() => handleViewModeChange('list')}
-                  className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'list'
-                    ? 'bg-cherry text-white'
-                    : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                    }`}
-                  title="List View"
-                >
-                  <HiOutlineListBullet className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => handleViewModeChange('grid')}
-                  className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'grid'
-                    ? 'bg-cherry text-white'
-                    : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                    }`}
-                  title="Grid View"
-                >
-                  <HiOutlineSquares2X2 className="w-5 h-5" />
-                </button>
+                <Tooltip content="List View">
+                  <button
+                    onClick={() => handleViewModeChange('list')}
+                    className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'list'
+                      ? 'bg-cherry text-white'
+                      : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                      }`}
+                  >
+                    <HiOutlineListBullet className="w-5 h-5" />
+                  </button>
+                </Tooltip>
+                <Tooltip content="Grid View">
+                  <button
+                    onClick={() => handleViewModeChange('grid')}
+                    className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'grid'
+                      ? 'bg-cherry text-white'
+                      : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                      }`}
+                  >
+                    <HiOutlineSquares2X2 className="w-5 h-5" />
+                  </button>
+                </Tooltip>
               </div>
 
               <button
@@ -720,20 +723,22 @@ const MyLessons = () => {
                               <HiOutlineEye className="w-4 h-4" />
                               View
                             </Link>
-                            <button
-                              onClick={() => openEditModal(lesson)}
-                              className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-all duration-200 cursor-pointer"
-                              title="Edit"
-                            >
-                              <HiOutlinePencilSquare className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => openDeleteModal(lesson)}
-                              className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all duration-200 cursor-pointer"
-                              title="Delete"
-                            >
-                              <HiOutlineTrash className="w-4 h-4" />
-                            </button>
+                            <Tooltip content="Edit">
+                              <button
+                                onClick={() => openEditModal(lesson)}
+                                className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-all duration-200 cursor-pointer"
+                              >
+                                <HiOutlinePencilSquare className="w-4 h-4" />
+                              </button>
+                            </Tooltip>
+                            <Tooltip content="Delete">
+                              <button
+                                onClick={() => openDeleteModal(lesson)}
+                                className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                              >
+                                <HiOutlineTrash className="w-4 h-4" />
+                              </button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -796,59 +801,63 @@ const MyLessons = () => {
                           {/* Visibility Toggle */}
                           <td className="px-6 py-4">
                             <div className="flex gap-1">
-                              <button
-                                onClick={() => lesson.visibility !== 'public' && handleVisibilityChange(lesson._id, lesson.visibility, 'public')}
-                                className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'public'
-                                  ? 'bg-green-100 text-green-600'
-                                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                                  }`}
-                                title="Public"
-                              >
-                                <HiOutlineGlobeAlt className="w-4 h-4" />
-                              </button>
-                              <button
-                                onClick={() => lesson.visibility !== 'private' && handleVisibilityChange(lesson._id, lesson.visibility, 'private')}
-                                className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'private'
-                                  ? 'bg-gray-700 text-white'
-                                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                                  }`}
-                                title="Private"
-                              >
-                                <HiOutlineLockClosed className="w-4 h-4" />
-                              </button>
+                              <Tooltip content="Public">
+                                <button
+                                  onClick={() => lesson.visibility !== 'public' && handleVisibilityChange(lesson._id, lesson.visibility, 'public')}
+                                  className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'public'
+                                    ? 'bg-green-100 text-green-600'
+                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                    }`}
+                                >
+                                  <HiOutlineGlobeAlt className="w-4 h-4" />
+                                </button>
+                              </Tooltip>
+                              <Tooltip content="Private">
+                                <button
+                                  onClick={() => lesson.visibility !== 'private' && handleVisibilityChange(lesson._id, lesson.visibility, 'private')}
+                                  className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'private'
+                                    ? 'bg-gray-700 text-white'
+                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                    }`}
+                                >
+                                  <HiOutlineLockClosed className="w-4 h-4" />
+                                </button>
+                              </Tooltip>
                             </div>
                           </td>
 
                           {/* Access Level Toggle */}
                           <td className="px-6 py-4">
                             <div className="flex gap-1">
-                              <button
-                                onClick={() => lesson.accessLevel !== 'free' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'free')}
-                                className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.accessLevel === 'free'
-                                  ? 'bg-blue-100 text-blue-600'
-                                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                                  }`}
-                                title="Free"
-                              >
-                                <HiOutlineLockOpen className="w-4 h-4" />
-                              </button>
+                              <Tooltip content="Free">
+                                <button
+                                  onClick={() => lesson.accessLevel !== 'free' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'free')}
+                                  className={`p-2 rounded-lg transition-all duration-200 cursor-pointer ${lesson.accessLevel === 'free'
+                                    ? 'bg-blue-100 text-blue-600'
+                                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                                    }`}
+                                >
+                                  <HiOutlineLockOpen className="w-4 h-4" />
+                                </button>
+                              </Tooltip>
                               <div
                                 className={!isPremium ? 'tooltip tooltip-top before:bg-black before:text-white after:border-t-black before:rounded-lg' : ''}
                                 data-tip="Upgrade to Premium to create paid lessons"
                               >
-                                <button
-                                  onClick={() => lesson.accessLevel !== 'premium' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'premium')}
-                                  disabled={!isPremium}
-                                  className={`p-2 rounded-lg transition-all duration-200 ${!isPremium
-                                    ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
-                                    : lesson.accessLevel === 'premium'
-                                      ? 'bg-amber-100 text-amber-600 cursor-pointer'
-                                      : 'bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer'
-                                    }`}
-                                  title={isPremium ? 'Premium' : ''}
-                                >
-                                  <HiOutlineStar className="w-4 h-4" />
-                                </button>
+                                <Tooltip content={isPremium ? 'Premium' : ''}>
+                                  <button
+                                    onClick={() => lesson.accessLevel !== 'premium' && handleAccessLevelChange(lesson._id, lesson.accessLevel, 'premium')}
+                                    disabled={!isPremium}
+                                    className={`p-2 rounded-lg transition-all duration-200 ${!isPremium
+                                      ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
+                                      : lesson.accessLevel === 'premium'
+                                        ? 'bg-amber-100 text-amber-600 cursor-pointer'
+                                        : 'bg-gray-100 text-gray-400 hover:bg-gray-200 cursor-pointer'
+                                      }`}
+                                  >
+                                    <HiOutlineStar className="w-4 h-4" />
+                                  </button>
+                                </Tooltip>
                               </div>
                             </div>
                           </td>
@@ -884,27 +893,30 @@ const MyLessons = () => {
                           {/* Actions */}
                           <td className="px-6 py-4">
                             <div className="flex items-center justify-end gap-2">
-                              <Link
-                                to={`/lessons/${lesson._id}`}
-                                className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
-                                title="View Details"
-                              >
-                                <HiOutlineEye className="w-4 h-4" />
-                              </Link>
-                              <button
-                                onClick={() => openEditModal(lesson)}
-                                className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition-all duration-200 cursor-pointer"
-                                title="Edit"
-                              >
-                                <HiOutlinePencilSquare className="w-4 h-4" />
-                              </button>
-                              <button
-                                onClick={() => openDeleteModal(lesson)}
-                                className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200 cursor-pointer"
-                                title="Delete"
-                              >
-                                <HiOutlineTrash className="w-4 h-4" />
-                              </button>
+                              <Tooltip content="View Details">
+                                <Link
+                                  to={`/lessons/${lesson._id}`}
+                                  className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 cursor-pointer"
+                                >
+                                  <HiOutlineEye className="w-4 h-4" />
+                                </Link>
+                              </Tooltip>
+                              <Tooltip content="Edit">
+                                <button
+                                  onClick={() => openEditModal(lesson)}
+                                  className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition-all duration-200 cursor-pointer"
+                                >
+                                  <HiOutlinePencilSquare className="w-4 h-4" />
+                                </button>
+                              </Tooltip>
+                              <Tooltip content="Delete">
+                                <button
+                                  onClick={() => openDeleteModal(lesson)}
+                                  className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                                >
+                                  <HiOutlineTrash className="w-4 h-4" />
+                                </button>
+                              </Tooltip>
                             </div>
                           </td>
                         </tr>
@@ -964,39 +976,41 @@ const MyLessons = () => {
 
                       <div className="flex items-center gap-2">
                         {/* Visibility */}
-                        <button
-                          onClick={() => handleVisibilityChange(lesson._id, lesson.visibility, lesson.visibility === 'public' ? 'private' : 'public')}
-                          className={`p-1.5 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'public'
-                            ? 'bg-green-100 text-green-600'
-                            : 'bg-gray-700 text-white'
-                            }`}
-                          title={lesson.visibility === 'public' ? 'Public' : 'Private'}
-                        >
-                          {lesson.visibility === 'public' ? (
-                            <HiOutlineGlobeAlt className="w-3.5 h-3.5" />
-                          ) : (
-                            <HiOutlineLockClosed className="w-3.5 h-3.5" />
-                          )}
-                        </button>
+                        <Tooltip content={lesson.visibility === 'public' ? 'Public' : 'Private'}>
+                          <button
+                            onClick={() => handleVisibilityChange(lesson._id, lesson.visibility, lesson.visibility === 'public' ? 'private' : 'public')}
+                            className={`p-1.5 rounded-lg transition-all duration-200 cursor-pointer ${lesson.visibility === 'public'
+                              ? 'bg-green-100 text-green-600'
+                              : 'bg-gray-700 text-white'
+                              }`}
+                          >
+                            {lesson.visibility === 'public' ? (
+                              <HiOutlineGlobeAlt className="w-3.5 h-3.5" />
+                            ) : (
+                              <HiOutlineLockClosed className="w-3.5 h-3.5" />
+                            )}
+                          </button>
+                        </Tooltip>
 
                         {/* Access Level */}
-                        <button
-                          onClick={() => isPremium && handleAccessLevelChange(lesson._id, lesson.accessLevel, lesson.accessLevel === 'free' ? 'premium' : 'free')}
-                          disabled={!isPremium}
-                          className={`p-1.5 rounded-lg transition-all duration-200 ${!isPremium
-                            ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
-                            : lesson.accessLevel === 'premium'
-                              ? 'bg-amber-100 text-amber-600 cursor-pointer'
-                              : 'bg-blue-100 text-blue-600 cursor-pointer'
-                            }`}
-                          title={lesson.accessLevel === 'free' ? 'Free' : 'Premium'}
-                        >
-                          {lesson.accessLevel === 'premium' ? (
-                            <HiOutlineStar className="w-3.5 h-3.5" />
-                          ) : (
-                            <HiOutlineLockOpen className="w-3.5 h-3.5" />
-                          )}
-                        </button>
+                        <Tooltip content={lesson.accessLevel === 'free' ? 'Free' : 'Premium'}>
+                          <button
+                            onClick={() => isPremium && handleAccessLevelChange(lesson._id, lesson.accessLevel, lesson.accessLevel === 'free' ? 'premium' : 'free')}
+                            disabled={!isPremium}
+                            className={`p-1.5 rounded-lg transition-all duration-200 ${!isPremium
+                              ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400'
+                              : lesson.accessLevel === 'premium'
+                                ? 'bg-amber-100 text-amber-600 cursor-pointer'
+                                : 'bg-blue-100 text-blue-600 cursor-pointer'
+                              }`}
+                          >
+                            {lesson.accessLevel === 'premium' ? (
+                              <HiOutlineStar className="w-3.5 h-3.5" />
+                            ) : (
+                              <HiOutlineLockOpen className="w-3.5 h-3.5" />
+                            )}
+                          </button>
+                        </Tooltip>
                       </div>
                     </div>
 

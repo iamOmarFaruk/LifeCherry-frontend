@@ -27,6 +27,7 @@ import useAuth from '../../hooks/useAuth';
 import apiClient from '../../utils/apiClient';
 import { categories, emotionalTones } from '../../data/lessons';
 import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
+import Tooltip from '../../components/shared/Tooltip';
 
 const MyFavorites = () => {
   useDocumentTitle('My Favorites');
@@ -158,26 +159,28 @@ const MyFavorites = () => {
             <div className="flex gap-3">
               {/* View Mode Toggle */}
               <div className="hidden sm:flex items-center border-2 border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
-                <button
-                  onClick={() => handleViewModeChange('list')}
-                  className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'list'
-                    ? 'bg-cherry text-white'
-                    : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                    }`}
-                  title="List View"
-                >
-                  <HiOutlineListBullet className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => handleViewModeChange('grid')}
-                  className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'grid'
-                    ? 'bg-cherry text-white'
-                    : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                    }`}
-                  title="Grid View"
-                >
-                  <HiOutlineSquares2X2 className="w-5 h-5" />
-                </button>
+                <Tooltip content="List View">
+                  <button
+                    onClick={() => handleViewModeChange('list')}
+                    className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'list'
+                      ? 'bg-cherry text-white'
+                      : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                      }`}
+                  >
+                    <HiOutlineListBullet className="w-5 h-5" />
+                  </button>
+                </Tooltip>
+                <Tooltip content="Grid View">
+                  <button
+                    onClick={() => handleViewModeChange('grid')}
+                    className={`p-3 transition-all duration-200 cursor-pointer ${viewMode === 'grid'
+                      ? 'bg-cherry text-white'
+                      : 'bg-white dark:bg-gray-800 text-text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                      }`}
+                  >
+                    <HiOutlineSquares2X2 className="w-5 h-5" />
+                  </button>
+                </Tooltip>
               </div>
 
               <button
@@ -350,13 +353,14 @@ const MyFavorites = () => {
                               <HiOutlineEye className="w-4 h-4" />
                               View
                             </Link>
-                            <button
-                              onClick={() => openRemoveModal(fav)}
-                              className="p-2 bg-cherry text-white rounded-lg hover:bg-cherry-dark transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
-                              title="Remove from Favorites"
-                            >
-                              <HiOutlineTrash className="w-4 h-4" />
-                            </button>
+                            <Tooltip content="Remove from Favorites">
+                              <button
+                                onClick={() => openRemoveModal(fav)}
+                                className="p-2 bg-cherry text-white rounded-lg hover:bg-cherry-dark transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
+                              >
+                                <HiOutlineTrash className="w-4 h-4" />
+                              </button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -462,20 +466,22 @@ const MyFavorites = () => {
                           {/* Actions */}
                           <td className="px-6 py-4">
                             <div className="flex items-center justify-end gap-2">
-                              <Link
-                                to={`/lessons/${fav._id}`}
-                                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 cursor-pointer"
-                                title="View Details"
-                              >
-                                <HiOutlineEye className="w-4 h-4" />
-                              </Link>
-                              <button
-                                onClick={() => openRemoveModal(fav)}
-                                className="p-2 rounded-lg bg-cherry text-white hover:bg-cherry-dark transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
-                                title="Remove from Favorites"
-                              >
-                                <HiOutlineTrash className="w-4 h-4" />
-                              </button>
+                              <Tooltip content="View Details">
+                                <Link
+                                  to={`/lessons/${fav._id}`}
+                                  className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 cursor-pointer"
+                                >
+                                  <HiOutlineEye className="w-4 h-4" />
+                                </Link>
+                              </Tooltip>
+                              <Tooltip content="Remove from Favorites">
+                                <button
+                                  onClick={() => openRemoveModal(fav)}
+                                  className="p-2 rounded-lg bg-cherry text-white hover:bg-cherry-dark transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
+                                >
+                                  <HiOutlineTrash className="w-4 h-4" />
+                                </button>
+                              </Tooltip>
                             </div>
                           </td>
                         </tr>
@@ -556,13 +562,14 @@ const MyFavorites = () => {
                         <HiOutlineEye className="w-4 h-4" />
                         View
                       </Link>
-                      <button
-                        onClick={() => openRemoveModal(fav)}
-                        className="p-2 bg-cherry text-white rounded-lg hover:bg-cherry-dark transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
-                        title="Remove"
-                      >
-                        <HiOutlineTrash className="w-4 h-4" />
-                      </button>
+                      <Tooltip content="Remove">
+                        <button
+                          onClick={() => openRemoveModal(fav)}
+                          className="p-2 bg-cherry text-white rounded-lg hover:bg-cherry-dark transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
+                        >
+                          <HiOutlineTrash className="w-4 h-4" />
+                        </button>
+                      </Tooltip>
                     </div>
                   </div>
                 ))}

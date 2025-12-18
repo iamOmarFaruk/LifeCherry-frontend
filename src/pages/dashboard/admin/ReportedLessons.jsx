@@ -19,6 +19,7 @@ import toast from 'react-hot-toast';
 import PageLoader from '../../../components/shared/PageLoader';
 import DashboardPageHeader from '../../../components/shared/DashboardPageHeader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
+import Tooltip from '../../../components/shared/Tooltip';
 import apiClient, { reportAPI } from '../../../utils/apiClient';
 import { reportReasons } from '../../../data/reports';
 import { users } from '../../../data/users';
@@ -465,33 +466,36 @@ const ReportedLessons = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => {
-                            setSelectedLesson(item);
-                            setShowDetailsModal(true);
-                          }}
-                          className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
-                          title="View Details"
-                        >
-                          <HiOutlineEye className="w-5 h-5" />
-                        </button>
-                        <Link
-                          to={`/lessons/${item.lesson?._id}`}
-                          className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                          title="View Lesson"
-                        >
-                          <HiOutlineBookOpen className="w-5 h-5" />
-                        </Link>
-                        <button
-                          onClick={() => {
-                            setSelectedLesson(item);
-                            setShowDeleteModal(true);
-                          }}
-                          className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
-                          title="Delete Lesson"
-                        >
-                          <HiOutlineTrash className="w-5 h-5" />
-                        </button>
+                        <Tooltip content="View Details">
+                          <button
+                            onClick={() => {
+                              setSelectedLesson(item);
+                              setShowDetailsModal(true);
+                            }}
+                            className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
+                          >
+                            <HiOutlineEye className="w-5 h-5" />
+                          </button>
+                        </Tooltip>
+                        <Tooltip content="View Lesson">
+                          <Link
+                            to={`/lessons/${item.lesson?._id}`}
+                            className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                          >
+                            <HiOutlineBookOpen className="w-5 h-5" />
+                          </Link>
+                        </Tooltip>
+                        <Tooltip content="Delete Lesson">
+                          <button
+                            onClick={() => {
+                              setSelectedLesson(item);
+                              setShowDeleteModal(true);
+                            }}
+                            className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                          >
+                            <HiOutlineTrash className="w-5 h-5" />
+                          </button>
+                        </Tooltip>
                       </div>
                     </td>
                   </tr>

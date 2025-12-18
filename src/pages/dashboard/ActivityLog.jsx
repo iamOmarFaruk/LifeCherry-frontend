@@ -20,6 +20,7 @@ import useDocumentTitle from '../../hooks/useDocumentTitle';
 import apiClient from '../../utils/apiClient';
 import useAuth from '../../hooks/useAuth';
 import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
+import Tooltip from '../../components/shared/Tooltip';
 
 const formatDateTime = (value) => {
   const date = new Date(value);
@@ -357,13 +358,17 @@ const ActivityLog = () => {
                                       {detail.from !== undefined && detail.to !== undefined ? (
                                         <>
                                           <span className="text-gray-400 dark:text-gray-500">- from</span>
-                                          <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.from)}>
-                                            {String(detail.from)}
-                                          </span>
+                                          <Tooltip content={String(detail.from)}>
+                                            <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate">
+                                              {String(detail.from)}
+                                            </span>
+                                          </Tooltip>
                                           <span className="text-gray-400 dark:text-gray-500">to</span>
-                                          <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate" title={String(detail.to)}>
-                                            {String(detail.to)}
-                                          </span>
+                                          <Tooltip content={String(detail.to)}>
+                                            <span className="font-medium text-text dark:text-white bg-white dark:bg-gray-600 px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-500 max-w-[100px] sm:max-w-[150px] truncate">
+                                              {String(detail.to)}
+                                            </span>
+                                          </Tooltip>
                                         </>
                                       ) : (
                                         <span className="text-gray-500">changed</span>

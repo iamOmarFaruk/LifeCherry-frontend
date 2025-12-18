@@ -26,6 +26,7 @@ import PageLoader from '../../../components/shared/PageLoader';
 import DashboardPageHeader from '../../../components/shared/DashboardPageHeader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
 import apiClient from '../../../utils/apiClient';
+import Tooltip from '../../../components/shared/Tooltip';
 
 const ManageUsers = () => {
   useDocumentTitle('Manage Users');
@@ -239,8 +240,8 @@ const ManageUsers = () => {
         <button
           onClick={() => setActiveTab('users')}
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'users'
-              ? 'bg-cherry text-white'
-              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+            ? 'bg-cherry text-white'
+            : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
         >
           <span className="flex items-center gap-2">
@@ -251,8 +252,8 @@ const ManageUsers = () => {
         <button
           onClick={() => setActiveTab('requests')}
           className={`px-4 py-2 rounded-lg font-medium transition-colors relative ${activeTab === 'requests'
-              ? 'bg-cherry text-white'
-              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+            ? 'bg-cherry text-white'
+            : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
         >
           <span className="flex items-center gap-2">
@@ -260,8 +261,8 @@ const ManageUsers = () => {
             Reactivation Requests
             {reactivationRequests.length > 0 && (
               <span className={`ml-1 px-1.5 py-0.5 text-xs font-bold rounded-full ${activeTab === 'requests'
-                  ? 'bg-white text-cherry'
-                  : 'bg-cherry text-white'
+                ? 'bg-white text-cherry'
+                : 'bg-cherry text-white'
                 }`}>
                 {reactivationRequests.length}
               </span>
@@ -435,46 +436,50 @@ const ManageUsers = () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-2">
                           {user.status === 'archived' || user.status === 'reactivation_requested' ? (
-                            <button
-                              onClick={() => handleRestoreUser(user)}
-                              className="p-2 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors"
-                              title="Restore User"
-                            >
-                              <HiOutlineArrowPath className="w-5 h-5" />
-                            </button>
+                            <Tooltip content="Restore User">
+                              <button
+                                onClick={() => handleRestoreUser(user)}
+                                className="p-2 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors"
+                              >
+                                <HiOutlineArrowPath className="w-5 h-5" />
+                              </button>
+                            </Tooltip>
                           ) : (
-                            <button
-                              onClick={() => {
-                                setSelectedUser(user);
-                                setArchiveReason('');
-                                setShowArchiveModal(true);
-                              }}
-                              className="p-2 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
-                              title="Archive User"
-                            >
-                              <HiOutlineArchiveBox className="w-5 h-5" />
-                            </button>
+                            <Tooltip content="Archive User">
+                              <button
+                                onClick={() => {
+                                  setSelectedUser(user);
+                                  setArchiveReason('');
+                                  setShowArchiveModal(true);
+                                }}
+                                className="p-2 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
+                              >
+                                <HiOutlineArchiveBox className="w-5 h-5" />
+                              </button>
+                            </Tooltip>
                           )}
 
                           {user.role !== 'admin' ? (
-                            <button
-                              onClick={() => {
-                                setSelectedUser(user);
-                                setShowPromoteModal(true);
-                              }}
-                              className="p-2 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors"
-                              title="Promote to Admin"
-                            >
-                              <HiOutlineShieldCheck className="w-5 h-5" />
-                            </button>
+                            <Tooltip content="Promote to Admin">
+                              <button
+                                onClick={() => {
+                                  setSelectedUser(user);
+                                  setShowPromoteModal(true);
+                                }}
+                                className="p-2 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors"
+                              >
+                                <HiOutlineShieldCheck className="w-5 h-5" />
+                              </button>
+                            </Tooltip>
                           ) : (
-                            <button
-                              onClick={() => handleDemoteFromAdmin(user)}
-                              className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 rounded-lg transition-colors"
-                              title="Demote to User"
-                            >
-                              <HiOutlineShieldCheck className="w-5 h-5" />
-                            </button>
+                            <Tooltip content="Demote to User">
+                              <button
+                                onClick={() => handleDemoteFromAdmin(user)}
+                                className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 rounded-lg transition-colors"
+                              >
+                                <HiOutlineShieldCheck className="w-5 h-5" />
+                              </button>
+                            </Tooltip>
                           )}
                         </div>
                       </td>

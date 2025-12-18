@@ -16,6 +16,7 @@ import {
   HiOutlineStar
 } from 'react-icons/hi2';
 import PageLoader from '../../components/shared/PageLoader';
+import Tooltip from '../../components/shared/Tooltip';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../hooks/useAuth';
@@ -389,14 +390,15 @@ const DashboardHome = () => {
                   {weeklyData.map((data, index) => (
                     <div key={index} className="flex-1 flex justify-center">
                       {data.lessons > 0 && (
-                        <div
-                          className="w-2 bg-blue-200 rounded-full transition-all duration-500 shadow-sm"
-                          style={{
-                            height: `${Math.max((data.lessons / 4) * 100, 12)}%`,
-                            animation: `growUp 0.6s ease-out ${0.5 + index * 0.08}s both`
-                          }}
-                          title={`${data.lessons} lesson${data.lessons !== 1 ? 's' : ''}`}
-                        />
+                        <Tooltip content={`${data.lessons} lesson${data.lessons !== 1 ? 's' : ''}`}>
+                          <div
+                            className="w-2 bg-blue-200 rounded-full transition-all duration-500 shadow-sm"
+                            style={{
+                              height: `${Math.max((data.lessons / 4) * 100, 12)}%`,
+                              animation: `growUp 0.6s ease-out ${0.5 + index * 0.08}s both`
+                            }}
+                          />
+                        </Tooltip>
                       )}
                     </div>
                   ))}
