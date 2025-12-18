@@ -10,7 +10,7 @@ import DOMPurify from 'dompurify';
 // Helper function to count all replies recursively
 const countAllReplies = (replies) => {
   if (!replies || replies.length === 0) return 0;
-  
+
   let count = replies.length;
   for (const reply of replies) {
     if (reply.replies && reply.replies.length > 0) {
@@ -56,7 +56,7 @@ export default function CommentSection({ onTotalChange }) {
       setTotal(data.total);
       setPage(pageNum);
       setHasMore(pageNum < data.pages);
-      
+
       // Notify parent component of total change
       if (onTotalChange) {
         onTotalChange(data.total);
@@ -85,7 +85,7 @@ export default function CommentSection({ onTotalChange }) {
     }
 
     const trimmedComment = newComment.trim();
-    
+
     if (!trimmedComment) {
       toast.error('Comment cannot be empty');
       return;
@@ -113,12 +113,12 @@ export default function CommentSection({ onTotalChange }) {
       setNewComment('');
       const newTotal = total + 1;
       setTotal(newTotal);
-      
+
       // Notify parent component of total change
       if (onTotalChange) {
         onTotalChange(newTotal);
       }
-      
+
       toast.success('Comment posted!');
     } catch (error) {
       console.error('Error posting comment:', error);
@@ -140,16 +140,16 @@ export default function CommentSection({ onTotalChange }) {
   const handleDeleteComment = (commentId) => {
     const deletedComment = comments.find((c) => c._id === commentId);
     const replyCount = deletedComment ? countAllReplies(deletedComment.replies) : 0;
-    
+
     setComments(comments.filter((c) => c._id !== commentId));
     const newTotal = total - 1 - replyCount; // Subtract comment + all its replies
     setTotal(newTotal);
-    
+
     // Notify parent component of total change
     if (onTotalChange) {
       onTotalChange(newTotal);
     }
-    
+
     toast.success('Comment deleted');
   };
 
@@ -159,15 +159,15 @@ export default function CommentSection({ onTotalChange }) {
     const oldReplyCount = oldComment ? countAllReplies(oldComment.replies) : 0;
     const newReplyCount = updatedComment ? countAllReplies(updatedComment.replies) : 0;
     const replyDiff = newReplyCount - oldReplyCount;
-    
+
     setComments(
       comments.map((c) => (c._id === commentId ? updatedComment : c))
     );
-    
+
     if (replyDiff !== 0) {
       const newTotal = total + replyDiff;
       setTotal(newTotal);
-      
+
       // Notify parent component of total change
       if (onTotalChange) {
         onTotalChange(newTotal);
@@ -193,7 +193,7 @@ export default function CommentSection({ onTotalChange }) {
                   }}
                 />
               </div>
-              
+
               {/* Comment Input Area */}
               <div className="flex-1">
                 <textarea
@@ -201,18 +201,18 @@ export default function CommentSection({ onTotalChange }) {
                   onChange={(e) => setNewComment(e.target.value)}
                   placeholder="Share your thoughts..."
                   rows="3"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent resize-none text-text-primary placeholder:text-text-muted transition-all"
+                  className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent resize-none text-text-primary dark:text-white placeholder:text-text-muted transition-all"
                   disabled={posting}
                 />
               </div>
             </div>
-            
+
             {/* Action Buttons */}
             <div className="flex justify-end gap-2 px-4 pb-4 pt-0">
               <button
                 type="button"
                 onClick={() => setNewComment('')}
-                className="px-5 py-2.5 text-text-secondary bg-gray-50 rounded-xl hover:bg-gray-100 transition-all font-medium"
+                className="px-5 py-2.5 text-text-secondary dark:text-gray-300 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-all font-medium"
                 disabled={posting}
               >
                 Cancel

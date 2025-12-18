@@ -1,6 +1,6 @@
 // Home Page - LifeCherry
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiArrowRight, FiBookOpen, FiHeart, FiUsers, FiStar, FiLock, FiImage } from 'react-icons/fi';
 import apiClient from '../utils/apiClient';
 import HeroSlider from '../components/home/HeroSlider';
@@ -12,6 +12,7 @@ import useAuth from '../hooks/useAuth';
 
 const Home = () => {
   useDocumentTitle('Home');
+  const navigate = useNavigate();
   const { firebaseUser, userProfile, authInitialized } = useAuth();
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,6 +92,14 @@ const Home = () => {
     return views;
   };
 
+  const handleCardClick = (e, lessonId) => {
+    // If the clicked element is part of a link or button, don't navigate via card
+    if (e.target.closest('a') || e.target.closest('button')) {
+      return;
+    }
+    navigate(`/lessons/${lessonId}`);
+  };
+
   return (
     <PageLoader>
       {error && (
@@ -124,7 +133,10 @@ const Home = () => {
             )}
             {!loading && featuredLessons.map((lesson, index) => (
               <MotionWrapper key={lesson._id} delay={index * 0.1} variant="fadeInUp">
-                <div className="glass-card hover:shadow-xl transition-shadow relative overflow-hidden h-full flex flex-col">
+                <div
+                  onClick={(e) => handleCardClick(e, lesson._id)}
+                  className="glass-card hover:shadow-xl transition-shadow relative overflow-hidden h-full flex flex-col cursor-pointer"
+                >
                   {/* Premium Content Lock Overlay for non-premium users */}
                   {lesson.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
                     <div className="absolute inset-0 bg-white/85 dark:bg-gray-900/85 backdrop-blur-sm z-10 flex items-center justify-center rounded-2xl">
@@ -300,7 +312,8 @@ const Home = () => {
             {!loading && mostSavedLessons.map((lesson, index) => (
               <MotionWrapper key={lesson._id} delay={index * 0.1} variant="fadeInUp">
                 <div
-                  className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden h-full flex flex-col"
+                  onClick={(e) => handleCardClick(e, lesson._id)}
+                  className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden h-full flex flex-col cursor-pointer"
                 >
                   {lesson.accessLevel === 'premium' && (!userProfile?.isPremium && userProfile?.role !== 'admin') && (
                     <div className="absolute inset-0 bg-white/85 dark:bg-gray-900/85 backdrop-blur-sm z-10 flex items-center justify-center">

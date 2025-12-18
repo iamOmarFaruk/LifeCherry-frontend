@@ -10,30 +10,30 @@ const PaymentCancel = () => {
 
   return (
     <PageLoader>
-      <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-cherry-50 via-white to-cherry-100 flex items-center justify-center py-12 px-4">
+      <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-cherry-50 via-white to-cherry-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center py-12 px-4 transition-colors duration-300">
         <div className="max-w-2xl w-full">
           {/* Cancel Card */}
-          <div className="bg-white rounded-3xl shadow-xl p-10 text-center border border-gray-100">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-10 text-center border border-gray-100 dark:border-gray-700 transition-colors duration-300">
             {/* Cancel Icon */}
-            <div className="w-24 h-24 bg-cherry-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-24 h-24 bg-cherry-100 dark:bg-cherry-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
               <FiXCircle className="w-14 h-14 text-cherry" />
             </div>
 
             {/* Cancel Message */}
-            <h1 className="text-3xl font-bold text-text-primary mb-4">
+            <h1 className="text-3xl font-bold text-text-primary dark:text-white mb-4">
               Payment Cancelled
             </h1>
-            <p className="text-text-secondary text-lg mb-8 max-w-md mx-auto">
+            <p className="text-text-secondary dark:text-gray-300 text-lg mb-8 max-w-md mx-auto">
               Your payment was cancelled. Don't worry, you haven't been charged. Your free account is still active.
             </p>
 
             {/* Reasons Section */}
-            <div className="bg-gray-50 rounded-2xl p-6 mb-8 text-left">
-              <h3 className="font-semibold text-text-primary mb-4 flex items-center gap-2">
+            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-6 mb-8 text-left">
+              <h3 className="font-semibold text-text-primary dark:text-white mb-4 flex items-center gap-2">
                 <FiHelpCircle className="w-5 h-5" />
                 Common reasons for cancellation:
               </h3>
-              <ul className="space-y-3 text-text-secondary">
+              <ul className="space-y-3 text-text-secondary dark:text-gray-300">
                 <li className="flex items-start gap-3">
                   <span className="text-cherry">•</span>
                   <span>Changed your mind - That's okay! Take your time to decide.</span>
@@ -50,9 +50,9 @@ const PaymentCancel = () => {
             </div>
 
             {/* Still Interested Section */}
-            <div className="bg-cherry-50 rounded-2xl p-6 mb-8">
-              <h3 className="font-semibold text-text-primary mb-2">Still interested in Premium?</h3>
-              <p className="text-text-secondary text-sm mb-4">
+            <div className="bg-cherry-50 dark:bg-cherry-900/10 rounded-2xl p-6 mb-8">
+              <h3 className="font-semibold text-text-primary dark:text-white mb-2">Still interested in Premium?</h3>
+              <p className="text-text-secondary dark:text-gray-300 text-sm mb-4">
                 Unlock unlimited lessons, premium content access, and more with our one-time payment of ৳1,500.
               </p>
               <Link
@@ -75,7 +75,7 @@ const PaymentCancel = () => {
               </Link>
               <Link
                 to="/"
-                className="btn-ghost-capsule inline-flex items-center gap-2 px-8 py-3"
+                className="btn-ghost-capsule inline-flex items-center gap-2 px-8 py-3 dark:bg-transparent dark:text-gray-300 dark:hover:bg-gray-700/50 dark:border-gray-600"
               >
                 <FiArrowLeft className="w-5 h-5" />
                 Back to Home
@@ -84,7 +84,7 @@ const PaymentCancel = () => {
           </div>
 
           {/* Help Section */}
-          <div className="mt-6 text-center text-text-muted text-sm">
+          <div className="mt-6 text-center text-text-muted dark:text-gray-400 text-sm">
             <p>
               Having trouble with payment?{' '}
               <Link to="/contact" className="text-cherry hover:underline">

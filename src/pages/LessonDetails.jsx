@@ -827,7 +827,7 @@ const LessonDetails = () => {
                         return (
                           <div
                             key={relatedLesson._id}
-                            className="relative bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100"
+                            className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700"
                           >
                             {/* Premium Locked Overlay */}
                             <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-6">
@@ -856,7 +856,7 @@ const LessonDetails = () => {
                         <Link
                           key={relatedLesson._id}
                           to={`/lessons/${relatedLesson._id}`}
-                          className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
+                          className="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100 dark:border-gray-700"
                         >
                           <CardContent />
                         </Link>
@@ -917,7 +917,7 @@ const LessonDetails = () => {
                         return (
                           <div
                             key={similarLesson._id}
-                            className="relative bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100"
+                            className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700"
                           >
                             {/* Premium Locked Overlay */}
                             <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-6">
@@ -946,7 +946,7 @@ const LessonDetails = () => {
                         <Link
                           key={similarLesson._id}
                           to={`/lessons/${similarLesson._id}`}
-                          className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100"
+                          className="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all border border-gray-100 dark:border-gray-700"
                         >
                           <CardContent />
                         </Link>
