@@ -14,7 +14,8 @@ import {
   HiOutlineFlag,
   HiOutlineDocumentText,
   HiOutlineTrash,
-  HiOutlineArrowRightOnRectangle
+  HiOutlineArrowRightOnRectangle,
+  HiOutlineCurrencyDollar,
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import useAuth from '../hooks/useAuth';
@@ -109,6 +110,7 @@ const DashboardLayout = () => {
     { name: 'Reported Lessons', path: '/dashboard/admin/reported-lessons', icon: HiOutlineFlag },
     { name: 'Trash Management', path: '/dashboard/admin/trash', icon: HiOutlineTrash },
     { name: 'Admin Profile', path: '/dashboard/admin/profile', icon: HiOutlineUser },
+    { name: 'Payments', path: '/dashboard/admin/payments', icon: HiOutlineCurrencyDollar },
   ];
 
   const menuItems = isAdmin

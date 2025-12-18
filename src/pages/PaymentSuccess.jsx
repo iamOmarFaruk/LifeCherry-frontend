@@ -1,17 +1,31 @@
 // Payment Success Page - LifeCherry
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FiCheckCircle, FiStar, FiArrowRight, FiBookOpen, FiUnlock, FiAward } from 'react-icons/fi';
+import apiClient from '../utils/apiClient';
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const PaymentSuccess = () => {
   useDocumentTitle('Payment Successful');
 
+  // Import useSearchParams from react-router-dom
+  // Import apiClient
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get('session_id');
+
   useEffect(() => {
-    // TODO: Verify payment with backend and update user premium status
-    // This would typically call an API to verify the Stripe session
-  }, []);
+    const verify = async () => {
+      if (!sessionId) return;
+      try {
+        await apiClient.post('/payments/verify', { sessionId });
+        // Optionally trigger user profile refresh here if available
+      } catch (error) {
+        console.error('Verification failed', error);
+      }
+    };
+    verify();
+  }, [sessionId]);
 
   return (
     <PageLoader>

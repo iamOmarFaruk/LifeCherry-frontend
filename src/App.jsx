@@ -41,6 +41,7 @@ import ReportedLessons from './pages/dashboard/admin/ReportedLessons';
 import AdminProfile from './pages/dashboard/admin/AdminProfile';
 import AdminActivity from './pages/dashboard/admin/AdminActivity';
 import AdminTrash from './pages/dashboard/admin/AdminTrash';
+import AdminPayments from './pages/dashboard/admin/AdminPayments';
 
 // Create router
 const router = createBrowserRouter([
@@ -152,6 +153,10 @@ const router = createBrowserRouter([
       {
         path: 'admin/trash',
         element: <AdminTrash />
+      },
+      {
+        path: 'admin/payments',
+        element: <AdminPayments />
       }
     ]
   },
