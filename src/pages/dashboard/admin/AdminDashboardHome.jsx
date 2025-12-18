@@ -44,54 +44,46 @@ const AdminDashboardHome = () => {
   });
   const [recentActivities, setRecentActivities] = useState([]);
   const [topContributors, setTopContributors] = useState([]);
+  const [revenueData, setRevenueData] = useState([]);
+  const [weeklyUserData, setWeeklyUserData] = useState([]);
+  const [weeklyLessonData, setWeeklyLessonData] = useState([]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
         const [
-          usersRes,
+          adminStatsRes,
           lessonsStatsRes,
-          reportsRes,
           auditRes,
-          pendingReportsRes
         ] = await Promise.all([
-          apiClient.get('/users?limit=5'), // Get top 5 users (we can assume these might be contributors for now or add a sort)
+          apiClient.get('/admin/stats'),
           apiClient.get('/lessons/stats'),
-          apiClient.get('/reports?limit=1'), // Just to get total count
           apiClient.get('/audit/admin?limit=5'),
-          apiClient.get('/reports?status=pending&limit=1')
         ]);
 
-        const usersData = usersRes.data;
+        const adminStats = adminStatsRes.data;
         const lessonsData = lessonsStatsRes.data;
-        const reportsData = reportsRes.data;
         const auditData = auditRes.data;
-        const pendingReportsData = pendingReportsRes.data;
-
-        // Calculate subscription stats
-        // For accurate count, we'd need: apiClient.get('/users?isPremium=true&limit=1')
-        let premiumUsersCount = 0;
-        try {
-          const premiumUsersRes = await apiClient.get('/users?isPremium=true&limit=1');
-          premiumUsersCount = premiumUsersRes.data.total;
-        } catch (e) {
-          console.warn("Failed to fetch premium users count", e);
-        }
 
         setStats({
-          totalUsers: usersData.total,
-          newUsersThisMonth: 12, // Placeholder until backend supports date range stats
-          totalLessons: lessonsData.total,
-          newLessonsThisMonth: 8, // Placeholder
+          totalUsers: adminStats.summary.totalUsers,
+          newUsersThisMonth: adminStats.weeklyStats.reduce((sum, day) => sum + day.users, 0), // Last 7 days total for "this month" placeholder
+          totalLessons: adminStats.summary.totalLessons,
+          newLessonsThisMonth: adminStats.weeklyStats.reduce((sum, day) => sum + day.lessons, 0),
           publicLessons: lessonsData.public,
           privateLessons: lessonsData.private,
-          premiumLessons: 0, // lessonsData doesn't have premium count? It has 'private', 'public'. 
-          totalReports: reportsData.total,
-          pendingReports: pendingReportsData.total,
-          todaysLessons: 3, // Placeholder
-          premiumUsers: premiumUsersCount
+          premiumLessons: adminStats.summary.premiumUsers,
+          totalReports: adminStats.summary.totalReports,
+          pendingReports: lessonsData.flagged || 0,
+          todaysLessons: adminStats.weeklyStats[adminStats.weeklyStats.length - 1]?.lessons || 0,
+          premiumUsers: adminStats.summary.premiumUsers
         });
+
+        // Map weekly stats for charts
+        setWeeklyUserData(adminStats.weeklyStats.map(d => ({ day: d.day, users: d.users })));
+        setWeeklyLessonData(adminStats.weeklyStats.map(d => ({ day: d.day, lessons: d.lessons })));
+        setRevenueData(adminStats.revenueTrend);
 
         // Map audit logs to activities
         const mappedActivities = auditData.changes.map(log => ({
@@ -104,7 +96,9 @@ const AdminDashboardHome = () => {
         }));
         setRecentActivities(mappedActivities);
 
-        setTopContributors(usersData.users.map(u => ({
+        // Mock users for contributors until we have a real "top contributors" endpoint
+        const usersRes = await apiClient.get('/users?limit=5');
+        setTopContributors(usersRes.data.users.map(u => ({
           ...u,
           lessonsCount: 0
         })));
@@ -135,29 +129,9 @@ const AdminDashboardHome = () => {
   const conversionRate = stats.totalUsers > 0 ? ((stats.premiumUsers / stats.totalUsers) * 100).toFixed(1) : 0;
   const averageRevenuePerUser = stats.totalUsers > 0 ? Math.floor(totalRevenue / stats.totalUsers) : 0;
 
-  // Mock revenue chart data (keep mock for now as we don't have historical data)
-  const revenueData = [
-    { month: 'Jul', revenue: 45000, subscriptions: 30 },
-    { month: 'Aug', revenue: 52500, subscriptions: 35 },
-    { month: 'Sep', revenue: 67500, subscriptions: 45 },
-    { month: 'Oct', revenue: 75000, subscriptions: 50 },
-    { month: 'Nov', revenue: 82500, subscriptions: 55 },
-    { month: 'Dec', revenue: totalRevenue, subscriptions: stats.premiumUsers },
-  ];
   const maxRevenue = Math.max(...revenueData.map(d => d.revenue), 1000);
-
-  // Mock weekly data
-  const weeklyUserData = [
-    { day: 'Mon', users: 12 }, { day: 'Tue', users: 8 }, { day: 'Wed', users: 15 },
-    { day: 'Thu', users: 10 }, { day: 'Fri', users: 18 }, { day: 'Sat', users: 25 }, { day: 'Sun', users: 14 },
-  ];
-  const maxUsers = Math.max(...weeklyUserData.map(d => d.users));
-
-  const weeklyLessonData = [
-    { day: 'Mon', lessons: 5 }, { day: 'Tue', lessons: 3 }, { day: 'Wed', lessons: 8 },
-    { day: 'Thu', lessons: 4 }, { day: 'Fri', lessons: 12 }, { day: 'Sat', lessons: 15 }, { day: 'Sun', lessons: 7 },
-  ];
-  const maxLessons = Math.max(...weeklyLessonData.map(d => d.lessons));
+  const maxUsers = Math.max(...weeklyUserData.map(d => d.users), 1);
+  const maxLessons = Math.max(...weeklyLessonData.map(d => d.lessons), 1);
 
   if (loading) return <PageLoader />;
 
