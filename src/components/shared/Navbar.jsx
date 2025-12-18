@@ -77,16 +77,45 @@ const Navbar = () => {
     : '';
   const avatarUrl = user?.photoURL || avatarFallback;
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      toast.success('Logged out');
-      setIsDropdownOpen(false);
-      setIsMenuOpen(false);
-      navigate('/');
-    } catch (error) {
-      toast.error(error.message || 'Failed to log out');
-    }
+  const handleLogout = () => {
+    toast.custom((t) => (
+      <div className='bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 flex flex-col gap-3 max-w-sm w-full animate-in fade-in slide-in-from-top-5 duration-300'>
+        <div className="flex items-start gap-4">
+          <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-xl text-red-500 dark:text-red-400 flex-shrink-0">
+            <FiLogOut className="w-6 h-6" />
+          </div>
+          <div className="flex-1 pt-1">
+            <h3 className='font-semibold text-gray-900 dark:text-white text-base'>Sign Out?</h3>
+            <p className='text-sm text-gray-500 dark:text-gray-400 mt-1'>Are you sure you want to end your current session?</p>
+          </div>
+        </div>
+        <div className='flex gap-3 justify-end mt-2'>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className='px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors'
+          >
+            Cancel
+          </button>
+          <button
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                await logout();
+                toast.success('Logged out');
+                setIsDropdownOpen(false);
+                setIsMenuOpen(false);
+                navigate('/');
+              } catch (error) {
+                toast.error(error.message || 'Failed to log out');
+              }
+            }}
+            className='px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 shadow-lg shadow-red-500/20 transition-colors'
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    ), { duration: 5000, position: 'top-center' });
   };
 
   const navLinks = [

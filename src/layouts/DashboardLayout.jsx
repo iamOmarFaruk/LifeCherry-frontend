@@ -13,15 +13,17 @@ import {
   HiOutlineUsers,
   HiOutlineFlag,
   HiOutlineDocumentText,
-  HiOutlineTrash
+  HiOutlineTrash,
+  HiOutlineArrowRightOnRectangle
 } from 'react-icons/hi2';
+import toast from 'react-hot-toast';
 import useAuth from '../hooks/useAuth';
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { firebaseUser, userProfile, authLoading, authInitialized, profileLoading, viewMode, toggleViewMode } = useAuth();
+  const { firebaseUser, userProfile, authLoading, authInitialized, profileLoading, viewMode, toggleViewMode, logout } = useAuth();
 
   // Redirect unauthenticated users away from dashboard
   useEffect(() => {
@@ -46,6 +48,46 @@ const DashboardLayout = () => {
 
   const isLoading = authLoading || profileLoading || !authInitialized;
   const isAdmin = user?.role === 'admin';
+
+  const handleLogout = () => {
+    toast.custom((t) => (
+      <div className='bg-surface dark:bg-gray-800 p-4 rounded-2xl shadow-xl border border-border dark:border-gray-700 flex flex-col gap-3 max-w-sm w-full animate-in fade-in slide-in-from-top-5 duration-300 ring-1 ring-black/5'>
+        <div className="flex items-start gap-4">
+          <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-xl text-red-500 dark:text-red-400 flex-shrink-0">
+            <HiOutlineArrowRightOnRectangle className="w-6 h-6" />
+          </div>
+          <div className="flex-1 pt-1">
+            <h3 className='font-semibold text-text dark:text-gray-100 text-base'>Sign Out?</h3>
+            <p className='text-sm text-text-secondary dark:text-gray-400 mt-1 leading-relaxed'>Are you sure you want to end your current session?</p>
+          </div>
+        </div>
+        <div className='flex gap-3 justify-end mt-2 pl-14'>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className='px-4 py-2 text-sm font-medium text-text-secondary dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors'
+          >
+            Cancel
+          </button>
+          <button
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                await logout();
+                toast.success('Logged out successfully');
+                navigate('/');
+              } catch (error) {
+                console.error('Logout error:', error);
+                toast.error('Failed to logout');
+              }
+            }}
+            className='px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 shadow-lg shadow-red-500/20 hover:shadow-red-500/30 transform active:scale-95 transition-all'
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    ), { duration: 5000, position: 'top-center' });
+  };
 
   // User menu items
   const userMenuItems = [
@@ -187,6 +229,16 @@ const DashboardLayout = () => {
           {menuItems.map((item) => (
             <NavItem key={item.path} item={item} />
           ))}
+
+          <div className="pt-2 mt-2 border-t border-border dark:border-gray-800">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary dark:text-gray-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-all duration-200 text-sm group"
+            >
+              <HiOutlineArrowRightOnRectangle className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <span className="font-medium">Logout</span>
+            </button>
+          </div>
         </nav>
 
 
