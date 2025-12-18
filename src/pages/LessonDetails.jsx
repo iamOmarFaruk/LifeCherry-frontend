@@ -412,7 +412,7 @@ const LessonDetails = () => {
       'Sad': 'bg-purple-100 text-purple-700',
       'Funny': 'bg-yellow-100 text-yellow-700',
       'Gratitude': 'bg-pink-100 text-pink-700',
-      'Regret': 'bg-red-100 text-red-700',
+      'Regret': 'bg-cherry-100 text-cherry-700',
       'Hope': 'bg-teal-100 text-teal-700',
       'Fear': 'bg-gray-100 text-gray-700',
       'Anger': 'bg-orange-100 text-orange-700',
@@ -438,7 +438,7 @@ const LessonDetails = () => {
       <PageLoader>
         <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white dark:from-gray-900 dark:to-gray-950 flex items-center justify-center">
           <div className="text-center max-w-md px-6">
-            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400">
+            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-cherry-50 dark:bg-cherry-900/20 text-cherry dark:text-cherry-300">
               <FiAlertCircle className="w-8 h-8" />
             </div>
             <h1 className="text-3xl font-bold text-text-primary dark:text-white mb-2">Lesson Not Found</h1>

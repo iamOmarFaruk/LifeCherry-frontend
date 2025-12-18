@@ -181,7 +181,7 @@ const PublicLessons = () => {
     <PageLoader>
       <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-300">
         {error && (
-          <div className="bg-red-50 text-red-700 px-4 py-3 text-center">{error}</div>
+          <div className="bg-cherry-50 text-cherry-700 px-4 py-3 text-center">{error}</div>
         )}
         {/* Hero Header Section with Background Image */}
         <div
@@ -451,7 +451,7 @@ const PublicLessons = () => {
                       {!isPremiumLocked && (
                         <Link
                           to={`/lessons/${lesson._id}`}
-                          className="mt-4 block w-full text-center py-3 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition-all cursor-pointer"
+                          className="mt-4 block w-full text-center py-3 bg-cherry text-white font-medium rounded-xl hover:bg-cherry-700 transition-all cursor-pointer"
                         >
                           See Details
                         </Link>

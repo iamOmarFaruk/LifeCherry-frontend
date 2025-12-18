@@ -159,10 +159,10 @@ const AdminTrash = () => {
   if (!authLoading && userProfile?.role !== 'admin') {
     return (
       <PageLoader>
-        <div className="p-8 text-center bg-red-50 dark:bg-red-900/20 rounded-2xl border-2 border-red-200 dark:border-red-800">
-          <HiOutlineExclamationTriangle className="w-16 h-16 text-red-500 dark:text-red-400 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-red-700 dark:text-red-400 mb-2">Access Denied</h3>
-          <p className="text-red-600 dark:text-red-300">Only administrators can access the trash management page</p>
+        <div className="p-8 text-center bg-cherry-50 dark:bg-cherry-900/20 rounded-2xl border-2 border-cherry-200 dark:border-cherry-800">
+          <HiOutlineExclamationTriangle className="w-16 h-16 text-cherry dark:text-cherry-300 mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-cherry-700 dark:text-cherry-300 mb-2">Access Denied</h3>
+          <p className="text-cherry dark:text-cherry-300">Only administrators can access the trash management page</p>
         </div>
       </PageLoader>
     );
@@ -180,7 +180,7 @@ const AdminTrash = () => {
 
         {/* Error State */}
         {error && (
-          <div className="p-4 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 text-sm font-medium flex items-center gap-3">
+          <div className="p-4 rounded-xl bg-cherry-50 dark:bg-cherry-900/20 text-cherry-700 dark:text-cherry-300 border border-cherry-200 dark:border-cherry-800 text-sm font-medium flex items-center gap-3">
             <HiOutlineExclamationTriangle className="w-5 h-5 flex-shrink-0" />
             {error.message || 'Failed to load trash items'}
           </div>
@@ -190,8 +190,8 @@ const AdminTrash = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-red-50 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
-                <HiOutlineTrash className="w-5 h-5 text-red-600 dark:text-red-400" />
+              <div className="w-10 h-10 bg-cherry-50 dark:bg-cherry-900/20 rounded-lg flex items-center justify-center">
+                <HiOutlineTrash className="w-5 h-5 text-cherry dark:text-cherry-300" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-text dark:text-white">{stats.total}</p>
@@ -408,7 +408,7 @@ const AdminTrash = () => {
                               <button
                                 onClick={() => openDeleteConfirmation(item)}
                                 disabled={deletingId === item.id}
-                                className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors disabled:opacity-50"
+                                className="p-2 text-cherry dark:text-cherry-300 hover:bg-cherry-50 dark:hover:bg-cherry-900/20 rounded-lg transition-colors disabled:opacity-50"
                               >
                                 <HiOutlineXMark className="w-5 h-5" />
                               </button>
@@ -510,7 +510,7 @@ const AdminTrash = () => {
                       <h3 className="text-lg font-bold text-text dark:text-white">
                         {selectedItem.itemData?.title || 'Untitled Item'}
                       </h3>
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 mt-1`}>
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-cherry-100 dark:bg-cherry-900/40 text-cherry-700 dark:text-cherry-300 mt-1`}>
                         <HiOutlineTrash className="w-3 h-3" />
                         In Trash
                       </span>
@@ -566,35 +566,35 @@ const AdminTrash = () => {
                   </div>
 
                   {/* Deletion Info */}
-                  <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4">
-                    <h4 className="font-semibold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2">
+                  <div className="bg-cherry-50 dark:bg-cherry-900/20 rounded-xl p-4">
+                    <h4 className="font-semibold text-cherry-700 dark:text-cherry-300 mb-3 flex items-center gap-2">
                       <HiOutlineTrash className="w-4 h-4" />
                       Deletion Information
                     </h4>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <p className="text-red-700/70 dark:text-red-300/70">Deleted By</p>
-                        <p className="font-medium text-red-800 dark:text-red-300">{selectedItem.deletedByName || 'Unknown'}</p>
-                        <p className="text-xs text-red-700/70 dark:text-red-300/70">{selectedItem.deletedBy}</p>
+                        <p className="text-cherry-700/70 dark:text-cherry-300/70">Deleted By</p>
+                        <p className="font-medium text-cherry-700 dark:text-cherry-300">{selectedItem.deletedByName || 'Unknown'}</p>
+                        <p className="text-xs text-cherry-700/70 dark:text-cherry-300/70">{selectedItem.deletedBy}</p>
                       </div>
                       <div>
-                        <p className="text-red-700/70 dark:text-red-300/70">Deleted On</p>
-                        <p className="font-medium text-red-800 dark:text-red-300">{formatDateTime(selectedItem.createdAt)}</p>
-                        <p className="text-xs text-red-700/70 dark:text-red-300/70">{formatTimeAgo(selectedItem.createdAt)}</p>
+                        <p className="text-cherry-700/70 dark:text-cherry-300/70">Deleted On</p>
+                        <p className="font-medium text-cherry-700 dark:text-cherry-300">{formatDateTime(selectedItem.createdAt)}</p>
+                        <p className="text-xs text-cherry-700/70 dark:text-cherry-300/70">{formatTimeAgo(selectedItem.createdAt)}</p>
                       </div>
                     </div>
 
                     {selectedItem.itemOwner && (
-                      <div className="mt-4 pt-4 border-t border-red-200 dark:border-red-800">
-                        <p className="text-red-700/70 dark:text-red-300/70 text-sm">Item Owner</p>
-                        <p className="font-medium text-red-800 dark:text-red-300">{selectedItem.itemOwnerName || selectedItem.itemOwner}</p>
+                      <div className="mt-4 pt-4 border-t border-cherry-200 dark:border-cherry-800">
+                        <p className="text-cherry-700/70 dark:text-cherry-300/70 text-sm">Item Owner</p>
+                        <p className="font-medium text-cherry-700 dark:text-cherry-300">{selectedItem.itemOwnerName || selectedItem.itemOwner}</p>
                       </div>
                     )}
 
                     {selectedItem.deletionReason && (
-                      <div className="mt-4 pt-4 border-t border-red-200 dark:border-red-800">
-                        <p className="text-red-700/70 dark:text-red-300/70 text-sm">Reason</p>
-                        <p className="font-medium text-red-800 dark:text-red-300">{selectedItem.deletionReason}</p>
+                      <div className="mt-4 pt-4 border-t border-cherry-200 dark:border-cherry-800">
+                        <p className="text-cherry-700/70 dark:text-cherry-300/70 text-sm">Reason</p>
+                        <p className="font-medium text-cherry-700 dark:text-cherry-300">{selectedItem.deletionReason}</p>
                       </div>
                     )}
                   </div>
@@ -614,7 +614,7 @@ const AdminTrash = () => {
                   </button>
                   <button
                     onClick={() => openDeleteConfirmation(selectedItem)}
-                    className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 px-4 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-700 transition-colors flex items-center justify-center gap-2"
                   >
                     <HiOutlineXMark className="w-5 h-5" />
                     Delete Permanently
@@ -630,8 +630,8 @@ const AdminTrash = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
             <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-                  <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+                <div className="w-12 h-12 bg-cherry-50 dark:bg-cherry-900/20 rounded-full flex items-center justify-center">
+                  <HiOutlineExclamationTriangle className="w-6 h-6 text-cherry dark:text-cherry-300" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-text dark:text-white">Permanent Deletion</h3>
@@ -639,7 +639,7 @@ const AdminTrash = () => {
                 </div>
               </div>
 
-              <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 mb-6">
+              <div className="bg-cherry-50 dark:bg-cherry-900/10 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
                   {(() => {
                     const itemType = getItemTypeDetails(itemToDelete.itemType);
@@ -674,7 +674,7 @@ const AdminTrash = () => {
                 <button
                   onClick={handlePermanentDelete}
                   disabled={deletingId === itemToDelete.id}
-                  className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
+                  className="flex-1 px-4 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-700 transition-colors disabled:opacity-50"
                 >
                   {deletingId === itemToDelete.id ? 'Deleting...' : 'Delete Forever'}
                 </button>

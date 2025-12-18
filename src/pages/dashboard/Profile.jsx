@@ -474,11 +474,11 @@ const Profile = () => {
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-amber-600 dark:text-amber-400 mb-1">{stats.drafts}</div>
             <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-300">Drafts</div>
           </div>
-          <div className="bg-red-50 dark:bg-gray-700 dark:border-l-4 dark:border-l-red-500 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-red-100 dark:bg-red-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <HiOutlineHeart className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 dark:text-red-400" />
+          <div className="bg-cherry-50 dark:bg-gray-700 dark:border-l-4 dark:border-l-cherry rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 bg-cherry-100 dark:bg-cherry/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <HiOutlineHeart className="w-4 h-4 sm:w-5 sm:h-5 text-cherry dark:text-cherry-300" />
             </div>
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-500 dark:text-red-400 mb-1">{stats.totalLikes}</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-cherry dark:text-cherry-300 mb-1">{stats.totalLikes}</div>
             <div className="text-xs sm:text-sm text-text-secondary dark:text-gray-300">Likes Received</div>
           </div>
           <div className="bg-blue-50 dark:bg-gray-700 dark:border-l-4 dark:border-l-blue-500 rounded-xl p-3 sm:p-4 text-center group hover:shadow-md transition-all">
@@ -529,22 +529,22 @@ const Profile = () => {
 
         {/* Danger Zone */}
         <div className="mt-6 sm:mt-8 border-t border-border dark:border-gray-700 pt-6 sm:pt-8">
-          <h3 className="text-base sm:text-lg font-bold text-red-600 mb-3 sm:mb-4 flex items-center gap-2">
+          <h3 className="text-base sm:text-lg font-bold text-cherry mb-3 sm:mb-4 flex items-center gap-2">
             <HiOutlineExclamationTriangle className="w-5 h-5" />
             Danger Zone
           </h3>
-          <div className="bg-red-50 dark:bg-gray-900 border border-red-100 dark:border-gray-700 rounded-xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+          <div className="bg-cherry-50 dark:bg-gray-900 border border-cherry-100 dark:border-gray-700 rounded-xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             {profile.role === 'admin' ? (
               <>
                 <div>
-                  <h4 className="font-medium text-red-900 dark:text-red-400 text-sm sm:text-base">Delete Account</h4>
-                  <p className="text-xs sm:text-sm text-red-700 dark:text-gray-300 mt-1">
+                  <h4 className="font-medium text-cherry-900 dark:text-cherry-300 text-sm sm:text-base">Delete Account</h4>
+                  <p className="text-xs sm:text-sm text-cherry-700 dark:text-gray-300 mt-1">
                     Permanently delete your account and all associated data. This action cannot be undone.
                   </p>
                 </div>
                 <button
                   onClick={() => setShowDeleteModal(true)}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium text-sm sm:text-base w-full sm:w-auto text-center"
+                  className="px-4 py-2 bg-cherry text-white rounded-lg hover:bg-cherry-700 transition-colors font-medium text-sm sm:text-base w-full sm:w-auto text-center"
                 >
                   Delete Permanently
                 </button>
@@ -552,8 +552,8 @@ const Profile = () => {
             ) : (
               <>
                 <div>
-                  <h4 className="font-medium text-red-900 dark:text-red-400 text-sm sm:text-base">Disable Account</h4>
-                  <p className="text-xs sm:text-sm text-red-700 dark:text-gray-300 mt-1">
+                  <h4 className="font-medium text-cherry-900 dark:text-cherry-300 text-sm sm:text-base">Disable Account</h4>
+                  <p className="text-xs sm:text-sm text-cherry-700 dark:text-gray-300 mt-1">
                     Request to disable your account. Your profile and lessons will be hidden from public view.
                     Admin will review your request.
                   </p>
@@ -567,7 +567,7 @@ const Profile = () => {
                   <button
                     onClick={handleCancelDisable}
                     disabled={isDisabling}
-                    className="px-4 py-2 bg-white dark:bg-gray-800 border border-red-200 dark:border-gray-600 text-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-gray-700 transition-colors font-medium disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto text-center"
+                    className="px-4 py-2 bg-white dark:bg-gray-800 border border-cherry-200 dark:border-gray-600 text-cherry rounded-lg hover:bg-cherry-50 dark:hover:bg-gray-700 transition-colors font-medium disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto text-center"
                   >
                     {isDisabling ? 'Processing...' : 'Cancel Request'}
                   </button>
@@ -575,7 +575,7 @@ const Profile = () => {
                   <button
                     onClick={handleRequestDisable}
                     disabled={isDisabling}
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto text-center"
+                    className="px-4 py-2 bg-cherry text-white rounded-lg hover:bg-cherry-700 transition-colors font-medium disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto text-center"
                   >
                     {isDisabling ? 'Processing...' : 'Request Disable'}
                   </button>
@@ -743,13 +743,13 @@ const Profile = () => {
       {showDisableModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md shadow-2xl">
-            <div className="flex items-center gap-3 p-6 border-b border-border bg-red-50 rounded-t-2xl">
-              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600" />
+            <div className="flex items-center gap-3 p-6 border-b border-border bg-cherry-50 rounded-t-2xl">
+              <div className="w-10 h-10 bg-cherry-100 rounded-full flex items-center justify-center">
+                <HiOutlineExclamationTriangle className="w-6 h-6 text-cherry" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-red-900">Disable Account</h3>
-                <p className="text-sm text-red-700">This action will hide your profile</p>
+                <h3 className="text-lg font-bold text-cherry-900">Disable Account</h3>
+                <p className="text-sm text-cherry-700">This action will hide your profile</p>
               </div>
             </div>
 
@@ -761,14 +761,14 @@ const Profile = () => {
 
               <div>
                 <label className="block text-sm font-medium text-text dark:text-white mb-2">
-                  Reason for disabling <span className="text-red-500">*</span>
+                  Reason for disabling <span className="text-cherry">*</span>
                 </label>
                 <textarea
                   value={disableReason}
                   onChange={(e) => setDisableReason(e.target.value)}
                   placeholder="I'm taking a break because..."
                   rows="4"
-                  className="w-full px-4 py-3 rounded-xl border border-border dark:border-gray-600 bg-white dark:bg-gray-700 text-text dark:text-white focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-none transition-all resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-border dark:border-gray-600 bg-white dark:bg-gray-700 text-text dark:text-white focus:border-cherry focus:ring-2 focus:ring-cherry/20 outline-none transition-all resize-none"
                   required
                 />
               </div>
@@ -787,7 +787,7 @@ const Profile = () => {
                 <button
                   type="submit"
                   disabled={isDisabling || !disableReason.trim()}
-                  className="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-3 bg-cherry text-white rounded-xl hover:bg-cherry-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isDisabling ? (
                     <>
@@ -807,13 +807,13 @@ const Profile = () => {
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md shadow-2xl">
-            <div className="flex items-center gap-3 p-6 border-b border-border bg-red-50 rounded-t-2xl">
-              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600" />
+            <div className="flex items-center gap-3 p-6 border-b border-border bg-cherry-50 rounded-t-2xl">
+              <div className="w-10 h-10 bg-cherry-100 rounded-full flex items-center justify-center">
+                <HiOutlineExclamationTriangle className="w-6 h-6 text-cherry" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-red-900">Delete Account Permanently</h3>
-                <p className="text-sm text-red-700">This action cannot be undone</p>
+                <h3 className="text-lg font-bold text-cherry-900">Delete Account Permanently</h3>
+                <p className="text-sm text-cherry-700">This action cannot be undone</p>
               </div>
             </div>
 
@@ -822,8 +822,8 @@ const Profile = () => {
                 Are you sure you want to delete your account? This will permanently remove your profile, lessons, comments, and all other data associated with your account.
               </p>
 
-              <div className="bg-red-50 p-4 rounded-xl border border-red-100">
-                <p className="text-sm text-red-800 font-medium">
+              <div className="bg-cherry-50 p-4 rounded-xl border border-cherry-100">
+                <p className="text-sm text-cherry-800 font-medium">
                   Warning: This action is irreversible. You will lose access to all your content immediately.
                 </p>
               </div>
@@ -840,7 +840,7 @@ const Profile = () => {
                   type="button"
                   onClick={handleDeleteAccount}
                   disabled={isDeleting}
-                  className="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-3 bg-cherry text-white rounded-xl hover:bg-cherry-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isDeleting ? (
                     <>

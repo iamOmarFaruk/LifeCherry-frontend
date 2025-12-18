@@ -181,7 +181,7 @@ const DashboardHome = () => {
         </div>
 
         {lessonsQuery.isError && (
-          <div className="p-3 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
+          <div className="p-3 rounded-xl bg-cherry-50 border border-cherry-100 text-cherry-700 text-sm">
             Could not load your lessons. Please refresh and try again.
           </div>
         )}
@@ -202,7 +202,7 @@ const DashboardHome = () => {
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.lessonsChange >= 0
                       ? 'text-green-600 bg-green-50'
-                      : 'text-red-600 bg-red-50'
+                      : 'text-cherry bg-cherry-50'
                       }`}>
                       {monthStats.lessonsChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
@@ -235,7 +235,7 @@ const DashboardHome = () => {
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.favoritesChange >= 0
                       ? 'text-green-600 bg-green-50'
-                      : 'text-red-600 bg-red-50'
+                      : 'text-cherry bg-cherry-50'
                       }`}>
                       {monthStats.favoritesChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
@@ -268,7 +268,7 @@ const DashboardHome = () => {
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.likesChange >= 0
                       ? 'text-green-600 bg-green-50'
-                      : 'text-red-600 bg-red-50'
+                      : 'text-cherry bg-cherry-50'
                       }`}>
                       {monthStats.likesChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
@@ -301,7 +301,7 @@ const DashboardHome = () => {
                   <div className="flex items-center gap-2 mt-3">
                     <span className={`flex items-center gap-1 text-sm font-semibold px-2 py-0.5 rounded-full ${monthStats.viewsChange >= 0
                       ? 'text-green-600 bg-green-50'
-                      : 'text-red-600 bg-red-50'
+                      : 'text-cherry bg-cherry-50'
                       }`}>
                       {monthStats.viewsChange >= 0 ? (
                         <HiOutlineArrowTrendingUp className="w-4 h-4" />
@@ -618,7 +618,7 @@ const DashboardHome = () => {
                 </p>
                 <div className="flex items-center gap-3 text-xs text-text-secondary dark:text-gray-400">
                   <span className="flex items-center gap-1">
-                    <HiOutlineHeart className="w-3.5 h-3.5 text-red-400" />
+                    <HiOutlineHeart className="w-3.5 h-3.5 text-cherry-200" />
                     {topLesson.likesCount || 0} likes
                   </span>
                   <span className="flex items-center gap-1">

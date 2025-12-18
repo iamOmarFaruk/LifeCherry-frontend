@@ -190,7 +190,7 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="text-xs px-2 py-1 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-all"
+                  className="text-xs px-2 py-1 text-cherry hover:bg-cherry-50 rounded-lg font-medium transition-all"
                 >
                   Delete
                 </button>

@@ -100,7 +100,7 @@ const MyReports = () => {
                   toast.error(error.response?.data?.message || 'Failed to withdraw report');
                 }
               }}
-              className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all text-sm"
+              className="flex-1 px-4 py-3 bg-cherry text-white rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all text-sm"
             >
               Withdraw
             </button>
@@ -130,7 +130,7 @@ const MyReports = () => {
       case 'resolved':
         return <FiCheck className="w-5 h-5 text-green-600 dark:text-green-400" />;
       case 'rejected':
-        return <FiX className="w-5 h-5 text-red-600 dark:text-red-400" />;
+        return <FiX className="w-5 h-5 text-cherry dark:text-cherry-300" />;
       case 'withdrawn':
         return <FiAlertCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />;
       default:
@@ -147,7 +147,7 @@ const MyReports = () => {
       case 'resolved':
         return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-700';
       case 'rejected':
-        return 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700';
+        return 'bg-cherry-50 dark:bg-cherry-900/30 text-cherry-700 dark:text-cherry-300 border-cherry-100 dark:border-cherry-700';
       case 'withdrawn':
         return 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600';
       default:
@@ -213,8 +213,8 @@ const MyReports = () => {
                 key={f.value}
                 onClick={() => setFilter(f.value)}
                 className={`px-4 py-2 rounded-xl font-semibold transition-all ${filter === f.value
-                    ? 'bg-gradient-to-r from-cherry to-cherry-dark text-white shadow-lg'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-gradient-to-r from-cherry to-cherry-dark text-white shadow-lg'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
                 {f.label} {f.count > 0 && `(${f.count})`}
@@ -281,7 +281,7 @@ const MyReports = () => {
                   {(report.status === 'pending' || report.status === 'reviewing') && (
                     <button
                       onClick={() => handleWithdraw(report._id, report.lessonId?.title || 'this lesson')}
-                      className="px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-xl hover:bg-red-200 dark:hover:bg-red-900/50 font-semibold transition-colors"
+                      className="px-4 py-2 bg-cherry-50 dark:bg-cherry-900/30 text-cherry-700 dark:text-cherry-300 rounded-xl hover:bg-cherry-100 dark:hover:bg-cherry-900/50 font-semibold transition-colors"
                     >
                       Withdraw
                     </button>

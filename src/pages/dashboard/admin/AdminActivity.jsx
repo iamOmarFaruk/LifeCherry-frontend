@@ -105,7 +105,7 @@ const AdminActivity = () => {
         </DashboardPageHeader>
 
         {error && (
-          <div className="p-3 rounded-xl bg-red-50 text-red-700 border border-red-100 text-sm">{error.message || 'Failed to load activity'}</div>
+          <div className="p-3 rounded-xl bg-cherry-50 text-cherry-700 border border-cherry-100 text-sm">{error.message || 'Failed to load activity'}</div>
         )}
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">

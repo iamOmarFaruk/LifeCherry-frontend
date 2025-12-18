@@ -81,7 +81,7 @@ const Navbar = () => {
     toast.custom((t) => (
       <div className='bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 flex flex-col gap-3 max-w-sm w-full animate-in fade-in slide-in-from-top-5 duration-300'>
         <div className="flex items-start gap-4">
-          <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-xl text-red-500 dark:text-red-400 flex-shrink-0">
+          <div className="p-3 bg-cherry-50 dark:bg-cherry-900/20 rounded-xl text-cherry dark:text-cherry-300 flex-shrink-0">
             <FiLogOut className="w-6 h-6" />
           </div>
           <div className="flex-1 pt-1">
@@ -109,7 +109,7 @@ const Navbar = () => {
                 toast.error(error.message || 'Failed to log out');
               }
             }}
-            className='px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 shadow-lg shadow-red-500/20 transition-colors'
+            className='px-4 py-2 text-sm font-medium bg-cherry text-white rounded-lg hover:bg-cherry-700 shadow-lg shadow-cherry/20 transition-colors'
           >
             Logout
           </button>
@@ -271,7 +271,7 @@ const Navbar = () => {
 
                     <button
                       onClick={handleLogout}
-                      className="flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors w-full"
+                      className="flex items-center gap-3 px-4 py-2.5 text-cherry hover:bg-cherry-50 dark:hover:bg-cherry-900/20 transition-colors w-full"
                     >
                       <FiLogOut size={18} />
                       <span>Log Out</span>
@@ -424,7 +424,7 @@ const Navbar = () => {
 
                   <button
                     onClick={handleLogout}
-                    className="px-4 py-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-left w-full"
+                    className="px-4 py-2.5 text-cherry hover:bg-cherry-50 dark:hover:bg-cherry-900/20 rounded-lg text-left w-full"
                   >
                     Log Out
                   </button>

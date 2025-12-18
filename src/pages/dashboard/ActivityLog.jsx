@@ -53,9 +53,9 @@ const getActionDetails = (action) => {
     'delete': {
       icon: HiOutlineTrash,
       label: 'Deleted',
-      bg: 'bg-red-50 dark:bg-red-900/30',
-      border: 'border-l-4 border-red-500',
-      badge: 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300'
+      bg: 'bg-cherry-50 dark:bg-cherry-900/30',
+      border: 'border-l-4 border-cherry',
+      badge: 'bg-cherry-100 dark:bg-cherry-900/50 text-cherry-700 dark:text-cherry-300'
     },
     'view': {
       icon: HiOutlineEye,
@@ -267,8 +267,8 @@ const ActivityLog = () => {
           {/* Deleted */}
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700 hover:shadow-md transition-all duration-300 group">
             <div className="flex items-center gap-3 lg:gap-4">
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-red-50 dark:bg-red-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <HiOutlineTrash className="w-5 h-5 lg:w-6 lg:h-6 text-red-600 dark:text-red-400" />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-cherry-50 dark:bg-cherry-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                <HiOutlineTrash className="w-5 h-5 lg:w-6 lg:h-6 text-cherry dark:text-cherry-300" />
               </div>
               <div className="min-w-0">
                 <p className="text-xl lg:text-2xl font-bold text-text dark:text-white">{stats.deleted}</p>
@@ -479,7 +479,7 @@ const ActivityLog = () => {
                   ) : error ? (
                     <button
                       onClick={() => fetchNextPage()}
-                      className="px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
+                      className="px-4 py-2 bg-cherry-50 text-cherry rounded-lg text-sm font-medium hover:bg-cherry-100 transition-colors"
                     >
                       Failed to load more. Tap to retry.
                     </button>

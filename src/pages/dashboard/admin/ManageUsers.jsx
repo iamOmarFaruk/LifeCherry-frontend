@@ -410,7 +410,7 @@ const ManageUsers = () => {
                       </td>
                       <td className="px-6 py-4">
                         {user.status === 'archived' ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-cherry-50 text-cherry-700 text-xs font-medium rounded-full">
                             Archived
                           </span>
                         ) : user.status === 'disable_requested' ? (
@@ -573,8 +573,8 @@ const ManageUsers = () => {
                       <p className="text-sm text-text-secondary dark:text-gray-400 mb-3">{user.email}</p>
 
                       {/* Archive Reason */}
-                      <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800/30 rounded-xl p-3 mb-3">
-                        <p className="text-xs font-medium text-red-600 dark:text-red-400 mb-1">Original Archive Reason:</p>
+                      <div className="bg-cherry-50 dark:bg-cherry-900/10 border border-cherry-100 dark:border-cherry-800/30 rounded-xl p-3 mb-3">
+                        <p className="text-xs font-medium text-cherry dark:text-cherry-300 mb-1">Original Archive Reason:</p>
                         <p className="text-sm text-gray-700 dark:text-gray-300">{user.archiveReason || 'No reason provided'}</p>
                         <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Archived on: {formatDateTime(user.archivedAt)}</p>
                       </div>
@@ -647,7 +647,7 @@ const ManageUsers = () => {
 
             <div className="mb-6">
               <label className="block text-sm font-medium text-text dark:text-gray-300 mb-2">
-                Reason for archiving <span className="text-red-500">*</span>
+                Reason for archiving <span className="text-cherry">*</span>
               </label>
               <textarea
                 value={archiveReason}

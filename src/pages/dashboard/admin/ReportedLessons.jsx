@@ -276,8 +276,8 @@ const ReportedLessons = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-red-50 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
-                <HiOutlineFlag className="w-5 h-5 text-red-600 dark:text-red-400" />
+              <div className="w-10 h-10 bg-cherry-50 dark:bg-cherry-900/20 rounded-lg flex items-center justify-center">
+                <HiOutlineFlag className="w-5 h-5 text-cherry dark:text-cherry-300" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-text dark:text-white">{statsDisplay.total}</p>
@@ -439,7 +439,7 @@ const ReportedLessons = () => {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-semibold ${item.reportCount >= 5
-                          ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
+                          ? 'bg-cherry-100 dark:bg-cherry-900/40 text-cherry-700 dark:text-cherry-300'
                           : item.reportCount >= 3
                             ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400'
                             : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
@@ -491,7 +491,7 @@ const ReportedLessons = () => {
                               setSelectedLesson(item);
                               setShowDeleteModal(true);
                             }}
-                            className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                            className="p-2 text-cherry dark:text-cherry-300 hover:bg-cherry-50 dark:hover:bg-cherry-900/20 rounded-lg transition-colors"
                           >
                             <HiOutlineTrash className="w-5 h-5" />
                           </button>
@@ -578,7 +578,7 @@ const ReportedLessons = () => {
                     <div>
                       <h3 className="text-lg font-bold text-text dark:text-white">{selectedLesson.lesson?.title || 'Untitled Lesson'}</h3>
                       <p className="text-sm text-text-secondary dark:text-gray-400">by {selectedLesson.lesson?.creatorName || 'Unknown'}</p>
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-xs font-medium rounded-full mt-1">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-cherry-100 dark:bg-cherry-900/40 text-cherry-700 dark:text-cherry-300 text-xs font-medium rounded-full mt-1">
                         <HiOutlineFlag className="w-3 h-3" />
                         {selectedLesson.reportCount} {selectedLesson.reportCount === 1 ? 'Report' : 'Reports'}
                       </span>
@@ -625,7 +625,7 @@ const ReportedLessons = () => {
                           </span>
                         </div>
                         <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-600">
-                          <p className="text-sm font-medium text-red-600 dark:text-red-400 mb-2">{getReasonLabel(report.reason)}</p>
+                          <p className="text-sm font-medium text-cherry dark:text-cherry-300 mb-2">{getReasonLabel(report.reason)}</p>
                           {report.description && (
                             <p className="text-sm text-text-secondary dark:text-gray-400 mb-2">{report.description}</p>
                           )}
@@ -654,7 +654,7 @@ const ReportedLessons = () => {
                       setShowDetailsModal(false);
                       setShowDeleteModal(true);
                     }}
-                    className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 px-4 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-700 transition-colors flex items-center justify-center gap-2"
                   >
                     <HiOutlineTrash className="w-5 h-5" />
                     Delete Lesson
@@ -670,8 +670,8 @@ const ReportedLessons = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
             <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-                  <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+                <div className="w-12 h-12 bg-cherry-50 dark:bg-cherry-900/20 rounded-full flex items-center justify-center">
+                  <HiOutlineExclamationTriangle className="w-6 h-6 text-cherry dark:text-cherry-300" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-text dark:text-white">Delete Lesson</h3>
@@ -679,7 +679,7 @@ const ReportedLessons = () => {
                 </div>
               </div>
 
-              <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 mb-6">
+              <div className="bg-cherry-50 dark:bg-cherry-900/10 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
                   {selectedLesson.lesson?.image ? (
                     <img
@@ -696,7 +696,7 @@ const ReportedLessons = () => {
                   <div>
                     <h4 className="font-semibold text-text dark:text-white line-clamp-1">{selectedLesson.lesson?.title || 'Untitled Lesson'}</h4>
                     <p className="text-sm text-text-secondary dark:text-gray-400">by {selectedLesson.lesson?.creatorName || 'Unknown'}</p>
-                    <p className="text-xs text-red-600 dark:text-red-400 mt-1">{selectedLesson.reportCount} reports</p>
+                    <p className="text-xs text-cherry dark:text-cherry-300 mt-1">{selectedLesson.reportCount} reports</p>
                   </div>
                 </div>
               </div>
@@ -717,7 +717,7 @@ const ReportedLessons = () => {
                 <button
                   onClick={handleDeleteLesson}
                   disabled={isSubmitting}
-                  className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
+                  className="flex-1 px-4 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-700 transition-colors disabled:opacity-50"
                 >
                   {isSubmitting ? 'Deleting...' : 'Delete Lesson'}
                 </button>

@@ -313,9 +313,9 @@ export const PremiumReportButton = ({
             className={`group relative flex items-center gap-2 px-4 md:px-5 py-2.5 md:py-3 rounded-2xl font-semibold text-sm md:text-base transition-all duration-300 cursor-pointer
         ${disabled || hasReported
                     ? hasReported
-                        ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 cursor-not-allowed'
+                        ? 'bg-cherry-50 dark:bg-cherry-900/30 text-cherry dark:text-cherry-300 cursor-not-allowed'
                         : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-60'
-                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-2 border-gray-200 dark:border-gray-700 hover:border-red-400 dark:hover:border-red-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:scale-105'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-2 border-gray-200 dark:border-gray-700 hover:border-cherry dark:hover:border-cherry hover:text-cherry dark:hover:text-cherry-300 hover:bg-cherry-50 dark:hover:bg-cherry-900/20 hover:scale-105'
                 }`}
         >
             {/* Flag icon */}

@@ -149,7 +149,7 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="text-xs px-3 py-1.5 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-all"
+                  className="text-xs px-3 py-1.5 text-cherry hover:bg-cherry-50 rounded-lg font-medium transition-all"
                 >
                   Delete
                 </button>

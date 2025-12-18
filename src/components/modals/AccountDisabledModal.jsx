@@ -57,14 +57,14 @@ const AccountDisabledModal = ({
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
             <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-fade-in">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-red-500 to-red-600 px-6 py-6">
+                <div className="bg-gradient-to-r from-cherry to-cherry-dark px-6 py-6">
                     <div className="flex items-center gap-4">
                         <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
                             <HiOutlineExclamationTriangle className="w-8 h-8 text-white" />
                         </div>
                         <div>
                             <h2 className="text-xl font-bold text-white">Account Disabled</h2>
-                            <p className="text-red-100 text-sm">Your account has been temporarily suspended</p>
+                            <p className="text-cherry-100 text-sm">Your account has been temporarily suspended</p>
                         </div>
                     </div>
                     <button
@@ -90,7 +90,7 @@ const AccountDisabledModal = ({
                             <HiOutlineEnvelope className="w-4 h-4" />
                             Reason from Administrator
                         </h3>
-                        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-xl p-4">
+                        <div className="bg-cherry-50 dark:bg-cherry-900/20 border border-cherry-200 dark:border-cherry-800/50 rounded-xl p-4">
                             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
                                 {archiveReason || 'No reason provided'}
                             </p>

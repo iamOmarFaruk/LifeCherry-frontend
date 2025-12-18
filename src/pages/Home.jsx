@@ -94,7 +94,7 @@ const Home = () => {
   return (
     <PageLoader>
       {error && (
-        <div className="bg-red-50 text-red-700 px-4 py-3 text-center">{error}</div>
+        <div className="bg-cherry-50 text-cherry-700 px-4 py-3 text-center">{error}</div>
       )}
 
       {/* Hero Slider Section */}

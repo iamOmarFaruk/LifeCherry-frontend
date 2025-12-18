@@ -462,7 +462,7 @@ const MyLessons = () => {
         </DashboardPageHeader>
 
         {lessonsQuery.isError && (
-          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
+          <div className="mb-6 p-4 rounded-xl bg-cherry-50 border border-cherry-100 text-cherry-700 text-sm">
             Could not load your lessons. Please refresh and try again.
           </div>
         )}
@@ -704,7 +704,7 @@ const MyLessons = () => {
                           {/* Stats */}
                           <div className="flex items-center gap-3 text-sm text-text-muted dark:text-text-muted-dark mb-3 dark:text-gray-400">
                             <span className="flex items-center gap-1">
-                              <HiOutlineHeart className="w-4 h-4 text-red-400" />
+                              <HiOutlineHeart className="w-4 h-4 text-cherry-200" />
                               {lesson.likesCount}
                             </span>
                             <span className="flex items-center gap-1">
@@ -734,7 +734,7 @@ const MyLessons = () => {
                             <Tooltip content="Delete">
                               <button
                                 onClick={() => openDeleteModal(lesson)}
-                                className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                                className="p-2 bg-cherry-50 text-cherry rounded-lg hover:bg-cherry-100 transition-all duration-200 cursor-pointer"
                               >
                                 <HiOutlineTrash className="w-4 h-4" />
                               </button>
@@ -866,7 +866,7 @@ const MyLessons = () => {
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3 text-sm text-text-muted">
                               <span className="flex items-center gap-1">
-                                <HiOutlineHeart className="w-4 h-4 text-red-400" />
+                                <HiOutlineHeart className="w-4 h-4 text-cherry-200" />
                                 {lesson.likesCount}
                               </span>
                               <span className="flex items-center gap-1">
@@ -912,7 +912,7 @@ const MyLessons = () => {
                               <Tooltip content="Delete">
                                 <button
                                   onClick={() => openDeleteModal(lesson)}
-                                  className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                                  className="p-2 rounded-lg bg-cherry-50 text-cherry hover:bg-cherry-100 transition-all duration-200 cursor-pointer"
                                 >
                                   <HiOutlineTrash className="w-4 h-4" />
                                 </button>
@@ -965,7 +965,7 @@ const MyLessons = () => {
                     <div className="flex items-center justify-between gap-2 mb-4 bg-gray-50 rounded-lg p-3">
                       <div className="flex items-center gap-3 text-xs text-text-muted">
                         <span className="flex items-center gap-1">
-                          <HiOutlineHeart className="w-3.5 h-3.5 text-red-400" />
+                          <HiOutlineHeart className="w-3.5 h-3.5 text-cherry-400" />
                           {lesson.likesCount}
                         </span>
                         <span className="flex items-center gap-1">
@@ -1032,7 +1032,7 @@ const MyLessons = () => {
                       </button>
                       <button
                         onClick={() => openDeleteModal(lesson)}
-                        className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all duration-200 cursor-pointer"
+                        className="p-2 bg-cherry-50 text-cherry rounded-lg hover:bg-cherry-100 transition-all duration-200 cursor-pointer"
                       >
                         <HiOutlineTrash className="w-4 h-4" />
                       </button>
@@ -1087,8 +1087,8 @@ const MyLessons = () => {
         {showDeleteModal && selectedLesson && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 animate-in fade-in zoom-in duration-200">
-              <div className="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mx-auto mb-4">
-                <HiOutlineExclamationTriangle className="w-8 h-8 text-red-600" />
+              <div className="flex items-center justify-center w-16 h-16 bg-cherry-50 rounded-full mx-auto mb-4">
+                <HiOutlineExclamationTriangle className="w-8 h-8 text-cherry" />
               </div>
               <h3 className="text-xl font-bold text-text text-center mb-2">Delete Lesson?</h3>
               <p className="text-text-muted text-center mb-6">
@@ -1108,7 +1108,7 @@ const MyLessons = () => {
                 <button
                   onClick={handleDeleteLesson}
                   disabled={isSubmitting}
-                  className="flex-1 px-4 py-3 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-all duration-300 cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-3 bg-cherry text-white font-semibold rounded-xl hover:bg-cherry-700 transition-all duration-300 cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>

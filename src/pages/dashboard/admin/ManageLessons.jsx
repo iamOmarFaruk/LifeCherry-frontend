@@ -260,7 +260,7 @@ const ManageLessons = () => {
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-cherry-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-cherry-50 dark:bg-cherry-900/20 rounded-lg flex items-center justify-center">
                 <HiOutlineBookOpen className="w-5 h-5 text-cherry" />
               </div>
               <div>
@@ -304,8 +304,8 @@ const ManageLessons = () => {
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-border dark:border-gray-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
-                <HiOutlineFlag className="w-5 h-5 text-red-600 dark:text-red-400" />
+              <div className="w-10 h-10 bg-cherry-50 dark:bg-cherry-900/20 rounded-lg flex items-center justify-center">
+                <HiOutlineFlag className="w-5 h-5 text-cherry dark:text-cherry-300" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-text dark:text-white">{stats.flagged}</p>
@@ -484,7 +484,7 @@ const ManageLessons = () => {
                             <h4 className="font-medium text-text dark:text-white truncate">{lesson.title}</h4>
                             <div className="flex items-center gap-2 mt-1">
                               {lesson.category && (
-                                <span className="text-xs bg-cherry-50 dark:bg-red-900/30 text-cherry dark:text-red-300 px-2 py-0.5 rounded-full">
+                                <span className="text-xs bg-cherry-50 dark:bg-cherry-900/30 text-cherry dark:text-cherry-300 px-2 py-0.5 rounded-full">
                                   {lesson.category}
                                 </span>
                               )}
@@ -532,7 +532,7 @@ const ManageLessons = () => {
                             )}
                           </div>
                           {lesson.reportCount > 0 && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-700 text-xs font-medium rounded-full w-fit">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-cherry-100 dark:bg-cherry-900/40 text-cherry-700 dark:text-cherry-300 text-xs font-medium rounded-full w-fit">
                               <HiOutlineFlag className="w-3 h-3" />
                               {lesson.reportCount} {lesson.reportCount === 1 ? 'Report' : 'Reports'}
                             </span>
@@ -542,7 +542,7 @@ const ManageLessons = () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3 text-sm">
                           <span className="flex items-center gap-1 text-text-secondary dark:text-gray-400">
-                            <HiOutlineHeart className="w-4 h-4 text-red-400" />
+                            <HiOutlineHeart className="w-4 h-4 text-cherry-400" />
                             {lesson.likesCount}
                           </span>
                           <span className="flex items-center gap-1 text-text-secondary dark:text-gray-400">
@@ -593,7 +593,7 @@ const ManageLessons = () => {
                                 setSelectedLesson(lesson);
                                 setShowDeleteModal(true);
                               }}
-                              className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                              className="p-2 text-cherry hover:bg-cherry-50 dark:hover:bg-cherry-900/20 rounded-lg transition-colors"
                             >
                               <HiOutlineTrash className="w-5 h-5" />
                             </button>
@@ -721,8 +721,8 @@ const ManageLessons = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
             <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-                  <HiOutlineExclamationTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+                <div className="w-12 h-12 bg-cherry-50 dark:bg-cherry-900/20 rounded-full flex items-center justify-center">
+                  <HiOutlineExclamationTriangle className="w-6 h-6 text-cherry dark:text-cherry-300" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-text dark:text-white">Delete Lesson</h3>
@@ -730,7 +730,7 @@ const ManageLessons = () => {
                 </div>
               </div>
 
-              <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 mb-6">
+              <div className="bg-cherry-50 dark:bg-cherry-900/10 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
                   <img
                     src={selectedLesson.image}
@@ -761,7 +761,7 @@ const ManageLessons = () => {
                 <button
                   onClick={handleDeleteLesson}
                   disabled={isSubmitting}
-                  className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
+                  className="flex-1 px-4 py-2.5 bg-cherry text-white rounded-xl font-medium hover:bg-cherry-700 transition-colors"
                 >
                   {isSubmitting ? 'Deleting...' : 'Delete Lesson'}
                 </button>

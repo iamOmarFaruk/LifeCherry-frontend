@@ -471,14 +471,14 @@ const AdminDashboardHome = () => {
               <span className="text-lg font-bold text-gray-600 dark:text-gray-400">{stats.privateLessons}</span>
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-xl">
+            <div className="flex items-center justify-between p-3 bg-cherry-50 dark:bg-cherry-900/20 rounded-xl">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
-                  <HiOutlineFlag className="w-5 h-5 text-red-600 dark:text-red-400" />
+                <div className="w-10 h-10 bg-cherry-100 dark:bg-cherry-900/40 rounded-lg flex items-center justify-center">
+                  <HiOutlineFlag className="w-5 h-5 text-cherry dark:text-cherry-300" />
                 </div>
                 <span className="font-medium text-text dark:text-white">Total Reports</span>
               </div>
-              <span className="text-lg font-bold text-red-600 dark:text-red-400">{stats.totalReports}</span>
+              <span className="text-lg font-bold text-cherry dark:text-cherry-300">{stats.totalReports}</span>
             </div>
           </div>
         </div>

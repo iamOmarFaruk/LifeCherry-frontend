@@ -621,8 +621,8 @@ const MyFavorites = () => {
         {showRemoveModal && selectedFavorite && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-md w-full p-6 animate-in fade-in zoom-in duration-200">
-              <div className="flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full mx-auto mb-4">
-                <HiOutlineExclamationTriangle className="w-8 h-8 text-red-600 dark:text-red-400" />
+              <div className="flex items-center justify-center w-16 h-16 bg-cherry-100 dark:bg-cherry-900/30 rounded-full mx-auto mb-4">
+                <HiOutlineExclamationTriangle className="w-8 h-8 text-cherry dark:text-cherry-300" />
               </div>
               <h3 className="text-xl font-bold text-text dark:text-white text-center mb-2">Remove from Favorites?</h3>
               <p className="text-text-muted dark:text-gray-400 text-center mb-6">
@@ -642,7 +642,7 @@ const MyFavorites = () => {
                 <button
                   onClick={handleRemoveFavorite}
                   disabled={isSubmitting}
-                  className="flex-1 px-4 py-3 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-all duration-300 cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-3 bg-cherry text-white font-semibold rounded-xl hover:bg-cherry-700 transition-all duration-300 cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>

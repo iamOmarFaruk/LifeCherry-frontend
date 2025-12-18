@@ -327,12 +327,12 @@ const AdminProfile = () => {
                 recentActions.map((action) => (
                   <div key={action.id || action._id} className="flex items-start gap-3">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${action.targetType === 'user' ? 'bg-blue-100 dark:bg-blue-900/30' :
-                        action.targetType === 'lesson' ? 'bg-red-100 dark:bg-red-900/30' :
-                          action.targetType === 'feature' ? 'bg-amber-100 dark:bg-amber-900/30' :
-                            'bg-green-100 dark:bg-green-900/30'
+                      action.targetType === 'lesson' ? 'bg-cherry-50 dark:bg-cherry-900/20' :
+                        action.targetType === 'feature' ? 'bg-amber-100 dark:bg-amber-900/30' :
+                          'bg-green-100 dark:bg-green-900/30'
                       }`}>
                       {action.targetType === 'user' && <HiOutlineUsers className="w-5 h-5 text-blue-600 dark:text-blue-400" />}
-                      {action.targetType === 'lesson' && <HiOutlineBookOpen className="w-5 h-5 text-red-600 dark:text-red-400" />}
+                      {action.targetType === 'lesson' && <HiOutlineBookOpen className="w-5 h-5 text-cherry dark:text-cherry-300" />}
                       {['feature', 'tag'].includes(action.targetType) && <HiOutlineSparkles className="w-5 h-5 text-amber-600 dark:text-amber-400" />}
                       {action.targetType === 'report' && <HiOutlineFlag className="w-5 h-5 text-green-600 dark:text-green-400" />}
                     </div>
