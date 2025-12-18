@@ -96,7 +96,6 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
       setReplyContent('');
       setShowReplyForm(false);
       setShowReplies(true);
-      toast.success('Reply posted!');
     } catch (error) {
       console.error('Error posting reply:', error);
       toast.error('Failed to post reply');
@@ -190,70 +189,108 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
         <p className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed">{comment.content}</p>
       )}
 
-      {/* Reactions and actions */}
-      <div className="flex items-center gap-4 flex-wrap">
-        {/* Reaction summary */}
+      {/* Reactions and actions - Modern Minimal Style */}
+      <div className="flex items-center gap-1 flex-wrap">
+        {/* Inline reaction summary */}
         {comment.reactions && comment.reactions.length > 0 && (
-          <div className="flex items-center gap-1.5 bg-gradient-to-r from-cherry-50 to-pink-50 dark:from-cherry-900/30 dark:to-pink-900/30 border border-cherry-100 dark:border-cherry-800/50 rounded-full px-3 py-1.5 shadow-sm">
+          <div className="flex items-center -space-x-1 mr-2">
             {Array.from(
               new Set(comment.reactions.map((r) => r.emoji))
-            ).map((emoji) => {
+            ).slice(0, 4).map((emoji, index) => {
               const count = comment.reactions.filter((r) => r.emoji === emoji).length;
+              const isUserReaction = userReaction?.emoji === emoji;
               return (
-                <span
+                <button
                   key={emoji}
-                  className="flex items-center gap-0.5 text-base cursor-pointer hover:scale-125 transition-transform duration-200"
+                  onClick={() => handleReaction(emoji)}
+                  className={`relative flex items-center justify-center w-7 h-7 rounded-full text-sm transition-all duration-200 hover:scale-110 hover:z-10 ${isUserReaction
+                      ? 'bg-cherry-100 dark:bg-cherry-900/50 ring-2 ring-cherry-300 dark:ring-cherry-700'
+                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                  style={{ zIndex: 4 - index }}
                   title={comment.reactions
                     .filter((r) => r.emoji === emoji)
                     .map((r) => r.userEmail.split('@')[0])
                     .join(', ')}
                 >
-                  {emoji} {count > 1 && <span className="text-xs font-semibold text-cherry-600">{count}</span>}
-                </span>
+                  {emoji}
+                  {count > 1 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-cherry text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                      {count}
+                    </span>
+                  )}
+                </button>
               );
             })}
           </div>
         )}
 
-        {/* Reaction button */}
-        <div className="relative">
+        {/* Reaction picker trigger */}
+        <div className="relative group">
           <button
             onClick={() => setShowReactions(!showReactions)}
-            className="text-base text-gray-600 dark:text-gray-400 hover:text-cherry hover:bg-cherry-50 dark:hover:bg-cherry-900/30 px-3 py-1.5 rounded-lg transition-all font-medium border border-transparent hover:border-cherry-200 dark:hover:border-cherry-800"
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${userReaction
+                ? 'text-cherry bg-cherry-50 dark:bg-cherry-900/30 hover:bg-cherry-100 dark:hover:bg-cherry-900/50'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
+              }`}
           >
-            {userReaction ? userReaction.emoji : '👍'}
+            <span className="text-base transition-transform duration-200 group-hover:scale-110">
+              {userReaction ? userReaction.emoji : '☺'}
+            </span>
+            <span className="hidden sm:inline">React</span>
           </button>
+
+          {/* Floating emoji picker */}
           {showReactions && (
-            <div className="absolute bottom-full left-0 mb-2 bg-white dark:bg-gray-800 border-2 border-cherry-100 dark:border-gray-700 rounded-2xl shadow-2xl p-3 flex gap-2 z-10 backdrop-blur-sm">
-              {REACTION_EMOJIS.map((emoji) => (
-                <button
-                  key={emoji}
-                  onClick={() => handleReaction(emoji)}
-                  className="text-2xl hover:scale-125 transition-transform duration-200 cursor-pointer p-1.5 hover:bg-cherry-50 dark:hover:bg-cherry-900/30 rounded-lg"
-                >
-                  {emoji}
-                </button>
-              ))}
+            <div className="absolute bottom-full left-0 mb-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
+              <div className="flex items-center gap-1 bg-white dark:bg-gray-800 rounded-full shadow-xl border border-gray-200 dark:border-gray-700 px-2 py-1.5">
+                {REACTION_EMOJIS.map((emoji) => (
+                  <button
+                    key={emoji}
+                    onClick={() => handleReaction(emoji)}
+                    className={`w-9 h-9 flex items-center justify-center text-xl rounded-full transition-all duration-150 hover:scale-125 hover:bg-gray-100 dark:hover:bg-gray-700 ${userReaction?.emoji === emoji ? 'bg-cherry-50 dark:bg-cherry-900/30 scale-110' : ''
+                      }`}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
 
+        {/* Separator */}
+        <span className="w-px h-4 bg-gray-300 dark:bg-gray-600 mx-1" />
+
         {/* Reply button */}
         <button
           onClick={() => setShowReplyForm(!showReplyForm)}
-          className="text-sm text-gray-600 dark:text-gray-300 hover:text-cherry dark:hover:text-cherry hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1.5 rounded-lg transition-all font-medium"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-cherry dark:hover:text-cherry hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
         >
-          Reply
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+          </svg>
+          <span className="hidden sm:inline">Reply</span>
         </button>
 
         {/* Replies count */}
         {comment.replies && comment.replies.length > 0 && (
-          <button
-            onClick={() => setShowReplies(!showReplies)}
-            className="text-sm text-cherry hover:text-cherry-dark font-semibold transition-colors"
-          >
-            {comment.replies.length} {comment.replies.length === 1 ? 'reply' : 'replies'}
-          </button>
+          <>
+            <span className="w-px h-4 bg-gray-300 dark:bg-gray-600 mx-1" />
+            <button
+              onClick={() => setShowReplies(!showReplies)}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-sm font-medium text-cherry hover:text-cherry-dark hover:bg-cherry-50 dark:hover:bg-cherry-900/30 transition-all duration-200"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              {comment.replies.length}
+              <span className="hidden sm:inline">{comment.replies.length === 1 ? 'reply' : 'replies'}</span>
+              <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${showReplies ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </>
         )}
       </div>
 

@@ -118,8 +118,6 @@ export default function CommentSection({ onTotalChange }) {
       if (onTotalChange) {
         onTotalChange(newTotal);
       }
-
-      toast.success('Comment posted!');
     } catch (error) {
       console.error('Error posting comment:', error);
       toast.error('Failed to post comment');
@@ -133,7 +131,6 @@ export default function CommentSection({ onTotalChange }) {
     setComments(
       comments.map((c) => (c._id === commentId ? updatedComment : c))
     );
-    toast.success('Comment updated');
   };
 
   // Handle comment delete
@@ -149,8 +146,6 @@ export default function CommentSection({ onTotalChange }) {
     if (onTotalChange) {
       onTotalChange(newTotal);
     }
-
-    toast.success('Comment deleted');
   };
 
   // Handle reply added
