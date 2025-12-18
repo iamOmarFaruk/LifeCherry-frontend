@@ -228,8 +228,8 @@ export default function CommentSection({ onTotalChange }) {
           </form>
         </div>
       ) : (
-        <div className="bg-cherry-50 border border-cherry-200 rounded-2xl p-6 text-center">
-          <p className="text-text-primary">
+        <div className="bg-cherry-50 dark:bg-gray-800 border border-cherry-200 dark:border-gray-700 rounded-2xl p-6 text-center">
+          <p className="text-text-primary dark:text-gray-300">
             <a href="/login" className="text-cherry font-semibold hover:text-cherry-dark underline decoration-2 underline-offset-2 transition-colors">
               Log in
             </a>{' '}
