@@ -20,6 +20,7 @@ import useDocumentTitle from '../../hooks/useDocumentTitle';
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../hooks/useAuth';
 import apiClient from '../../utils/apiClient';
+import MotionWrapper from '../../components/shared/MotionWrapper';
 
 // Calculate month-over-month change
 const calculateChange = (currentValue, previousValue) => {
@@ -187,7 +188,7 @@ const DashboardHome = () => {
         {/* Stats Cards - Professional Design */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {/* Total Lessons */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <MotionWrapper delay={0.1} className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Total Lessons</p>
@@ -217,10 +218,10 @@ const DashboardHome = () => {
                 <HiOutlineBookOpen className="w-5 h-5 text-cherry dark:text-cherry-400 group-hover:!text-white transition-colors" />
               </div>
             </div>
-          </div>
+          </MotionWrapper>
 
           {/* Total Favorites */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <MotionWrapper delay={0.2} className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Saved Favorites</p>
@@ -250,10 +251,10 @@ const DashboardHome = () => {
                 <HiOutlineBookmark className="w-5 h-5 text-amber-500 dark:text-amber-400 group-hover:text-white transition-colors" />
               </div>
             </div>
-          </div>
+          </MotionWrapper>
 
           {/* Total Likes */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <MotionWrapper delay={0.3} className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Total Likes</p>
@@ -283,10 +284,10 @@ const DashboardHome = () => {
                 <HiOutlineHeart className="w-5 h-5 text-rose-500 dark:text-rose-400 group-hover:text-white transition-colors" />
               </div>
             </div>
-          </div>
+          </MotionWrapper>
 
           {/* Total Views */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <MotionWrapper delay={0.4} className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <p className="text-sm font-medium text-text-muted dark:text-gray-400 mb-1">Total Views</p>
@@ -316,14 +317,14 @@ const DashboardHome = () => {
                 <HiOutlineEye className="w-5 h-5 text-blue-500 dark:text-blue-400 group-hover:text-white transition-colors" />
               </div>
             </div>
-          </div>
+          </MotionWrapper>
         </div>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           {/* Weekly Activity Chart */}
-          <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
+          <MotionWrapper delay={0.4} className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-lg font-bold text-text dark:text-white">Weekly Activity</h2>
@@ -420,10 +421,10 @@ const DashboardHome = () => {
                 </div>
               </div>
             ) : null}
-          </div>
+          </MotionWrapper>
 
           {/* Quick Actions */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
+          <MotionWrapper delay={0.5} className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <h2 className="text-lg font-bold text-text dark:text-white mb-4">Quick Actions</h2>
             <div className="space-y-3">
               <Link
@@ -482,7 +483,7 @@ const DashboardHome = () => {
                 <HiOutlineArrowRight className="w-4 h-4 text-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
             </div>
-          </div>
+          </MotionWrapper>
         </div>
 
         {/* Recently Added Lessons */}
@@ -521,9 +522,10 @@ const DashboardHome = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {recentLessons.map((lesson) => (
-                <div
+              {recentLessons.map((lesson, index) => (
+                <MotionWrapper
                   key={lesson._id}
+                  delay={0.4 + index * 0.1}
                   className="group bg-bg dark:bg-gray-700 rounded-xl p-4 hover:shadow-md transition-all border border-transparent hover:border-cherry-100 dark:hover:border-cherry-900"
                 >
                   <div className="relative mb-3">
@@ -567,7 +569,7 @@ const DashboardHome = () => {
                       </span>
                     </div>
                   </div>
-                </div>
+                </MotionWrapper>
               ))}
             </div>
           )}
@@ -600,7 +602,7 @@ const DashboardHome = () => {
         {/* Monthly Insights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           {/* Most Popular Lesson */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
+          <MotionWrapper delay={0.5} className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
                 <span className="text-lg">🏆</span>
@@ -626,10 +628,10 @@ const DashboardHome = () => {
             ) : (
               <p className="text-sm text-text-secondary dark:text-gray-400">Create your first lesson to see performance insights.</p>
             )}
-          </div>
+          </MotionWrapper>
 
           {/* Category Distribution */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
+          <MotionWrapper delay={0.6} className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
                 <HiOutlineChartBar className="w-4 h-4 text-purple-600 dark:text-purple-400" />
@@ -653,10 +655,10 @@ const DashboardHome = () => {
             ) : (
               <p className="text-sm text-text-secondary dark:text-gray-400">No categories yet. Start adding lessons.</p>
             )}
-          </div>
+          </MotionWrapper>
 
           {/* This Month Stats */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
+          <MotionWrapper delay={0.7} className="bg-white dark:bg-gray-800 rounded-2xl p-5 lg:p-6 border border-border dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
                 <HiOutlineCalendarDays className="w-4 h-4 text-green-600 dark:text-green-400" />
@@ -677,7 +679,7 @@ const DashboardHome = () => {
                 <span className="text-sm font-bold text-green-600">+{monthStats.views}</span>
               </div>
             </div>
-          </div>
+          </MotionWrapper>
         </div>
       </div>
     </PageLoader>

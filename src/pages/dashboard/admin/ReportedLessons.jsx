@@ -19,7 +19,7 @@ import toast from 'react-hot-toast';
 import PageLoader from '../../../components/shared/PageLoader';
 import DashboardPageHeader from '../../../components/shared/DashboardPageHeader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
-import { reportAPI } from '../../../utils/apiClient';
+import apiClient, { reportAPI } from '../../../utils/apiClient';
 import { reportReasons } from '../../../data/reports';
 import { users } from '../../../data/users';
 
@@ -189,27 +189,58 @@ const ReportedLessons = () => {
   };
 
   // Handle ignore report (dismiss)
-  const handleIgnoreReports = (lessonId) => {
-    setReportsData(prev => prev.map(r =>
-      r.lessonId === lessonId ? { ...r, status: 'resolved' } : r
-    ));
-    toast.success('Reports dismissed');
-    setShowDetailsModal(false);
-    setSelectedLesson(null);
+  // Handle ignore report (dismiss)
+  const handleIgnoreReports = async (lessonId) => {
+    if (!selectedLesson || !selectedLesson.reports) return;
+
+    // Find all pending reports for this lesson
+    const pendingReports = selectedLesson.reports.filter(r => r.status === 'pending');
+
+    if (pendingReports.length === 0) {
+      toast.success('No pending reports to dismiss');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      // Resolve all pending reports
+      await Promise.all(pendingReports.map(report =>
+        reportAPI.reviewReport(report._id, { status: 'resolved', adminMessage: 'Batch resolved by admin' })
+      ));
+
+      toast.success('Reports dismissed successfully');
+      setShowDetailsModal(false);
+      setSelectedLesson(null);
+      fetchReports(); // Refresh data
+    } catch (error) {
+      console.error('Error dismissing reports:', error);
+      toast.error('Failed to dismiss reports');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Handle delete lesson
-  const handleDeleteLesson = () => {
+  const handleDeleteLesson = async () => {
+    if (!selectedLesson || !selectedLesson.lesson) return;
+
     setIsSubmitting(true);
-    setTimeout(() => {
-      setLessonsData(prev => prev.filter(l => l._id !== selectedLesson.lesson._id));
-      setReportsData(prev => prev.filter(r => r.lessonId !== selectedLesson.lesson._id));
-      toast.success('Lesson deleted and reports resolved');
+    try {
+      await apiClient.delete(`/lessons/${selectedLesson.lesson._id}`);
+
+      toast.success('Lesson deleted successfully');
       setShowDeleteModal(false);
       setShowDetailsModal(false);
       setSelectedLesson(null);
+
+      // Refresh reports which will now exclude reports for deleted lesson
+      fetchReports();
+    } catch (error) {
+      console.error('Error deleting lesson:', error);
+      toast.error('Failed to delete lesson');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   // Stats display

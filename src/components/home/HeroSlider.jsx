@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 import { FiArrowRight, FiBookOpen, FiUsers, FiStar } from 'react-icons/fi';
+import { motion } from 'framer-motion';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -69,26 +70,46 @@ const HeroSlider = () => {
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
             {/* Light mode: colorful gradients, Dark mode: professional dark gradient */}
-            <div className={`bg-gradient-to-br ${slide.lightGradient} dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-12 md:py-16 lg:py-24 transition-colors duration-300`}>
+            <div className={`bg-gradient-to-br ${slide.lightGradient} dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-12 md:py-16 lg:py-24 transition-colors duration-300 overflow-hidden`}>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
                   {/* Content */}
                   <div className="text-center lg:text-left order-2 lg:order-1">
-                    <div className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-cherry/10 dark:bg-cherry/20 text-cherry mb-4 md:mb-6">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.1 }}
+                      className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-cherry/10 dark:bg-cherry/20 text-cherry mb-4 md:mb-6"
+                    >
                       {slide.icon}
-                    </div>
+                    </motion.div>
 
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-text-primary dark:text-white mb-3 md:mb-4 leading-tight">
+                    <motion.h1
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                      className="text-3xl md:text-5xl lg:text-6xl font-bold text-text-primary dark:text-white mb-3 md:mb-4 leading-tight"
+                    >
                       {slide.title}
                       <br />
                       <span className="text-cherry">{slide.highlight}</span>
-                    </h1>
+                    </motion.h1>
 
-                    <p className="text-base md:text-xl text-text-secondary dark:text-gray-300 mb-6 md:mb-8 max-w-xl mx-auto lg:mx-0">
+                    <motion.p
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                      className="text-base md:text-xl text-text-secondary dark:text-gray-300 mb-6 md:mb-8 max-w-xl mx-auto lg:mx-0"
+                    >
                       {slide.description}
-                    </p>
+                    </motion.p>
 
-                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.4 }}
+                      className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start"
+                    >
                       <Link
                         to={slide.primaryBtn.link}
                         className="btn-capsule text-base md:text-lg px-6 py-3 md:px-8 inline-flex items-center justify-center gap-2"
@@ -102,12 +123,17 @@ const HeroSlider = () => {
                       >
                         {slide.secondaryBtn.text}
                       </Link>
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Image */}
                   <div className="order-1 lg:order-2">
-                    <div className="relative">
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9, rotate: 0 }}
+                      whileInView={{ opacity: 1, scale: 1, rotate: 3 }}
+                      transition={{ duration: 0.7, ease: "easeOut" }}
+                      className="relative"
+                    >
                       <div className="absolute inset-0 bg-gradient-to-br from-cherry/20 dark:from-cherry/10 to-transparent rounded-3xl transform rotate-3"></div>
                       <img
                         src={slide.image}
@@ -115,7 +141,12 @@ const HeroSlider = () => {
                         className="relative rounded-3xl shadow-2xl dark:shadow-black/40 w-full h-[250px] md:h-[400px] object-cover border border-transparent dark:border-gray-700"
                       />
                       {/* Floating elements */}
-                      <div className="absolute -bottom-4 -left-4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-black/30 p-4 hidden md:block border border-transparent dark:border-gray-700">
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.6, duration: 0.5 }}
+                        className="absolute -bottom-4 -left-4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-black/30 p-4 hidden md:block border border-transparent dark:border-gray-700"
+                      >
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-cherry/10 dark:bg-cherry/20 flex items-center justify-center">
                             <span className="text-xl">🍒</span>
@@ -125,8 +156,13 @@ const HeroSlider = () => {
                             <p className="text-text-muted dark:text-gray-400 text-xs">Shared by community</p>
                           </div>
                         </div>
-                      </div>
-                      <div className="absolute -top-4 -right-4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-black/30 p-4 hidden md:block border border-transparent dark:border-gray-700">
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.8, duration: 0.5 }}
+                        className="absolute -top-4 -right-4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-black/30 p-4 hidden md:block border border-transparent dark:border-gray-700"
+                      >
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center">
                             <span className="text-xl">⭐</span>
@@ -136,13 +172,14 @@ const HeroSlider = () => {
                             <p className="text-text-muted dark:text-gray-400 text-xs">Exclusive content</p>
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      </motion.div>
+                    </motion.div>
                   </div>
                 </div>
               </div>
             </div>
           </SwiperSlide>
+
         ))}
       </Swiper>
 
