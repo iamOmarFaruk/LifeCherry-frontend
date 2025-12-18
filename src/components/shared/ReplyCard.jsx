@@ -155,13 +155,13 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
   };
 
   return (
-    <div className="bg-gray-50 rounded-lg border border-gray-200 p-3 space-y-2">
+    <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600 p-3 space-y-2">
       {/* Reply header */}
       <div className="flex items-start gap-2">
         <img
           src={reply.userPhoto || `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(reply.userName)}`}
           alt={reply.userName}
-          className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-100"
+          className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-100 dark:ring-gray-600"
           onError={(e) => {
             e.target.src = `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(reply.userName)}`;
           }}
@@ -170,12 +170,12 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
           <div className="flex items-center justify-between gap-2">
             <div>
               <div className="flex items-center gap-2">
-                <p className="text-sm font-medium text-gray-900">{reply.userName}</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">{reply.userName}</p>
                 {reply.updatedAt && new Date(reply.updatedAt).getTime() > new Date(reply.createdAt).getTime() + 5000 && (
-                  <span className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">edited</span>
+                  <span className="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded-full">edited</span>
                 )}
               </div>
-              <p className="text-xs text-gray-500">{formatDate(reply.createdAt)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{formatDate(reply.createdAt)}</p>
             </div>
             {isOwner && (
               <div className="flex gap-1">
@@ -184,13 +184,13 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
                     setIsEditing(!isEditing);
                     setEditedContent(reply.content);
                   }}
-                  className="text-xs px-2 py-1 text-cherry hover:bg-cherry-50 rounded-lg font-medium transition-all"
+                  className="text-xs px-2 py-1 text-cherry hover:bg-cherry-50 dark:hover:bg-cherry-900/30 rounded-lg font-medium transition-all"
                 >
                   {isEditing ? 'Cancel' : 'Edit'}
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="text-xs px-2 py-1 text-cherry hover:bg-cherry-50 rounded-lg font-medium transition-all"
+                  className="text-xs px-2 py-1 text-cherry hover:bg-cherry-50 dark:hover:bg-cherry-900/30 rounded-lg font-medium transition-all"
                 >
                   Delete
                 </button>
@@ -206,14 +206,14 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
           <textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            className="w-full px-3 py-2 border-2 border-cherry-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent transition-all shadow-sm"
+            className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent transition-all shadow-sm"
             rows="2"
             disabled={isSubmitting}
           />
           <div className="flex justify-end gap-2">
             <button
               onClick={() => setIsEditing(false)}
-              className="text-xs px-3 py-1.5 text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 font-medium transition-all"
+              className="text-xs px-3 py-1.5 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-600 border border-gray-200 dark:border-gray-500 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-500 font-medium transition-all"
               disabled={isSubmitting}
             >
               Cancel
@@ -228,14 +228,14 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
           </div>
         </div>
       ) : (
-        <p className="text-gray-800 text-sm leading-relaxed">{reply.content}</p>
+        <p className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed">{reply.content}</p>
       )}
 
       {/* Reactions and actions */}
       <div className="flex items-center gap-3 flex-wrap text-xs">
         {/* Reaction summary */}
         {reply.reactions && reply.reactions.length > 0 && (
-          <div className="flex items-center gap-1 bg-gradient-to-r from-cherry-50 to-pink-50 border border-cherry-100 rounded-full px-2 py-1 shadow-sm">
+          <div className="flex items-center gap-1 bg-gradient-to-r from-cherry-50 to-pink-50 dark:from-cherry-900/30 dark:to-pink-900/30 border border-cherry-100 dark:border-cherry-800/50 rounded-full px-2 py-1 shadow-sm">
             {Array.from(
               new Set(reply.reactions.map((r) => r.emoji))
             ).map((emoji) => {
@@ -260,17 +260,17 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
         <div className="relative">
           <button
             onClick={() => setShowReactions(!showReactions)}
-            className="text-sm text-gray-600 hover:text-cherry hover:bg-cherry-50 px-2 py-1 rounded-lg transition-all font-medium border border-transparent hover:border-cherry-200"
+            className="text-sm text-gray-600 dark:text-gray-300 hover:text-cherry hover:bg-gray-100 dark:hover:bg-gray-600 px-2 py-1 rounded-lg transition-all font-medium"
           >
             {userReaction ? userReaction.emoji : '👍'}
           </button>
           {showReactions && (
-            <div className="absolute bottom-full left-0 mb-2 bg-white border-2 border-cherry-100 rounded-2xl shadow-2xl p-2 flex gap-1.5 z-10">
+            <div className="absolute bottom-full left-0 mb-2 bg-white dark:bg-gray-800 border-2 border-cherry-100 dark:border-gray-600 rounded-2xl shadow-2xl p-2 flex gap-1.5 z-10">
               {REACTION_EMOJIS.map((emoji) => (
                 <button
                   key={emoji}
                   onClick={() => handleReaction(emoji)}
-                  className="text-xl hover:scale-125 transition-transform duration-200 cursor-pointer p-1 hover:bg-cherry-50 rounded-lg"
+                  className="text-xl hover:scale-125 transition-transform duration-200 cursor-pointer p-1 hover:bg-cherry-50 dark:hover:bg-cherry-900/30 rounded-lg"
                 >
                   {emoji}
                 </button>
@@ -283,7 +283,7 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
         {level < 3 && (
           <button
             onClick={() => setShowReplyForm(!showReplyForm)}
-            className="text-sm text-gray-600 hover:text-cherry hover:bg-cherry-50 px-2 py-1 rounded-lg transition-all font-medium border border-transparent hover:border-cherry-200"
+            className="text-sm text-gray-600 dark:text-gray-300 hover:text-cherry hover:bg-gray-100 dark:hover:bg-gray-600 px-2 py-1 rounded-lg transition-all font-medium"
           >
             Reply
           </button>
@@ -302,13 +302,13 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
 
       {/* Nested reply form */}
       {showReplyForm && level < 3 && (
-        <form onSubmit={handleNestedReply} className="mt-2 space-y-2 border-t border-cherry-200 pt-2">
+        <form onSubmit={handleNestedReply} className="mt-2 space-y-2 border-t border-gray-200 dark:border-gray-600 pt-2">
           <textarea
             value={nestedReplyContent}
             onChange={(e) => setNestedReplyContent(e.target.value)}
             placeholder="Write a reply..."
             rows="1"
-            className="w-full px-3 py-2 border-2 border-cherry-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent transition-all shadow-sm"
+            className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent transition-all shadow-sm placeholder:text-gray-500 dark:placeholder:text-gray-400"
             disabled={isSubmitting}
           />
           <div className="flex justify-end gap-2">
@@ -318,7 +318,7 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
                 setShowReplyForm(false);
                 setNestedReplyContent('');
               }}
-              className="text-xs px-3 py-1.5 text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 font-medium transition-all"
+              className="text-xs px-3 py-1.5 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-600 border border-gray-200 dark:border-gray-500 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-500 font-medium transition-all"
               disabled={isSubmitting}
             >
               Cancel
@@ -336,7 +336,7 @@ export default function ReplyCard({ reply, parentCommentId, lessonId, level, onU
 
       {/* Nested replies */}
       {showNestedReplies && reply.replies && reply.replies.length > 0 && (
-        <div className="mt-2 space-y-2 border-t border-cherry-200 pt-2">
+        <div className="mt-2 space-y-2 border-t border-gray-200 dark:border-gray-600 pt-2">
           {reply.replies.map((nestedReply) => (
             <ReplyCard
               key={nestedReply._id}

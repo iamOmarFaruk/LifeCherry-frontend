@@ -114,13 +114,13 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 space-y-3">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 space-y-3">
       {/* Comment header */}
       <div className="flex items-start gap-3">
         <img
           src={comment.userPhoto || `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(comment.userName)}`}
           alt={comment.userName}
-          className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-100"
+          className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-100 dark:ring-gray-700"
           onError={(e) => {
             e.target.src = `https://ui-avatars.com/api/?background=FEE2E2&color=9F1239&name=${encodeURIComponent(comment.userName)}`;
           }}
@@ -129,12 +129,12 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
           <div className="flex items-center justify-between gap-2">
             <div>
               <div className="flex items-center gap-2">
-                <p className="font-medium text-gray-900">{comment.userName}</p>
+                <p className="font-medium text-gray-900 dark:text-white">{comment.userName}</p>
                 {comment.updatedAt && new Date(comment.updatedAt).getTime() > new Date(comment.createdAt).getTime() + 5000 && (
-                  <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">edited</span>
+                  <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full">edited</span>
                 )}
               </div>
-              <p className="text-xs text-gray-500">{formatDate(comment.createdAt)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{formatDate(comment.createdAt)}</p>
             </div>
             {isOwner && (
               <div className="flex gap-1">
@@ -143,13 +143,13 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
                     setIsEditing(!isEditing);
                     setEditedContent(comment.content);
                   }}
-                  className="text-xs px-3 py-1.5 text-cherry hover:bg-cherry-50 rounded-lg font-medium transition-all"
+                  className="text-xs px-3 py-1.5 text-cherry hover:bg-cherry-50 dark:hover:bg-cherry-900/30 rounded-lg font-medium transition-all"
                 >
                   {isEditing ? 'Cancel' : 'Edit'}
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="text-xs px-3 py-1.5 text-cherry hover:bg-cherry-50 rounded-lg font-medium transition-all"
+                  className="text-xs px-3 py-1.5 text-cherry hover:bg-cherry-50 dark:hover:bg-cherry-900/30 rounded-lg font-medium transition-all"
                 >
                   Delete
                 </button>
@@ -165,14 +165,14 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
           <textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            className="w-full px-4 py-3 border-2 border-cherry-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent text-sm resize-none transition-all shadow-sm"
+            className="w-full px-4 py-3 border-2 border-cherry-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent text-sm resize-none transition-all shadow-sm"
             rows="2"
             disabled={isSubmitting}
           />
           <div className="flex justify-end gap-2">
             <button
               onClick={() => setIsEditing(false)}
-              className="text-sm px-4 py-2 text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 font-medium transition-all"
+              className="text-sm px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 font-medium transition-all"
               disabled={isSubmitting}
             >
               Cancel
@@ -187,14 +187,14 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
           </div>
         </div>
       ) : (
-        <p className="text-gray-800 text-sm leading-relaxed">{comment.content}</p>
+        <p className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed">{comment.content}</p>
       )}
 
       {/* Reactions and actions */}
       <div className="flex items-center gap-4 flex-wrap">
         {/* Reaction summary */}
         {comment.reactions && comment.reactions.length > 0 && (
-          <div className="flex items-center gap-1.5 bg-gradient-to-r from-cherry-50 to-pink-50 border border-cherry-100 rounded-full px-3 py-1.5 shadow-sm">
+          <div className="flex items-center gap-1.5 bg-gradient-to-r from-cherry-50 to-pink-50 dark:from-cherry-900/30 dark:to-pink-900/30 border border-cherry-100 dark:border-cherry-800/50 rounded-full px-3 py-1.5 shadow-sm">
             {Array.from(
               new Set(comment.reactions.map((r) => r.emoji))
             ).map((emoji) => {
@@ -219,17 +219,17 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
         <div className="relative">
           <button
             onClick={() => setShowReactions(!showReactions)}
-            className="text-base text-gray-600 hover:text-cherry hover:bg-cherry-50 px-3 py-1.5 rounded-lg transition-all font-medium border border-transparent hover:border-cherry-200"
+            className="text-base text-gray-600 dark:text-gray-400 hover:text-cherry hover:bg-cherry-50 dark:hover:bg-cherry-900/30 px-3 py-1.5 rounded-lg transition-all font-medium border border-transparent hover:border-cherry-200 dark:hover:border-cherry-800"
           >
             {userReaction ? userReaction.emoji : '👍'}
           </button>
           {showReactions && (
-            <div className="absolute bottom-full left-0 mb-2 bg-white border-2 border-cherry-100 rounded-2xl shadow-2xl p-3 flex gap-2 z-10 backdrop-blur-sm">
+            <div className="absolute bottom-full left-0 mb-2 bg-white dark:bg-gray-800 border-2 border-cherry-100 dark:border-gray-700 rounded-2xl shadow-2xl p-3 flex gap-2 z-10 backdrop-blur-sm">
               {REACTION_EMOJIS.map((emoji) => (
                 <button
                   key={emoji}
                   onClick={() => handleReaction(emoji)}
-                  className="text-2xl hover:scale-125 transition-transform duration-200 cursor-pointer p-1.5 hover:bg-cherry-50 rounded-lg"
+                  className="text-2xl hover:scale-125 transition-transform duration-200 cursor-pointer p-1.5 hover:bg-cherry-50 dark:hover:bg-cherry-900/30 rounded-lg"
                 >
                   {emoji}
                 </button>
@@ -241,7 +241,7 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
         {/* Reply button */}
         <button
           onClick={() => setShowReplyForm(!showReplyForm)}
-          className="text-sm text-gray-600 hover:text-cherry hover:bg-cherry-50 px-3 py-1.5 rounded-lg transition-all font-medium border border-transparent hover:border-cherry-200"
+          className="text-sm text-gray-600 dark:text-gray-300 hover:text-cherry dark:hover:text-cherry hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1.5 rounded-lg transition-all font-medium"
         >
           Reply
         </button>
@@ -259,13 +259,13 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
 
       {/* Reply form */}
       {showReplyForm && (
-        <form onSubmit={handleReply} className="ml-10 mt-4 space-y-3 border-l-2 border-cherry-200 pl-4">
+        <form onSubmit={handleReply} className="ml-10 mt-4 space-y-3 border-l-2 border-gray-200 dark:border-gray-600 pl-4">
           <textarea
             value={replyContent}
             onChange={(e) => setReplyContent(e.target.value)}
             placeholder="Write a reply..."
             rows="2"
-            className="w-full px-4 py-3 border-2 border-cherry-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent text-sm resize-none transition-all shadow-sm"
+            className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-cherry focus:border-transparent text-sm resize-none transition-all shadow-sm placeholder:text-gray-500 dark:placeholder:text-gray-400"
             disabled={isSubmitting}
           />
           <div className="flex justify-end gap-2">
@@ -275,7 +275,7 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
                 setShowReplyForm(false);
                 setReplyContent('');
               }}
-              className="text-sm px-4 py-2 text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 font-medium transition-all"
+              className="text-sm px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 font-medium transition-all"
               disabled={isSubmitting}
             >
               Cancel
@@ -293,7 +293,7 @@ export default function CommentCard({ comment, lessonId, onUpdate, onDelete, onR
 
       {/* Replies */}
       {showReplies && comment.replies && comment.replies.length > 0 && (
-        <div className="ml-8 mt-4 space-y-3 border-l-2 border-cherry-200 pl-4">
+        <div className="ml-8 mt-4 space-y-3 border-l-2 border-cherry-200 dark:border-cherry-800 pl-4">
           {comment.replies.map((reply) => (
             <ReplyCard
               key={reply._id}
