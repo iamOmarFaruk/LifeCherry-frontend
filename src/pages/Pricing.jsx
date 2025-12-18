@@ -1,7 +1,8 @@
 // Pricing Page - LifeCherry
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiCheck, FiX, FiStar, FiZap, FiShield, FiAward, FiTrendingUp, FiUnlock, FiBookOpen, FiHeart, FiChevronDown } from 'react-icons/fi';
+import { FiCheck, FiX, FiStar, FiZap, FiShield, FiAward, FiTrendingUp, FiUnlock, FiBookOpen, FiHeart, FiChevronDown, FiGlobe, FiEye, FiDownload, FiBarChart2 } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
 import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import useAuth from '../hooks/useAuth';
@@ -73,60 +74,70 @@ const Pricing = () => {
   // Feature comparison data
   const features = [
     {
-      feature: 'Create Life Lessons',
+      feature: 'Life Lesson Creation',
+      description: 'The core of LifeCherry. Share your wisdom with the world.',
       free: 'Up to 10 lessons',
-      premium: 'Unlimited lessons',
-      freeIcon: true,
-      premiumIcon: true
+      premium: 'Unrestricted creation',
+      icon: FiBookOpen,
+      isPremiumOnly: false,
+      gridSpan: ''
     },
     {
-      feature: 'View Public Lessons',
-      free: 'Free lessons only',
-      premium: 'All lessons (Free + Premium)',
-      freeIcon: true,
-      premiumIcon: true
+      feature: 'Visibility & Access',
+      description: 'Explore wisdom from all creators.',
+      free: 'Limit to free content',
+      premium: 'Access everything',
+      icon: FiEye,
+      isPremiumOnly: false
     },
     {
-      feature: 'Create Premium Lessons',
-      free: false,
-      premium: 'Create exclusive content',
-      freeIcon: false,
-      premiumIcon: true
+      feature: 'Premium Content',
+      description: 'Exclusive, high-value lessons for elite members.',
+      free: 'Closed',
+      premium: 'Unlimited access',
+      icon: FiUnlock,
+      isPremiumOnly: true
     },
     {
-      feature: 'Ad-Free Experience',
-      free: false,
-      premium: 'No distractions',
-      freeIcon: false,
-      premiumIcon: true
+      feature: 'Global Reach',
+      description: 'Get your lessons featured in front of a global audience.',
+      free: 'Standard exposure',
+      premium: 'Priority top listing',
+      icon: FiGlobe,
+      isPremiumOnly: true,
+      gridSpan: ''
     },
     {
-      feature: 'Priority Listing',
-      free: false,
-      premium: 'Your lessons appear first',
-      freeIcon: false,
-      premiumIcon: true
+      feature: 'Ad-Free Journey',
+      description: 'Zero distractions while you learn and grow.',
+      free: 'Includes ads',
+      premium: '100% Ad-free',
+      icon: FiZap,
+      isPremiumOnly: true
     },
     {
-      feature: 'Featured Creator Badge',
-      free: false,
-      premium: 'Stand out in the community',
-      freeIcon: false,
-      premiumIcon: true
+      feature: 'Creator Identity',
+      description: 'Get recognized as a top-tier wise contributor.',
+      free: 'Standard profile',
+      premium: 'Elite verified badge',
+      icon: FiAward,
+      isPremiumOnly: true
     },
     {
-      feature: 'Advanced Analytics',
-      free: 'Basic stats only',
-      premium: 'Detailed insights & trends',
-      freeIcon: true,
-      premiumIcon: true
+      feature: 'Deep Analytics',
+      description: 'Track how your wisdom impacts others.',
+      free: 'Basic daily stats',
+      premium: 'Advanced insights',
+      icon: FiBarChart2,
+      isPremiumOnly: false
     },
     {
-      feature: 'Export Lessons as PDF',
-      free: false,
-      premium: 'Download your wisdom',
-      freeIcon: false,
-      premiumIcon: true
+      feature: 'Knowledge Portability',
+      description: 'Keep your lessons offline and ready to share.',
+      free: 'Cloud only',
+      premium: 'Download as PDF',
+      icon: FiDownload,
+      isPremiumOnly: true
     }
   ];
 
@@ -353,76 +364,181 @@ const Pricing = () => {
           </div>
         </section>
 
-        {/* Feature Comparison Table */}
-        <section className="py-10 md:py-16 px-4 bg-white dark:bg-gray-900">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-text-primary dark:text-white mb-2 md:mb-4">Compare Plans</h2>
-              <p className="text-text-secondary dark:text-gray-400 text-sm md:text-base">See what's included in each plan</p>
-            </div>
+        {/* Modern Bento Grid Feature Section */}
+        <section className="py-16 md:py-24 px-4 bg-white dark:bg-black overflow-hidden">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-5xl font-extrabold text-text-primary dark:text-white mb-6 tracking-tight">
+                Compare Plan <span className="text-cherry">Excellence</span>
+              </h2>
+              <p className="text-text-secondary dark:text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                Choose the journey that fits your quest for wisdom. Switch up whenever you're ready.
+              </p>
+            </motion.div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden text-sm md:text-base">
-              {/* Table Header */}
-              <div className="grid grid-cols-3 bg-cherry-50 dark:bg-cherry/10">
-                <div className="p-3 md:p-4 font-semibold text-text-primary dark:text-white">Feature</div>
-                <div className="p-3 md:p-4 font-semibold text-text-primary dark:text-white text-center">Free</div>
-                <div className="p-3 md:p-4 font-semibold text-cherry text-center flex items-center justify-center gap-1 md:gap-2">
-                  <FiStar className="w-3.5 h-3.5 md:w-4 md:h-4" /> Premium
-                </div>
-              </div>
-
-              {/* Table Body */}
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.1,
+                    delayChildren: 0.3
+                  }
+                }
+              }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 auto-rows-fr"
+            >
               {features.map((item, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className={`grid grid-cols-3 ${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-900'} border-t border-gray-100 dark:border-gray-700 items-center`}
+                  variants={{
+                    hidden: { opacity: 0, y: 30, scale: 0.9 },
+                    show: {
+                      opacity: 1,
+                      y: 0,
+                      scale: 1,
+                      transition: {
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 20
+                      }
+                    }
+                  }}
+                  whileHover={{
+                    y: -10,
+                    scale: 1.02,
+                    boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+                    transition: { duration: 0.3, ease: "easeOut" }
+                  }}
+                  className={`relative group rounded-[2.5rem] p-8 overflow-hidden border transition-shadow duration-500 ${item.isPremiumOnly
+                    ? 'bg-gradient-to-br from-cherry-50/50 to-white dark:from-cherry/5 dark:to-gray-900 border-cherry/20 hover:border-cherry/40'
+                    : 'bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700'
+                    }`}
                 >
-                  <div className="p-3 md:p-4 text-text-primary dark:text-white font-medium">{item.feature}</div>
-                  <div className="p-3 md:p-4 text-center flex items-center justify-center">
-                    {item.freeIcon ? (
-                      <div className="flex flex-col items-center">
-                        <FiCheck className="w-4 h-4 md:w-5 md:h-5 text-success" />
-                        {typeof item.free === 'string' && (
-                          <span className="text-[10px] md:text-xs text-text-muted dark:text-gray-500 mt-1 hidden sm:block">{item.free}</span>
-                        )}
-                      </div>
-                    ) : (
-                      <FiX className="w-4 h-4 md:w-5 md:h-5 text-text-muted dark:text-gray-600" />
-                    )}
-                  </div>
-                  <div className="p-3 md:p-4 text-center flex items-center justify-center">
-                    <div className="flex flex-col items-center">
-                      <FiCheck className="w-4 h-4 md:w-5 md:h-5 text-success" />
-                      {typeof item.premium === 'string' && (
-                        <span className="text-[10px] md:text-xs text-cherry mt-1 hidden sm:block">{item.premium}</span>
+                  {/* Subtle Background Glow on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-cherry/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  {/* Floating Icon Container */}
+                  <div className="relative z-10 h-full flex flex-col">
+                    <div className="flex items-start justify-between mb-6">
+                      <motion.div
+                        animate={{
+                          y: [0, -5, 0],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: index * 0.5
+                        }}
+                        className={`p-4 rounded-2xl ${item.isPremiumOnly ? 'bg-cherry/10 text-cherry' : 'bg-gray-100 dark:bg-gray-800 text-text-primary dark:text-white'}`}
+                      >
+                        <item.icon className="w-8 h-8" />
+                      </motion.div>
+                      {item.isPremiumOnly && (
+                        <motion.span
+                          initial={{ rotate: -10 }}
+                          animate={{ rotate: 0 }}
+                          className="flex items-center gap-1.5 bg-cherry text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg shadow-cherry/20"
+                        >
+                          <FiStar className="w-3 h-3 fill-white" /> Premium
+                        </motion.span>
                       )}
                     </div>
+
+                    <h3 className="text-2xl font-bold text-text-primary dark:text-white mb-3 group-hover:text-cherry transition-colors duration-300">
+                      {item.feature}
+                    </h3>
+                    <p className="text-text-secondary dark:text-gray-400 text-base mb-8 flex-grow leading-relaxed">
+                      {item.description}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-4 mt-auto pt-6 border-t border-gray-100 dark:border-gray-800/50">
+                      <div className="group-hover:translate-x-1 transition-transform duration-300">
+                        <p className="text-xs uppercase font-bold text-text-muted dark:text-gray-500 mb-2 tracking-widest">Free Plan</p>
+                        <div className="flex items-center gap-2">
+                          {item.free === 'Closed' ? (
+                            <FiX className="w-4 h-4 text-gray-400" />
+                          ) : (
+                            <FiCheck className="w-4 h-4 text-success" />
+                          )}
+                          <span className={`text-sm md:text-base font-semibold ${item.free === 'Closed' ? 'text-text-muted dark:text-gray-600' : 'text-text-primary dark:text-white'}`}>
+                            {item.free}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="border-l border-gray-100 dark:border-gray-800/50 pl-4 group-hover:translate-x-1 transition-transform duration-300 delay-75">
+                        <p className="text-xs uppercase font-bold text-cherry/80 mb-2 tracking-widest">Premium Plan</p>
+                        <div className="flex items-center gap-2">
+                          <FiCheck className="w-4 h-4 text-cherry" />
+                          <span className="text-sm md:text-base font-bold text-text-primary dark:text-white">
+                            {item.premium}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Benefits Section */}
-        <section className="py-10 md:py-16 px-4 bg-cherry-50 dark:bg-gray-950">
+        <section className="py-16 md:py-24 px-4 bg-cherry-50 dark:bg-gray-950">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-text-primary dark:text-white mb-2 md:mb-4">Why Go Premium?</h2>
-              <p className="text-text-secondary dark:text-gray-400 text-sm md:text-base">Unlock the full potential of LifeCherry</p>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12 md:mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-text-primary dark:text-white mb-4">Why Go Premium?</h2>
+              <p className="text-text-secondary dark:text-gray-400 text-lg">Unlock the full potential of LifeCherry</p>
+            </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.15
+                  }
+                }
+              }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+            >
               {benefits.map((benefit, index) => (
-                <div key={index} className="bg-white dark:bg-gray-900 p-5 md:p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center border border-transparent dark:border-gray-800">
-                  <div className="w-12 h-12 md:w-14 md:h-14 bg-cherry-100 dark:bg-cherry/20 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-                    <benefit.icon className="w-6 h-6 md:w-7 md:h-7 text-cherry" />
+                <motion.div
+                  key={index}
+                  variants={{
+                    hidden: { opacity: 0, y: 30 },
+                    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
+                  }}
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  className="bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 text-center border border-transparent dark:border-gray-800"
+                >
+                  <div className="w-16 h-16 bg-cherry-100 dark:bg-cherry/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group">
+                    <benefit.icon className="w-8 h-8 text-cherry" />
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-white mb-1 md:mb-2">{benefit.title}</h3>
-                  <p className="text-text-secondary dark:text-gray-400 text-xs md:text-sm">{benefit.description}</p>
-                </div>
+                  <h3 className="text-xl font-bold text-text-primary dark:text-white mb-3">{benefit.title}</h3>
+                  <p className="text-text-secondary dark:text-gray-400 text-sm leading-relaxed">{benefit.description}</p>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
