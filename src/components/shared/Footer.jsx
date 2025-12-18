@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { FiHome, FiBookOpen, FiFileText, FiShield, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
+import AnimatedCherry from './AnimatedCherry';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -15,7 +16,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <span className="text-3xl">🍒</span>
+              <AnimatedCherry className="text-3xl" />
               <span className="text-2xl font-bold text-text-primary dark:text-white">LifeCherry</span>
             </Link>
             <p className="text-text-secondary dark:text-gray-400 max-w-md mb-6">

@@ -19,6 +19,7 @@ import {
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import useAuth from '../hooks/useAuth';
+import AnimatedCherry from '../components/shared/AnimatedCherry';
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -155,7 +156,7 @@ const DashboardLayout = () => {
         {/* Logo Section */}
         <div className="p-4 border-b border-border dark:border-gray-700 flex-shrink-0 flex items-center justify-between">
           <NavLink to="/" className="flex items-center gap-2">
-            <span className="text-2xl">🍒</span>
+            <AnimatedCherry className="text-2xl" />
             <span className="text-lg font-bold text-text">LifeCherry</span>
           </NavLink>
           {/* Close button for mobile sidebar */}
@@ -268,7 +269,7 @@ const DashboardLayout = () => {
             <HiOutlineBars3 className="w-6 h-6 text-text dark:text-white" />
           </button>
           <NavLink to="/" className="flex items-center gap-2">
-            <span className="text-2xl">🍒</span>
+            <AnimatedCherry className="text-2xl" />
             <span className="text-lg font-bold text-text">LifeCherry</span>
           </NavLink>
           <div className="w-10" /> {/* Spacer for centering */}

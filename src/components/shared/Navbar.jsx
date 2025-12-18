@@ -7,6 +7,7 @@ import { FiChevronDown, FiLogOut, FiUser, FiGrid } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
 import { useTheme } from '../../contexts/ThemeContext';
+import AnimatedCherry from './AnimatedCherry';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -137,7 +138,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <span className="text-2xl">🍒</span>
+            <AnimatedCherry className="text-2xl" />
             <span className="text-xl font-bold text-text-primary dark:text-white">LifeCherry</span>
           </Link>
 

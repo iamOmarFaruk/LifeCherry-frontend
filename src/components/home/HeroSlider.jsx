@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 import { FiArrowRight, FiBookOpen, FiUsers, FiStar } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+import AnimatedCherry from '../shared/AnimatedCherry';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -149,7 +150,7 @@ const HeroSlider = () => {
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-cherry/10 dark:bg-cherry/20 flex items-center justify-center">
-                            <span className="text-xl">🍒</span>
+                            <AnimatedCherry className="text-xl" />
                           </div>
                           <div>
                             <p className="font-semibold text-text-primary dark:text-white text-sm">10K+ Lessons</p>

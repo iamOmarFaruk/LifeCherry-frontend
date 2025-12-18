@@ -8,6 +8,7 @@ import useDocumentTitle from '../hooks/useDocumentTitle';
 import { useMutation } from '@tanstack/react-query';
 import useAuth from '../hooks/useAuth';
 import toast from 'react-hot-toast';
+import AnimatedCherry from '../components/shared/AnimatedCherry';
 
 const Login = () => {
   useDocumentTitle('Login');
@@ -68,7 +69,7 @@ const Login = () => {
           {/* Logo & Header */}
           <div className="text-center mb-6 md:mb-8">
             <Link to="/" className="inline-flex items-center gap-2 mb-4 md:mb-6">
-              <span className="text-3xl md:text-4xl">🍒</span>
+              <AnimatedCherry className="text-3xl md:text-4xl" />
               <span className="text-xl md:text-2xl font-bold text-text-primary dark:text-white">LifeCherry</span>
             </Link>
             <h1 className="text-2xl md:text-3xl font-bold text-text-primary dark:text-white mb-2">Welcome Back!</h1>
