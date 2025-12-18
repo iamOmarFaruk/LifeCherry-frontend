@@ -177,24 +177,25 @@ function App() {
         position="top-center"
         toastOptions={{
           duration: 3000,
-          style: {
-            background: '#fff',
-            color: '#1D1D1D',
-            padding: '16px',
-            borderRadius: '12px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-          },
           success: {
+            className: '!bg-white dark:!bg-gray-800 !text-gray-900 dark:!text-white !p-4 !rounded-xl !shadow-xl border border-gray-100 dark:border-gray-700',
             iconTheme: {
               primary: '#10B981',
               secondary: '#fff',
             },
           },
           error: {
+            className: '!bg-white dark:!bg-gray-800 !text-gray-900 dark:!text-white !p-4 !rounded-xl !shadow-xl border border-gray-100 dark:border-gray-700',
             iconTheme: {
               primary: '#E63946',
               secondary: '#fff',
             },
+          },
+          blank: {
+            className: '!bg-white dark:!bg-gray-800 !text-gray-900 dark:!text-white !p-4 !rounded-xl !shadow-xl border border-gray-100 dark:border-gray-700',
+          },
+          loading: {
+            className: '!bg-white dark:!bg-gray-800 !text-gray-900 dark:!text-white !p-4 !rounded-xl !shadow-xl border border-gray-100 dark:border-gray-700',
           },
         }}
       />

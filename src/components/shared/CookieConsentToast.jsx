@@ -37,21 +37,20 @@ const CookieConsentToast = () => {
 
       return (
         <div
-          className={`pointer-events-auto w-[480px] max-w-full rounded-2xl border border-border bg-white shadow-2xl ring-1 ring-black/5 p-5 flex flex-col gap-4 transition-all duration-350 origin-bottom ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-          }`}
+          className={`pointer-events-auto w-[480px] max-w-full rounded-2xl border border-border dark:border-gray-700 bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black/5 p-5 flex flex-col gap-4 transition-all duration-350 origin-bottom ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+            }`}
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
             <div className="flex items-start gap-3 md:flex-1">
-              <div className="h-10 w-10 rounded-full bg-cherry-50 text-cherry flex items-center justify-center border border-cherry-100">
+              <div className="h-10 w-10 rounded-full bg-cherry-50 dark:bg-cherry-900/20 text-cherry dark:text-cherry-300 flex items-center justify-center border border-cherry-100 dark:border-cherry-800/30">
                 <FiShield className="w-5 h-5" />
               </div>
               <div className="space-y-1">
-                <p className="text-base font-semibold text-text-primary">We respect your privacy</p>
-                <p className="text-sm text-text-secondary leading-snug">
+                <p className="text-base font-semibold text-text-primary dark:text-white">We respect your privacy</p>
+                <p className="text-sm text-text-secondary dark:text-gray-300 leading-snug">
                   We use cookies to personalize your experience. Read our{' '}
-                  <a href="/privacy" className="text-cherry font-semibold hover:underline">Privacy Policy</a> and{' '}
-                  <a href="/terms" className="text-cherry font-semibold hover:underline">Terms</a>.
+                  <a href="/privacy" className="text-cherry dark:text-cherry-300 font-semibold hover:underline">Privacy Policy</a> and{' '}
+                  <a href="/terms" className="text-cherry dark:text-cherry-300 font-semibold hover:underline">Terms</a>.
                 </p>
               </div>
             </div>
