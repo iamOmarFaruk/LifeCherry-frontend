@@ -6,6 +6,7 @@ import PageLoader from '../components/shared/PageLoader';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import useAuth from '../hooks/useAuth';
 import toast from 'react-hot-toast';
+import apiClient from '../utils/apiClient';
 
 const Pricing = () => {
   useDocumentTitle('Pricing - Upgrade to Premium');
@@ -46,6 +47,7 @@ const Pricing = () => {
     }
     : null;
 
+  // Import apiClient at the top (I will add it to imports in a separate check if needed, but here I replace the function)
   const handleUpgrade = async () => {
     if (!firebaseUser) {
       navigate('/login', { state: { from: '/pricing' } });
@@ -54,11 +56,16 @@ const Pricing = () => {
     }
     setIsLoading(true);
     try {
-      // TODO: Call backend /create-checkout-session and redirect to Stripe
-      toast('Checkout integration coming soon');
+      // Call backend to create checkout session
+      const { data } = await apiClient.post('/payments/create-checkout-session');
+      if (data && data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
     } catch (error) {
-      toast.error(error.message || 'Failed to start checkout');
-    } finally {
+      console.error('Upgrade error:', error);
+      toast.error(error.response?.data?.message || error.message || 'Failed to start checkout');
       setIsLoading(false);
     }
   };
@@ -486,7 +493,7 @@ const Pricing = () => {
         <section
           className="py-20 relative bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(to right, rgba(230, 57, 70, 0.92), rgba(198, 47, 59, 0.92)), url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1920&q=80')`
+            backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1920&q=80')`
           }}
         >
           <div className="max-w-4xl mx-auto px-4 text-center">
