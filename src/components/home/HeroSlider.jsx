@@ -49,7 +49,7 @@ const slides = [
 
 const HeroSlider = () => {
   return (
-    <section className="relative">
+    <section className="relative dark:bg-gray-900">
       <Swiper
         modules={[Autoplay, Pagination, EffectFade]}
         effect="fade"
@@ -70,7 +70,7 @@ const HeroSlider = () => {
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
             {/* Light mode: colorful gradients, Dark mode: professional dark gradient */}
-            <div className={`bg-gradient-to-br ${slide.lightGradient} dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-12 md:py-16 lg:py-24 transition-colors duration-300 overflow-hidden`}>
+            <div className={`bg-gradient-to-br ${slide.lightGradient} dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-12 md:py-16 lg:py-24 transition-colors duration-300 overflow-hidden h-full`}>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
                   {/* Content */}
