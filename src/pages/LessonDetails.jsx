@@ -38,7 +38,6 @@ import {
   PremiumSaveButton,
   PremiumShareButton,
   PremiumReportButton,
-  PremiumReportButton,
   PremiumViewsDisplay
 } from '../components/shared/PremiumInteractionButtons';
 import LessonImage from '../components/shared/LessonImage';
