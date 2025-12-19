@@ -4,6 +4,8 @@
 
 LifeCherry is a comprehensive digital platform designed to share "Digital Life Lessons." Built with a cutting-edge frontend architecture, it offers a seamless, interactive experience for users to learn, share, and engage with content.
 
+![LifeCherry Screenshot](/public/screenshot.png)
+
 [🎯 Features](#-features) • [🛠️ Tech Stack](#%EF%B8%8F-tech-stack) • [🎨 Interface](#-user-interface) • [🚀 Deployment](#-deployment--devops)
 
 ---
@@ -99,5 +101,5 @@ React • Node.js • MongoDB • Laravel • CI/CD Pipelines • Cloud Infrastr
 > This project is part of a professional portfolio demonstrating full-stack engineering proficiency and attention to modern design aesthetics.
 
 
-![LifeCherry Screenshot](/public/screenshot.png)
+
 
