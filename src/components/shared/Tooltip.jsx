@@ -178,6 +178,7 @@ const Tooltip = ({ children, content, position: initialPosition = 'top', delay =
             ref={triggerRef}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onClick={() => setIsVisible(false)}
         >
             {children}
             {createPortal(
@@ -207,3 +208,12 @@ const Tooltip = ({ children, content, position: initialPosition = 'top', delay =
 };
 
 export default Tooltip;
+
+/*
+ * ┌── o m a r ──┐
+ * │ @iamOmarFaruk
+ * │ omarfaruk.dev
+ * │ Created: 2025-12-19
+ * │ Updated: 2025-12-19
+ * └─ LifeCherry ───┘
+ */
