@@ -4,6 +4,8 @@ const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5050/api',
 });
 
+console.log('API Base URL calculated:', apiClient.defaults.baseURL); // Debug log
+
 let currentToken = null;
 
 export const setAuthToken = (token) => {
