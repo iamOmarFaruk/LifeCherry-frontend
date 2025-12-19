@@ -98,11 +98,6 @@ React • Node.js • MongoDB • Laravel • CI/CD Pipelines • Cloud Infrastr
 > [!NOTE]
 > This project is part of a professional portfolio demonstrating full-stack engineering proficiency and attention to modern design aesthetics.
 
-/*
- * ┌── o m a r ──┐
- * │ @iamOmarFaruk
- * │ omarfaruk.dev
- * │ Created: 2025-12-19
- * │ Updated: 2025-12-19
- * └─ LifeCherry ───┘
- */
+
+![LifeCherry Screenshot](/public/screenshot.png)
+
