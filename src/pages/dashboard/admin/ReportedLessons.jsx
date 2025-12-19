@@ -20,6 +20,7 @@ import PageLoader from '../../../components/shared/PageLoader';
 import DashboardPageHeader from '../../../components/shared/DashboardPageHeader';
 import useDocumentTitle from '../../../hooks/useDocumentTitle';
 import Tooltip from '../../../components/shared/Tooltip';
+import LessonImage from '../../../components/shared/LessonImage';
 import apiClient, { reportAPI } from '../../../utils/apiClient';
 import { reportReasons } from '../../../data/reports';
 import { users } from '../../../data/users';
@@ -396,18 +397,15 @@ const ReportedLessons = () => {
                   <tr key={item.lesson?._id || item.reports[0]?._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        {item.lesson?.image ? (
-                          <img
-                            src={item.lesson.image}
-                            alt={item.lesson.title || 'Lesson'}
-                            className="w-12 h-12 rounded-lg object-cover bg-gray-100 dark:bg-gray-700"
-                            onError={(e) => { e.target.src = 'https://via.placeholder.com/48?text=No+Image'; }}
-                          />
-                        ) : (
-                          <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                            <HiOutlineBookOpen className="w-6 h-6 text-gray-400" />
-                          </div>
-                        )}
+                        <LessonImage
+                          src={item.lesson?.image}
+                          alt={item.lesson?.title || 'Lesson'}
+                          category={item.lesson?.category}
+                          emotionalTone={item.lesson?.emotionalTone}
+                          className="w-12 h-12 rounded-lg flex-shrink-0"
+                          iconClassName="w-6 h-6"
+                          compact={true}
+                        />
                         <div className="max-w-xs">
                           <h4 className="font-medium text-text dark:text-white truncate">{item.lesson?.title || 'Untitled Lesson'}</h4>
                           <span className="text-xs bg-cherry-50 dark:bg-cherry/20 text-cherry px-2 py-0.5 rounded-full">
@@ -563,18 +561,15 @@ const ReportedLessons = () => {
               <div className="p-6 border-b border-border dark:border-gray-700">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    {selectedLesson.lesson?.image ? (
-                      <img
-                        src={selectedLesson.lesson.image}
-                        alt={selectedLesson.lesson.title || 'Lesson'}
-                        className="w-16 h-16 rounded-xl object-cover bg-gray-100 dark:bg-gray-700"
-                        onError={(e) => { e.target.src = 'https://via.placeholder.com/64?text=No+Image'; }}
-                      />
-                    ) : (
-                      <div className="w-16 h-16 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                        <HiOutlineBookOpen className="w-8 h-8 text-gray-400" />
-                      </div>
-                    )}
+                    <LessonImage
+                      src={selectedLesson.lesson?.image}
+                      alt={selectedLesson.lesson?.title || 'Lesson'}
+                      category={selectedLesson.lesson?.category}
+                      emotionalTone={selectedLesson.lesson?.emotionalTone}
+                      className="w-16 h-16 rounded-xl flex-shrink-0"
+                      iconClassName="w-8 h-8"
+                      compact={true}
+                    />
                     <div>
                       <h3 className="text-lg font-bold text-text dark:text-white">{selectedLesson.lesson?.title || 'Untitled Lesson'}</h3>
                       <p className="text-sm text-text-secondary dark:text-gray-400">by {selectedLesson.lesson?.creatorName || 'Unknown'}</p>
@@ -681,18 +676,15 @@ const ReportedLessons = () => {
 
               <div className="bg-cherry-50 dark:bg-cherry-900/10 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
-                  {selectedLesson.lesson?.image ? (
-                    <img
-                      src={selectedLesson.lesson.image}
-                      alt={selectedLesson.lesson.title || 'Lesson'}
-                      className="w-16 h-16 rounded-lg object-cover bg-gray-100 dark:bg-gray-700"
-                      onError={(e) => { e.target.src = 'https://via.placeholder.com/64?text=No+Image'; }}
-                    />
-                  ) : (
-                    <div className="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                      <HiOutlineBookOpen className="w-8 h-8 text-gray-400" />
-                    </div>
-                  )}
+                  <LessonImage
+                    src={selectedLesson.lesson?.image}
+                    alt={selectedLesson.lesson?.title || 'Lesson'}
+                    category={selectedLesson.lesson?.category}
+                    emotionalTone={selectedLesson.lesson?.emotionalTone}
+                    className="w-16 h-16 rounded-xl flex-shrink-0"
+                    iconClassName="w-8 h-8"
+                    compact={true}
+                  />
                   <div>
                     <h4 className="font-semibold text-text dark:text-white line-clamp-1">{selectedLesson.lesson?.title || 'Untitled Lesson'}</h4>
                     <p className="text-sm text-text-secondary dark:text-gray-400">by {selectedLesson.lesson?.creatorName || 'Unknown'}</p>

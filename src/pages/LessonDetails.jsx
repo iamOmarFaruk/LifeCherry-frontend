@@ -38,8 +38,10 @@ import {
   PremiumSaveButton,
   PremiumShareButton,
   PremiumReportButton,
+  PremiumReportButton,
   PremiumViewsDisplay
 } from '../components/shared/PremiumInteractionButtons';
+import LessonImage from '../components/shared/LessonImage';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import apiClient, { reportAPI } from '../utils/apiClient';
 import useAuth from '../hooks/useAuth';
@@ -490,10 +492,12 @@ const LessonDetails = () => {
       <div className="min-h-screen bg-gradient-to-b from-cherry-50 to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-300">
         {/* Hero Section with Image */}
         <div className="relative h-[250px] md:h-[400px] lg:h-[450px]">
-          <img
+          <LessonImage
             src={lesson.image}
             alt={lesson.title}
-            className="w-full h-full object-cover"
+            category={lesson.category}
+            emotionalTone={lesson.emotionalTone}
+            className="w-full h-full"
           />
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -792,10 +796,12 @@ const LessonDetails = () => {
                       const CardContent = () => (
                         <>
                           <div className="relative h-40 overflow-hidden">
-                            <img
+                            <LessonImage
                               src={relatedLesson.image}
                               alt={relatedLesson.title}
-                              className={`w-full h-full object-cover transition-transform duration-300 ${isPremiumLocked ? 'blur-sm' : 'group-hover:scale-105'}`}
+                              category={relatedLesson.category}
+                              emotionalTone={relatedLesson.emotionalTone}
+                              className={`w-full h-full transition-transform duration-300 ${isPremiumLocked ? 'blur-sm' : 'group-hover:scale-105'}`}
                             />
                             {relatedLesson.accessLevel === 'premium' && !isPremiumLocked && (
                               <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">

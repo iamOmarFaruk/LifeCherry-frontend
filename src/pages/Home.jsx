@@ -7,6 +7,7 @@ import HeroSlider from '../components/home/HeroSlider';
 import PageLoader from '../components/shared/PageLoader';
 import SectionHeader from '../components/shared/SectionHeader';
 import MotionWrapper from '../components/shared/MotionWrapper';
+import LessonImage from '../components/shared/LessonImage';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import useAuth from '../hooks/useAuth';
 
@@ -159,10 +160,12 @@ const Home = () => {
                   )}
 
                   <div className="relative">
-                    <img
+                    <LessonImage
                       src={lesson.image}
                       alt={lesson.title}
-                      className="w-full h-48 object-cover rounded-xl mb-4"
+                      category={lesson.category}
+                      emotionalTone={lesson.emotionalTone}
+                      className="w-full h-48 rounded-xl mb-4"
                     />
                     <div className="absolute top-3 right-3">
                       {lesson.accessLevel === 'premium' ? (
@@ -335,20 +338,14 @@ const Home = () => {
                     </div>
                   )}
 
-                  <div className="mb-4 rounded-xl overflow-hidden h-44 bg-gradient-to-br from-cherry-50 to-white dark:from-cherry-950 dark:to-gray-800 relative flex-shrink-0">
-                    {lesson.image ? (
-                      <img
-                        src={lesson.image}
-                        alt={lesson.title}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="h-full w-full flex items-center justify-center text-text-muted gap-2 text-sm">
-                        <FiImage className="w-5 h-5" aria-hidden />
-                        <span>Image coming soon</span>
-                      </div>
-                    )}
+                  <div className="mb-4 rounded-xl overflow-hidden h-44 relative flex-shrink-0">
+                    <LessonImage
+                      src={lesson.image}
+                      alt={lesson.title}
+                      category={lesson.category}
+                      emotionalTone={lesson.emotionalTone}
+                      className="w-full h-full"
+                    />
                     <div className="absolute top-3 right-3">
                       {lesson.accessLevel === 'premium' ? (
                         <span className="badge-premium text-xs px-3 py-1">

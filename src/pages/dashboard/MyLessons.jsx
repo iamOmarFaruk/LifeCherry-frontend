@@ -33,6 +33,7 @@ import useAuth from '../../hooks/useAuth';
 import apiClient from '../../utils/apiClient';
 import DashboardPageHeader from '../../components/shared/DashboardPageHeader';
 import Tooltip from '../../components/shared/Tooltip';
+import LessonImage from '../../components/shared/LessonImage';
 
 const MyLessons = () => {
   useDocumentTitle('My Lessons');
@@ -655,17 +656,13 @@ const MyLessons = () => {
                       >
                         {/* Image */}
                         <div className="relative h-40 overflow-hidden">
-                          {lesson.image ? (
-                            <img
-                              src={lesson.image}
-                              alt={lesson.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-cherry-50 to-cherry-100 dark:from-cherry-900/20 dark:to-cherry-900/40 flex items-center justify-center">
-                              <HiOutlineBookOpen className="w-12 h-12 text-cherry" />
-                            </div>
-                          )}
+                          <LessonImage
+                            src={lesson.image}
+                            alt={lesson.title}
+                            category={lesson.category}
+                            emotionalTone={lesson.emotionalTone}
+                            className="w-full h-full group-hover:scale-105 transition-transform duration-300"
+                          />
                           {/* Visibility & Access Badges */}
                           <div className="absolute top-2 left-2 flex gap-1">
                             <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${lesson.visibility === 'public'
@@ -769,17 +766,15 @@ const MyLessons = () => {
                           {/* Lesson Info */}
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
-                              {lesson.image ? (
-                                <img
-                                  src={lesson.image}
-                                  alt={lesson.title}
-                                  className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-                                />
-                              ) : (
-                                <div className="w-12 h-12 rounded-lg bg-cherry-50 dark:bg-cherry-900/20 flex items-center justify-center flex-shrink-0">
-                                  <HiOutlineBookOpen className="w-6 h-6 text-cherry" />
-                                </div>
-                              )}
+                              <LessonImage
+                                src={lesson.image}
+                                alt={lesson.title}
+                                category={lesson.category}
+                                emotionalTone={lesson.emotionalTone}
+                                className="w-12 h-12 rounded-lg flex-shrink-0"
+                                iconClassName="w-6 h-6"
+                                compact={true}
+                              />
                               <div className="min-w-0">
                                 <h3 className="font-semibold text-text dark:text-white truncate max-w-[200px]">
                                   {lesson.title}

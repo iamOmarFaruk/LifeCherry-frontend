@@ -5,6 +5,7 @@ import { FiSearch, FiFilter, FiLock, FiHeart, FiBookmark, FiChevronLeft, FiChevr
 import { categories, emotionalTones } from '../data/lessons';
 import apiClient from '../utils/apiClient';
 import PageLoader from '../components/shared/PageLoader';
+import LessonImage from '../components/shared/LessonImage';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import useAuth from '../hooks/useAuth';
 
@@ -374,10 +375,12 @@ const PublicLessons = () => {
 
                     {/* Lesson Image */}
                     <div className="relative h-48 overflow-hidden">
-                      <img
+                      <LessonImage
                         src={lesson.image}
                         alt={lesson.title}
-                        className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 ${isPremiumLocked ? 'blur-sm' : ''
+                        category={lesson.category}
+                        emotionalTone={lesson.emotionalTone}
+                        className={`w-full h-full transition-transform duration-300 group-hover:scale-105 ${isPremiumLocked ? 'blur-sm' : ''
                           }`}
                       />
                       {/* Access Level Badge */}

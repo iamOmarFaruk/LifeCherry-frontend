@@ -29,6 +29,7 @@ import useAuth from '../../../hooks/useAuth';
 import apiClient from '../../../utils/apiClient';
 import { categories } from '../../../data/lessons';
 import Tooltip from '../../../components/shared/Tooltip';
+import LessonImage from '../../../components/shared/LessonImage';
 
 const ManageLessons = () => {
   useDocumentTitle('Manage Lessons');
@@ -475,10 +476,14 @@ const ManageLessons = () => {
                     <tr key={lesson._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <img
+                          <LessonImage
                             src={lesson.image}
                             alt={lesson.title}
-                            className="w-12 h-12 rounded-lg object-cover"
+                            category={lesson.category}
+                            emotionalTone={lesson.emotionalTone}
+                            className="w-12 h-12 rounded-lg flex-shrink-0"
+                            iconClassName="w-6 h-6"
+                            compact={true}
                           />
                           <div className="max-w-xs">
                             <h4 className="font-medium text-text dark:text-white truncate">{lesson.title}</h4>
@@ -672,10 +677,14 @@ const ManageLessons = () => {
 
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
                 <div className="flex items-center gap-3">
-                  <img
+                  <LessonImage
                     src={selectedLesson.image}
                     alt={selectedLesson.title}
-                    className="w-16 h-16 rounded-lg object-cover"
+                    category={selectedLesson.category}
+                    emotionalTone={selectedLesson.emotionalTone}
+                    className="w-16 h-16 rounded-lg flex-shrink-0"
+                    iconClassName="w-8 h-8"
+                    compact={true}
                   />
                   <div>
                     <h4 className="font-semibold text-text dark:text-white line-clamp-1">{selectedLesson.title}</h4>
