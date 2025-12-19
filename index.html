@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <meta http-equiv="Content-Security-Policy"
-    content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
+    content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; frame-src * https://js.stripe.com https://hooks.stripe.com; connect-src * 'unsafe-inline' https://api.stripe.com; img-src * data: blob: 'unsafe-inline' https://*.stripe.com; style-src * 'unsafe-inline';">
 </head>
 
 <body>

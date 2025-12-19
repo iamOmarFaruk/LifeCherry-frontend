@@ -9,23 +9,59 @@ import useAuth from '../hooks/useAuth';
 
 const PaymentSuccess = () => {
   useDocumentTitle('Payment Successful');
-  const { profileRefetch } = useAuth();
+  const { profileRefetch, authLoading } = useAuth();
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id');
+  const [isVerifying, setIsVerifying] = React.useState(true);
+  const [error, setError] = React.useState(null);
 
   useEffect(() => {
     const verify = async () => {
-      if (!sessionId) return;
+      if (authLoading) return; // Wait for auth to initialize
+      if (!sessionId) {
+        setIsVerifying(false);
+        return;
+      }
       try {
         await apiClient.post('/payments/verify', { sessionId });
         // Trigger user profile refresh to update UI immediately
         await profileRefetch();
+        setIsVerifying(false);
       } catch (error) {
         console.error('Verification failed', error);
+        setError('Verification failed. Please contact support if you believe this is an error.');
+        setIsVerifying(false);
       }
     };
     verify();
-  }, [sessionId, profileRefetch]);
+  }, [sessionId, profileRefetch, authLoading]);
+
+  if (isVerifying) {
+    return (
+      <PageLoader>
+        <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-4">
+          <div className="w-16 h-16 border-4 border-cherry border-t-transparent rounded-full animate-spin mb-4"></div>
+          <h2 className="text-xl font-bold text-text-primary dark:text-white">Verifying your payment...</h2>
+          <p className="text-text-secondary dark:text-gray-400 mt-2">Please wait a moment while we confirm your transaction.</p>
+        </div>
+      </PageLoader>
+    );
+  }
+
+  if (error) {
+    return (
+      <PageLoader>
+        <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-4 text-center">
+          <div className="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <FiCheckCircle className="w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-bold text-text-primary dark:text-white mb-2">Something went wrong</h2>
+          <p className="text-text-secondary dark:text-gray-400 mb-6">{error}</p>
+          <Link to="/contact" className="btn-capsule px-6 py-2 bg-cherry text-white">Contact Support</Link>
+        </div>
+      </PageLoader>
+    );
+  }
 
   return (
     <PageLoader>
